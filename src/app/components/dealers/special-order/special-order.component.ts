@@ -267,7 +267,7 @@ export class SpecialOrderComponent implements OnInit {
       error = true;
     } else {
       for (var i = 0; i < this.arr.length; i++) {
-        if (Object.keys(this.arr[i]).length >= 2) {
+        if (Object.keys(this.arr[i]).length !== 3) {
           error = true;
         } else {
           if (this.arr[i].quantity == '') {
