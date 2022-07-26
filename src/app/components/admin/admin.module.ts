@@ -46,7 +46,8 @@ import { EditSeminarComponent } from './edit-seminar/edit-seminar.component';
 import { EditPromotionalFlierComponent } from './edit-promotional-flier/edit-promotional-flier.component';
 import { AtlasNotesComponent } from './atlas-notes/atlas-notes.component';
 import { VendorNotesComponent } from './vendor-notes/vendor-notes.component';
-import { PriceOverrideReportComponent } from './price-override-report/price-override-report.component'
+import { PriceOverrideReportComponent } from './price-override-report/price-override-report.component';
+import { SpecialOrdersComponent } from './special-orders/special-orders.component'
 
 @NgModule({
   declarations: [
@@ -88,6 +89,7 @@ import { PriceOverrideReportComponent } from './price-override-report/price-over
     AtlasNotesComponent,
     VendorNotesComponent,
     PriceOverrideReportComponent,
+    SpecialOrdersComponent,
   ],
   imports: [
     CommonModule,

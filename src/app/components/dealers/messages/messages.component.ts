@@ -52,6 +52,10 @@ export class MessagesComponent implements OnInit {
 
   @ViewChild('dummyInput') dummyInput!: ElementRef
 
+  adminMsgCount = 0
+  dealerMsgCount = 0
+  vendorMsgCount = 0
+
   constructor(
     private postData: HttpRequestsService,
     private chatService: ChatService,
@@ -75,6 +79,7 @@ export class MessagesComponent implements OnInit {
     this.chatService.getMessages().subscribe((message: string) => {
       if (message != '') {
         this.startCounter()
+        this.getUnreadMsgBasedOnRole()
 
         setTimeout(() => {
           this.scrollToElement()
@@ -93,6 +98,7 @@ export class MessagesComponent implements OnInit {
     })
     this.getUnreadMsg()
     this.getAllDamin()
+    this.getUnreadMsgBasedOnRole()
 
     this.chatService.getTyping().subscribe((message: string) => {
       if (message != '') {
@@ -107,6 +113,7 @@ export class MessagesComponent implements OnInit {
     setInterval(() => {
       this.getUnreadMsg()
       this.getAllDamin()
+      this.getUnreadMsgBasedOnRole()
     }, 10000)
   }
 
@@ -114,6 +121,20 @@ export class MessagesComponent implements OnInit {
     setInterval(() => {
       this.getUserChatAsync()
     }, 10000)
+  }
+
+  getUnreadMsgBasedOnRole() {
+    this.postData
+      .httpGetRequest('/chat/count-unread-msg-role/' + this.userId)
+      .then((result: any) => {
+        if (result.status) {
+          this.adminMsgCount = result.data.admin
+          this.dealerMsgCount = result.data.dealer
+          this.vendorMsgCount = result.data.vendor
+        } else {
+        }
+      })
+      .catch((err) => {})
   }
 
   getUserChatAsync() {
@@ -319,6 +340,7 @@ export class MessagesComponent implements OnInit {
       chatFrom: this.userId,
       chatTo: this.selectedUserData.id,
       msg: this.msg,
+      role: this.userData.role,
       chatUser: this.selectedUserData.id + this.selectedUserData.first_name,
       uniqueId:
         this.userData.id +

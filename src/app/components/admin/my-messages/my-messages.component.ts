@@ -62,6 +62,10 @@ export class MyMessagesComponent implements OnInit {
 
   @ViewChild('inputDealer') private inputDealer!: ElementRef
 
+  coworkerMsgCount = 0
+  dealerMsgCount = 0
+  vendorMsgCount = 0
+
   constructor(
     private postData: HttpRequestsService,
     private tokeStore: TokenStorageService,
@@ -70,9 +74,11 @@ export class MyMessagesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllDealers()
+
     this.chatService.getMessages().subscribe((message: string) => {
       if (message != '') {
         this.startCounter()
+        this.getUnreadMsgBasedOnRole()
 
         setTimeout(() => {
           this.scrollToElement()
@@ -99,24 +105,21 @@ export class MyMessagesComponent implements OnInit {
     this.loggedInUser = this.tokeStore.getUser()
     let user = this.tokeStore.getUser()
     this.userData = this.tokeStore.getUser()
-
     this.userId = user.id
     let userId = user.id + user.first_name
     this.uniqueUserId = userId
     this.vendorCode = user.vendor_code
-
     this.getVendorCoworkers()
-
     this.chatService.openChatConnection(userId)
     this.getVendorUnreadMsg()
     this.getDealerUnreadMsg()
-
     this.getAllDamin()
     this.getAllVendors()
-
+    this.getUnreadMsgBasedOnRole()
     setInterval(() => {
       this.getVendorUnreadMsg()
       this.getDealerUnreadMsg()
+      this.getUnreadMsgBasedOnRole()
     }, 10000)
   }
 
@@ -124,6 +127,20 @@ export class MyMessagesComponent implements OnInit {
     setInterval(() => {
       this.getUserChatAsync()
     }, 10000)
+  }
+
+  getUnreadMsgBasedOnRole() {
+    this.postData
+      .httpGetRequest('/chat/count-unread-msg-role/' + this.userId)
+      .then((result: any) => {
+        if (result.status) {
+          this.coworkerMsgCount = result.data.admin
+          this.dealerMsgCount = result.data.dealer
+          this.vendorMsgCount = result.data.vendor
+        } else {
+        }
+      })
+      .catch((err) => {})
   }
 
   seeDate() {
@@ -419,6 +436,7 @@ export class MyMessagesComponent implements OnInit {
       chatFrom: this.userId,
       chatTo: this.selectedUserData.id,
       msg: this.msg,
+      role: this.userData.role,
       chatUser: this.selectedUserData.id + this.selectedUserData.first_name,
       uniqueId:
         this.userData.id +
