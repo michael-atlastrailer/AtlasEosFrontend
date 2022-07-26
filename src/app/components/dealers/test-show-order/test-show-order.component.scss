@@ -220,10 +220,9 @@
   border: 0.5px solid #797878 !important;
   background-color: transparent !important;
 }
-.highlighted {
-  td {
-    background-color: #3d9dc6 !important;
-  }
+::ng-deep .highlighted {
+  border: 3px solid  red !important;;
+  
 }
 table {
   input {
