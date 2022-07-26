@@ -27,6 +27,8 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { TokenStorageService } from 'src/app/core/services/token-storage.service';
 import { DataSource } from '@angular/cdk/collections';
 import { CommonModule, CurrencyPipe } from '@angular/common';
+import { OrderCheckService } from 'src/app/core/services/order-check.service';
+import { ComponentCanDeactivate } from 'src/app/core/model/can-deactivate';
 
 export interface PeriodicElement {
   atlas_id: any;
@@ -54,7 +56,7 @@ declare var $: any;
   templateUrl: './test-show-order.component.html',
   styleUrls: ['./test-show-order.component.scss'],
 })
-export class TestShowOrderComponent implements OnInit {
+export class TestShowOrderComponent implements ComponentCanDeactivate {
   allCategoryData: any;
   noData = false;
   tableLoader = false;
@@ -130,6 +132,7 @@ export class TestShowOrderComponent implements OnInit {
   //// End of old  code ///////
   alreadyOrder = false;
   routChange = false;
+
   constructor(
     private getData: HttpRequestsService,
     private toastr: ToastrService,
@@ -153,11 +156,7 @@ export class TestShowOrderComponent implements OnInit {
         this.selectVendor = this.vendorId;
       }
     });
-    this.router.events.subscribe((event: Event) => {
-      if (event instanceof NavigationStart) {
-        console.log('Route change detected', event.url);
-      }
-    });
+
     this.getCart();
     this.userData = this.token.getUser();
   }
@@ -1184,6 +1183,7 @@ export class TestShowOrderComponent implements OnInit {
             this.cartLoader = false;
             this.orderSuccess = true;
             this.alreadyOrder = true;
+            console.log('already order eri', this.alreadyOrder);
 
             this.toastr.success(
               `${this.orderLen}  item(s) have been added to cart`,
@@ -1220,41 +1220,25 @@ export class TestShowOrderComponent implements OnInit {
   }
 
   async confirmBox() {
-    return await Swal.fire({
-      title:
-        'Leaving this page without submitting order would result in loosing your order',
-      text: '',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Ok',
-      cancelButtonText: 'Cancel',
-    }).then((result) => {
-      if (result.value) {
-        return true;
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        return false;
-      } else {
-        return false;
-      }
-    });
-  }
-
-  async emptyCartConfirmBox() {
-    return await Swal.fire({
-      title: 'Are You Sure You Want To Empty Your Cart ?',
-      text: '',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Yes',
-      cancelButtonText: 'No',
-    }).then((result) => {
-      if (result.value) {
-        return true;
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        return false;
-      } else {
-        return false;
-      }
-    });
+    if (this.overTotal > 0) {
+      return await Swal.fire({
+        title: 'You are about to leave this page',
+        text: 'Any items not added to your cart will be lost',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Ok',
+        cancelButtonText: 'Cancel',
+      }).then((result) => {
+        if (result.value) {
+          return true;
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          return false;
+        } else {
+          return false;
+        }
+      });
+    } else {
+      return true;
+    }
   }
 }

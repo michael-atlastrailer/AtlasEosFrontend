@@ -42,6 +42,7 @@ import { TableRowComponent } from './table-row/table-row.component';
 import { WatchedSeminarsComponent } from './seminars/watched-seminars/watched-seminars.component'
 
 import { TestQuickOrderComponent } from './test-quick-order/test-quick-order.component'
+import { DeactivateGuard } from 'src/app/core/guard/deactivate.guard'
 
 
 @NgModule({
@@ -77,7 +78,6 @@ import { TestQuickOrderComponent } from './test-quick-order/test-quick-order.com
     WatchedSeminarsComponent,
 
     TestQuickOrderComponent,
-
   ],
   imports: [
     CommonModule,
@@ -85,8 +85,10 @@ import { TestQuickOrderComponent } from './test-quick-order/test-quick-order.com
     FormsModule,
     NgApexchartsModule,
     MatTableModule,
-    MatPaginatorModule,MatSortModule,
+    MatPaginatorModule,
+    MatSortModule,
     PdfViewerModule,
   ],
+  providers: [DeactivateGuard],
 })
 export class DealersModule {}

@@ -180,7 +180,8 @@
                   *matCellDef="let element; let i = index"
                   class="text-center"
                 >
-                  <input [disabled]="alreadyOrder"
+                  <input
+                    [disabled]="alreadyOrder"
                     id="cur-{{ i }}"
                     type="number"
                     class="mx-auto"
@@ -348,7 +349,7 @@
                 (click)="oneAddBtn()"
               >
                 <div *ngIf="!cartLoader">Confirm Order</div>
-                <div *ngIf="cartLoader" >
+                <div *ngIf="cartLoader">
                   Confirm Order
                   <span
                     class="spinner-border spinner-border-sm text-white ps-1"
