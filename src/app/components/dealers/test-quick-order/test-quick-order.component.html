@@ -60,7 +60,7 @@
 
           <div class="alert alert-success assorted-alert" *ngIf="assortedType">
             <strong>Assorted Item!</strong>
-            <p>This Item is assorted</p>
+            <p>More deals available on this item</p>
             <button
               type="button"
               class="btn btn-primary"
@@ -164,7 +164,8 @@
               already.
             </p>
             <p *ngIf="existingInOrder != ''">
-              {{ existingInOrder }} has been added to your order already.
+              {{ existingInOrder }} is already order. You can adjust this order
+              in the Edit Order page.
             </p>
 
             <strong style="margin-top: 20px; display: block;">Note!</strong>
@@ -427,11 +428,11 @@
               </tr>
             </table>
 
-            <mat-paginator
+            <!-- <mat-paginator
               [pageSizeOptions]="[10, 20, 50, 100]"
               showFirstLastButtons
               aria-label="Select page seminar pages"
-            ></mat-paginator>
+            ></mat-paginator> -->
 
             <!-- <div
               *ngIf="orderSuccess"
@@ -710,11 +711,11 @@
             <span class="desc-text">Total: {{ overTotal | currency }}</span>
           </div> -->
 
-          <mat-paginator
+          <!-- <mat-paginator
             [pageSizeOptions]="[10, 20, 50, 100]"
             showFirstLastButtons
             aria-label="Select page seminar pages"
-          ></mat-paginator>
+          ></mat-paginator> -->
 
           <div
             class="w-100 justify-content-end d-flex py-3"

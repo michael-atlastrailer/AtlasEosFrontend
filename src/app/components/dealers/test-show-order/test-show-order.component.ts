@@ -1148,10 +1148,17 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
           } else {
             this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data);
           }
+
           this.canOrder = true;
           this.dataSrc.sort = this.sort;
           this.dataSrc.paginator = this.paginator;
           $('table-ctn').addClass('highlight');
+
+          this.canOrder = true
+          this.dataSrc.sort = this.sort
+          ///  this.dataSrc.paginator = this.paginator
+          $('table-ctn').addClass('highlight')
+
         } else {
           // this.toastr.info(`Something went wrong`, 'Error');
         }
