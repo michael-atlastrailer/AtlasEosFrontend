@@ -1129,7 +1129,6 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
     })
 
     newArray.unshift(prodigal[0])
-
     return newArray
   }
 
@@ -1152,7 +1151,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
   searchVendorId(id: any) {
     this.canOrder = false
     this.getData
-      .httpGetRequest('/get-vendor-products/' + id)
+      .httpGetRequest('/dealer/get-vendor-products/' + id)
       .then((result: any) => {
         if (result.status) {
           this.isMod = true
