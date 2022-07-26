@@ -722,7 +722,7 @@
   >
     <p class="title-dash">DASHBOARD</p>
 
-    <p class="greet ml-3" style="font-weight: 700; text-transform: capitalize;">
+    <p class="greet ml-3" *ngIf="greetingStatus" style="font-weight: 700; text-transform: capitalize;">
 
       Welcome {{ firstName }} {{ lastName }}
     </p>
