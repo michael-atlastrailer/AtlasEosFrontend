@@ -267,7 +267,7 @@ export class SpecialOrderComponent implements OnInit {
       error = true;
     } else {
       for (var i = 0; i < this.arr.length; i++) {
-        if (Object.keys(this.arr[i]).length !== 3) {
+        if (Object.keys(this.arr[i]).length !== 2) {
           error = true;
         } else {
           if (this.arr[i].quantity == '') {
@@ -276,9 +276,7 @@ export class SpecialOrderComponent implements OnInit {
           if (this.arr[i].vendor_no == '') {
             error = true;
           }
-          if (this.arr[i].description == '') {
-            error = true;
-          }
+          
         }
       }
     }
