@@ -322,6 +322,8 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
         console.log(res);
         if (res.status) {
           this.showSubmittedDetails = true;
+          this.alreadyOrder = true;
+          console.log('already order eri', this.alreadyOrder);
           this.cartLoader = false;
           this.itemAlreadySubmitted = res.data.item_details;
           this.itemNewlySubmitted = res.data.item_added;
@@ -1182,8 +1184,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
           if (result.status) {
             this.cartLoader = false;
             this.orderSuccess = true;
-            this.alreadyOrder = true;
-            console.log('already order eri', this.alreadyOrder);
+            
 
             this.toastr.success(
               `${this.orderLen}  item(s) have been added to cart`,

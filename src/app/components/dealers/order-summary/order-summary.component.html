@@ -191,9 +191,9 @@
                       <tr *ngFor="let product of order[1]">
                         <td class="text-center">{{ product.qty }}</td>
                         <td class="text-center">{{ product.atlas_id }}</td>
-                        <td class="text-center">{{ product.vendor }}</td>
+                        <td class="text-center">{{ product.product_vendor_product_code }}</td>
                         <td class="text-center">
-                          <p class="text-center">{{ product.description }}</p>
+                          <p class="text-center">{{ product.product_description }}</p>
                         </td>
 
                         <td class="text-center">
@@ -213,7 +213,7 @@
                             color: #437c17;
                           "
                         >
-                          Total for {{ order[0] }}
+                          Total for {{ order[1][0].vendor_name }}
                         </td>
                         <td
                           style="
@@ -228,7 +228,7 @@
                       </tr>
                     </tbody>
                   </table>
-                  <table class="w-100" *ngIf="selectDefault">
+                  <table class="w-100" *ngIf="selectDefault"> 
                     <tr>
                       <td
                         colspan="2"
@@ -261,7 +261,7 @@
                 <div class="table-ctn mt-3" *ngIf="!selectDefault">
                   <table class="order-form-table w-100 mb-4">
                     <thead>
-                      <th>Qty</th>
+                      <th>Qty </th>
                       <th>Atlas #</th>
 
                       <th>Vendor #</th>
