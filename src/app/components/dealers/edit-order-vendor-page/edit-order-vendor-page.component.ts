@@ -31,6 +31,17 @@ export interface PeriodicElement {
   extended: number
 }
 
+class AddEditProduct {
+  qty: number | undefined
+  atlasId: number | undefined
+  vendor: number | undefined
+  description: string | undefined
+  regular: number | undefined
+  special: number | undefined
+  extended: string | undefined
+  action: string | undefined
+}
+
 @Component({
   selector: 'app-edit-order-vendor-page',
   templateUrl: './edit-order-vendor-page.component.html',
@@ -133,6 +144,10 @@ export class EditOrderVendorPageComponent implements OnInit {
     } else {
       this._liveAnnouncer.announce('Sorting cleared')
     }
+  }
+
+  addMoreRow() {
+    this.cartData.push(new AddEditProduct())
   }
 
   saveEditedData() {

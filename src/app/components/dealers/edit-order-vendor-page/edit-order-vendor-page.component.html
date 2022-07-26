@@ -300,6 +300,13 @@
             >
               <button
                 class="btn text-bold text-white bg-blue mr-2"
+                (click)="addMoreRow()"
+              >
+                Add
+                <span class="fa fa-plus"></span>
+              </button>
+              <button
+                class="btn text-bold text-white bg-blue mr-2"
                 (click)="saveEditedData()"
               >
                 <div *ngIf="!saveBtnLoader">Save</div>
