@@ -92,7 +92,7 @@ export class EditOrderVendorPageComponent implements OnInit {
   anotherLinePhaseFilter: any | [] = []
   groupsArray: any | [] = []
 
-  cartData: any
+  cartData: any | [] = []
 
   @ViewChildren('extend')
   extendField!: QueryList<ElementRef>
