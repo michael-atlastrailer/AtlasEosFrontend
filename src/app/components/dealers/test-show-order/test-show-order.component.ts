@@ -1144,7 +1144,7 @@ export class TestShowOrderComponent implements OnInit {
           }
           this.canOrder = true
           this.dataSrc.sort = this.sort
-          this.dataSrc.paginator = this.paginator
+          ///  this.dataSrc.paginator = this.paginator
           $('table-ctn').addClass('highlight')
         } else {
           // this.toastr.info(`Something went wrong`, 'Error');
