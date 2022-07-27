@@ -31,6 +31,17 @@ export interface PeriodicElement {
   extended: number
 }
 
+class AddEditProduct {
+  qty: number | undefined
+  atlasId: number | undefined
+  vendor: number | undefined
+  description: string | undefined
+  regular: number | undefined
+  special: number | undefined
+  extended: string | undefined
+  action: string | undefined
+}
+
 @Component({
   selector: 'app-edit-order-vendor-page',
   templateUrl: './edit-order-vendor-page.component.html',
@@ -64,27 +75,53 @@ export class EditOrderVendorPageComponent implements OnInit {
   vendorId: any
   loader = true
 
+  modalTableCol: string[] = [
+    'qty',
+    'atlas_id',
+    'vendor',
+    'description',
+    'booking',
+    'special',
+    'extended',
+  ]
+
   ///////// Import for calculation ///////////
 
   assortedItems: [] | any = []
   currentState: [] | any = []
-
   assortFilter: [] | any = []
   noQtyAssortFilter: [] | any = []
-
   assortSecondFilter: [] | any = []
   newTotalArray: [] | any = []
-
   newArrayFilter: [] | any = []
-
   anotherLinePhase: any | [] = []
   anotherLinePhaseFilter: any | [] = []
   groupsArray: any | [] = []
+  cartData: any | [] = []
 
-  cartData: any
+  assortedItemsM: [] | any = []
+  currentStateM: [] | any = []
+  assortFilterM: [] | any = []
+  noQtyAssortFilterM: [] | any = []
+  assortSecondFilterM: [] | any = []
+  newTotalArrayM: [] | any = []
+  newArrayFilterM: [] | any = []
+  anotherLinePhaseM: any | [] = []
+  anotherLinePhaseFilterM: any | [] = []
+  groupsArrayM: any | [] = []
+  cartDataM: any | [] = []
+
+  @ViewChild('closeModalBtn')
+  closeModalBtn!: ElementRef
+
+  @ViewChild('atlas')
+  atlas!: ElementRef
 
   @ViewChildren('extend')
   extendField!: QueryList<ElementRef>
+
+  @ViewChildren('Modalextend')
+  ModalextendField!: QueryList<ElementRef>
 
   @ViewChildren('trRow')
   tableRow!: QueryList<ElementRef>
@@ -93,11 +130,25 @@ export class EditOrderVendorPageComponent implements OnInit {
   currentProductAmt = 0
   overTotal = 0
 
+  ModalnormalPrice = 0
+  ModalcurrentProductAmt = 0
+
   addedItem: [] | any = []
   userData: any
 
   saveBtnLoader = false
+  modalTableloader = false
+  modalTableView = true
+  modalTableData: any
+  modalDummyAmt = 0
+  modalTableBtn = false
 
+  assortedType = false
+  typingLoader = false
+  assigned = false
+  tableViewDisplay: any
+  eachSelectedItem: any
+  assortedTableItem: any
   /////// end of importation //////////
 
   constructor(
@@ -133,6 +184,746 @@ export class EditOrderVendorPageComponent implements OnInit {
     } else {
       this._liveAnnouncer.announce('Sorting cleared')
     }
+  }
+
+  addAssortedItem() {
+    this.tableViewDisplay = this.assortedTableItem
+    this.assigned = true
+  }
+
+  closeModal() {
+    this.assigned = false
+    this.assortedType = false
+    this.tableViewDisplay = []
+    this.atlas.nativeElement.value = ''
+    $('#input-edit').val('')
+
+    this.assortedItemsM = []
+    this.currentStateM = []
+    this.assortFilterM = []
+    this.noQtyAssortFilterM = []
+    this.assortSecondFilterM = []
+    this.newTotalArrayM = []
+    this.newArrayFilterM = []
+    this.anotherLinePhaseM = []
+    this.anotherLinePhaseFilterM = []
+    this.groupsArrayM = []
+    this.cartDataM = []
+  }
+
+  getItemVendorItem(atlas: any) {
+    this.typingLoader = true
+
+    this.getData
+      .httpGetRequest('/dealer/get-vendor-item/' + this.vendorId + '/' + atlas)
+      .then((result: any) => {
+        this.typingLoader = false
+        this.tableViewDisplay = []
+
+        if (result.status) {
+          this.tableData = result.data
+          this.cartData = result.data
+          if (result.data.assorted_state) {
+            this.assortedType = true
+            this.assortedTableItem = result.data.assorted_data
+          } else {
+            this.assortedType = false
+
+            this.tableViewDisplay = result.data.item
+          }
+          ///this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data)
+        } else {
+          //this.toastr.error('Something went wrong', 'Try again')
+        }
+      })
+      .catch((err) => {
+        this.toastr.error('Something went wrong', 'Try again')
+      })
+  }
+
+  addOrderToQuickTable() {
+    let allProCount = this.tableViewDisplay.length
+    let addedState = false
+    let inCart = false
+    let postItem = []
+    this.modalTableBtn = true
+
+    for (let h = 0; h < allProCount; h++) {
+      let curQty = $('#cur-m-' + h).val()
+      if (curQty != '' && curQty != undefined) {
+        let data = this.tableViewDisplay[h]
+        let rawUnit = document.getElementById('u-price-m-' + h)?.innerText
+        let unit = rawUnit?.replace(',', '.')
+
+        let rawPrice = document.getElementById('amt-hidd-m-' + h)?.innerHTML
+        // let realPrice = rawPrice?.replace('$', '')
+        let newPrice = rawPrice?.replace(',', '.')
+
+        let cartData = {
+          uid: this.userData.id,
+          dealer: this.userData.account_id,
+          vendor_id: data.vendor,
+          atlas_id: data.atlas_id,
+          product_id: data.id,
+          qty: curQty,
+          price: newPrice,
+          unit_price: unit,
+          groupings: data.grouping,
+          type: 'null',
+          vendor_no: data.vendor_product_code,
+        }
+
+        postItem.push(cartData)
+      }
+    }
+
+    let postData = {
+      uid: this.userData.id,
+      dealer: this.userData.account_id,
+      product_array: JSON.stringify(postItem),
+    }
+
+    this.getData
+      .httpPostRequest('/dealer/save-item-to-cart', postData)
+      .then((res: any) => {
+        this.modalTableBtn = false
+        this.getCartByVendorId(this.vendorId)
+        this.closeModalBtn.nativeElement.click()
+        this.tableViewDisplay = []
+        $('#closeModal').click()
+        if (res.status) {
+          //  this.newlyAdded = res.data.newly_added
+          //  this.existingInQuickOrder = res.data.existing_already_in_quick_order
+          //  this.existingInOrder = res.data.existing_already_in_order
+
+          this.toastr.success(`item(s) has been submitted`, 'Success')
+          //  this.closeModalBtn.nativeElement.click()
+          ///  this.fetchQuickOrderCart()
+        } else {
+          this.toastr.info(`Something went wrong`, 'Error')
+        }
+      })
+      .catch((err) => {
+        //  this.showAlert = false
+        this.modalTableBtn = false
+
+        // if (err.message.response.dealer || err.message.response.dealer) {
+        //   this.toastr.info(`Please logout and login again`, 'Session Expired')
+        // } else {
+        //   this.toastr.info(`Something went wrong`, 'Error')
+        // }
+      })
+  }
+
+  runModalTableCalculation(index: number, qty: any, event: any) {
+    if (event.key != 'Tab') {
+      if (qty !== '') {
+        let curr = this.tableViewDisplay[index]
+
+        let atlasId = curr.atlas_id
+        let spec = curr.spec_data
+
+        // if (!this.allAddedItemAtlasID.includes(atlasId)) {
+        //   this.allAddedItemAtlasID.push(atlasId)
+        // }
+
+        if (spec !== null) {
+          if (spec.length > 0) {
+            for (let j = 0; j < spec.length; j++) {
+              const f = spec[j]
+              if (f.type == 'assorted') {
+                curr.quantity = qty
+                curr.pos = index
+                this.assortFilterM.push(curr)
+                for (let y = 0; y < this.assortFilterM.length; y++) {
+                  const t = this.assortFilterM[y]
+                  if (t.id == curr.id) {
+                  } else {
+                    this.assortFilterM.push(curr)
+                  }
+
+                  this.newArrayFilterM = this.assortFilterM.filter(
+                    (x: any, y: any) => this.assortFilterM.indexOf(x) == y,
+                  )
+
+                  let secondPhase: any = []
+                  let anotherFilter: any = []
+                  let letsContinue = false
+
+                  for (let h = 0; h < this.newArrayFilterM.length; h++) {
+                    const e = this.newArrayFilterM[h]
+                    if (e.grouping == curr.grouping) {
+                      if (e.spec_data.length > 0) {
+                        letsContinue = true
+                        //console.log(e.spec_data);
+                        // e.spec_data[h].quantity = e.quantity;
+                        // e.spec_data[h].pos = e.pos;
+                        // e.spec_data[0].arrIndex = e.spec_data.length - 1;
+                        // secondPhase.push(e.spec_data[0]);
+
+                        e.spec_data.pos = e.pos
+                        e.spec_data.quantity = e.quantity
+                        e.spec_data.atlas_id = e.atlas_id
+                        e.spec_data.group = e.grouping
+
+                        for (let t = 0; t < e.spec_data.length; t++) {
+                          let ele = e.spec_data[t]
+                          ele.quantity = e.quantity
+                          ele.pos = e.pos
+                          ele.atlas_id = e.atlas_id
+                          ele.arrIndex = t
+                          secondPhase.push(ele)
+                        }
+                        this.anotherLinePhaseM.push(e.spec_data)
+                        console.log(this.anotherLinePhaseM)
+                      } else {
+                        let price = parseFloat(e.booking)
+                        let quantity = parseInt(e.quantity)
+                        let newPrice = price * quantity
+                        let formattedAmt = this.currencyPipe.transform(
+                          newPrice,
+                          '$',
+                        )
+
+                        $('#u-price-m-' + e.pos).html(price)
+                        $('#amt-m-' + e.pos).html(formattedAmt)
+                        $('#amt-hidd-m-' + e.pos).html(newPrice)
+                      }
+                    } else {
+                    }
+                  }
+
+                  this.anotherLinePhaseFilterM = this.anotherLinePhaseM.filter(
+                    (v: any, i: any, a: any) =>
+                      a.findIndex((t: any) => t.atlas_id === v.atlas_id) === i,
+                  )
+
+                  let newTotalAss = 0
+
+                  this.anotherLinePhaseFilterM.map((val: any, index: any) => {
+                    if (curr.grouping == val.group) {
+                      console.log(curr.grouping)
+                      newTotalAss += parseInt(val.quantity)
+                    }
+                  })
+
+                  /// console.log(newTotalAss, 'Total');
+
+                  if (letsContinue) {
+                    let status = false
+                    for (
+                      let h = 0;
+                      h < this.anotherLinePhaseFilterM.length;
+                      h++
+                    ) {
+                      const k = this.anotherLinePhaseFilterM[h]
+                      if (newTotalAss >= parseInt(k[0].cond)) {
+                        status = true
+
+                        $('.normal-booking-m-' + k.pos).css('display', 'none')
+                      } else {
+                        for (let hj = 0; hj < k.length; hj++) {
+                          const eleK = k[hj]
+                          $(
+                            '.special-booking-m-' +
+                              eleK.pos +
+                              '-' +
+                              eleK.arrIndex,
+                          ).css('display', 'none')
+
+                          // console.log('testing price', eleK);
+
+                          let booking = parseFloat(eleK.booking)
+                          let newPrice = parseInt(eleK.quantity) * booking
+                          let formattedAmt = this.currencyPipe.transform(
+                            newPrice,
+                            '$',
+                          )
+
+                          $('#u-price-m-' + eleK.pos).html(booking)
+                          $('#amt-m-' + eleK.pos).html(formattedAmt)
+                          $('#amt-hidd-m-' + eleK.pos).html(newPrice)
+                        }
+
+                        let price = parseFloat(k.booking)
+                        $('.normal-booking-m-' + k.pos).css(
+                          'display',
+                          'inline-block',
+                        )
+                      }
+                    }
+
+                    if (status) {
+                      let tickArrToBeRemoved = []
+                      //// If total Assorted is greater than condition /////
+                      for (
+                        let i = 0;
+                        i < this.anotherLinePhaseFilterM.length;
+                        i++
+                      ) {
+                        const jk = this.anotherLinePhaseFilterM[i]
+                        let currArrLength = jk.length
+
+                        for (let j = 0; j < jk.length; j++) {
+                          --currArrLength
+                          const backWard = jk[currArrLength]
+                          const frontWard = jk[j]
+
+                          if (
+                            newTotalAss < backWard.cond &&
+                            newTotalAss >= frontWard.cond
+                          ) {
+                            let nxt = frontWard.arrIndex + 1
+                            let preData = jk[nxt]
+                            let activeData = frontWard
+
+                            $('.normal-booking-m-' + activeData.pos).css(
+                              'display',
+                              'none',
+                            )
+
+                            $(
+                              '.special-booking-m-' +
+                                activeData.pos +
+                                '-' +
+                                activeData.arrIndex,
+                            ).css('display', 'inline-block')
+
+                            $(
+                              '.special-booking-m-' +
+                                preData.pos +
+                                '-' +
+                                preData.arrIndex,
+                            ).css('display', 'none')
+                            let special = parseFloat(activeData.special)
+                            let newPrice =
+                              parseInt(activeData.quantity) * special
+                            let formattedAmt = this.currencyPipe.transform(
+                              newPrice,
+                              '$',
+                            )
+
+                            $('#u-price-m-' + activeData.pos).html(special)
+                            $('#amt-m-' + activeData.pos).html(formattedAmt)
+                            $('#amt-hidd-m-' + activeData.pos).html(newPrice)
+                          } else {
+                            let pre = backWard.arrIndex - 1
+                            let preData = jk[pre]
+                            let activeData = backWard
+                            let chNxt = pre + 1
+                            let chpp = jk[chNxt]
+
+                            // console.log('dropped', activeData);
+                            let pp = jk[j]
+
+                            if (newTotalAss >= pp.cond) {
+                              let special = parseFloat(pp.special)
+                              let newPrice = parseInt(pp.quantity) * special
+                              let formattedAmt = this.currencyPipe.transform(
+                                newPrice,
+                                '$',
+                              )
+
+                              $('#u-price-m-' + pp.pos).html(special)
+                              $('#amt-m-' + pp.pos).html(formattedAmt)
+                              $('#amt-hidd-m-' + pp.pos).html(newPrice)
+                            }
+
+                            $(
+                              '.special-booking-m-' +
+                                activeData.pos +
+                                '-' +
+                                activeData.arrIndex,
+                            ).css('display', 'inline-block')
+
+                            if (preData != undefined) {
+                              tickArrToBeRemoved.push(preData)
+                            }
+                            for (
+                              let hi = 0;
+                              hi < tickArrToBeRemoved.length;
+                              hi++
+                            ) {
+                              const kk = tickArrToBeRemoved[hi]
+                              $(
+                                '.special-booking-m-' +
+                                  kk.pos +
+                                  '-' +
+                                  kk.arrIndex,
+                              ).css('display', 'none')
+                            }
+
+                            // console.log(tickArrToBeRemoved);
+                          }
+                        }
+                      }
+                    } else {
+                      /// if total Assorted is not greater than condition /////
+                    }
+                  }
+                }
+              } else {
+                ///////// Speacial Price ////////
+                let arr = this.ModalextendField.toArray()[index]
+                let specialAmt = 0
+                let specialCond = 0
+                let specData = this.tableViewDisplay[index].spec_data
+                this.ModalnormalPrice = parseFloat(
+                  this.tableViewDisplay[index].booking,
+                )
+                for (let i = 0; i < specData.length; i++) {
+                  let curAmt = parseFloat(specData[i].special)
+                  let cond = parseInt(specData[i].cond)
+                  let orignialAmt = parseFloat(specData[i].booking)
+                  specData[i].arrIndex = i
+                  let nextArr = i + 1
+                  let len = specData.length
+
+                  if (qty >= cond) {
+                    this.ModalnormalPrice = curAmt
+                    $('.normal-booking-m-' + index).css('display', 'none')
+
+                    $(
+                      '.special-booking-m-' +
+                        index +
+                        '-' +
+                        specData[i].arrIndex,
+                    ).css('display', 'inline-block')
+
+                    let g = i - 1
+                    let nxt = i + 1
+
+                    if (specData[nxt]) {
+                      $('.special-booking-m-' + index + '-' + nxt).css(
+                        'display',
+                        'none',
+                      )
+                    } else {
+                    }
+
+                    $('.special-booking-m-' + index + '-' + g).css(
+                      'display',
+                      'none',
+                    )
+                  } else {
+                    this.ModalnormalPrice = this.ModalnormalPrice
+                    $('.special-booking-m-' + index + '-' + i).css(
+                      'display',
+                      'none',
+                    )
+                    let nxt = i + 1
+                    let pre = i - 1
+
+                    if (specData[nxt]) {
+                      let cond = specData[nxt].cond
+                      if (qty < cond) {
+                        $('.normal-booking-m-' + index).css(
+                          'display',
+                          'inline-block',
+                        )
+                      } else {
+                        $('.normal-booking-m-' + index).css('display', 'none')
+                      }
+                      $('.normal-booking-m-' + index).css('display', 'none')
+                    } else {
+                      // console.log(specData[pre]);
+                      let preData = specData[pre]
+                      if (preData) {
+                        let preCond = parseInt(preData.cond)
+                        // console.log(`${preCond} and ${qty}`);
+                        if (qty >= preCond) {
+                          $('.normal-booking-' + index).css('display', 'none')
+                        } else {
+                        }
+                      } else {
+                        $('.normal-booking-m-' + index).css(
+                          'display',
+                          'inline-block',
+                        )
+                      }
+
+                      if (qty >= cond) {
+                        $('.normal-booking-m-' + index).css('display', 'none')
+                      } else {
+                      }
+                    }
+                  }
+
+                  if (qty >= cond) {
+                    this.ModalnormalPrice = curAmt
+                  } else {
+                    this.ModalnormalPrice = this.ModalnormalPrice
+                  }
+                }
+
+                let calAmt = qty * this.ModalnormalPrice
+                this.ModalcurrentProductAmt = calAmt
+                $('#u-price-m-' + index).html(this.ModalnormalPrice)
+                let formattedAmt = this.currencyPipe.transform(calAmt, '$')
+                arr.nativeElement.innerHTML = formattedAmt
+                $('#amt-m-' + index).html(formattedAmt)
+                $('#amt-hidd-m-' + index).html(calAmt)
+              }
+            }
+          } else {
+            let quantity = parseInt(qty)
+            let price = parseFloat(curr.booking)
+
+            let calAmt = quantity * price
+            this.ModalcurrentProductAmt = calAmt
+
+            ///console.log(price, 'unit Price');
+            $('#u-price-m-' + index).html(price)
+
+            $('.normal-booking-m-' + index).css('display', 'inline-block')
+
+            let formattedAmt = this.currencyPipe.transform(calAmt, '$')
+            $('#amt-m-' + index).html(formattedAmt)
+            $('#amt-hidd-m-' + index).html(calAmt)
+          }
+        } else {
+          console.log('trying to find it')
+          let quantity = parseInt(qty)
+          let price = parseFloat(curr.booking)
+
+          let calAmt = quantity * price
+          this.ModalcurrentProductAmt = calAmt
+
+          ///console.log(price, 'unit Price');
+          $('#u-price-m-' + index).html(price)
+
+          $('#amt-hidd-m-' + index).html(calAmt)
+
+          $('.normal-booking-m-' + index).css('display', 'inline-block')
+
+          let formattedAmt = this.currencyPipe.transform(calAmt, '$')
+          $('#amt-m-' + index).html(formattedAmt)
+        }
+      } else {
+        if (qty == '' || qty == 0) {
+          for (let h = 0; h < this.assortFilterM.length; h++) {
+            let ele = this.assortFilterM[h]
+            let curr = this.tableViewDisplay[index]
+
+            if (curr.atlas_id == ele.atlas_id) {
+              const index = this.assortFilterM.indexOf(ele)
+              if (index >= 0) {
+                this.assortFilterM.splice(index, 1)
+              }
+            }
+          }
+
+          for (let h = 0; h < this.newArrayFilterM.length; h++) {
+            let ele = this.newArrayFilterM[h]
+            let curr = this.tableViewDisplay[index]
+
+            if (curr.atlas_id == ele.atlas_id) {
+              const index = this.newArrayFilterM.indexOf(ele)
+              if (index >= 0) {
+                this.newArrayFilterM.splice(index, 1)
+              }
+              this.assortFilterM = this.newArrayFilterM
+            }
+          }
+
+          for (let hy = 0; hy < this.anotherLinePhaseFilterM.length; hy++) {
+            let he = this.anotherLinePhaseFilterM[hy]
+            let curr = this.tableViewDisplay[index]
+            if (curr.atlas_id == he.atlas_id) {
+              const ind = this.anotherLinePhaseFilterM.indexOf(he)
+              if (ind >= 0) {
+                this.anotherLinePhaseFilterM.splice(ind, 1)
+              }
+              this.anotherLinePhaseM = []
+              this.anotherLinePhaseM = this.anotherLinePhaseFilterM
+            }
+          }
+
+          let checkTotalAss = 0
+          let curr = this.tableViewDisplay[index]
+
+          this.anotherLinePhaseM.map((val: any, index: any) => {
+            ///console.log(val.group);
+            if (curr.grouping == val.group) {
+              checkTotalAss += parseInt(val.quantity)
+            }
+          })
+
+          for (let tk = 0; tk < this.anotherLinePhaseM.length; tk++) {
+            let jk = this.anotherLinePhaseM[tk]
+            let tickArrToBeRemoved = []
+            // const jk = this.anotherLinePhaseFilter[i];
+            let currArrLength = jk.length
+
+            if (curr.grouping == jk.group) {
+              if (jk.length > 1) {
+                for (let kl = 0; kl < jk.length; kl++) {
+                  const kelly = jk[kl]
+                  --currArrLength
+                  const backWard = jk[currArrLength]
+                  const frontWard = jk[kl]
+
+                  if (
+                    checkTotalAss < backWard.cond &&
+                    checkTotalAss >= frontWard.cond
+                  ) {
+                    let nxt = frontWard.arrIndex + 1
+                    let preData = jk[nxt]
+                    let activeData = frontWard
+
+                    $('.normal-booking-m-' + activeData.pos).css(
+                      'display',
+                      'none',
+                    )
+
+                    $(
+                      '.special-booking-m-' +
+                        activeData.pos +
+                        '-' +
+                        activeData.arrIndex,
+                    ).css('display', 'inline-block')
+
+                    $(
+                      '.special-booking-m-' +
+                        preData.pos +
+                        '-' +
+                        preData.arrIndex,
+                    ).css('display', 'none')
+
+                    let special = activeData.special
+                    let newPrice = parseInt(activeData.quantity) * special
+                    let formattedAmt = this.currencyPipe.transform(
+                      newPrice,
+                      '$',
+                    )
+
+                    $('#u-price-m-' + activeData.pos).html(special)
+                    $('#amt-m-' + activeData.pos).html(formattedAmt)
+                    $('#amt-hidd-m-' + activeData.pos).html(newPrice)
+                  } else {
+                    let pre = backWard.arrIndex - 1
+                    let preData = jk[pre]
+                    let activeData = backWard
+
+                    $(
+                      '.special-booking-m-' +
+                        activeData.pos +
+                        '-' +
+                        activeData.arrIndex,
+                    ).css('display', 'inline-block')
+
+                    let special = activeData.special
+                    let newPrice = parseInt(activeData.quantity) * special
+                    let formattedAmt = this.currencyPipe.transform(
+                      newPrice,
+                      '$',
+                    )
+
+                    $('#u-price-m-' + activeData.pos).html(special)
+                    $('#amt-m-' + activeData.pos).html(formattedAmt)
+                    $('#amt-hidd-m-' + activeData.pos).html(newPrice)
+
+                    if (checkTotalAss >= activeData.cond) {
+                    } else {
+                      if (preData != undefined) {
+                        tickArrToBeRemoved.push(activeData)
+                      }
+                      $('.normal-booking-m-' + activeData.pos).css(
+                        'display',
+                        'inline-block',
+                      )
+
+                      let booking = activeData.booking
+                      let newPrice = parseInt(activeData.quantity) * booking
+                      let formattedAmt = this.currencyPipe.transform(
+                        newPrice,
+                        '$',
+                      )
+
+                      $('#u-price-m-' + activeData.pos).html(booking)
+                      $('#amt-m-' + activeData.pos).html(formattedAmt)
+                      $('#amt-hidd-m-' + activeData.pos).html(newPrice)
+                    }
+
+                    if (preData != undefined) {
+                      tickArrToBeRemoved.push(preData)
+                    }
+                    for (let hi = 0; hi < tickArrToBeRemoved.length; hi++) {
+                      const kk = tickArrToBeRemoved[hi]
+                      $('.special-booking-m-' + kk.pos + '-' + kk.arrIndex).css(
+                        'display',
+                        'none',
+                      )
+                    }
+                  }
+                }
+              } else {
+                for (let ag = 0; ag < jk.length; ag++) {
+                  const agaa = jk[ag]
+
+                  if (checkTotalAss >= agaa.cond) {
+                    $('.normal-booking-m-' + agaa.pos).css('display', 'none')
+
+                    $(
+                      '.special-booking-m-' + agaa.pos + '-' + agaa.arrIndex,
+                    ).css('display', 'inline-block')
+                    let special = agaa.special
+                    let newPrice = parseInt(agaa.quantity) * special
+                    let formattedAmt = this.currencyPipe.transform(
+                      newPrice,
+                      '$',
+                    )
+
+                    $('#u-price-m-' + agaa.pos).html(special)
+                    $('#amt-m-' + agaa.pos).html(formattedAmt)
+                    $('#amt-hidd-m-' + agaa.pos).html(newPrice)
+                  } else {
+                    // $('.normal-booking-' + agaa.pos).css(
+                    //   'display',
+                    //   'inline-block'
+                    // );
+
+                    $(
+                      '.special-booking-m-' + agaa.pos + '-' + agaa.arrIndex,
+                    ).css('display', 'none')
+                    let special = agaa.special
+                    let newPrice = parseInt(agaa.quantity) * special
+                    let formattedAmt = this.currencyPipe.transform(
+                      newPrice,
+                      '$',
+                    )
+
+                    $('#u-price-m-' + agaa.pos).html(special)
+                    $('#amt-m-' + agaa.pos).html(formattedAmt)
+                    $('#amt-hidd-m-' + agaa.pos).html(newPrice)
+                  }
+                }
+              }
+            }
+          }
+
+          // console.log(this.anotherLinePhaseFilter);
+        }
+
+        /// qty = 0;
+        let curr = this.tableViewDisplay[index]
+        let spec = curr.spec_data
+
+        $('.normal-booking-m-' + index).css('display', 'none')
+        if (spec != null) {
+          for (let h = 0; h < spec.length; h++) {
+            $('.special-booking-m-' + index + '-' + h).css('display', 'none')
+          }
+        }
+
+        let formattedAmt = this.currencyPipe.transform(0, '$')
+        $('#amt-m-' + index).html(formattedAmt)
+      }
+    }
+  }
+
+  addMoreRow() {
+    this.cartData.push(new AddEditProduct())
   }
 
   saveEditedData() {
@@ -400,9 +1191,13 @@ export class EditOrderVendorPageComponent implements OnInit {
 
               this.assortFilter.push(curr)
               for (let h = 0; h < this.cartData.length; h++) {
-                let r = this.cartData[h]
-                r.pos = h
-                this.assortFilter.push(r)
+                let checkQty = $('#cur-' + h).val()
+                if (checkQty != '') {
+                  let r = this.cartData[h]
+                  r.pos = h
+                  r.qty = checkQty
+                  this.assortFilter.push(r)
+                }
               }
 
               for (let y = 0; y < this.assortFilter.length; y++) {
@@ -467,6 +1262,8 @@ export class EditOrderVendorPageComponent implements OnInit {
                   }
                 }
 
+                //// console.log(secondPhase, 'first filter')
+
                 if (letsContinue) {
                   let newTotalAss = 0
                   let status = false
@@ -482,7 +1279,7 @@ export class EditOrderVendorPageComponent implements OnInit {
                       } else {
                         for (let hy = 0; hy < secondPhase.length; hy++) {
                           const elj = secondPhase[hy]
-                          console.log(elj.atlas_id, elj.quantity)
+                          //// console.log(elj.atlas_id, elj.quantity)
 
                           let booking = parseFloat(elj[0].booking)
                           let newPrice = parseInt(elj.quantity) * booking
@@ -524,7 +1321,7 @@ export class EditOrderVendorPageComponent implements OnInit {
                                 '$',
                               )
 
-                              console.log('100 up we are here')
+                              ////  console.log('100 up we are here')
                               $('#unit-price-hidden-' + elt.pos).html(special)
                               $('#price-hidden-' + elt.pos).html(newPrice)
                               $('#u-price-' + elt.pos).html(special)
@@ -538,7 +1335,7 @@ export class EditOrderVendorPageComponent implements OnInit {
                     }
                   }
 
-                  // console.log(newTotalAss);
+                  ////  console.log(newTotalAss)
 
                   if (status) {
                     //// If total Assorted is greater than condition /////
@@ -553,17 +1350,14 @@ export class EditOrderVendorPageComponent implements OnInit {
                           newTotalAss < backWard.cond &&
                           newTotalAss >= frontWard.cond
                         ) {
-                          console.log('we are here')
-                        } else {
-                          console.log('300 up we are here')
-
+                          /// console.log(jk[j], 'we are here')
                           let special = parseFloat(jk[j].special)
                           let newPrice = parseInt(jk.quantity) * special
                           let formattedAmt = this.currencyPipe.transform(
                             newPrice,
                             '$',
                           )
-                          console.log(formattedAmt)
+                          //console.log(jk, 'test here')
 
                           $('#unit-price-hidden-' + jk[j].pos).html(special)
                           $('#price-hidden-' + jk[j].pos).html(newPrice)
@@ -571,6 +1365,26 @@ export class EditOrderVendorPageComponent implements OnInit {
                           $('#u-price-' + jk[j].pos).html(special)
                           $('#amt-' + jk[j].pos).html(formattedAmt)
                           $('#amt-hidd-' + jk[j].pos).html(newPrice)
+                        } else {
+                          if (newTotalAss < jk[j].cond) {
+                          } else {
+                            /// console.log(jk[j], '300 up we are here')
+
+                            let special = parseFloat(jk[j].special)
+                            let newPrice = parseInt(jk.quantity) * special
+                            let formattedAmt = this.currencyPipe.transform(
+                              newPrice,
+                              '$',
+                            )
+                            ////console.log(jk, 'test here')
+
+                            $('#unit-price-hidden-' + jk[j].pos).html(special)
+                            $('#price-hidden-' + jk[j].pos).html(newPrice)
+
+                            $('#u-price-' + jk[j].pos).html(special)
+                            $('#amt-' + jk[j].pos).html(formattedAmt)
+                            $('#amt-hidd-' + jk[j].pos).html(newPrice)
+                          }
                         }
                       }
                     }
@@ -690,11 +1504,15 @@ export class EditOrderVendorPageComponent implements OnInit {
 
         for (let g = 0; g < this.cartData.length; g++) {
           const eachData = this.cartData[g]
-
-          eachData.quantity = eachData.qty
-          eachData.pos = this.cartData.indexOf(eachData)
-          this.assortFilter.push(eachData)
+          qty = $('#cur-' + g).val()
+          if (qty != '') {
+            eachData.quantity = eachData.qty
+            eachData.pos = this.cartData.indexOf(eachData)
+            this.assortFilter.push(eachData)
+          }
         }
+
+        ///console.log(this.assortFilter, 'first filter')
 
         // for (let h = 0; h < this.cartData.length; h++) {
         //   let r = this.cartData[h]
@@ -713,6 +1531,8 @@ export class EditOrderVendorPageComponent implements OnInit {
             }
           }
         }
+
+        //  console.log(this.assortFilter, 'second filter')
 
         for (let h = 0; h < this.newArrayFilter.length; h++) {
           let ele = this.newArrayFilter[h]
@@ -787,7 +1607,7 @@ export class EditOrderVendorPageComponent implements OnInit {
           }
         }
 
-        // console.log(this.anotherLinePhase, 'phase tester')
+        ///console.log(this.anotherLinePhase, 'phase tester')
 
         // for (let hy = 0; hy < this.assortFilter.length; hy++) {
         //   let he = this.assortFilter[hy]
@@ -836,6 +1656,8 @@ export class EditOrderVendorPageComponent implements OnInit {
                   let nxt = frontWard.arrIndex + 1
                   let preData = jk[nxt]
                   let activeData = frontWard
+
+                  // console.log(activeData, 'we testing it here, innsed')
 
                   /// $('.normal-booking-' + activeData.pos).css('display', 'none')
 
@@ -1013,6 +1835,7 @@ export class EditOrderVendorPageComponent implements OnInit {
     this.canOrder = false
     this.isMod = false
     let dealer = this.token.getUser().account_id
+    this.loader = true
 
     this.getData
       .httpGetRequest(

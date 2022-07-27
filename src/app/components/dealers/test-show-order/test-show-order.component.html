@@ -69,7 +69,7 @@
 
           <div
             class="table-ctn mt-3 p-3 table-responsive"
-            style="background-color: white"
+            style="background-color: white;"
           >
             <table class="table" *ngIf="loader">
               <thead>
@@ -77,7 +77,7 @@
                   <td class="loader-td" colspan="8">
                     <div
                       class="ph-item"
-                      style="padding: 0px 0px; border: 0px; margin-bottom: 0px"
+                      style="padding: 0px 0px; border: 0px; margin-bottom: 0px;"
                     >
                       <div>
                         <div class="ph-picture"></div>
@@ -171,7 +171,7 @@
                 <th
                   mat-header-cell
                   *matHeaderCellDef
-                  style="white-space: nowrap"
+                  style="white-space: nowrap;"
                 >
                   Qty
                 </th>
@@ -180,13 +180,12 @@
                   *matCellDef="let element; let i = index"
                   class="text-center"
                 >
-
                   <input
                     [disabled]="alreadyOrder"
                     id="cur-{{ i }}"
                     type="number"
                     class="mx-auto"
-                    style="text-align: center"
+                    style="text-align: center;"
                     min="0"
                     #inputAmt
                     placeholder="Qty"
@@ -296,7 +295,7 @@
                   <span #extend class="total-text" id="amt-{{ i }}">
                     {{ dummyAmt | currency }}
                   </span>
-                  <span id="amt-hidd-{{ i }}" style="display: none"></span>
+                  <span id="amt-hidd-{{ i }}" style="display: none;"></span>
                 </td>
               </ng-container>
 
@@ -322,28 +321,28 @@
               <span class="desc-text">Total: {{ overTotal | currency }}</span>
             </div>
 
-
             <div
               *ngIf="showSubmittedDetails"
               class="alert alert-success mt-2 mb-2 d-flex align-items-center"
             >
-              <i class="fa fa-check-circle" style="font-size: 30px"></i>
+              <i class="fa fa-check-circle" style="font-size: 30px;"></i>
               &nbsp;&nbsp;
               <div class="ml-2">
-                <h6 class="mb-1" style="font-size: 16px">Success</h6>
-                <p style="font-size: 15px">
+                <h6 class="mb-1" style="font-size: 16px;">Success</h6>
+                <p style="font-size: 15px;">
                   {{ itemNewlySubmitted }} new item(s) have been submitted
                 </p>
-                <p style="font-size: 15px" *ngIf="itemAlreadySubmitted != ''">
-                  {{ itemAlreadySubmitted }} is already order. You can adjust
-                  this order in the Edit Order page
+                <p style="font-size: 15px;" *ngIf="itemAlreadySubmitted != ''">
+                  The following item(s) have already been ordered. You can
+                  adjust them in the Edit Order page:
+                  {{ itemAlreadySubmitted }}
                 </p>
               </div>
             </div>
             <div
               class="w-100 justify-content-end d-flex py-3"
               *ngIf="canOrder"
-              style="border-top: 0.2px solid rgba(98, 98, 98, 0.484)"
+              style="border-top: 0.2px solid rgba(98, 98, 98, 0.484);"
             >
               <button
                 class="btn text-bold text-white bg-blue"
