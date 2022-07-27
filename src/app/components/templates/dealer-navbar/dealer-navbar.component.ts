@@ -301,15 +301,15 @@ export class DealerNavbarComponent implements OnInit {
 
       if (endIntilaTime < curTimer) {
         this.stopCountdownTimer();
-        $('#days').html('0' + '<span> Days</span>');
-        $('#hours').html('00' + '<span> Hours</span>');
-        $('#minutes').html('00' + '<span> Minutes</span>');
-        $('#seconds').html('00' + '<span> Seconds</span>');
+        $('#days').html('0' + '<span> </span>');
+        $('#hours').html('00' + '<span> </span>');
+        $('#minutes').html('00' + '<span> </span>');
+        $('#seconds').html('00' + '<span> </span>');
       } else {
-        $('#days').html(days + '<span> Days</span>');
-        $('#hours').html(hours + '<span> Hours</span>');
-        $('#minutes').html(minutes + '<span> Minutes</span>');
-        $('#seconds').html(seconds + '<span> Seconds</span>');
+        $('#days').html(days + '<span> </span>');
+        $('#hours').html(hours + '<span> </span>');
+        $('#minutes').html(minutes + '<span> </span>');
+        $('#seconds').html(seconds + '<span> </span>');
       }
     }, 1000);
   }
