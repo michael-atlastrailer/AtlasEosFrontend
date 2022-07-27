@@ -211,6 +211,27 @@ export class EditOrderVendorPageComponent implements OnInit {
     this.cartDataM = []
   }
 
+  allOverTotal() {
+    let total = 0
+    this.overTotal = 0
+    for (let index = 0; index < this.tableData.length; index++) {
+      const element = this.tableData[index]
+      let price = document.getElementById('amt-hidd-' + index)?.innerText
+
+      ///  let price = $('#amt-hidd-' + index).html()
+      if (price != undefined) {
+        console.log(price, 'we test price')
+        total += parseFloat(price)
+      }
+    }
+
+    let formattedAmt = this.currencyPipe.transform(total, '$')
+
+    $('.order-total').html(formattedAmt)
+    console.log(total, 'our total')
+    /// this.overTotal = total
+  }
+
   getItemVendorItem(atlas: any) {
     this.typingLoader = true
 
@@ -975,7 +996,9 @@ export class EditOrderVendorPageComponent implements OnInit {
           this.cartData = result.data
           this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data)
 
-          this.getTotal()
+          /// this.runTotalCalculation()
+
+          //// this.getTotal()
           for (let d = 0; d < result.data.length; d++) {
             const element = result.data[d]
 
@@ -1080,7 +1103,8 @@ export class EditOrderVendorPageComponent implements OnInit {
             this.cartData = result.data
             this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data)
 
-            this.getTotal()
+            //// this.getTotal()
+            /// this.runTotalCalculation(index)
             for (let d = 0; d < result.data.length; d++) {
               const element = result.data[d]
 
@@ -1100,6 +1124,8 @@ export class EditOrderVendorPageComponent implements OnInit {
         .catch((err) => {
           this.toastr.error('Something went wrong', 'Try again')
         })
+
+      this.allOverTotal()
     }
   }
 
@@ -1141,8 +1167,6 @@ export class EditOrderVendorPageComponent implements OnInit {
             t.price = newPrice
           } else {
             for (let i = 0; i < this.addedItem.length; i++) {
-              // let rawPrice = document.getElementById('amt-hidd-' + t.index)
-              //   ?.innerHTML
               const item = this.addedItem[i]
               if (item.atlasId == currentProduct.atlasId) {
                 item.price = newPrice
@@ -1304,8 +1328,19 @@ export class EditOrderVendorPageComponent implements OnInit {
                           let totalLength = k.length
                           /// console.log(totalLength, 'length test')
                           ///if(k[1])
+
+                          // console.log(k[1], 'k one')
+
+                          ///let checkNex
+
+                          // if (k[1] !== undefined) {
                           let checkNext =
-                            k[1].cond !== undefined ? k[1].cond : k[0].cond
+                            k[1] !== undefined ? k[1].cond : k[0].cond
+                          // } else {
+                          //   console.log(k[0], 'k one')
+
+                          //   let checkNext = k[0].cond
+                          // }
 
                           if (
                             newTotalAss >= el.cond &&
@@ -1554,23 +1589,33 @@ export class EditOrderVendorPageComponent implements OnInit {
         for (let h = 0; h < this.assortFilter.length; h++) {
           const e = this.assortFilter[h]
           if (e.grouping == currentData.grouping) {
-            if (e.spec_data.length > 0) {
-              letsContinue = true
+            if (e.spec_data != null) {
+              if (e.spec_data.length > 0) {
+                letsContinue = true
 
-              e.spec_data.pos = e.pos
-              e.spec_data.quantity = e.quantity
-              e.spec_data.atlas_id = e.atlas_id
-              e.spec_data.group = e.grouping
+                e.spec_data.pos = e.pos
+                e.spec_data.quantity = e.quantity
+                e.spec_data.atlas_id = e.atlas_id
+                e.spec_data.group = e.grouping
 
-              for (let t = 0; t < e.spec_data.length; t++) {
-                let ele = e.spec_data[t]
-                ele.quantity = e.quantity
-                ele.pos = e.pos
-                ele.atlas_id = e.atlas_id
-                ele.arrIndex = t
-                secondPhase.push(ele)
+                for (let t = 0; t < e.spec_data.length; t++) {
+                  let ele = e.spec_data[t]
+                  ele.quantity = e.quantity
+                  ele.pos = e.pos
+                  ele.atlas_id = e.atlas_id
+                  ele.arrIndex = t
+                  secondPhase.push(ele)
+                }
+                this.anotherLinePhase.push(e.spec_data)
+              } else {
+                // let price = parseFloat(e.booking)
+                // let quantity = parseInt(e.quantity)
+                // let newPrice = price * quantity
+                // let formattedAmt = this.currencyPipe.transform(newPrice, '$')
+                // $('#u-price-' + e.pos).html(price)
+                // $('#amt-' + e.pos).html(formattedAmt)
+                // $('#amt-hidd-' + e.pos).html(newPrice)
               }
-              this.anotherLinePhase.push(e.spec_data)
             } else {
               let price = parseFloat(e.booking)
               let quantity = parseInt(e.quantity)
@@ -1815,7 +1860,8 @@ export class EditOrderVendorPageComponent implements OnInit {
       $('#amt-hidd-' + index).html(0)
     }
 
-    this.runTotalCalculation(index)
+    this.allOverTotal()
+    //// this.runTotalCalculation(index)
   }
 
   getTotal() {
@@ -1842,21 +1888,22 @@ export class EditOrderVendorPageComponent implements OnInit {
         '/dealer/get-dealer-vendor-orders/' + dealer + '/' + vendorId,
       )
       .then((result: any) => {
-        console.log(result, 'promotion')
         this.loader = false
         if (result.status) {
           console.log('search vendor res', result.data)
           this.tableData = result.data
           this.cartData = result.data
-          ///this.runTotalCalculation()
+          this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data)
 
           if (result.data.length !== 0) {
             this.canOrder = true
           }
           this.orderTable = []
+          // this.allOverTotal()
           this.getTotal()
           for (let d = 0; d < result.data.length; d++) {
             const element = result.data[d]
+            /// this.runTotalCalculation(d)
 
             let data = {
               atlasId: element.atlas_id,
@@ -1868,7 +1915,6 @@ export class EditOrderVendorPageComponent implements OnInit {
             this.addedItem.push(data)
           }
 
-          this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data)
           // this.dataSrc.sort = this.sort
           /// this.dataSrc.paginator = this.paginator
         } else {
