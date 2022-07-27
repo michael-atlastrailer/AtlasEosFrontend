@@ -73,6 +73,9 @@ export class SpecialOrderComponent implements OnInit {
   dataSrc = new MatTableDataSource<PeriodicElement>();
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
+  isSpecial = false;
+  arrNotSpec: any = [];
+  cannotSubmit = false;
   constructor(
     private getData: HttpRequestsService,
     private toastr: ToastrService,
@@ -185,7 +188,7 @@ export class SpecialOrderComponent implements OnInit {
       });
   }
   submitOrder() {
-    this.checkEmptyStat();
+    this.checkEmptyStat('23', '#$', false);
     if (!this.disableSubmit) {
       this.saveLoader = true;
       for (var i = 0; i < this.arr.length; i++) {
@@ -259,7 +262,7 @@ export class SpecialOrderComponent implements OnInit {
         );
       });
   }
-  checkEmptyStat() {
+  checkEmptyStat(id: any, j: any, check: boolean) {
     let error = false;
     console.log('errror disable', this.disableSubmit, error);
 
@@ -267,24 +270,79 @@ export class SpecialOrderComponent implements OnInit {
       error = true;
     } else {
       for (var i = 0; i < this.arr.length; i++) {
-        if (Object.keys(this.arr[i]).length !== 3) {
+        if (this.arr[i].quantity == '') {
           error = true;
-        } else {
-          if (this.arr[i].quantity == '') {
-            error = true;
-          }
-          if (this.arr[i].vendor_no == '') {
-            error = true;
-          }
-          if (this.arr[i].description == '') {
-            error = true;
-          }
         }
+        if (this.arr[i].vendor_no == '') {
+          error = true;
+        } // if (this.arr[i].description == '') {
+        //   error = true;
+        // }
       }
     }
-
     this.disableSubmit = error;
-    console.log('errror disable after', this.disableSubmit, error);
+    console.log('errror disable after', this.disableSubmit, error, id, j);
+
+    if (check) {
+      this.addDesc(j, 'ed');
+      this.checkVendorNo(id, j);
+    }
+  }
+  checkVendorNo(id: any, i: any) {
+    this.isSpecial = false;
+
+    let save = this.disableSubmit;
+    this.disableSubmit = true;
+    this.getData
+      .httpGetRequest('/dealer/get-item-by-atlas-vendor-code/' + id)
+      .then((result: any) => {
+        console.log(result, 'promotion');
+
+        if (result.status) {
+          console.log('search vendor res', result.data['filtered_data'].length);
+
+          if (result.data['filtered_data'].length == 0) {
+            this.arr[i].inBooking = false;
+            this.isSpecial = true;
+            this.disableSubmit = save;
+          } else {
+            this.disableSubmit = save;
+
+            this.toastr.error(
+              `item with vendor part ${id} is in the booking program  you can not add to special order `,
+              'Error'
+            );
+            this.arr[i].inBooking = true;
+            this.isSpecial = true;
+          }
+        } else {
+          // this.toastr.info(`Something went wrong`, 'Error');
+        }
+      })
+      .catch((err) => {
+        // this.toastr.info(`Something went wrong`, 'Error');
+      });
+  }
+  checkConstraint() {
+    this.arrNotSpec = [];
+    for (var i = 0; i < this.arr.length; i++) {
+      if (this.arr[i].qty == '') {
+        this.cannotSubmit = true;
+      }
+      if (this.arr[i].vendor_no == '') {
+        this.cannotSubmit = true;
+      }
+      if (this.arr[i].inBooking == true) {
+        this.cannotSubmit = true;
+        this.arrNotSpec.push(this.arr[i].vendor_no);
+      } else {
+        this.cannotSubmit = false;
+      }
+    }
+    if (this.arrNotSpec.length==0) {
+      this.submitOrder();
+    }
+    console.log('checking constraint', this.arrNotSpec, this.cannotSubmit);
   }
   getUser(uid: string, userlist: any) {
     let name: any;
@@ -294,6 +352,11 @@ export class SpecialOrderComponent implements OnInit {
       }
     }
     return name;
+  }
+  addDesc(j: any, q: any) {
+    if (!this.arr[j].description) {
+      this.arr[j].description = '';
+    }
   }
   deleteOrder(i: any) {
     if (i > -1) {

@@ -16,3 +16,7 @@ input[type="number"]::placeholder{
   text-align: center;
 
 }
+.border-thicker{
+  border:5px solid brown !important;
+
+}

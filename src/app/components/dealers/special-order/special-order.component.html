@@ -64,7 +64,7 @@
           <div class="card" *ngIf="!vendorSelected">
             <div class="card-header">Order List</div>
             <div class="card-body mt-3">
-              <div class="table-ctn mt-3 ">
+              <div class="table-ctn mt-3">
                 <table
                   class="seperate-table w-100 mat-elevation"
                   mat-table
@@ -128,7 +128,7 @@
                   <ng-container matColumnDef="ordered_by">
                     <th mat-header-cell *matHeaderCellDef>Ordered By</th>
                     <td mat-cell *matCellDef="let element">
-                      {{ getUser(element.uid,element.users)}}
+                      {{ getUser(element.uid, element.users) }}
                     </td>
                   </ng-container>
                   <!-- Name Column -->
@@ -150,7 +150,8 @@
                             element.quantity,
                             element.vendor_no,
                             element.description,
-                            element.id,element.vendor_code
+                            element.id,
+                            element.vendor_code
                           )
                         "
                       >
@@ -208,7 +209,7 @@
                       (click)="addRow()"
                       style="background-color: #054e6e !important"
                     >
-                      <i class="fa fa-plus mr-1"></i> Add
+                      <i class="fa fa-plus"></i> Add
                     </button>
                   </div>
                   <table class="order-form-table w-100">
@@ -227,7 +228,7 @@
                             type="number"
                             required
                             min="0"
-                            (input)="checkEmptyStat()"
+                            (input)="checkEmptyStat(item.quantity, i, false)"
                             [(ngModel)]="item.quantity"
                             #qtyInput
                             style="width: 60px"
@@ -238,7 +239,7 @@
                             required
                             type="text"
                             #vIdInput
-                            (input)="checkEmptyStat()"
+                            (input)="checkEmptyStat(item.vendor_no, i, true)"
                             class="w-100"
                             [(ngModel)]="item.vendor_no"
                           />
@@ -247,7 +248,7 @@
                           <input
                             type="text"
                             class="w-100"
-                            (input)="checkEmptyStat()"
+                            (input)="checkEmptyStat(item.description, i, false)"
                             [(ngModel)]="item.description"
                           />
                         </td>
@@ -256,6 +257,9 @@
                             <i class="fa fa-trash" style="color: red"></i>
                           </button>
                         </td>
+                        <span class="cancel mr-3" *ngIf="item.inBooking"
+                          ><i class="fa fa-times" aria-hidden="true"></i
+                        ></span>
                       </tr>
                     </tbody>
                   </table>
@@ -275,10 +279,18 @@
                   >
                     *Complete form to be able to submit
                   </p>
+                  <p
+                    class="title-banner text-end mt-1"
+                    *ngIf="cannotSubmit"
+                    style="text-align: center; color: red"
+                  >
+                   Cannot submit, Items {{ arrNotSpec.join() }} are already in the show order
+                    form
+                  </p>
                   <div class="mt-3 d-flex justify-content-end">
                     <button
                       class="btn btn-primary mr-2"
-                      (click)="submitOrder()"
+                      (click)="checkConstraint()"
                       [disabled]="saveLoader || disableSubmit"
                     >
                       <span *ngIf="!saveLoader">Submit</span>

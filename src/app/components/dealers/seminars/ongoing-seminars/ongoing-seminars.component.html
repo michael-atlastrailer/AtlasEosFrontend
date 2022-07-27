@@ -17,6 +17,10 @@
             routerLink="/dealers/all-seminars"
             >ALL SEMINARS</a
           ><a
+            class="btn btn-success mr-2 tab-btn  border-thicker"
+            routerLink="/dealers/ongoing-seminars"
+            >IN SESSION SEMINARS</a
+          ><a
             class="btn btn-warning mr-2 tab-btn"
             routerLink="/dealers/sheduled-seminars"
             >SCHEDULED SEMINARS</a
@@ -240,7 +244,7 @@
                             IN SESSION
                           </p>
                           <p class="yellow-text" *ngIf="element.status == 1 || element.status== null">
-                            SHEDULED
+                            SCHEDULED
                           </p>
                         </td>
                       </ng-container>

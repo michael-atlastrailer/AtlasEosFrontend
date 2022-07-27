@@ -3,7 +3,7 @@
 <aside class="app-sidebar scrollable">
   <div
     class="side-header d-flex align-items-center"
-    style="height: 80px; width: 290px;"
+    style="height: 80px; width: 290px"
   >
     <a class="header-brand1" href="/login">
       <img
@@ -18,7 +18,7 @@
       <a
         aria-label="Hide Sidebar"
         class="ms-5"
-        style="color: white; height: 30px; width: 30px;"
+        style="color: white; height: 30px; width: 30px"
         data-toggle="sidebar"
         href="#"
         (click)="toggleSideNav()"
@@ -291,7 +291,7 @@
 <div class="app-header header d-block pt-0">
   <div
     class="container-fluid p-0 d-flex align-items-center w-100"
-    style="height: 80px;"
+    style="height: 80px"
   >
     <div class="d-flex over-layer-header w-100">
       <a class="header-brand d-md-none">
@@ -421,11 +421,7 @@
             <!-- <a class="dropdown-item" href="#">
               <i class="dropdown-icon mdi mdi-account-outline"></i> My Profile
             </a> -->
-            <a
-              class="dropdown-item"
-              (click)="logout()"
-              style="cursor: pointer;"
-            >
+            <a class="dropdown-item" (click)="logout()" style="cursor: pointer">
               <i class="dropdown-icon mdi mdi-logout-variant"></i>
               Sign out
             </a>
@@ -717,14 +713,40 @@
     <!-- App-Header -->
   </div>
   <div
-    class="container-fluid p-0 d-flex align-items-center pt-2"
-    style="height: 50px; background-color: #14abef;"
+    class="container-fluid p-0 d-flex align-items-center pt-2 justify-content-between"
+    style="height: 50px; background-color: #14abef"
   >
-    <p class="title-dash">DASHBOARD</p>
+    <div class="d-flex align-items-center"><p class="title-dash mb-0">DASHBOARD</p>
 
-    <p class="greet ml-3" *ngIf="greetingStatus" style="font-weight: 700; text-transform: capitalize;">
-
+    <p
+      class="greet mb-0 ml-3"
+      *ngIf="greetingStatus"
+      style="font-weight: 700; text-transform: capitalize"
+    >
       Welcome {{ firstName }} {{ lastName }}
-    </p>
+    </p></div>
+    <div class="">
+      <table
+        class="table text-nowrap table-wrapper align-items-center mb-0 timer-table"
+      >
+        <tbody>
+          <tr>
+            <td><span class="timer-title">EVENT ENDS IN:</span></td>
+            <td>
+              <span class="tbody-text-timer" id="days">0 days</span>
+            </td>
+            <td>
+              <span class="tbody-text-timer" id="hours"> 00 hours </span>
+            </td>
+            <td>
+              <span class="tbody-text-timer" id="minutes"> 00 minutes </span>
+            </td>
+            <td>
+              <span class="tbody-text-timer" id="seconds"> 00 seconds </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>

@@ -101,10 +101,13 @@
   font-weight: 700;
   color: #5371ad;
 }
-
+.border-thicker {
+  border: 2px solid #5371AD !important;
+}
 .order-form-table {
   td,
   th {
+    text-align: center;
     border: 0.1px solid #fff;
   }
   th {
