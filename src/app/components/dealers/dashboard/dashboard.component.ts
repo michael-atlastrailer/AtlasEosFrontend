@@ -4,8 +4,8 @@ import {
   DoCheck,
   ElementRef,
   ViewChildren,
-} from '@angular/core';
-import { ViewChild } from '@angular/core';
+} from '@angular/core'
+import { ViewChild } from '@angular/core'
 
 import {
   ChartComponent,
@@ -13,65 +13,65 @@ import {
   ApexChart,
   ApexXAxis,
   ApexTitleSubtitle,
-} from 'ng-apexcharts';
-import { HttpRequestsService } from 'src/app/core/services/http-requests.service';
+} from 'ng-apexcharts'
+import { HttpRequestsService } from 'src/app/core/services/http-requests.service'
 export type ChartOptions = {
-  series: ApexAxisChartSeries;
-  chart: ApexChart;
-  xaxis: ApexXAxis;
-  title: ApexTitleSubtitle;
-};
-declare var $: any;
+  series: ApexAxisChartSeries
+  chart: ApexChart
+  xaxis: ApexXAxis
+  title: ApexTitleSubtitle
+}
+declare var $: any
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-  promotionalLoader = true;
-  promotionalData = false;
-  promotionalStatus = false;
-  promotionalAds: any;
-  allCategoryData: any;
-  public chartOptions: any;
-  countDownDate = new Date('June 25, 2022 15:37:25').getTime();
-  count: any = 34;
+  promotionalLoader = true
+  promotionalData = false
+  promotionalStatus = false
+  promotionalAds: any
+  allCategoryData: any
+  public chartOptions: any
+  countDownDate = new Date('June 25, 2022 15:37:25').getTime()
+  count: any = 34
   countDownElement = <HTMLInputElement>(
     document.getElementById('calc_table_amount')
-  );
+  )
   pdfSrc =
-    'https://atlasbookingprogram.com/assets/2022%20Booking%20Program%20Terms%20&%20Conditions.pdf';
-  timeSeconds = 59;
-  timeDays = 0;
-  timeHours: number = 24;
-  timeMinutes: number = 59;
-  interval: any;
+    'https://atlasbookingprogram.com/assets/2022%20Booking%20Program%20Terms%20&%20Conditions.pdf'
+  timeSeconds = 59
+  timeDays = 0
+  timeHours: number = 24
+  timeMinutes: number = 59
+  interval: any
 
-  checkerInterval: any;
-  startCounterChecker: any;
-  countDownTimer: any;
+  checkerInterval: any
+  startCounterChecker: any
+  countDownTimer: any
 
-  countDownData: any;
+  countDownData: any
 
-  initalDays: number = 0;
-  initalHours: number = 0;
-  initalMinutes: number = 0;
-  initalSeconds: number = 0;
+  initalDays: number = 0
+  initalHours: number = 0
+  initalMinutes: number = 0
+  initalSeconds: number = 0
 
-  showSecondsExtrazero = false;
+  showSecondsExtrazero = false
 
-  testStartTimer!: number;
-  testStopTimer!: number;
-  testTimeLeft!: number;
-  starterTimerTimestamp!: number;
-  endTimer = '';
-  endTimerStamp!: number;
-  initalEndTime: any;
-  initalStartTime: any;
+  testStartTimer!: number
+  testStopTimer!: number
+  testTimeLeft!: number
+  starterTimerTimestamp!: number
+  endTimer = ''
+  endTimerStamp!: number
+  initalEndTime: any
+  initalStartTime: any
 
   constructor(private getData: HttpRequestsService) {
-    this.getAllVendors();
-    this.fetchFlyerAlt();
+    this.getAllVendors()
+    this.fetchFlyerAlt()
     this.chartOptions = {
       series: [
         {
@@ -104,90 +104,90 @@ export class DashboardComponent implements OnInit {
           '45000',
         ],
       },
-    };
-    this.getProgramCountDown();
+    }
+    this.getProgramCountDown()
   }
   ngOnInit(): void {}
 
   arrangeTimer(data: any) {
-    let initalDays = data.days;
-    let initalHours = data.hours;
-    let initalMinutes = data.minutes;
-    let initalSeconds = data.seconds;
-    this.timeDays = data.days;
+    let initalDays = data.days
+    let initalHours = data.hours
+    let initalMinutes = data.minutes
+    let initalSeconds = data.seconds
+    this.timeDays = data.days
 
     if (data.hours > 24) {
-      this.timeHours = 24;
+      this.timeHours = 24
     } else {
-      this.timeHours = data.hours;
+      this.timeHours = data.hours
     }
 
     if (data.minutes > 59) {
-      this.timeMinutes = 59;
+      this.timeMinutes = 59
     } else {
-      this.timeMinutes = data.minutes;
+      this.timeMinutes = data.minutes
     }
 
     if (data.seconds > 59) {
-      this.timeSeconds = 59;
+      this.timeSeconds = 59
     } else {
-      this.timeSeconds = data.seconds;
+      this.timeSeconds = data.seconds
     }
   }
 
   startTimer(data: any) {
-    let initalDays = data.days;
-    let initalHours = data.hours;
-    let initalMinutes = data.minutes;
-    let initalSeconds = data.seconds;
-    this.timeDays = data.days;
+    let initalDays = data.days
+    let initalHours = data.hours
+    let initalMinutes = data.minutes
+    let initalSeconds = data.seconds
+    this.timeDays = data.days
 
     if (data.hours < 1) {
-      this.timeHours = 0;
+      this.timeHours = 0
     } else {
       if (data.hours > 24) {
-        this.timeHours = 23;
+        this.timeHours = 23
       } else {
-        this.timeHours = data.hours;
+        this.timeHours = data.hours
       }
     }
 
     if (data.minutes > 59) {
-      this.timeMinutes = 59;
+      this.timeMinutes = 59
     } else {
-      this.timeMinutes = data.minutes;
+      this.timeMinutes = data.minutes
     }
 
     if (data.seconds != 0) {
       if (data.seconds > 59) {
-        this.timeSeconds = 59;
+        this.timeSeconds = 59
       } else {
-        this.timeSeconds = data.seconds;
+        this.timeSeconds = data.seconds
       }
     } else {
-      this.timeSeconds = data.seconds;
+      this.timeSeconds = data.seconds
     }
 
     this.interval = setInterval(() => {
       if (this.timeSeconds > 0) {
-        this.timeSeconds--;
+        this.timeSeconds--
       } else {
         if (data.seconds != 0) {
-          this.timeSeconds = 59;
+          this.timeSeconds = 59
         }
 
         if (this.timeMinutes < 1 && this.timeHours != 0) {
-          this.timeMinutes = 59;
-          this.timeHours--;
+          this.timeMinutes = 59
+          this.timeHours--
         }
 
         if (this.timeHours < 1 && this.timeDays != 0) {
-          this.timeDays--;
-          this.timeHours = 23;
+          this.timeDays--
+          this.timeHours = 23
         }
 
         if (this.timeMinutes > 0) {
-          this.timeMinutes--;
+          this.timeMinutes--
         }
       }
 
@@ -197,94 +197,94 @@ export class DashboardComponent implements OnInit {
         this.timeHours == 0 &&
         this.timeDays == 0
       ) {
-        this.pauseTimer();
+        this.pauseTimer()
       }
 
-      let stringSeconds = this.timeSeconds;
-      let conventerStringSeconds = stringSeconds.toString();
-      console.log(conventerStringSeconds.length);
+      let stringSeconds = this.timeSeconds
+      let conventerStringSeconds = stringSeconds.toString()
+      console.log(conventerStringSeconds.length)
       if (conventerStringSeconds.length == 1) {
-        this.showSecondsExtrazero = true;
+        this.showSecondsExtrazero = true
       } else {
-        this.showSecondsExtrazero = false;
+        this.showSecondsExtrazero = false
       }
-    }, 1000);
+    }, 1000)
   }
 
   pauseTimer() {
-    clearInterval(this.interval);
+    clearInterval(this.interval)
   }
 
   stopCountdownTimer() {
-    clearInterval(this.countDownTimer);
+    clearInterval(this.countDownTimer)
   }
 
   startCheckerFund() {
     this.checkerInterval = setInterval(() => {
-      let dd = new Date();
-      let currentTime = dd.getTime();
-      let dateInstance = new Date(this.initalStartTime);
-      let intialStartTimer = dateInstance.getTime();
+      let dd = new Date()
+      let currentTime = dd.getTime()
+      let dateInstance = new Date(this.initalStartTime)
+      let intialStartTimer = dateInstance.getTime()
 
       if (currentTime >= intialStartTimer) {
-        this.stopCounterChecker();
-        this.startCountDownTimer();
+        this.stopCounterChecker()
+        /// this.startCountDownTimer()
       } else {
       }
-    }, 1000);
+    }, 1000)
   }
 
   stopCounterChecker() {
-    clearInterval(this.checkerInterval);
+    clearInterval(this.checkerInterval)
   }
 
   startCountDownTimer() {
     this.countDownTimer = setInterval(() => {
-      let dd: any = new Date();
-      let curTimer = dd.getTime();
-      let createDate = new Date(this.initalEndTime);
-      let endIntilaTime = createDate.getTime();
+      let dd: any = new Date()
+      let curTimer = dd.getTime()
+      let createDate = new Date(this.initalEndTime)
+      let endIntilaTime = createDate.getTime()
 
       // console.log(curTimer)
 
-      let endTime = Date.parse(this.endTimer) / 1000;
-      let now: any = new Date();
-      now = Date.parse(now) / 1000;
+      let endTime = Date.parse(this.endTimer) / 1000
+      let now: any = new Date()
+      now = Date.parse(now) / 1000
 
-      var timeLeft = endTime - now;
+      var timeLeft = endTime - now
 
-      var days: any = Math.floor(timeLeft / 86400);
-      var hours: any = Math.floor((timeLeft - days * 86400) / 3600);
+      var days: any = Math.floor(timeLeft / 86400)
+      var hours: any = Math.floor((timeLeft - days * 86400) / 3600)
       var minutes: any = Math.floor(
-        (timeLeft - days * 86400 - hours * 3600) / 60
-      );
+        (timeLeft - days * 86400 - hours * 3600) / 60,
+      )
       var seconds: any = Math.floor(
-        timeLeft - days * 86400 - hours * 3600 - minutes * 60
-      );
+        timeLeft - days * 86400 - hours * 3600 - minutes * 60,
+      )
 
       if (hours < '10') {
-        hours = '0' + hours;
+        hours = '0' + hours
       }
       if (minutes < '10') {
-        minutes = '0' + minutes;
+        minutes = '0' + minutes
       }
       if (seconds < '10') {
-        seconds = '0' + seconds;
+        seconds = '0' + seconds
       }
 
-      if (endIntilaTime < curTimer) {
-        this.stopCountdownTimer();
-        $('#days').html('0' + '<span> Days</span>');
-        $('#hours').html('00' + '<span> Hours</span>');
-        $('#minutes').html('00' + '<span> Minutes</span>');
-        $('#seconds').html('00' + '<span> Seconds</span>');
-      } else {
-        $('#days').html(days + '<span> Days</span>');
-        $('#hours').html(hours + '<span> Hours</span>');
-        $('#minutes').html(minutes + '<span> Minutes</span>');
-        $('#seconds').html(seconds + '<span> Seconds</span>');
-      }
-    }, 1000);
+      // if (endIntilaTime < curTimer) {
+      //   this.stopCountdownTimer()
+      //   $('#days').html('0' + '<span> </span>')
+      //   $('#hours').html('00' + '<span> </span>')
+      //   $('#minutes').html('00' + '<span> </span>')
+      //   $('#seconds').html('00' + '<span> </span>')
+      // } else {
+      //   $('#days').html(days + '<span> </span>')
+      //   $('#hours').html(hours + '<span> </span>')
+      //   $('#minutes').html(minutes + '<span> </span>')
+      //   $('#seconds').html(seconds + '<span> </span>')
+      // }
+    }, 1000)
   }
 
   getProgramCountDown() {
@@ -292,11 +292,11 @@ export class DashboardComponent implements OnInit {
       .httpGetRequest('/get-countdown')
       .then((result: any) => {
         if (result.status) {
-          this.countDownData = result.data;
-          this.endTimer = result.data.inital_end_timer;
-          this.initalEndTime = result.data.inital_end_timer;
-          this.initalStartTime = result.data.real_start_timer;
-          console.log(this.initalStartTime);
+          this.countDownData = result.data
+          this.endTimer = result.data.inital_end_timer
+          this.initalEndTime = result.data.inital_end_timer
+          this.initalStartTime = result.data.real_start_timer
+          console.log(this.initalStartTime)
           // let dd = new Date(this.endTimer)
           // let fp = dd.getTime()
           // console.log(fp, 'seconse')
@@ -304,82 +304,82 @@ export class DashboardComponent implements OnInit {
           // console.log(new Date().getTime())
           ////this.startTimeMe = result.
 
-          this.endTimerStamp = result.data.end_timer_timestamp;
-          this.starterTimerTimestamp = result.data.start_timer_timestamp;
+          this.endTimerStamp = result.data.end_timer_timestamp
+          this.starterTimerTimestamp = result.data.start_timer_timestamp
 
-          this.startCheckerFund();
+          this.startCheckerFund()
         } else {
         }
       })
       .catch((err) => {
         ///this.loader = false
-      });
+      })
   }
 
   getAllVendors() {
     this.getData
       .httpGetRequest('/promotional_fliers/vendors')
       .then((result: any) => {
-        console.log(result);
+        console.log(result)
         if (result.status) {
-          this.allCategoryData = result.data;
+          this.allCategoryData = result.data
         } else {
         }
       })
-      .catch((err) => {});
+      .catch((err) => {})
   }
   fetchFlyer(data: any) {
-    console.log(data.target.value);
-    this.promotionalLoader = true;
-    this.promotionalData = false;
-    this.promotionalStatus = false;
+    console.log(data.target.value)
+    this.promotionalLoader = true
+    this.promotionalData = false
+    this.promotionalStatus = false
 
-    let id = data.target.value;
-    console.log(id, 'id');
+    let id = data.target.value
+    console.log(id, 'id')
     this.getData
       .httpGetRequest('/show-promotional-flier-by-id/' + id)
       .then((result: any) => {
-        console.log(result, 'promotion');
+        console.log(result, 'promotion')
 
-        this.promotionalLoader = false;
+        this.promotionalLoader = false
         if (result.status) {
           // this.promotionalData = result.data.length > 0 ? true : false;
           // this.promotionalStatus = result.data.length <= 0 ? true : false;
-          this.promotionalAds = result.data;
-          this.promotionalData = true;
+          this.promotionalAds = result.data
+          this.promotionalData = true
         } else {
         }
       })
       .catch((err) => {
-        this.promotionalLoader = false;
-        this.promotionalData = true;
-      });
+        this.promotionalLoader = false
+        this.promotionalData = true
+      })
   }
   fetchFlyerAlt() {
     ///console.log(data.target.value);
-    this.promotionalLoader = true;
-    this.promotionalData = false;
-    this.promotionalStatus = false;
+    this.promotionalLoader = true
+    this.promotionalData = false
+    this.promotionalStatus = false
 
-    let id = 1;
-    console.log(id, 'id');
+    let id = 1
+    console.log(id, 'id')
     this.getData
       .httpGetRequest('/show-promotional-flier-by-id/' + id)
       .then((result: any) => {
-        console.log(result, 'promotion');
+        console.log(result, 'promotion')
 
-        this.promotionalLoader = false;
+        this.promotionalLoader = false
         if (result.status) {
           // this.promotionalData = result.data.length > 0 ? true : false;
           // this.promotionalStatus = result.data.length <= 0 ? true : false;
-          this.promotionalAds = result.data;
-          this.promotionalData = true;
+          this.promotionalAds = result.data
+          this.promotionalData = true
         } else {
         }
       })
       .catch((err) => {
-        this.promotionalLoader = false;
-        this.promotionalData = true;
-      });
+        this.promotionalLoader = false
+        this.promotionalData = true
+      })
   }
 }
