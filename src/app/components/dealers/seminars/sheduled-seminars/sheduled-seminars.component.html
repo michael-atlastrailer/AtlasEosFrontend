@@ -12,14 +12,18 @@
           </h6>
         </div>
         <div class="w-100 mb-4 mt-3" style="text-align: end">
-          <a
+           <a
+            class="btn btn-info mr-2 tab-btn"
+            routerLink="/dealers/all-seminars"
+            >ALL SEMINARS</a
+          ><a
             class="btn btn-success mr-2 tab-btn"
             routerLink="/dealers/ongoing-seminars"
             >IN SESSION SEMINARS</a
           ><a
-            class="btn btn-info mr-2 tab-btn"
-            routerLink="/dealers/all-seminars"
-            >ALL SEMINARS</a
+            class="btn btn-warning mr-2 tab-btn  border-thicker"
+            routerLink="/dealers/sheduled-seminars"
+            >SCHEDULED SEMINARS</a
           ><a
             class="btn btn-danger mr-2 tab-btn"
             routerLink="/dealers/watched-seminars"
@@ -245,7 +249,7 @@
                               element.status == 1 || element.status == null
                             "
                           >
-                            SHEDULED
+                            SCHEDULED
                           </p>
                         </td>
                       </ng-container>

@@ -109,7 +109,18 @@ input[type="number"]::placeholder {
 .bg-grey {
   background-color: #eeebeb !important;
 }
+.cancel {
+  background-color: #fff;
+  border: none !important;
+  color: red;
+  position: absolute;
+  right: 75px;
+  margin-top: 16px;
+}
 .seperate-table {
+  tr {
+    position: relative;
+  }
   td,
   th {
     border: 0.1px solid #fff;
