@@ -237,7 +237,7 @@ export class EditOrderVendorPageComponent implements OnInit {
         }
       })
       .catch((err) => {
-        this.toastr.error('Something went wrong', 'Try again')
+        ////this.toastr.error('Something went wrong', 'Try again')
       })
   }
 
