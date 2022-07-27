@@ -1589,23 +1589,33 @@ export class EditOrderVendorPageComponent implements OnInit {
         for (let h = 0; h < this.assortFilter.length; h++) {
           const e = this.assortFilter[h]
           if (e.grouping == currentData.grouping) {
-            if (e.spec_data.length > 0) {
-              letsContinue = true
+            if (e.spec_data != null) {
+              if (e.spec_data.length > 0) {
+                letsContinue = true
 
-              e.spec_data.pos = e.pos
-              e.spec_data.quantity = e.quantity
-              e.spec_data.atlas_id = e.atlas_id
-              e.spec_data.group = e.grouping
+                e.spec_data.pos = e.pos
+                e.spec_data.quantity = e.quantity
+                e.spec_data.atlas_id = e.atlas_id
+                e.spec_data.group = e.grouping
 
-              for (let t = 0; t < e.spec_data.length; t++) {
-                let ele = e.spec_data[t]
-                ele.quantity = e.quantity
-                ele.pos = e.pos
-                ele.atlas_id = e.atlas_id
-                ele.arrIndex = t
-                secondPhase.push(ele)
+                for (let t = 0; t < e.spec_data.length; t++) {
+                  let ele = e.spec_data[t]
+                  ele.quantity = e.quantity
+                  ele.pos = e.pos
+                  ele.atlas_id = e.atlas_id
+                  ele.arrIndex = t
+                  secondPhase.push(ele)
+                }
+                this.anotherLinePhase.push(e.spec_data)
+              } else {
+                // let price = parseFloat(e.booking)
+                // let quantity = parseInt(e.quantity)
+                // let newPrice = price * quantity
+                // let formattedAmt = this.currencyPipe.transform(newPrice, '$')
+                // $('#u-price-' + e.pos).html(price)
+                // $('#amt-' + e.pos).html(formattedAmt)
+                // $('#amt-hidd-' + e.pos).html(newPrice)
               }
-              this.anotherLinePhase.push(e.spec_data)
             } else {
               let price = parseFloat(e.booking)
               let quantity = parseInt(e.quantity)
