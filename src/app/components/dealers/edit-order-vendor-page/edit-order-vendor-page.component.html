@@ -6,7 +6,10 @@
         <div class="form-table-ctn px-2">
           <div class="table-ctn mt-3 p-3" style="background-color: white;">
             <div class="d-flex justify-content-end">
-              <span class="desc-text">Total: {{ orderTotal | currency }}</span>
+              <span class="desc-text">
+                Total:
+                <span class="order-total">{{ orderTotal | currency }}</span>
+              </span>
             </div>
 
             <table class="table" *ngIf="loader">
@@ -279,7 +282,10 @@
             </table>
 
             <div class="d-flex justify-content-end">
-              <span class="desc-text">Total: {{ orderTotal | currency }}</span>
+              <span class="desc-text">
+                Total:
+                <span class="order-total">{{ orderTotal | currency }}</span>
+              </span>
             </div>
 
             <div
