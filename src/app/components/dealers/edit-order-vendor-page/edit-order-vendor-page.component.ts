@@ -415,9 +415,13 @@ export class EditOrderVendorPageComponent implements OnInit {
 
               this.assortFilter.push(curr)
               for (let h = 0; h < this.cartData.length; h++) {
-                let r = this.cartData[h]
-                r.pos = h
-                this.assortFilter.push(r)
+                let checkQty = $('#cur-' + h).val()
+                if (checkQty != '') {
+                  let r = this.cartData[h]
+                  r.pos = h
+                  r.qty = checkQty
+                  this.assortFilter.push(r)
+                }
               }
 
               for (let y = 0; y < this.assortFilter.length; y++) {
@@ -482,6 +486,8 @@ export class EditOrderVendorPageComponent implements OnInit {
                   }
                 }
 
+                //// console.log(secondPhase, 'first filter')
+
                 if (letsContinue) {
                   let newTotalAss = 0
                   let status = false
@@ -497,7 +503,7 @@ export class EditOrderVendorPageComponent implements OnInit {
                       } else {
                         for (let hy = 0; hy < secondPhase.length; hy++) {
                           const elj = secondPhase[hy]
-                          console.log(elj.atlas_id, elj.quantity)
+                          //// console.log(elj.atlas_id, elj.quantity)
 
                           let booking = parseFloat(elj[0].booking)
                           let newPrice = parseInt(elj.quantity) * booking
@@ -539,7 +545,7 @@ export class EditOrderVendorPageComponent implements OnInit {
                                 '$',
                               )
 
-                              console.log('100 up we are here')
+                              ////  console.log('100 up we are here')
                               $('#unit-price-hidden-' + elt.pos).html(special)
                               $('#price-hidden-' + elt.pos).html(newPrice)
                               $('#u-price-' + elt.pos).html(special)
@@ -553,7 +559,7 @@ export class EditOrderVendorPageComponent implements OnInit {
                     }
                   }
 
-                  // console.log(newTotalAss);
+                  ////  console.log(newTotalAss)
 
                   if (status) {
                     //// If total Assorted is greater than condition /////
@@ -568,17 +574,14 @@ export class EditOrderVendorPageComponent implements OnInit {
                           newTotalAss < backWard.cond &&
                           newTotalAss >= frontWard.cond
                         ) {
-                          console.log('we are here')
-                        } else {
-                          console.log('300 up we are here')
-
+                          /// console.log(jk[j], 'we are here')
                           let special = parseFloat(jk[j].special)
                           let newPrice = parseInt(jk.quantity) * special
                           let formattedAmt = this.currencyPipe.transform(
                             newPrice,
                             '$',
                           )
-                          console.log(formattedAmt)
+                          //console.log(jk, 'test here')
 
                           $('#unit-price-hidden-' + jk[j].pos).html(special)
                           $('#price-hidden-' + jk[j].pos).html(newPrice)
@@ -586,6 +589,26 @@ export class EditOrderVendorPageComponent implements OnInit {
                           $('#u-price-' + jk[j].pos).html(special)
                           $('#amt-' + jk[j].pos).html(formattedAmt)
                           $('#amt-hidd-' + jk[j].pos).html(newPrice)
+                        } else {
+                          if (newTotalAss < jk[j].cond) {
+                          } else {
+                            /// console.log(jk[j], '300 up we are here')
+
+                            let special = parseFloat(jk[j].special)
+                            let newPrice = parseInt(jk.quantity) * special
+                            let formattedAmt = this.currencyPipe.transform(
+                              newPrice,
+                              '$',
+                            )
+                            ////console.log(jk, 'test here')
+
+                            $('#unit-price-hidden-' + jk[j].pos).html(special)
+                            $('#price-hidden-' + jk[j].pos).html(newPrice)
+
+                            $('#u-price-' + jk[j].pos).html(special)
+                            $('#amt-' + jk[j].pos).html(formattedAmt)
+                            $('#amt-hidd-' + jk[j].pos).html(newPrice)
+                          }
                         }
                       }
                     }
@@ -705,11 +728,15 @@ export class EditOrderVendorPageComponent implements OnInit {
 
         for (let g = 0; g < this.cartData.length; g++) {
           const eachData = this.cartData[g]
-
-          eachData.quantity = eachData.qty
-          eachData.pos = this.cartData.indexOf(eachData)
-          this.assortFilter.push(eachData)
+          qty = $('#cur-' + g).val()
+          if (qty != '') {
+            eachData.quantity = eachData.qty
+            eachData.pos = this.cartData.indexOf(eachData)
+            this.assortFilter.push(eachData)
+          }
         }
+
+        ///console.log(this.assortFilter, 'first filter')
 
         // for (let h = 0; h < this.cartData.length; h++) {
         //   let r = this.cartData[h]
@@ -728,6 +755,8 @@ export class EditOrderVendorPageComponent implements OnInit {
             }
           }
         }
+
+        //  console.log(this.assortFilter, 'second filter')
 
         for (let h = 0; h < this.newArrayFilter.length; h++) {
           let ele = this.newArrayFilter[h]
@@ -802,7 +831,7 @@ export class EditOrderVendorPageComponent implements OnInit {
           }
         }
 
-        // console.log(this.anotherLinePhase, 'phase tester')
+        ///console.log(this.anotherLinePhase, 'phase tester')
 
         // for (let hy = 0; hy < this.assortFilter.length; hy++) {
         //   let he = this.assortFilter[hy]
@@ -851,6 +880,8 @@ export class EditOrderVendorPageComponent implements OnInit {
                   let nxt = frontWard.arrIndex + 1
                   let preData = jk[nxt]
                   let activeData = frontWard
+
+                  // console.log(activeData, 'we testing it here, innsed')
 
                   /// $('.normal-booking-' + activeData.pos).css('display', 'none')
 
