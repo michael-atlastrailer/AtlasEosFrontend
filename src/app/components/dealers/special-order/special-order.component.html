@@ -281,7 +281,7 @@
                   </p>
                   <p
                     class="title-banner text-end mt-1"
-                    *ngIf="cannotSubmit"
+                    *ngIf="arrNotSpec.length>0"
                     style="text-align: center; color: red"
                   >
                    Cannot submit, Items {{ arrNotSpec.join() }} are already in the show order
