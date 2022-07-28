@@ -177,8 +177,17 @@
                     min="0"
                     #inputAmt
                     placeholder="Qty"
-                    (keyup)="runCalculation(i, inputAmt.value, $event)"
+                    (keyup)="
+                      runCalculation(
+                        i,
+                        inputAmt.value,
+                        $event,
+                        element.atlas_id
+                      )
+                    "
+                    [value]="element.qty"
                   />
+                  <!-- <span>{{ i }}</span> -->
                 </td>
               </ng-container>
               <ng-container matColumnDef="atlas_id">
@@ -280,9 +289,19 @@
                   *matCellDef="let element; let i = index"
                   class="text-center"
                 >
-                  <span #extend class="total-text" id="amt-{{ i }}">
+                  <span
+                    #extend
+                    *ngIf="element.price != ''"
+                    class="total-text"
+                    id="amt-{{ i }}"
+                  >
                     {{ dummyAmt | currency }}
                   </span>
+
+                  <!-- <span #extend class="total-text" id="amt-{{ i }}">
+                    {{ element.price }}
+                  </span> -->
+
                   <span id="amt-hidd-{{ i }}" style="display: none;"></span>
                 </td>
               </ng-container>
@@ -309,11 +328,11 @@
               <span class="desc-text">Total: {{ overTotal | currency }}</span>
             </div>
 
-            <!-- <mat-paginator
+            <mat-paginator
               [pageSizeOptions]="[10, 20, 50, 100]"
               showFirstLastButtons
               aria-label="Select page seminar pages"
-            ></mat-paginator> -->
+            ></mat-paginator>
 
             <div
               *ngIf="showSubmittedDetails"
