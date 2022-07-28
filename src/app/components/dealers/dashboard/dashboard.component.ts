@@ -4,8 +4,8 @@ import {
   DoCheck,
   ElementRef,
   ViewChildren,
-} from '@angular/core';
-import { ViewChild } from '@angular/core';
+} from '@angular/core'
+import { ViewChild } from '@angular/core'
 
 import {
   ChartComponent,
@@ -13,33 +13,34 @@ import {
   ApexChart,
   ApexXAxis,
   ApexTitleSubtitle,
-} from 'ng-apexcharts';
-import { HttpRequestsService } from 'src/app/core/services/http-requests.service';
+} from 'ng-apexcharts'
+import { HttpRequestsService } from 'src/app/core/services/http-requests.service'
 export type ChartOptions = {
-  series: ApexAxisChartSeries;
-  chart: ApexChart;
-  xaxis: ApexXAxis;
-  title: ApexTitleSubtitle;
-};
-declare var $: any;
+  series: ApexAxisChartSeries
+  chart: ApexChart
+  xaxis: ApexXAxis
+  title: ApexTitleSubtitle
+}
+declare var $: any
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-  promotionalLoader = true;
-  promotionalData = false;
-  promotionalStatus = false;
-  promotionalAds: any;
-  allCategoryData: any;
-  public chartOptions: any;
-  countDownDate = new Date('June 25, 2022 15:37:25').getTime();
-  count: any = 34;
+  promotionalLoader = true
+  promotionalData = false
+  promotionalStatus = false
+  promotionalAds: any
+  allCategoryData: any
+  public chartOptions: any
+  countDownDate = new Date('June 25, 2022 15:37:25').getTime()
+  count: any = 34
   countDownElement = <HTMLInputElement>(
     document.getElementById('calc_table_amount')
-  );
+  )
   pdfSrc =
+
     'https://atlasbookingprogram.com/assets/2022%20Booking%20Program%20Terms%20&%20Conditions.pdf';
   timeSeconds = 59;
   timeDays = 0;
@@ -72,6 +73,7 @@ export class DashboardComponent implements OnInit {
   defaultFlyer =1
   constructor(private getData: HttpRequestsService) {
     this.getAllVendors();
+
     this.chartOptions = {
       series: [
         {
@@ -104,18 +106,21 @@ export class DashboardComponent implements OnInit {
           '45000',
         ],
       },
+
     };
   }
   ngOnInit(): void { }
 
   
 
+
   getAllVendors() {
     this.getData
       .httpGetRequest('/promotional_fliers/vendors')
       .then((result: any) => {
-        console.log(result);
+        console.log(result)
         if (result.status) {
+
           this.allCategoryData = result.data;
           console.log("albendor", result.data)
           this.defaultFlyer = result.data[0].vendor_code;
@@ -135,23 +140,26 @@ export class DashboardComponent implements OnInit {
 
     
     console.log(data, 'id');
+
     this.getData
       .httpGetRequest('/show-promotional-flier-by-vendor-id/' + data)
       .then((result: any) => {
-        console.log(result, 'promotion');
+        console.log(result, 'promotion')
 
-        this.promotionalLoader = false;
+        this.promotionalLoader = false
         if (result.status) {
           // this.promotionalData = result.data.length > 0 ? true : false;
           // this.promotionalStatus = result.data.length <= 0 ? true : false;
+
           this.promotionalAds = result.data[0];
           this.promotionalData = true;
+
         } else {
         }
       })
       .catch((err) => {
-        this.promotionalLoader = false;
-        this.promotionalData = true;
-      });
+        this.promotionalLoader = false
+        this.promotionalData = true
+      })
   }
 }
