@@ -281,6 +281,8 @@ export class SpecialOrderComponent implements OnInit {
         if (this.arr[i].quantity == '') {
           error = true;
 
+        }if (this.arr[i].quantity == null) {
+          error = true;
         }
         if (this.arr[i].vendor_no == '') {
           error = true;
@@ -338,6 +340,8 @@ export class SpecialOrderComponent implements OnInit {
     for (var i = 0; i < this.arr.length; i++) {
       if (this.arr[i].qty == '') {
         this.cannotSubmit = true;
+      }if (this.arr[i].qty == null) {
+        this.cannotSubmit = true;
       }
       if (this.arr[i].vendor_no == '') {
         this.cannotSubmit = true;
@@ -372,6 +376,7 @@ export class SpecialOrderComponent implements OnInit {
   deleteOrder(i: any) {
     if (i > -1) {
       this.arr.splice(i, 1)
+      this.checkEmptyStat("g", 'f', false)
     }
   }
   deleteSavedOrder(i: any) {
