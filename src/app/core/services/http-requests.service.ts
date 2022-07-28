@@ -1,43 +1,43 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core'
 
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
-import { TokenStorageService } from './token-storage.service';
-import { Router } from '@angular/router';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http'
+import { environment } from 'src/environments/environment'
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs'
+import { TokenStorageService } from './token-storage.service'
+import { Router } from '@angular/router'
 
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
   }),
-};
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class HttpRequestsService {
-  title: any;
-  private basePath = '/news_update';
-  apiUrl = environment.url;
-  cartNum = new Subject<any>();
+  title: any
+  private basePath = '/news_update'
+  apiUrl = environment.url
+  cartNum = new Subject<any>()
 
-  fileUploadUrl: string = '';
+  fileUploadUrl: string = ''
 
-  token!: any;
+  token!: any
 
   alert = {
     status: false,
     message: '',
     badge: 'info',
-  };
+  }
 
   constructor(
     public http: HttpClient,
     private tokenStorage: TokenStorageService,
-    public router: Router
+    public router: Router,
   ) {
-    this.token = this.tokenStorage.getToken();
+    this.token = this.tokenStorage.getToken()
   }
 
   uploadFile(route: string, up: any): Promise<any> {
@@ -47,28 +47,28 @@ export class HttpRequestsService {
         .toPromise()
         .then(
           (res) => {
-            resolve(res);
+            resolve(res)
           },
           (err) => {
-            reject(err);
-          }
-        );
-    });
+            reject(err)
+          },
+        )
+    })
   }
 
   httpPostRequest(route: string, data: any = false, error = true) {
     return new Promise((resolve) => {
       this.http.post(this.apiUrl + route, data, httpOptions).subscribe(
         (response: any) => {
-          this.checkAuthorization(response);
-          resolve(response);
+          this.checkAuthorization(response)
+          resolve(response)
         },
         (error) => {
-          this.checkAuthorization(error);
-          resolve(error);
-        }
-      );
-    });
+          this.checkAuthorization(error)
+          resolve(error)
+        },
+      )
+    })
   }
 
   httpGetRequest(route: string, data: any = false, error = true) {
@@ -77,24 +77,24 @@ export class HttpRequestsService {
         (response: any) => {
           //this.checkAuthorization(response);
           //console.log(response);
-          resolve(response);
+          resolve(response)
         },
         (error: any) => {
           //this.checkAuthorization(error);
           //console.log(error);
 
-          resolve(error);
-        }
-      );
-    });
+          resolve(error)
+        },
+      )
+    })
   }
 
   checkAuthorization(result: any) {
     if (result.status_code == 401 || result.message == 'Unauthorized') {
-      this.tokenStorage.signOut();
+      this.tokenStorage.signOut()
       setTimeout(() => {
-        this.router.navigate(['/']);
-      }, 2000);
+        this.router.navigate(['/'])
+      }, 2000)
     }
   }
 
@@ -102,20 +102,20 @@ export class HttpRequestsService {
     message: any,
     nature = 'info',
     httpError: any = false,
-    input: any = false
+    input: any = false,
   ) {
     switch (nature) {
       case 'success':
-        break;
+        break
       case 'info':
-        break;
+        break
       case 'danger':
-        break;
+        break
       case 'warning':
-        break;
+        break
 
       default:
-        break;
+        break
     }
   }
 }

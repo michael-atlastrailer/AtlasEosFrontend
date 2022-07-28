@@ -3,6 +3,11 @@
   font-size: 13px;
 }
 
+.num-display {
+  border-radius: 4px;
+  border-left: 3px solid #4a0013;
+}
+
 .tbody-text-timer {
   font-weight: 700;
   font-size: 16px;
@@ -18,9 +23,31 @@
     padding: 10px;
   }
 
+  .td-trend {
+    background-color: #4a0013;
+    font-weight: 600;
+    padding: 2px 4px;
+    color: #ffffff;
+    border-radius: 5px;
+    text-align: center;
+    width: 100%;
+    display: block;
+  }
+
+  .td-sales {
+    background-color: red;
+    font-weight: 600;
+    padding: 2px 4px;
+    color: #ffffff;
+    border-radius: 5px;
+    text-align: center;
+    width: 100%;
+    display: block;
+  }
+
   td {
     border-top: 1px solid #dee2e6;
-    color: #ffffff;
+    // color: #ffffff;
   }
 }
 

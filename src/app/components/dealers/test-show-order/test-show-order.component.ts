@@ -262,6 +262,11 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
         this.tableView = true
 
         if (result.status) {
+          for (let h = 0; h < result.data.length; h++) {
+            const each = result.data[h]
+            each.price = '$0.00'
+          }
+
           this.productData = result.data
 
           this.tableData = result.data
@@ -412,6 +417,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
 
   runTotalCalculation(index: number) {
     let currentProduct = this.productData[index]
+
     let curQty = $('#cur-' + index).val()
     let rawPrice = document.getElementById('amt-hidd-' + index)?.innerHTML
     // let realPrice = rawPrice?.replace('$', '')
@@ -423,6 +429,13 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
       grouping: currentProduct.grouping,
       index: index,
     }
+
+    // let data = {
+    //   atlasId: currentProduct.atlas_id,
+    //   price: currentProduct.calPrice,
+    //   grouping: currentProduct.grouping,
+    //   index: index,
+    // }
 
     if (this.addedItem.length == 0) {
       this.addedItem.push(data)
@@ -476,17 +489,20 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
     this.overTotal = 0
     for (let j = 0; j < this.addedItem.length; j++) {
       const h = this.addedItem[j]
+      console.log(h)
+      ///  console.log('price no : ' + h.price)
       this.overTotal += parseFloat(h.price)
       // console.log(this.overTotal)
     }
   }
 
-  runCalculation(index: number, qty: any, event: any) {
+  runCalculation(index: number, qty: any, event: any, atlas: any) {
     if (event.key != 'Tab') {
       if (qty !== '') {
         let curr = this.productData[index]
         let atlasId = curr.atlas_id
         let spec = curr.spec_data
+        curr.qty = qty
 
         if (!this.allAddedItemAtlasID.includes(atlasId)) {
           this.allAddedItemAtlasID.push(atlasId)
@@ -549,6 +565,17 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
                           '$',
                         )
 
+                        // for (let a = 0; a < this.productData.length; a++) {
+                        //   const element = this.productData[a];
+                        //   if(element.atlas_id == ele.atlas_id){
+                        //     element.price = newPrice
+                        //   }
+
+                        // }
+
+                        // this.productData[e.atlas_id].price = formattedAmt
+                        // this.productData[e.atlas_id].calPrice = newPrice
+
                         $('#u-price-' + e.pos).html(price)
                         $('#amt-' + e.pos).html(formattedAmt)
                         $('#amt-hidd-' + e.pos).html(newPrice)
@@ -603,6 +630,9 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
                             newPrice,
                             '$',
                           )
+
+                          ///this.productData[eleK.pos].calPrice = newPrice
+                          ///this.productData[eleK.pos].price = formattedAmt
 
                           $('#u-price-' + eleK.pos).html(booking)
                           $('#amt-' + eleK.pos).html(formattedAmt)
@@ -667,6 +697,12 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
                               '$',
                             )
 
+                            // this.productData[
+                            //   activeData.pos
+                            // ].price = formattedAmt
+
+                            // this.productData[activeData.pos].calPrice = newPrice
+
                             $('#u-price-' + activeData.pos).html(special)
                             $('#amt-' + activeData.pos).html(formattedAmt)
                             $('#amt-hidd-' + activeData.pos).html(newPrice)
@@ -687,6 +723,9 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
                                 newPrice,
                                 '$',
                               )
+
+                              // this.productData[pp.pos].calPrice = newPrice
+                              // this.productData[pp.pos].price = formattedAmt
 
                               $('#u-price-' + pp.pos).html(special)
                               $('#amt-' + pp.pos).html(formattedAmt)
@@ -820,6 +859,10 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
                 $('#u-price-' + index).html(this.normalPrice)
                 let formattedAmt = this.currencyPipe.transform(calAmt, '$')
                 arr.nativeElement.innerHTML = formattedAmt
+
+                // this.productData[index].price = formattedAmt
+                // this.productData[index].calPrice = calAmt
+
                 $('#amt-' + index).html(formattedAmt)
                 $('#amt-hidd-' + index).html(calAmt)
               }
@@ -837,6 +880,10 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
             $('.normal-booking-' + index).css('display', 'inline-block')
 
             let formattedAmt = this.currencyPipe.transform(calAmt, '$')
+
+            // this.productData[index].price = formattedAmt
+            // this.productData[index].calPrice = calAmt
+
             $('#amt-' + index).html(formattedAmt)
             $('#amt-hidd-' + index).html(calAmt)
           }
@@ -848,14 +895,14 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
           let calAmt = quantity * price
           this.currentProductAmt = calAmt
 
-          ///console.log(price, 'unit Price');
           $('#u-price-' + index).html(price)
-
           $('#amt-hidd-' + index).html(calAmt)
-
           $('.normal-booking-' + index).css('display', 'inline-block')
-
           let formattedAmt = this.currencyPipe.transform(calAmt, '$')
+
+          // this.productData[index].price = formattedAmt
+          // this.productData[index].calPrice = calAmt
+
           $('#amt-' + index).html(formattedAmt)
         }
       } else {
@@ -961,6 +1008,9 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
                       '$',
                     )
 
+                    // this.productData[activeData.pos].price = formattedAmt
+                    // this.productData[activeData.pos].calPrice = newPrice
+
                     $('#u-price-' + activeData.pos).html(special)
                     $('#amt-' + activeData.pos).html(formattedAmt)
                     $('#amt-hidd-' + activeData.pos).html(newPrice)
@@ -983,11 +1033,14 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
                       '$',
                     )
 
+                    // this.productData[activeData.pos].price = formattedAmt
+                    // this.productData[activeData.pos].calPrice = newPrice
+
                     $('#u-price-' + activeData.pos).html(special)
                     $('#amt-' + activeData.pos).html(formattedAmt)
                     $('#amt-hidd-' + activeData.pos).html(newPrice)
 
-                    console.log(activeData, 'we testing it here, innsed')
+                    /// console.log(activeData, 'we testing it here, innsed')
 
                     if (checkTotalAss >= activeData.cond) {
                     } else {
@@ -1005,6 +1058,9 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
                         newPrice,
                         '$',
                       )
+
+                      // this.productData[activeData.pos].price = formattedAmt
+                      // this.productData[activeData.pos].calPrice = newPrice
 
                       $('#u-price-' + activeData.pos).html(booking)
                       $('#amt-' + activeData.pos).html(formattedAmt)
@@ -1041,6 +1097,9 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
                       '$',
                     )
 
+                    // this.productData[agaa.pos].price = formattedAmt
+                    // this.productData[agaa.pos].calPrice = newPrice
+
                     $('#u-price-' + agaa.pos).html(special)
                     $('#amt-' + agaa.pos).html(formattedAmt)
                     $('#amt-hidd-' + agaa.pos).html(newPrice)
@@ -1055,6 +1114,9 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
                       newPrice,
                       '$',
                     )
+
+                    // this.productData[agaa.pos].price = formattedAmt
+                    // this.productData[agaa.pos].calPrice = newPrice
 
                     $('#u-price-' + agaa.pos).html(special)
                     $('#amt-' + agaa.pos).html(formattedAmt)
@@ -1076,6 +1138,9 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
             $('.special-booking-' + index + '-' + h).css('display', 'none')
           }
         }
+
+        // this.productData[index].price = '$0.00'
+        // this.productData[index].calPrice = 0
 
         let formattedAmt = this.currencyPipe.transform(0, '$')
         $('#amt-' + index).html(formattedAmt)

@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-xl-3 col-sm-6 mb-3">
         <div class="card">
-          <div class="card-body">
+          <div class="card-body num-display">
             <div class="row mb-1">
               <div class="col">
                 <a
@@ -25,7 +25,7 @@
       </div>
       <div class="col-xl-3 col-sm-6 mb-3">
         <div class="card">
-          <div class="card-body">
+          <div class="card-body num-display">
             <div class="row mb-1">
               <div class="col">
                 <a class="dashboard-link" routerLink="/admin/all-products">
@@ -41,7 +41,7 @@
       </div>
       <div class="col-xl-3 col-sm-6 mb-3">
         <div class="card">
-          <div class="card-body">
+          <div class="card-body num-display">
             <div class="row mb-1">
               <div class="col">
                 <a class="dashboard-link" routerLink="/admin/all-dealer-users">
@@ -58,7 +58,7 @@
 
       <div class="col-xl-3 col-sm-6 mb-3">
         <div class="card">
-          <div class="card-body">
+          <div class="card-body num-display">
             <div class="row mb-1">
               <div class="col">
                 <a class="dashboard-link" routerLink="/admin/all-vendor-users">
@@ -77,7 +77,7 @@
     <div class="row mt-1">
       <div class="col-xl-5 col-sm-6 mb-3">
         <div class="card">
-          <div class="card-body">
+          <div class="card-body num-display">
             <div class="row mb-1">
               <div class="col">
                 <a
@@ -198,7 +198,7 @@
 
                   <table
                     *ngIf="tableView"
-                    class="table table-stripe text-nowrap table-wrapper2 align-items-center mb-0"
+                    class="table table-striped text-nowrap table-wrapper2 align-items-center mb-0"
                   >
                     <thead>
                       <tr>
@@ -209,17 +209,16 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
+                      <tr *ngFor="let data of mostSalesVendorData">
+                        <td class="">{{ data.vendor_code }}</td>
+                        <td class="">{{ data.vendor_name }}</td>
                         <td>
-                          <span class="tbody-text">0</span>
-                        </td>
-                        <td>
-                          <span class="tbody-text">
-                            0
+                          <span class="td-sales">
+                            {{ data.vendor_sales | currency }}
                           </span>
                         </td>
                         <td>
-                          <span class="tbody-text">0</span>
+                          <span class="td-trend">{{ data.trend }}</span>
                         </td>
                       </tr>
                     </tbody>
@@ -334,17 +333,16 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
+                      <tr *ngFor="let data of mostSalesDealerData">
+                        <td>{{ data.account_id }}</td>
+                        <td>{{ data.full_name }}</td>
                         <td>
-                          <span class="tbody-text">0</span>
-                        </td>
-                        <td>
-                          <span class="tbody-text">
-                            0
+                          <span class="td-sales">
+                            {{ data.total_sales | currency }}
                           </span>
                         </td>
                         <td>
-                          <span class="tbody-text">0</span>
+                          <span class="td-trend">{{ data.trend }}</span>
                         </td>
                       </tr>
                     </tbody>
