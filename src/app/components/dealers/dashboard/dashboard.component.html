@@ -144,7 +144,7 @@
             (change)="fetchFlyer(selectToggle.value)"
             class="form-control custom-select select2 my-3"
           >
-            <option selected value="{{allCategoryData[0]?.vendor_code!}}">Select Vendor</option>
+            <option selected value="{{defaultFlyer}}" >Select Vendor</option>
             <option
               class="category-text"
               value="{{ category?.vendor_code! }}"
