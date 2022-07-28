@@ -138,14 +138,16 @@
         <div class="card promotional-flyer-ctn px-4">
           <div class="py-5">
             <select
-            name=""
-            (change)="fetchFlyer($event)"
+            
+            
+            name="" #selectToggle
+            (change)="fetchFlyer(selectToggle.value)"
             class="form-control custom-select select2 my-3"
           >
-            <option selected value="1">Select Vendor</option>
+            <option selected value="{{allCategoryData[0]?.vendor_code!}}">Select Vendor</option>
             <option
               class="category-text"
-              value="{{ category?.id! }}"
+              value="{{ category?.vendor_code! }}"
               *ngFor="let category of allCategoryData!"
             >
               {{ category.vendor_name }}
