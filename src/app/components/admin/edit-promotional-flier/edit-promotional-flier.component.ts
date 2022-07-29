@@ -219,8 +219,8 @@ export class EditPromotionalFlierComponent implements OnInit {
           this.btnLoader = false
           this.btnText = true
           if (result.status) {
-            this.vendorUserForm.reset()
-            this.selectedPdfName = ''
+            //// this.vendorUserForm.reset()
+            //// this.selectedPdfName = ''
 
             this.toastr.success(result.message, `Success`)
           } else {
