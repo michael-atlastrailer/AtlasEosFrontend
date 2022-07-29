@@ -1,34 +1,14 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
-import { AddDealer } from 'src/app/core/model/add-dealer'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { HttpRequestsService } from 'src/app/core/services/http-requests.service'
 import { ToastrService } from 'ngx-toastr'
 
 @Component({
-  selector: 'app-add-promotional-flyer',
-  templateUrl: './add-promotional-flyer.component.html',
-  styleUrls: ['./add-promotional-flyer.component.scss'],
+  selector: 'app-add-show-buck',
+  templateUrl: './add-show-buck.component.html',
+  styleUrls: ['./add-show-buck.component.scss'],
 })
-export class AddPromotionalFlyerComponent implements OnInit {
-  dealer = new AddDealer('', '', '', '', '', '', '0')
-
-  step1 = true
-  step2 = false
-  firstNameStatus = false
-  lastNameStatus = false
-  locationStatus = false
-  phoneStatus = false
-  vendorUserForm!: FormGroup
-  manualChecker = false
-  btnLoader = false
-  btnText = true
-
-  uploadCsvSendBtn = false
-  setCsvBtn = true
-  csvDataFile: any
-  csvBtnLoader = false
-  csvBtnText = true
-
+export class AddShowBuckComponent implements OnInit {
   @ViewChild('fileCsv') csvFile!: ElementRef
   imgURL!: any
   imgUploadStatus = false
@@ -46,6 +26,17 @@ export class AddPromotionalFlyerComponent implements OnInit {
   pdfChecker = false
   pdfErrorMsg = false
 
+  vendorUserForm!: FormGroup
+  manualChecker = false
+  btnLoader = false
+  btnText = true
+
+  uploadCsvSendBtn = false
+  setCsvBtn = true
+  csvDataFile: any
+  csvBtnLoader = false
+  csvBtnText = true
+
   constructor(
     private fb: FormBuilder,
     private postData: HttpRequestsService,
@@ -53,8 +44,8 @@ export class AddPromotionalFlyerComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.buildDealerForm()
     this.getVendors()
+    this.buildDealerForm()
   }
 
   getVendors() {
@@ -73,6 +64,8 @@ export class AddPromotionalFlyerComponent implements OnInit {
         // this.toastr.error('Try again', 'Something went wrong')
       })
   }
+
+  assignStatus(data: any) {}
 
   assignVendor(data: any) {
     console.log(data.value)
@@ -170,8 +163,6 @@ export class AddPromotionalFlyerComponent implements OnInit {
           this.btnLoader = false
 
           if (result.status) {
-            this.step1 = true
-            this.step2 = false
             this.vendorUserForm.reset()
             this.vendorUserForm.value.vendor = 'Select Vendor'
             this.toastr.success(

@@ -695,13 +695,13 @@ export class TestShowOrderComponent implements OnInit {
 
                             // this.productData[activeData.pos].calPrice = newPrice
 
-                            for (let t = 0; t < this.productData.length; t++) {
-                              const tt = this.productData[t]
-                              if (tt.atlas_id == atlas) {
-                                tt.price = formattedAmt
-                                tt.qty = qty
-                              }
-                            }
+                            // for (let t = 0; t < this.productData.length; t++) {
+                            //   const tt = this.productData[t]
+                            //   if (tt.atlas_id == atlas) {
+                            //     tt.price = formattedAmt
+                            //     tt.qty = qty
+                            //   }
+                            // }
 
                             $('#u-price-' + activeData.pos).html(special)
                             $('#amt-' + activeData.pos).html(formattedAmt)

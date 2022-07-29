@@ -52,6 +52,7 @@ export class EditPromotionalFlierComponent implements OnInit {
   promotionalFlierId = ''
   currentPromotionalFlierData: any
   loadingText = true
+  browserName = ''
 
   constructor(
     private fb: FormBuilder,
@@ -63,6 +64,7 @@ export class EditPromotionalFlierComponent implements OnInit {
   ngOnInit(): void {
     this.buildDealerForm()
     this.getVendors()
+    this.browserName = this.detectBrowserName()
 
     this.route.params.subscribe((params) => {
       this.promotionalFlierId = params['id']
@@ -77,6 +79,7 @@ export class EditPromotionalFlierComponent implements OnInit {
         this.loadingText = false
         if (result.status) {
           this.currentPromotionalFlierData = result.data
+          this.selectedVendorId = result.data.vendor_id
           this.vendorUserForm = this.fb.group({
             name: [result.data.name, [Validators.required]],
             pdf: [''],
@@ -126,16 +129,72 @@ export class EditPromotionalFlierComponent implements OnInit {
     this.csvFile.nativeElement.click()
   }
 
+  detectBrowserName() {
+    const agent = window.navigator.userAgent.toLowerCase()
+    switch (true) {
+      case agent.indexOf('edge') > -1:
+        return 'edge'
+      case agent.indexOf('opr') > -1 && !!(<any>window).opr:
+        return 'opera'
+      case agent.indexOf('chrome') > -1 && !!(<any>window).chrome:
+        return 'chrome'
+      case agent.indexOf('trident') > -1:
+        return 'ie'
+      case agent.indexOf('firefox') > -1:
+        return 'firefox'
+      case agent.indexOf('safari') > -1:
+        return 'safari'
+      default:
+        return 'other'
+    }
+  }
+
   fileCsvUpload(files: any) {
     if (files.length === 0) return
     var mimeType = files[0].type
-    if (mimeType !== 'application/pdf') {
-      this.toastr.error(
-        'File type not supported, upload a PDF file',
-        `Upload Error`,
-      )
-      return
+    console.log(mimeType)
+
+    switch (this.browserName) {
+      case 'firefox':
+        if (mimeType !== 'application/pdf') {
+          this.toastr.error(
+            'File type not supported, upload a CSV file',
+            `Upload Error`,
+          )
+          return
+        }
+
+        break
+      case 'chrome':
+        if (mimeType !== 'application/pdf') {
+          this.toastr.error(
+            'File type not supported, upload a CSV file',
+            `Upload Error`,
+          )
+          return
+        }
+
+        break
+
+      default:
+        if (mimeType !== 'application/pdf') {
+          this.toastr.error(
+            'File type not supported, upload a CSV file',
+            `Upload Error`,
+          )
+          return
+        }
+
+        break
     }
+
+    // if (mimeType !== 'application/pdf') {
+    //   this.toastr.error(
+    //     'File type not supported, upload a PDF file',
+    //     `Upload Error`,
+    //   )
+    //   return
+    // }
 
     this.selectedPdfName = files[0].name
     this.pdfChecker = true
@@ -144,9 +203,9 @@ export class EditPromotionalFlierComponent implements OnInit {
   }
 
   uploadPromotionalFlyer() {
-    this.btnLoader = true
-    this.btnText = false
     if (this.vendorUserForm.status == 'VALID' && this.pdfChecker) {
+      this.btnLoader = true
+      this.btnText = false
       let fd = new FormData()
       fd.append('pdf', this.csvDataFile[0])
       fd.append('vendor_id', this.selectedVendorId)
