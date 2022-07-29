@@ -1,9 +1,9 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { HttpRequestsService } from 'src/app/core/services/http-requests.service'
-import { ToastrService } from 'ngx-toastr'
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpRequestsService } from 'src/app/core/services/http-requests.service';
+import { ToastrService } from 'ngx-toastr';
 
-declare var $: any
+declare var $: any;
 
 @Component({
   selector: 'app-add-seminar',
@@ -11,20 +11,20 @@ declare var $: any
   styleUrls: ['./add-seminar.component.scss'],
 })
 export class AddSeminarComponent implements OnInit {
-  seminarForm!: FormGroup
-  manualChecker = false
-  saveBtnStatus = true
+  seminarForm!: FormGroup;
+  manualChecker = false;
+  saveBtnStatus = true;
 
-  allVendor: any
+  allVendor: any;
 
-  saveVendorCode!: string
-  selectedStartTime = ''
-  selectedEndTime = ''
-
+  saveVendorCode!: string;
+  selectedStartTime = '';
+  selectedEndTime = '';
+  today = new Date();
   constructor(
     private fb: FormBuilder,
     private postData: HttpRequestsService,
-    private toastr: ToastrService,
+    private toastr: ToastrService
   ) {}
 
   // defaultValue = { hour: 13, minute: 30 }
@@ -38,32 +38,32 @@ export class AddSeminarComponent implements OnInit {
   // }
 
   ngOnInit(): void {
-    this.buildProductForm()
-    this.getVendors()
+    this.buildProductForm();
+    this.getVendors();
   }
 
   timeChangeHandler(data: any) {
     // this.selectedStartTime = data._formattedValueString
-    console.log(data._formattedValueString)
+    console.log(data._formattedValueString);
     if (data._id == 'startTimePicker') {
-      this.selectedStartTime = data._formattedValueString
+      this.selectedStartTime = data._formattedValueString;
     }
 
     if (data._id == 'endtimePicker') {
-      this.selectedEndTime = data._formattedValueString
+      this.selectedEndTime = data._formattedValueString;
     }
 
-    console.log(data)
+    console.log(data);
   }
 
   assignVendor(data: any) {
-    console.log(data.value)
+    console.log(data.value);
     for (let index = 0; index < this.allVendor.length; index++) {
-      const vendor = this.allVendor[index]
+      const vendor = this.allVendor[index];
       if (vendor.vendor_name == data.value) {
-        this.seminarForm.value.vendor = vendor.vendor_code
-        this.saveVendorCode = vendor.vendor_code
-        this.seminarForm.value.vendorName = vendor.vendor_name
+        this.seminarForm.value.vendor = vendor.vendor_code;
+        this.saveVendorCode = vendor.vendor_code;
+        this.seminarForm.value.vendorName = vendor.vendor_name;
       }
     }
   }
@@ -72,56 +72,56 @@ export class AddSeminarComponent implements OnInit {
     this.postData
       .httpGetRequest('/get-all-vendors')
       .then((result: any) => {
-        console.log(result)
+        console.log(result);
 
         if (result.status) {
-          this.allVendor = result.data
+          this.allVendor = result.data;
         } else {
           // this.toastr.error(result.message, 'Try again')
         }
       })
       .catch((err) => {
         // this.toastr.error('Try again', 'Something went wrong')
-      })
+      });
   }
 
   submit() {
-    console.log(this.seminarForm.value)
+    console.log(this.seminarForm.value);
     if (this.seminarForm.status == 'VALID') {
-      this.manualChecker = false
-      this.saveBtnStatus = false
+      this.manualChecker = false;
+      this.saveBtnStatus = false;
 
-      this.seminarForm.value.vendorCode = this.saveVendorCode
-      this.seminarForm.value.startTime = this.selectedStartTime
-      this.seminarForm.value.stopTime = this.selectedEndTime
+      this.seminarForm.value.vendorCode = this.saveVendorCode;
+      this.seminarForm.value.startTime = this.selectedStartTime;
+      this.seminarForm.value.stopTime = this.selectedEndTime;
 
       this.postData
         .httpPostRequest('/create-seminar', this.seminarForm.value)
         .then((result: any) => {
-          this.saveBtnStatus = true
+          this.saveBtnStatus = true;
           if (result.status) {
-            this.seminarForm.reset()
-            this.toastr.success(result.message, `Successful`)
+            this.seminarForm.reset();
+            this.toastr.success(result.message, `Successful`);
           } else {
-            this.toastr.error(result.message, 'Try again')
+            this.toastr.error(result.message, 'Try again');
           }
         })
         .catch((err) => {
-          this.saveBtnStatus = true
+          this.saveBtnStatus = true;
 
-          this.toastr.error('Try again', 'Something went wrong')
-        })
+          this.toastr.error('Try again', 'Something went wrong');
+        });
     } else {
-      this.manualChecker = true
+      this.manualChecker = true;
     }
   }
 
   resetForm() {
-    this.seminarForm.reset()
+    this.seminarForm.reset();
   }
 
   get productFormControls() {
-    return this.seminarForm.controls
+    return this.seminarForm.controls;
   }
 
   getErrorMessage(instance: string) {
@@ -129,34 +129,34 @@ export class AddSeminarComponent implements OnInit {
       instance === 'topic' &&
       this.productFormControls.topic.hasError('required')
     ) {
-      return 'enter seminar topic'
+      return 'enter seminar topic';
     } else if (
       instance === 'vendorName' &&
       this.productFormControls.vendorName.hasError('required')
     ) {
-      return 'select the vendor'
+      return 'select the vendor';
     } else if (
       instance === 'startTime' &&
       this.productFormControls.startTime.hasError('required')
     ) {
-      return 'select the start time'
+      return 'select the start time';
     } else if (
       instance === 'stopTime' &&
       this.productFormControls.stopTime.hasError('required')
     ) {
-      return 'select the stop time'
+      return 'select the stop time';
     } else if (
       instance === 'seminarDate' &&
       this.productFormControls.seminarDate.hasError('required')
     ) {
-      return 'select the seminar date'
+      return 'select the seminar date';
     } else if (
       instance === 'link' &&
       this.productFormControls.link.hasError('required')
     ) {
-      return 'enter the link'
+      return 'enter the link';
     } else {
-      return
+      return;
     }
   }
 
@@ -168,6 +168,6 @@ export class AddSeminarComponent implements OnInit {
       stopTime: ['', [Validators.required]],
       seminarDate: ['', [Validators.required]],
       vendorName: ['', [Validators.required]],
-    })
+    });
   }
 }

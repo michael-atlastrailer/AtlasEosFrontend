@@ -32,7 +32,7 @@ export class AllSeminarsComponent implements AfterViewInit {
     'start_time',
     'vendor_name',
     'topic',
-'status',
+    'status',
     'link',
   ];
   noData = false;
@@ -40,16 +40,20 @@ export class AllSeminarsComponent implements AfterViewInit {
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
 
-  ngAfterViewInit() {
-    this.FetchAllSeminars();
-  }
+  ngAfterViewInit() {}
   constructor(
     private request: HttpRequestsService,
     private http: HttpClient,
     private token: TokenStorageService,
     private toastr: ToastrService,
     private _liveAnnouncer: LiveAnnouncer
-  ) {}
+  ) {
+    this.FetchAllSeminars();
+    setInterval(() => {
+      this.FetchAllSeminars();
+      console.log('repeat feftch');
+    }, 40000);
+  }
   @ViewChild(MatSort)
   sort!: MatSort;
   announceSortChange(sortState: Sort) {
@@ -63,9 +67,10 @@ export class AllSeminarsComponent implements AfterViewInit {
     this.tableView = false;
     this.loader = true;
     this.noData = false;
+    let dealer = this.token.getUser().account_id;
 
     this.request
-      .httpGetRequest('/fetch-all-seminars')
+      .httpGetRequest('/fetch-all-seminars/' + dealer)
       .then((result: any) => {
         console.log(result);
         this.tableView = true;
@@ -89,30 +94,29 @@ export class AllSeminarsComponent implements AfterViewInit {
         this.noData = true;
       });
   }
-  bookmarkSeminar(id: any, stat: any,current:any) {
-    let dealer = this.token.getUser().account_id
+  bookmarkSeminar(id: any, stat: any, current: any) {
+    let dealer = this.token.getUser().account_id;
     let formdata = {
       seminar_id: id,
       dealer_id: dealer,
       bookmark_status: 1,
-      current_seminar_status:current
+      current_seminar_status: current,
     };
-     this.request
-       .httpPostRequest('/join-seminar',formdata)
-       .then((result: any) => {
-         console.log(result);
-       
-         if (result.status) {
-           console.log('data result', this.tableData, result.data.length);
-           this.toastr.success('Seminar has been bookmarked', `Success`);
-           
-           
-         } else {
-           this.toastr.error('Something went wrong', `Error`);
-         }
-       })
-       .catch((err) => {
-         this.toastr.error('Try again', 'Something went wrong');
-       });
+    this.request
+      .httpPostRequest('/join-seminar', formdata)
+      .then((result: any) => {
+        console.log(result);
+
+        if (result.status) {
+          console.log('data result', this.tableData, result.data.length);
+          this.toastr.success('Seminar has been bookmarked', `Success`);
+          this.FetchAllSeminars();
+        } else {
+          this.toastr.error('Something went wrong', `Error`);
+        }
+      })
+      .catch((err) => {
+        this.toastr.error('Try again', 'Something went wrong');
+      });
   }
 }

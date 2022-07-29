@@ -39,15 +39,18 @@ export class SheduledSeminarsComponent implements AfterViewInit {
   paginator!: MatPaginator;
 
   ngAfterViewInit() {
-    this.FetchAllSeminars();
   }
   constructor(
     private request: HttpRequestsService,
     private http: HttpClient,
     private toastr: ToastrService,
-  private _liveAnnouncer: LiveAnnouncer,    private token: TokenStorageService
-
-  ) {}
+    private _liveAnnouncer: LiveAnnouncer,
+    private token: TokenStorageService
+  ) {  this.FetchAllSeminars();
+  setInterval(() => {
+    this.FetchAllSeminars();
+    console.log('repeat feftch');
+  }, 40000);}
   @ViewChild(MatSort)
   sort!: MatSort;
   announceSortChange(sortState: Sort) {
@@ -61,9 +64,9 @@ export class SheduledSeminarsComponent implements AfterViewInit {
     this.tableView = false;
     this.loader = true;
     this.noData = false;
-
+    let dealer = this.token.getUser().account_id;
     this.request
-      .httpGetRequest('/fetch-scheduled-seminars')
+      .httpGetRequest('/fetch-scheduled-seminars/' + dealer)
       .then((result: any) => {
         console.log(result);
         this.tableView = true;
@@ -71,7 +74,6 @@ export class SheduledSeminarsComponent implements AfterViewInit {
         if (result.status) {
           this.tableData = result.data;
           console.log('data result', this.tableData, result.data.length);
-          this.toastr.error('Something went wrong', `${result.message}`);
           if (result.data.length == 0) {
             this.noData = true;
           }
@@ -101,7 +103,8 @@ export class SheduledSeminarsComponent implements AfterViewInit {
       .then((result: any) => {
         console.log(result);
 
-        if (result.status) {
+        if (result.status) {          this.FetchAllSeminars();
+
           console.log('data result', this.tableData, result.data.length);
           this.toastr.success('Seminar has been bookmarked', `Success`);
         } else {
@@ -112,5 +115,4 @@ export class SheduledSeminarsComponent implements AfterViewInit {
         this.toastr.error('Try again', 'Something went wrong');
       });
   }
-
 }
