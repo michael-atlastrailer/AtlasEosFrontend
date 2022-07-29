@@ -98,9 +98,11 @@
                         <h6>Date *</h6>
                       </div>
                       <div class="input-section">
+                        <p>*date should be start from the current date </p>
                         <input
                           type="date"
                           name="seminarDate"
+                          min="{{today | date}}"
                           required
                           formControlName="seminarDate"
                           class="input-filter-edit shadow-sm"

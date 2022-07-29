@@ -41,7 +41,6 @@ export class OngoingSeminarsComponent implements AfterViewInit {
   paginator!: MatPaginator;
 
   ngAfterViewInit() {
-    this.FetchAllSeminars();
   }
   constructor(
     private request: HttpRequestsService,
@@ -49,7 +48,11 @@ export class OngoingSeminarsComponent implements AfterViewInit {
     private toastr: ToastrService,
     private _liveAnnouncer: LiveAnnouncer,
     private token: TokenStorageService
-  ) {}
+  ) {  this.FetchAllSeminars();
+  setInterval(() => {
+    this.FetchAllSeminars();
+    console.log('repeat feftch');
+  }, 40000);}
   @ViewChild(MatSort)
   sort!: MatSort;
   announceSortChange(sortState: Sort) {
@@ -63,9 +66,9 @@ export class OngoingSeminarsComponent implements AfterViewInit {
     this.tableView = false;
     this.loader = true;
     this.noData = false;
-
+    let dealer = this.token.getUser().account_id;
     this.request
-      .httpGetRequest('/fetch-ongoing-seminars')
+      .httpGetRequest('/fetch-ongoing-seminars/' + dealer)
       .then((result: any) => {
         console.log(result);
         this.tableView = true;
@@ -102,7 +105,8 @@ export class OngoingSeminarsComponent implements AfterViewInit {
       .then((result: any) => {
         console.log(result);
 
-        if (result.status) {
+        if (result.status) {          this.FetchAllSeminars();
+
           console.log('data result', this.tableData, result.data.length);
           this.toastr.success('Seminar has been bookmarked', `Success`);
         } else {
