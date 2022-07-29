@@ -41,7 +41,7 @@ export class WatchedSeminarsComponent implements OnInit {
   paginator!: MatPaginator;
 
   ngAfterViewInit() {
-    this.FetchAllSeminars();
+   
   }
   constructor(
     private request: HttpRequestsService,
@@ -49,7 +49,11 @@ export class WatchedSeminarsComponent implements OnInit {
     private toastr: ToastrService,
     private _liveAnnouncer: LiveAnnouncer,
     private token: TokenStorageService
-  ) {}
+  ) { this.FetchAllSeminars();
+  setInterval(() => {
+    this.FetchAllSeminars();
+    console.log('repeat feftch');
+  }, 40000);}
   ngOnInit(): void {
     throw new Error('Method not implemented.');
   }
@@ -66,9 +70,9 @@ export class WatchedSeminarsComponent implements OnInit {
     this.tableView = false;
     this.loader = true;
     this.noData = false;
-
+    let dealer = this.token.getUser().account_id;
     this.request
-      .httpGetRequest('/fetch-watched-seminars')
+      .httpGetRequest('/fetch-watched-seminars/' + dealer)
       .then((result: any) => {
         console.log(result);
         this.tableView = true;
@@ -106,6 +110,8 @@ export class WatchedSeminarsComponent implements OnInit {
         console.log(result);
 
         if (result.status) {
+          this.FetchAllSeminars();
+
           console.log('data result', this.tableData, result.data.length);
           this.toastr.success('Seminar has been bookmarked', `Success`);
         } else {
