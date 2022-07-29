@@ -542,6 +542,14 @@ export class TestShowOrderComponent implements OnInit {
                           '$',
                         )
 
+                        // for (let t = 0; t < this.productData.length; t++) {
+                        //   const tt = this.productData[t]
+                        //   if (tt.atlas_id == atlas) {
+                        //     tt.price = formattedAmt
+                        //     tt.qty = qty
+                        //   }
+                        // }
+
                         // for (let a = 0; a < this.productData.length; a++) {
                         //   const element = this.productData[a];
                         //   if(element.atlas_id == ele.atlas_id){
@@ -599,14 +607,21 @@ export class TestShowOrderComponent implements OnInit {
                               eleK.arrIndex,
                           ).css('display', 'none')
 
-                          // console.log('testing price', eleK);
-
                           let booking = parseFloat(eleK.booking)
                           let newPrice = parseInt(eleK.quantity) * booking
                           let formattedAmt = this.currencyPipe.transform(
                             newPrice,
                             '$',
                           )
+
+                          // for (let t = 0; t < this.productData.length; t++) {
+                          //   const tt = this.productData[t]
+                          //   if (tt.atlas_id == atlas) {
+                          //     tt.price = formattedAmt
+                          //     tt.qty = qty
+
+                          //   }
+                          // }
 
                           ///this.productData[eleK.pos].calPrice = newPrice
                           ///this.productData[eleK.pos].price = formattedAmt
@@ -680,6 +695,14 @@ export class TestShowOrderComponent implements OnInit {
 
                             // this.productData[activeData.pos].calPrice = newPrice
 
+                            for (let t = 0; t < this.productData.length; t++) {
+                              const tt = this.productData[t]
+                              if (tt.atlas_id == atlas) {
+                                tt.price = formattedAmt
+                                tt.qty = qty
+                              }
+                            }
+
                             $('#u-price-' + activeData.pos).html(special)
                             $('#amt-' + activeData.pos).html(formattedAmt)
                             $('#amt-hidd-' + activeData.pos).html(newPrice)
@@ -700,6 +723,17 @@ export class TestShowOrderComponent implements OnInit {
                                 newPrice,
                                 '$',
                               )
+
+                              for (
+                                let t = 0;
+                                t < this.productData.length;
+                                t++
+                              ) {
+                                const tt = this.productData[t]
+                                if (tt.atlas_id == atlas) {
+                                  tt.price = formattedAmt
+                                }
+                              }
 
                               // this.productData[pp.pos].calPrice = newPrice
                               // this.productData[pp.pos].price = formattedAmt
@@ -840,6 +874,13 @@ export class TestShowOrderComponent implements OnInit {
                 // this.productData[index].price = formattedAmt
                 // this.productData[index].calPrice = calAmt
 
+                // for (let t = 0; t < this.productData.length; t++) {
+                //   const tt = this.productData[t]
+                //   if (tt.atlas_id == atlas) {
+                //     tt.price = formattedAmt
+                //   }
+                // }
+
                 $('#amt-' + index).html(formattedAmt)
                 $('#amt-hidd-' + index).html(calAmt)
               }
@@ -861,6 +902,13 @@ export class TestShowOrderComponent implements OnInit {
             // this.productData[index].price = formattedAmt
             // this.productData[index].calPrice = calAmt
 
+            // for (let t = 0; t < this.productData.length; t++) {
+            //   const tt = this.productData[t]
+            //   if (tt.atlas_id == atlas) {
+            //     tt.price = formattedAmt
+            //   }
+            // }
+
             $('#amt-' + index).html(formattedAmt)
             $('#amt-hidd-' + index).html(calAmt)
           }
@@ -879,6 +927,13 @@ export class TestShowOrderComponent implements OnInit {
 
           // this.productData[index].price = formattedAmt
           // this.productData[index].calPrice = calAmt
+
+          // for (let t = 0; t < this.productData.length; t++) {
+          //   const tt = this.productData[t]
+          //   if (tt.atlas_id == atlas) {
+          //     tt.price = formattedAmt
+          //   }
+          // }
 
           $('#amt-' + index).html(formattedAmt)
         }
@@ -988,6 +1043,13 @@ export class TestShowOrderComponent implements OnInit {
                     // this.productData[activeData.pos].price = formattedAmt
                     // this.productData[activeData.pos].calPrice = newPrice
 
+                    // for (let t = 0; t < this.productData.length; t++) {
+                    //   const tt = this.productData[t]
+                    //   if (tt.atlas_id == atlas) {
+                    //     tt.price = formattedAmt
+                    //   }
+                    // }
+
                     $('#u-price-' + activeData.pos).html(special)
                     $('#amt-' + activeData.pos).html(formattedAmt)
                     $('#amt-hidd-' + activeData.pos).html(newPrice)
@@ -1013,6 +1075,13 @@ export class TestShowOrderComponent implements OnInit {
                     // this.productData[activeData.pos].price = formattedAmt
                     // this.productData[activeData.pos].calPrice = newPrice
 
+                    // for (let t = 0; t < this.productData.length; t++) {
+                    //   const tt = this.productData[t]
+                    //   if (tt.atlas_id == atlas) {
+                    //     tt.price = formattedAmt
+                    //   }
+                    // }
+
                     $('#u-price-' + activeData.pos).html(special)
                     $('#amt-' + activeData.pos).html(formattedAmt)
                     $('#amt-hidd-' + activeData.pos).html(newPrice)
@@ -1035,6 +1104,13 @@ export class TestShowOrderComponent implements OnInit {
                         newPrice,
                         '$',
                       )
+
+                      // for (let t = 0; t < this.productData.length; t++) {
+                      //   const tt = this.productData[t]
+                      //   if (tt.atlas_id == atlas) {
+                      //     tt.price = formattedAmt
+                      //   }
+                      // }
 
                       // this.productData[activeData.pos].price = formattedAmt
                       // this.productData[activeData.pos].calPrice = newPrice
@@ -1074,6 +1150,13 @@ export class TestShowOrderComponent implements OnInit {
                       '$',
                     )
 
+                    // for (let t = 0; t < this.productData.length; t++) {
+                    //   const tt = this.productData[t]
+                    //   if (tt.atlas_id == atlas) {
+                    //     tt.price = formattedAmt
+                    //   }
+                    // }
+
                     // this.productData[agaa.pos].price = formattedAmt
                     // this.productData[agaa.pos].calPrice = newPrice
 
@@ -1091,6 +1174,13 @@ export class TestShowOrderComponent implements OnInit {
                       newPrice,
                       '$',
                     )
+
+                    // for (let t = 0; t < this.productData.length; t++) {
+                    //   const tt = this.productData[t]
+                    //   if (tt.atlas_id == atlas) {
+                    //     tt.price = formattedAmt
+                    //   }
+                    // }
 
                     // this.productData[agaa.pos].price = formattedAmt
                     // this.productData[agaa.pos].calPrice = newPrice
@@ -1118,6 +1208,13 @@ export class TestShowOrderComponent implements OnInit {
 
         // this.productData[index].price = '$0.00'
         // this.productData[index].calPrice = 0
+
+        // for (let t = 0; t < this.productData.length; t++) {
+        //   const tt = this.productData[t]
+        //   if (tt.atlas_id == atlas) {
+        //     tt.price = '$0.00'
+        //   }
+        // }
 
         let formattedAmt = this.currencyPipe.transform(0, '$')
         $('#amt-' + index).html(formattedAmt)
