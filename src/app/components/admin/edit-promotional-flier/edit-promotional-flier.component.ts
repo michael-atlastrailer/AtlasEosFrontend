@@ -211,6 +211,8 @@ export class EditPromotionalFlierComponent implements OnInit {
       fd.append('vendor_id', this.selectedVendorId)
       fd.append('name', this.vendorUserForm.value.name)
 
+      console.log(fd)
+
       this.postData
         .uploadFile('/edit-promotional-flier/' + this.promotionalFlierId, fd)
         .then((result) => {
@@ -231,6 +233,8 @@ export class EditPromotionalFlierComponent implements OnInit {
         .catch((err) => {
           this.csvBtnLoader = false
           this.csvBtnText = true
+          this.btnLoader = false
+          this.btnText = true
 
           this.toastr.error('Somethin went wrong, Try again', `Uploading Error`)
         })
