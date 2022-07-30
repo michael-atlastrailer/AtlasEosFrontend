@@ -30,6 +30,7 @@ import { TestShowOrderComponent } from './test-show-order/test-show-order.compon
 import { WatchedSeminarsComponent } from './seminars/watched-seminars/watched-seminars.component'
 
 import { TestQuickOrderComponent } from './test-quick-order/test-quick-order.component'
+import { DeactivateGuard } from 'src/app/core/guard/deactivate.guard'
 
 const routes: Routes = [
   {
@@ -76,7 +77,8 @@ const routes: Routes = [
       },
       {
         path: 'show-orders/:vendorId/:atlasId',
-        component: ShowOrdersComponent,
+        component: TestShowOrderComponent,
+        canDeactivate: [DeactivateGuard],
       },
       {
         path: 'edit-vendor-orders/:vendorId',
@@ -86,6 +88,7 @@ const routes: Routes = [
       {
         path: 'show-orders',
         component: TestShowOrderComponent,
+        canDeactivate: [DeactivateGuard],
       },
 
       {
@@ -147,6 +150,7 @@ const routes: Routes = [
       {
         path: 'test-show-order',
         component: TestShowOrderComponent,
+        canDeactivate: [DeactivateGuard],
       },
       {
         path: 'test-quick-order',

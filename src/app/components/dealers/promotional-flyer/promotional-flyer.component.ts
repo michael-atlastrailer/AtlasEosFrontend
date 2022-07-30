@@ -13,9 +13,11 @@ export class PromotionalFlyerComponent implements OnInit {
   promotionalStatus = false;
   promotionalAds: any;
   allCategoryData: any;
+  init = true;
+  defaultFlyer = 1
+
   constructor(private getData: HttpRequestsService) {
     this.getAllVendors();
-    this.fetchFlyerAlt()
   }
 
   ngOnInit(): void {}
@@ -27,22 +29,26 @@ export class PromotionalFlyerComponent implements OnInit {
         console.log(result);
         if (result.status) {
           this.allCategoryData = result.data;
-
+          console.log("albendor", result.data)
+          this.defaultFlyer = result.data[0].vendor_code;
+          this.fetchFlyer(result.data[0].vendor_code);
         } else {
         }
       })
       .catch((err) => {});
   }
-  fetchFlyer(data:any) {
-    console.log(data.target.value);
+  fetchFlyer(data: any) {
+    this.init = false;
+
+    console.log("chosen one",data);
     this.promotionalLoader = true;
     this.promotionalData = false;
     this.promotionalStatus = false;
 
-    let id = data.target.value;
-    console.log(id, 'id');
+    
+    console.log(data, 'id');
     this.getData
-      .httpGetRequest('/show-promotional-flier-by-id/' + id)
+      .httpGetRequest('/show-promotional-flier-by-vendor-id/' + data)
       .then((result: any) => {
         console.log(result, 'promotion');
 
@@ -50,34 +56,7 @@ export class PromotionalFlyerComponent implements OnInit {
         if (result.status) {
           // this.promotionalData = result.data.length > 0 ? true : false;
           // this.promotionalStatus = result.data.length <= 0 ? true : false;
-          this.promotionalAds = result.data;
-          this.promotionalData = true;
-        } else {
-        }
-      })
-      .catch((err) => {
-        this.promotionalLoader = false;
-        this.promotionalData = true;
-      });
-  }
-   fetchFlyerAlt() {
-    ///console.log(data.target.value);
-    this.promotionalLoader = true;
-    this.promotionalData = false;
-    this.promotionalStatus = false;
-
-    let id =1;
-    console.log(id, 'id');
-    this.getData
-      .httpGetRequest('/show-promotional-flier-by-id/' + id)
-      .then((result: any) => {
-        console.log(result, 'promotion');
-
-        this.promotionalLoader = false;
-        if (result.status) {
-          // this.promotionalData = result.data.length > 0 ? true : false;
-          // this.promotionalStatus = result.data.length <= 0 ? true : false;
-          this.promotionalAds = result.data;
+          this.promotionalAds = result.data[0];
           this.promotionalData = true;
         } else {
         }

@@ -12,6 +12,9 @@ export class DashboardComponent implements OnInit {
   loader = true
   tableView = false
 
+  mostSalesVendorData: any
+  mostSalesDealerData: any
+
   totalOrder = 0
   totalDealer = 0
   totalProducts = 0
@@ -286,9 +289,11 @@ export class DashboardComponent implements OnInit {
           this.totalLoggedDealer = result.data.total_logged_dealers
           this.totalLoggedAdmin = result.data.total_logged_admin
 
-          //  this.totalAmount = result.data.total_amount
-          this.totalOrder = result.data.total_order
+          this.totalAmount = result.data.total_amount
+          this.totalOrder = result.data.total_item_ordered
           this.recentOrders = result.data.recent_orders
+          this.mostSalesVendorData = result.data.most_sales_vendor
+          this.mostSalesDealerData = result.data.most_sale_dealer
           //this.allCategoryData = result.data;
         } else {
         }

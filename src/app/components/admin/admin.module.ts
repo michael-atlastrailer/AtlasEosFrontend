@@ -47,7 +47,10 @@ import { EditPromotionalFlierComponent } from './edit-promotional-flier/edit-pro
 import { AtlasNotesComponent } from './atlas-notes/atlas-notes.component';
 import { VendorNotesComponent } from './vendor-notes/vendor-notes.component';
 import { PriceOverrideReportComponent } from './price-override-report/price-override-report.component';
-import { SpecialOrdersComponent } from './special-orders/special-orders.component'
+import { SpecialOrdersComponent } from './special-orders/special-orders.component';
+import { AllShowBucksComponent } from './all-show-bucks/all-show-bucks.component';
+import { AddShowBuckComponent } from './add-show-buck/add-show-buck.component';
+import { EditShowBuckComponent } from './edit-show-buck/edit-show-buck.component'
 
 @NgModule({
   declarations: [
@@ -90,6 +93,9 @@ import { SpecialOrdersComponent } from './special-orders/special-orders.componen
     VendorNotesComponent,
     PriceOverrideReportComponent,
     SpecialOrdersComponent,
+    AllShowBucksComponent,
+    AddShowBuckComponent,
+    EditShowBuckComponent,
   ],
   imports: [
     CommonModule,

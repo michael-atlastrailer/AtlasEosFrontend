@@ -4,14 +4,14 @@
       <div class="col-md-3 col-sm-12">
         <div class="form-group m-0">
           <select
-            name=""
-            (change)="fetchFlyer($event)"
+            name="" #selectToggle
+            (change)="fetchFlyer(selectToggle.value)"
             class="form-control custom-select select2"
           >
-            <option selected value="1">Select Vendor</option>
+            <option selected value="{{defaultFlyer}}">Select Vendor</option>
             <option
               class="category-text"
-              value="{{ category.id }}"
+              value="{{ category.vendor_code}}"
               *ngFor="let category of allCategoryData"
             >
               {{ category.vendor_name }}

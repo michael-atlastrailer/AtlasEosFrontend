@@ -1,0 +1,221 @@
+<section>
+  <div class="container-fluid p-0">
+    <div class="row">
+      <div class="col-md-12 col-sm-12">
+        <div id="accordion6" class="mb-3">
+          <div class="card">
+            <div class="card-header w-100">
+              <div class="d-flex justify-content-between w-100">
+                <div>
+                  <a class="card-link" data-toggle="collapse">
+                    Add New Show Buck
+                  </a>
+                </div>
+                <div>
+                  <button
+                    class="add-show-buck-btn"
+                    routerLink="/admin/all-show-buck"
+                  >
+                    View
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              id="collapseSix"
+              class="collapse show"
+              data-parent="#accordion6"
+            >
+              <div class="card-body">
+                <form id="msform" [formGroup]="vendorUserForm" class="pt-2">
+                  <fieldset class="shadow-sm">
+                    <!-- <h2 class="title">Create Promotional Flyer</h2> -->
+                    <!-- <h3 class="subtitle">Personal Details</h3> -->
+
+                    <div class="form-row">
+                      <div class="col-md-12 mb-4">
+                        <div class="form-group">
+                          <label for="">Title</label>
+                          <input
+                            type="text"
+                            name="name"
+                            class="input-value shadow-sm"
+                            placeholder="Title"
+                            required
+                            formControlName="name"
+                          />
+                          <div
+                            class="input-alert-box"
+                            *ngIf="
+                              vendorUserFormControls.name.invalid &&
+                              manualChecker
+                            "
+                          >
+                            <div>
+                              <span class="alert-input-msg">
+                                {{ getErrorMessage('name') }}
+                              </span>
+                              <span
+                                class="fa fa-exclamation-triangle alert-input-icon"
+                                style="float: right;"
+                              ></span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-row">
+                      <div class="col-md-12 mb-4">
+                        <div class="form-group">
+                          <label for="">Vendor</label>
+
+                          <select
+                            (change)="assignVendor(vendor)"
+                            type="text"
+                            name="vendor"
+                            class="input-value shadow-sm"
+                            placeholder="Select Vendor"
+                            required
+                            formControlName="vendor"
+                            #vendor
+                          >
+                            <option value="">
+                              Select vendor
+                            </option>
+                            <option *ngFor="let data of allVendor">
+                              {{ data.vendor_name }}
+                            </option>
+                          </select>
+
+                          <div
+                            class="input-alert-box"
+                            *ngIf="
+                              vendorUserFormControls.vendor.invalid &&
+                              manualChecker
+                            "
+                          >
+                            <div>
+                              <span class="alert-input-msg">
+                                {{ getErrorMessage('vendor') }}
+                              </span>
+                              <span
+                                class="fa fa-exclamation-triangle alert-input-icon"
+                                style="float: right;"
+                              ></span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-row">
+                      <div class="col-md-12 mb-4">
+                        <div class="form-group">
+                          <label for="">Status</label>
+
+                          <select
+                            (change)="assignStatus(status)"
+                            type="text"
+                            name="status"
+                            class="input-value shadow-sm"
+                            placeholder="Select Status"
+                            required
+                            formControlName="status"
+                            #status
+                          >
+                            <option value="">
+                              Status
+                            </option>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                          </select>
+
+                          <div
+                            class="input-alert-box"
+                            *ngIf="
+                              vendorUserFormControls.vendor.invalid &&
+                              manualChecker
+                            "
+                          >
+                            <div>
+                              <span class="alert-input-msg">
+                                {{ getErrorMessage('vendor') }}
+                              </span>
+                              <span
+                                class="fa fa-exclamation-triangle alert-input-icon"
+                                style="float: right;"
+                              ></span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-row">
+                      <div class="col-md-12 mb-4">
+                        <div class="form-group">
+                          <label for="">Upload File</label>
+                          <div class="pdf-btn-wrapper">
+                            <div>
+                              <button
+                                (click)="callUploadInput()"
+                                class="btn btn-block upload-btn mb-2"
+                              >
+                                <span class="fa fa-upload upload-icon"></span>
+                                <span>Upload File</span>
+                              </button>
+
+                              <input
+                                required
+                                type="file"
+                                class="file-input-tag"
+                                #fileCsv
+                                id="csvFile"
+                                (change)="fileCsvUpload(fileCsv.files)"
+                                name="csvFile"
+                              />
+                            </div>
+                            <div>
+                              <h6>{{ selectedPdfName }}</h6>
+                            </div>
+                          </div>
+
+                          <div class="input-alert-box" *ngIf="pdfErrorMsg">
+                            <div>
+                              <span class="alert-input-msg">
+                                {{ getErrorMessage('pdf') }}
+                              </span>
+                              <span
+                                class="fa fa-exclamation-triangle alert-input-icon"
+                                style="float: right;"
+                              ></span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="add-btn-wrapper">
+                      <button
+                        class="submit-btn"
+                        (click)="uploadPromotionalFlyer()"
+                      >
+                        <span>
+                          Add Show Buck
+                        </span>
+                        <div *ngIf="btnLoader">
+                          <span class="spinner-border spinner-border-sm"></span>
+                        </div>
+                      </button>
+                    </div>
+                  </fieldset>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

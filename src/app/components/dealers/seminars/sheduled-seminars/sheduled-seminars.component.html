@@ -12,14 +12,18 @@
           </h6>
         </div>
         <div class="w-100 mb-4 mt-3" style="text-align: end">
-          <a
+           <a
+            class="btn btn-info mr-2 tab-btn"
+            routerLink="/dealers/all-seminars"
+            >ALL SEMINARS</a
+          ><a
             class="btn btn-success mr-2 tab-btn"
             routerLink="/dealers/ongoing-seminars"
             >IN SESSION SEMINARS</a
           ><a
-            class="btn btn-info mr-2 tab-btn"
-            routerLink="/dealers/all-seminars"
-            >ALL SEMINARS</a
+            class="btn btn-warning mr-2 tab-btn  border-thicker"
+            routerLink="/dealers/sheduled-seminars"
+            >SCHEDULED SEMINARS</a
           ><a
             class="btn btn-danger mr-2 tab-btn"
             routerLink="/dealers/watched-seminars"
@@ -187,8 +191,8 @@
                         >
                           S/No
                         </th>
-                        <td mat-cell *matCellDef="let element">
-                          {{ element.id }}
+                        <td mat-cell *matCellDef="let element;let i =index">
+                          {{i}}
                         </td>
                       </ng-container>
                       <ng-container matColumnDef="seminar_date">
@@ -214,7 +218,7 @@
                           <span *ngIf="element.bookmark == 1" class="bookmark"
                             ><i class="fa fa-bookmark" style="color: red"></i
                           ></span>
-                          {{ element.start_time | date: "shortTime" }}
+                          {{ element.start_time }}
                         </td> </ng-container
                       ><ng-container matColumnDef="vendor_name">
                         <th mat-header-cell *matHeaderCellDef>Vendor Name</th>
@@ -245,7 +249,7 @@
                               element.status == 1 || element.status == null
                             "
                           >
-                            SHEDULED
+                            SCHEDULED
                           </p>
                         </td>
                       </ng-container>

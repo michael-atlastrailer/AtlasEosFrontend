@@ -101,13 +101,20 @@
   font-weight: 700;
   color: #5371ad;
 }
-
+.border-thicker {
+  border: 2px solid #5371AD !important;
+}
+button{
+  color: #fff !important;
+}
 .order-form-table {
   td,
   th {
     border: 0.1px solid #fff;
   }
   th {
+    text-align: center;
+
     background-color: #054e6e;
     color: #fff;
     font-size: 16px;

@@ -42,6 +42,7 @@ import { TableRowComponent } from './table-row/table-row.component'
 import { WatchedSeminarsComponent } from './seminars/watched-seminars/watched-seminars.component'
 
 import { TestQuickOrderComponent } from './test-quick-order/test-quick-order.component'
+import { DeactivateGuard } from 'src/app/core/guard/deactivate.guard'
 
 @NgModule({
   declarations: [
@@ -87,5 +88,6 @@ import { TestQuickOrderComponent } from './test-quick-order/test-quick-order.com
     MatSortModule,
     PdfViewerModule,
   ],
+  providers: [DeactivateGuard],
 })
 export class DealersModule {}

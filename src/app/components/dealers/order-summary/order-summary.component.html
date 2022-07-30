@@ -174,10 +174,8 @@
               </table>
               <div class="table-view" *ngIf="!loader">
                 <div class="table-ctn mt-3" *ngIf="selectDefault">
-                  <table
-                    class="order-form-table w-100 mb-4"
-                    *ngFor="let order of newTable"
-                  >
+                  <div class="div" *ngFor="let order of newTable"><h5 class="text-center">{{ order[1][0].vendor_name }}</h5>
+                  <table class="order-form-table w-100 mb-4">
                     <thead>
                       <th>Qty</th>
                       <th>Atlas #</th>
@@ -191,9 +189,13 @@
                       <tr *ngFor="let product of order[1]">
                         <td class="text-center">{{ product.qty }}</td>
                         <td class="text-center">{{ product.atlas_id }}</td>
-                        <td class="text-center">{{ product.vendor }}</td>
                         <td class="text-center">
-                          <p class="text-center">{{ product.description }}</p>
+                          {{ product.product_vendor_product_code }}
+                        </td>
+                        <td class="text-center">
+                          <p class="text-center">
+                            {{ product.product_description }}
+                          </p>
                         </td>
 
                         <td class="text-center">
@@ -213,7 +215,7 @@
                             color: #437c17;
                           "
                         >
-                          Total for {{ order[0] }}
+                          Total for {{ order[1][0].vendor_name }}
                         </td>
                         <td
                           style="
@@ -227,7 +229,8 @@
                         </td>
                       </tr>
                     </tbody>
-                  </table>
+                  </table></div>
+                  
                   <table class="w-100" *ngIf="selectDefault">
                     <tr>
                       <td
@@ -244,7 +247,8 @@
                         Grand Total($)
                       </td>
                       <td
-                        style="width: 150px;
+                        style="
+                          width: 150px;
                           padding: 10px;
                           background-color: #f0f0f0;
                           border: 0.5px solid #cccaca;
@@ -259,6 +263,7 @@
                   </table>
                 </div>
                 <div class="table-ctn mt-3" *ngIf="!selectDefault">
+                  <h5 class="text-center">{{ orderTable[0].vendor_name }}</h5>
                   <table class="order-form-table w-100 mb-4">
                     <thead>
                       <th>Qty</th>
