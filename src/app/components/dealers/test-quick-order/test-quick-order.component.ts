@@ -148,6 +148,7 @@ export class TestQuickOrderComponent implements OnInit {
   existingInOrder = ''
   showAlert = false
   vendorDisplay: any
+  addBtn = true
 
   //////// Achawayne stopped /////////
 
@@ -940,7 +941,10 @@ export class TestQuickOrderComponent implements OnInit {
             this.existingInQuickOrder = res.data.existing_already_in_quick_order
             this.existingInOrder = res.data.existing_already_in_order
 
-            this.toastr.success(`item(s) has been submitted`, 'Success')
+            if (res.data.existing_status) {
+            } else {
+              this.toastr.success(`item(s) has been submitted`, 'Success')
+            }
 
             this.orderTable = []
             this.atlasInput.nativeElement.value = null
@@ -1129,8 +1133,17 @@ export class TestQuickOrderComponent implements OnInit {
             this.quickOrderData = res.data.filtered_data
             this.vendorDisplay = res.data.filtered_data[0]
             this.assortedType = res.data.assorted
+            if (this.assortedType) {
+              //// this.addToQuickLoader = false
+              this.disabled = true
+              this.addBtn = false
+            } else {
+              /// this.addToQuickLoader = true
+              this.disabled = false
+              this.addBtn = true
+            }
             this.noData = false
-            this.disabled = false
+            // this.disabled = false
           } else {
             this.searchStatus = false
             this.searchLoader = false
