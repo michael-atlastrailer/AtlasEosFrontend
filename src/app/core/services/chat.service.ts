@@ -8,8 +8,8 @@ import { ToastrService } from 'ngx-toastr'
   providedIn: 'root',
 })
 export class ChatService {
-  private url = 'http://localhost:3000'
-  //// private url = 'https://atlas-chat-server.glitch.me'
+  ///private url = 'http://localhost:3000'
+  private url = 'https://atlas-chat-server.glitch.me'
   /// private url = 'https://gainful-ten-utahraptor.glitch.me'
   private socket: any
   userData: any
