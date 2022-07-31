@@ -40,7 +40,7 @@ export class DashboardComponent implements OnInit {
         if (result.status) {
           this.totalSales = result.data.total_sales
           this.mostPurchasers = result.data.purchasers
-          this.orderReceived = result.data.orders_received
+          this.orderReceived = result.data.total_orders
         } else {
         }
       })

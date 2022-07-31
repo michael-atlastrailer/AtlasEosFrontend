@@ -159,25 +159,33 @@
             >
               &times;
             </button>
-            <strong>Success!</strong>
-            <p>
+            <!-- <strong>Success!</strong> -->
+            <!-- <p>
               {{ newlyAdded }} new item(s) has been added to your quick order.
-            </p>
+            </p> -->
             <p *ngIf="existingInQuickOrder != ''">
               {{ existingInQuickOrder }} has been added to your quick order
               already.
             </p>
 
-            <div class="d-flex justify-content-between">
+            <div
+              class="d-flex justify-content-between"
+              *ngIf="existingInOrder != ''"
+            >
               <div>
-                <p *ngIf="existingInOrder != ''">
+                <p>
                   The following item(s) have already been ordered. You can
                   adjust them in the Edit Order page:
                   {{ existingInOrder }}
                 </p>
               </div>
               <div>
-                <button>Edit Item</button>
+                <button
+                  class="edit-vendor-btn"
+                  routerLink="/dealers/edit-vendor-orders/{{ currentVendor }}"
+                >
+                  Edit Item
+                </button>
               </div>
             </div>
           </div>

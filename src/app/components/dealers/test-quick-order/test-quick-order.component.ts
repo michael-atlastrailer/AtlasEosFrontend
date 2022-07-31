@@ -149,6 +149,7 @@ export class TestQuickOrderComponent implements OnInit {
   showAlert = false
   vendorDisplay: any
   addBtn = true
+  currentVendor = ''
 
   //////// Achawayne stopped /////////
 
@@ -228,8 +229,12 @@ export class TestQuickOrderComponent implements OnInit {
           this.newlyAdded = res.data.newly_added
           this.existingInQuickOrder = res.data.existing_already_in_quick_order
           this.existingInOrder = res.data.existing_already_in_order
+          this.currentVendor = res.data.current_vendor
 
-          this.toastr.success(`item(s) has been submitted`, 'Success')
+          if (res.data.submitted_status) {
+            this.toastr.success(`item(s) has been submitted`, 'Success')
+          }
+
           this.closeModalBtn.nativeElement.click()
           this.fetchQuickOrderCart()
         } else {
@@ -940,9 +945,9 @@ export class TestQuickOrderComponent implements OnInit {
             this.newlyAdded = res.data.newly_added
             this.existingInQuickOrder = res.data.existing_already_in_quick_order
             this.existingInOrder = res.data.existing_already_in_order
+            this.currentVendor = res.data.current_vendor
 
-            if (res.data.existing_status) {
-            } else {
+            if (res.data.submitted_status) {
               this.toastr.success(`item(s) has been submitted`, 'Success')
             }
 

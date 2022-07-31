@@ -12,4 +12,17 @@ import { ToastrService } from 'ngx-toastr'
 })
 export class AppComponent {
   title = 'atlas-eos'
+  userData: any
+
+  constructor(
+    private tokenStorage: TokenStorageService,
+    private chatServer: ChatService,
+  ) {
+    let userData = this.tokenStorage.getUser()
+    let role = userData.role
+    // this.userId = userData.id
+    if (userData) {
+      this.chatServer.openChatConnection(userData.id + userData.first_name)
+    }
+  }
 }
