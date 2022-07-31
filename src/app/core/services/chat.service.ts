@@ -8,8 +8,8 @@ import { ToastrService } from 'ngx-toastr'
   providedIn: 'root',
 })
 export class ChatService {
-  ///private url = 'http://localhost:3000'
-  private url = 'https://atlas-chat-server.glitch.me'
+  private url = 'http://localhost:3000'
+  //// private url = 'https://atlas-chat-server.glitch.me'
   /// private url = 'https://gainful-ten-utahraptor.glitch.me'
   private socket: any
   userData: any
@@ -58,6 +58,24 @@ export class ChatService {
     return Observable.create((observer: any) => {
       this.socket.on('data', (message: any) => {
         console.log(message)
+        observer.next(message)
+      })
+    })
+  }
+
+  sendOrderNotification(data: any) {
+    for (let g = 0; g < data.length; g++) {
+      const cur = data[g]
+      this.socket.emit('send-order-notification', {
+        user: cur,
+        sender: this.userData.id + this.userData.first_name,
+      })
+    }
+  }
+
+  getOrderReceived = () => {
+    return Observable.create((observer: any) => {
+      this.socket.on('vendor-recevied', (message: any) => {
         observer.next(message)
       })
     })
