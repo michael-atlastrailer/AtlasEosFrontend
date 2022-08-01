@@ -7,7 +7,7 @@ import Swal from 'sweetalert2'
 
 declare var $: any
 
-export interface PeriodicElement {
+export interface Products {
   atlas_id: string
   vendor_code: string
   vendor_name: string
@@ -40,7 +40,7 @@ export class AllProductsComponent implements OnInit {
     'action',
   ]
 
-  dataSource = new MatTableDataSource<PeriodicElement>()
+  dataSource = new MatTableDataSource<Products>()
   @ViewChild(MatPaginator) paginator!: MatPaginator
 
   ngAfterViewInit() {
@@ -160,7 +160,7 @@ export class AllProductsComponent implements OnInit {
           this.loader = false
           this.tableView = true
           this.incomingData = result.data
-          this.dataSource = new MatTableDataSource<PeriodicElement>(result.data)
+          this.dataSource = new MatTableDataSource<Products>(result.data)
 
           this.dataSource.paginator = this.paginator
         } else {

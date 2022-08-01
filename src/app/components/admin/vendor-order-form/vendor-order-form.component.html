@@ -21,25 +21,33 @@
                   </div>
                   <div class="select-wrapper">
                     <select name="" id="">
-                      <option value="">ACUVA TECHNOLOGIES</option>
-                      <option value="">AP - BRAKE COMPONENTS</option>
-                      <option value="">AP - SURFACE SHEILDS</option>
-                      <option value="">B'LASTER HOLDINGS LLC</option>
+                      <option value="">Select Vendor</option>
+                      <option
+                        (click)="vendorSelected(data)"
+                        *ngFor="let data of allVendors"
+                      >
+                        {{ data.vendor_name }}
+                      </option>
                     </select>
                   </div>
                   <div class="btn-wrapper">
-                    <button class="">
+                    <button class="" (click)="getProductByVendorId()">
                       <span class="fa fa-search"></span>
                       Search
                     </button>
                   </div>
                 </div>
 
-                <h6 class="selected-title-name">AP - SURFACE SHEILDS</h6>
+                <h6 class="selected-title-name">{{ selectedVendorName }}</h6>
 
                 <div class="d-flex justify-content-end search-wrapper w-100">
                   <div>
-                    <input type="text" placeholder="search.........." />
+                    <input
+                      type="text"
+                      placeholder="search.........."
+                      (keyup)="applyFilter($event)"
+                      #input
+                    />
                   </div>
                 </div>
 
@@ -121,6 +129,117 @@
                     </tbody>
                   </table>
 
+                  <div
+                    class="table-responsive table-data-section"
+                    *ngIf="tableView"
+                  >
+                    <table
+                      mat-table
+                      [dataSource]="dataSource"
+                      class="mat-elevation w-100 table table-striped table-bordered"
+                    >
+                      <!--- Note that these columns can be defined in any order.
+                              The actual rendered columns are set as a property on the row definition" -->
+
+                      <!-- Position Column -->
+
+                      <ng-container matColumnDef="atlas_id">
+                        <th mat-header-cell *matHeaderCellDef>Atlas #</th>
+                        <td mat-cell *matCellDef="let element">
+                          {{ element.atlas_id }}
+                        </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="vendor_code">
+                        <th mat-header-cell *matHeaderCellDef>Vendor #</th>
+                        <td mat-cell *matCellDef="let element">
+                          {{ element.vendor_code }}
+                        </td>
+                      </ng-container>
+
+                      <!-- Name Column -->
+                      <ng-container matColumnDef="description">
+                        <th mat-header-cell *matHeaderCellDef>Description</th>
+                        <td mat-cell *matCellDef="let element">
+                          <span class="desc-text">
+                            {{ element.description! }}
+                          </span>
+                          <span
+                            *ngFor="
+                              let spec of element.spec_data!;
+                              let l = index
+                            "
+                          >
+                            <span
+                              [class.assorted-color]="spec.type == 'assorted'"
+                            ></span>
+                            <span
+                              [class.assorted-color]="spec.type == 'assorted'"
+                              [class.quantity-color]="spec.type == 'special'"
+                            >
+                              {{ spec.desc }}
+                            </span>
+                          </span>
+                        </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="regular">
+                        <th mat-header-cell *matHeaderCellDef>Regular ($)</th>
+                        <td mat-cell *matCellDef="let element">
+                          <span class="regular-text">
+                            {{ element.regular | currency }}
+                          </span>
+                        </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="booking">
+                        <th mat-header-cell *matHeaderCellDef>Booking ($)</th>
+                        <td mat-cell *matCellDef="let element">
+                          <span class="booking-text">
+                            {{ element.booking | currency }}
+                          </span>
+
+                          <span
+                            *ngFor="
+                              let spec of element.spec_data;
+                              let j = index
+                            "
+                          >
+                            <span
+                              [class.assorted-color]="spec.type == 'assorted'"
+                              [class.quantity-color]="spec.type == 'special'"
+                            >
+                              {{ spec.special | currency }}
+                            </span>
+                          </span>
+                        </td>
+                      </ng-container>
+
+                      <!-- Weight Column -->
+
+                      <!-- Symbol Column -->
+
+                      <tr
+                        mat-header-row
+                        *matHeaderRowDef="displayedColumns"
+                      ></tr>
+                      <tr
+                        mat-row
+                        *matRowDef="let row; columns: displayedColumns"
+                      ></tr>
+                    </table>
+                  </div>
+
+                  <mat-paginator
+                    #paginator
+                    [pageSizeOptions]="[20, 60, 80]"
+                    showFirstLastButtons
+                    pageSize="20"
+                  ></mat-paginator>
+
+                  <!-- 
+
+
                   <table
                     *ngIf="tableView"
                     class="table table-striped text-nowrap table-wrapper2 align-items-center mb-0"
@@ -135,11 +254,55 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
+                      <tr *ngFor="let data of vendorProductData">
+                        <td>{{ data.atlas_id }}</td>
+                        <td>{{ data.vendor_code }}</td>
+                        <td>
+                          <span class="desc-text">{{ data.description! }}</span>
+                          <span
+                            *ngFor="let spec of data.spec_data!; let l = index"
+                          >
+                            <span
+                              [class.assorted-color]="spec.type == 'assorted'"
+                            ></span>
+                            <span
+                              [class.assorted-color]="spec.type == 'assorted'"
+                              [class.quantity-color]="spec.type == 'special'"
+                            >
+                              {{ spec.desc }}
+                            </span>
+                          </span>
+                        </td>
+                        <td>
+                          <span class="regular-text">
+                            {{ data.regular | currency }}
+                          </span>
+                        </td>
+                        <td>
+                          <span class="booking-text">
+                            {{ data.booking | currency }}
+                          </span>
+
+                          <span
+                            *ngFor="let spec of data.spec_data; let j = index"
+                          >
+                            <span
+                              [class.assorted-color]="spec.type == 'assorted'"
+                              [class.quantity-color]="spec.type == 'special'"
+                            >
+                              {{ spec.special | currency }}
+                            </span>
+                          </span>
+                        </td>
+                      </tr>
+                      <tr *ngIf="noItemFound">
                         <td colspan="5" class="text-center">No order found</td>
                       </tr>
                     </tbody>
                   </table>
+
+
+ -->
                 </div>
 
                 <div class="d-flex flex-column indicator-wrapper">
