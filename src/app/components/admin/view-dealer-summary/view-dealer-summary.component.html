@@ -13,29 +13,26 @@
               id="collapseSix"
               class="collapse show"
               data-parent="#accordion6"
+            ></div>
+          </div>
+        </div>
+
+        <div id="accordion7" class="mb-3">
+          <div class="card">
+            <div class="card-header">
+              <a class="card-link" data-toggle="collapse" href="#collapseSeven">
+                <span class="fa fas fa-list-ul pr-2"></span>
+
+                Order detail
+              </a>
+            </div>
+            <div
+              id="collapseSeven"
+              class="collapse show"
+              data-parent="#accordion7"
             >
               <div class="card-body">
-                <div class="d-flex w-100 filter-wrapper">
-                  <div class="text-wrapper">
-                    <h5>Dealer Account</h5>
-                  </div>
-                  <div class="input-wrapper">
-                    <input
-                      type="text"
-                      class="form-control"
-                      placeholder="Enter Account No......"
-                      #accountInput
-                    />
-                  </div>
-                  <div class="btn-wrapper">
-                    <button class="" (click)="applyFilter()">
-                      <span class="fa fa-search"></span>
-                      Search
-                    </button>
-                  </div>
-                </div>
-
-                <div class="table-responsive mb-3">
+                <div class="table-responsive">
                   <table class="table" *ngIf="loader">
                     <thead>
                       <tr>
@@ -113,70 +110,72 @@
                     </tbody>
                   </table>
 
-                  <div
-                    class="table-responsive table-data-section"
+                  <table
                     *ngIf="tableView"
+                    class="table table-striped text-nowrap table-wrapper2 align-items-center mb-0"
                   >
-                    <table
-                      mat-table
-                      [dataSource]="dataSource"
-                      class="mat-elevation w-100 table table-striped table-bordered"
-                    >
-                      <!--- Note that these columns can be defined in any order.
-                            The actual rendered columns are set as a property on the row definition" -->
-
-                      <!-- Position Column -->
-
-                      <ng-container matColumnDef="dealer_code">
-                        <th mat-header-cell *matHeaderCellDef>Account #</th>
-                        <td mat-cell *matCellDef="let element">
-                          {{ element.dealer_code }}
-                        </td>
-                      </ng-container>
-
-                      <ng-container matColumnDef="dealer_name">
-                        <th mat-header-cell *matHeaderCellDef>Dealer Name</th>
-                        <td mat-cell *matCellDef="let element">
-                          <a
-                            routerLink="/admin/view-dealer-summary/{{
-                              element.dealer_code
-                            }}"
-                          >
-                            {{ element.dealer_name }}
-                          </a>
-                        </td>
-                      </ng-container>
-
-                      <!-- Name Column -->
-
-                      <ng-container matColumnDef="sales">
-                        <th mat-header-cell *matHeaderCellDef>
-                          Total Sales ($)
+                    <thead>
+                      <tr>
+                        <th class="thead-custom font-weight-bold">Qty</th>
+                        <th class="thead-custom font-weight-bold">Atlas #</th>
+                        <th class="thead-custom font-weight-bold">Vendor #</th>
+                        <th class="thead-custom font-weight-bold">
+                          Description
                         </th>
-                        <td mat-cell *matCellDef="let element">
-                          <span class="regular-text">
-                            {{ element.sales | currency }}
-                          </span>
+                        <th class="thead-custom font-weight-bold">
+                          Special Price ($)
+                        </th>
+                        <th class="thead-custom font-weight-bold">Total ($)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngIf="dataInbound">
+                        <td>{{ cartData.qty }}</td>
+                        <td>
+                          <input
+                            type="text"
+                            class="edit-input"
+                            [(ngModel)]="newQty"
+                            placeholder="New Qty"
+                          />
                         </td>
-                      </ng-container>
+                        <td>
+                          {{ cartData.atlas_id }}
+                        </td>
+                        <td>
+                          {{ cartData.vendor }}
+                        </td>
+                        <td>
+                          {{ cartData.description }}
+                        </td>
+                        <td>
+                          {{ cartData.price }}
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            class="edit-input"
+                            [(ngModel)]="newPrice"
+                            placeholder="New Price"
+                          />
+                        </td>
+                      </tr>
+                      <tr *ngIf="noOrderFound">
+                        <td colspan="7" class="text-center">No order listed</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
 
-                      <tr
-                        mat-header-row
-                        *matHeaderRowDef="displayedColumns"
-                      ></tr>
-                      <tr
-                        mat-row
-                        *matRowDef="let row; columns: displayedColumns"
-                      ></tr>
-                    </table>
-                  </div>
+                <hr />
+                <div *ngIf="dataInbound" class="btn-wrapper2">
+                  <button (click)="savePriceOverride()">
+                    <span *ngIf="!btnLoader">Save</span>
 
-                  <mat-paginator
-                    #paginator
-                    [pageSizeOptions]="[100, 350, 400]"
-                    showFirstLastButtons
-                    pageSize="100"
-                  ></mat-paginator>
+                    <div *ngIf="btnLoader">
+                      <span class="spinner-border spinner-border-sm"></span>
+                    </div>
+                  </button>
                 </div>
               </div>
             </div>
