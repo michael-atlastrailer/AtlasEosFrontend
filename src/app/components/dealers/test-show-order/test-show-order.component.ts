@@ -29,6 +29,7 @@ import { DataSource } from '@angular/cdk/collections'
 import { CommonModule, CurrencyPipe } from '@angular/common'
 import { OrderCheckService } from 'src/app/core/services/order-check.service'
 import { ComponentCanDeactivate } from 'src/app/core/model/can-deactivate'
+import { ChatService } from 'src/app/core/services/chat.service'
 
 export interface PeriodicElement {
   atlas_id: any
@@ -141,6 +142,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
     private _liveAnnouncer: LiveAnnouncer,
     private token: TokenStorageService,
     private currencyPipe: CurrencyPipe,
+    private chatServer: ChatService,
   ) {
     this.getAllVendors()
     this.route.params.subscribe((params) => {
@@ -159,6 +161,12 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
 
     this.getCart()
     this.userData = this.token.getUser()
+    // this.userId = userData.id
+    if (this.userData) {
+      this.chatServer.openChatConnection(
+        this.userData.id + this.userData.first_name,
+      )
+    }
   }
   @ViewChild(MatSort)
   sort!: MatSort
@@ -350,6 +358,12 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
           // } else {
           //   this.getProductByVendorId()
           // }
+
+          if (res.data.submitted_status) {
+            if (res.data.chat_data.length > 0) {
+              this.chatServer.sendOrderNotification(res.data.chat_data)
+            }
+          }
         } else {
           this.cartLoader = false
           this.toastr.info(`Something went wrong`, 'Error')

@@ -13,6 +13,8 @@ import { ToastrService } from 'ngx-toastr'
 export class VendorsComponent implements OnInit {
   @ViewChild('audioTag') private audioTag!: ElementRef
 
+  @ViewChild('orderNotificationTone') private orderNotificationTone!: ElementRef
+
   constructor(
     private chatService: ChatService,
     private tokeStore: TokenStorageService,
@@ -22,6 +24,15 @@ export class VendorsComponent implements OnInit {
     this.chatService.getNotification().subscribe((data: any) => {
       this.toaster.success('you have a new message', 'Chat Notification')
       this.audioTag.nativeElement.play()
+    })
+
+    this.chatService.getOrderReceived().subscribe((data: any) => {
+      this.toaster.success(
+        'you have received a new order',
+        'Order Notification',
+      )
+
+      this.orderNotificationTone.nativeElement.play()
     })
   }
 }

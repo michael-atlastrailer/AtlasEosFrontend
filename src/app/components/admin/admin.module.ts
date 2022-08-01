@@ -50,7 +50,8 @@ import { PriceOverrideReportComponent } from './price-override-report/price-over
 import { SpecialOrdersComponent } from './special-orders/special-orders.component';
 import { AllShowBucksComponent } from './all-show-bucks/all-show-bucks.component';
 import { AddShowBuckComponent } from './add-show-buck/add-show-buck.component';
-import { EditShowBuckComponent } from './edit-show-buck/edit-show-buck.component'
+import { EditShowBuckComponent } from './edit-show-buck/edit-show-buck.component';
+import { ViewDealerSummaryComponent } from './view-dealer-summary/view-dealer-summary.component'
 
 @NgModule({
   declarations: [
@@ -96,6 +97,7 @@ import { EditShowBuckComponent } from './edit-show-buck/edit-show-buck.component
     AllShowBucksComponent,
     AddShowBuckComponent,
     EditShowBuckComponent,
+    ViewDealerSummaryComponent,
   ],
   imports: [
     CommonModule,

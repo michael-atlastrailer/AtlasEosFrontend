@@ -63,6 +63,24 @@ export class ChatService {
     })
   }
 
+  sendOrderNotification(data: any) {
+    for (let g = 0; g < data.length; g++) {
+      const cur = data[g]
+      this.socket.emit('send-order-notification', {
+        user: cur,
+        sender: this.userData.id + this.userData.first_name,
+      })
+    }
+  }
+
+  getOrderReceived = () => {
+    return Observable.create((observer: any) => {
+      this.socket.on('vendor-recevied', (message: any) => {
+        observer.next(message)
+      })
+    })
+  }
+
   getNotification() {
     return Observable.create((observer: any) => {
       this.socket.on('notification', (data: any) => {

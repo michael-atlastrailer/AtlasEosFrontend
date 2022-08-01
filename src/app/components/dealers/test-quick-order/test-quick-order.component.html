@@ -2,7 +2,7 @@
   <div class="container-fluid p-0">
     <div class="row my-5 ml-4">
       <div class="col-12">
-        <h3 class="section-header mb-4">Test Quick Order</h3>
+        <h3 class="section-header mb-4">Quick Order</h3>
         <div class="form-table-ctn px-2">
           <div class="header-search-ctn">
             <div class="d-flex align-items-center justify-content-between">
@@ -45,7 +45,11 @@
                   style="max-width: 70px !important;"
                   #qtyInput
                 />
-                <button class="btn btn-primary ml-3" (click)="oneAddBtn()">
+                <button
+                  *ngIf="addBtn"
+                  class="btn btn-primary ml-3"
+                  (click)="oneAddBtn()"
+                >
                   <div *ngIf="!addToQuickLoader">ADD</div>
                   <div *ngIf="addToQuickLoader">
                     ADD
@@ -155,25 +159,35 @@
             >
               &times;
             </button>
-            <strong>Success!</strong>
-            <p>
+            <!-- <strong>Success!</strong> -->
+            <!-- <p>
               {{ newlyAdded }} new item(s) has been added to your quick order.
-            </p>
+            </p> -->
             <p *ngIf="existingInQuickOrder != ''">
               {{ existingInQuickOrder }} has been added to your quick order
               already.
             </p>
-            <p *ngIf="existingInOrder != ''">
-              The following item(s) have already been ordered. You can adjust
-              them in the Edit Order page:
-              {{ existingInOrder }}
-            </p>
 
-            <strong style="margin-top: 20px; display: block;">Note!</strong>
-            <p>
-              Once an item is added to order, you can't add that same item in
-              your quick order table
-            </p>
+            <div
+              class="d-flex justify-content-between"
+              *ngIf="existingInOrder != ''"
+            >
+              <div>
+                <p>
+                  The following item(s) have already been ordered. You can
+                  adjust them in the Edit Order page:
+                  {{ existingInOrder }}
+                </p>
+              </div>
+              <div>
+                <button
+                  class="edit-vendor-btn"
+                  routerLink="/dealers/edit-vendor-orders/{{ currentVendor }}"
+                >
+                  Edit Item
+                </button>
+              </div>
+            </div>
           </div>
 
           <div class="table-ctn mt-3 p-3" style="background-color: white;">
