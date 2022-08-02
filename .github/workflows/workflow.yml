@@ -30,7 +30,7 @@ jobs:
 #         --expiry-seconds 1200
 
       - name: Log in to Docker
-        run: docker login -u {{ secrets.DOCKER_USERNAME }} -p {{ secrets.DOCKER_PASSWORD }} docker.io
+        run: docker login --username {{ secrets.DOCKER_USERNAME }} --password {{ secrets.DOCKER_PASSWORD }} docker.io
 #         --expiry-seconds 1200 DOCKER_USERNAME
       
       - name: Tag image to DigitalOcean Container Registry
