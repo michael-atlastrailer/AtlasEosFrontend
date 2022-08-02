@@ -5,12 +5,12 @@ WORKDIR /app
 
 # Copy our node module specification
 COPY package.json package.json
- 
-# update the npm file 
+
+# update the npm file
 RUN npm install --location=global npm@latest
 
 # install node modules and build assets
-RUN npm install --force
+RUN npm install --force --legacy-peer-deps
 
 # Copy all files from current directory to working dir in image
 # Except the one defined in '.dockerignore'
@@ -28,7 +28,7 @@ WORKDIR /usr/share/nginx/html
 # Remove default nginx static assets
 RUN rm -rf *
 
-# copies custom nginx to docker image to bypass 404 errors 
+# copies custom nginx to docker image to bypass 404 errors
 COPY nginx.conf /etc/nginx/nginx.conf
 
 # Copy static assets from builder stage
