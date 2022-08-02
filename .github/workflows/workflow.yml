@@ -28,10 +28,13 @@ jobs:
       - name: Log in to DigitalOcean Container Registry with short-lived credentials
         run: doctl registry login 
 #         --expiry-seconds 1200
+      - name: Log in to Docker
+        run: docker login -u {{ secrets.DOCKER_USERNAME }} -p {{ secrets.DOCKER_PASSWORD }} docker.io
+#         --expiry-seconds 1200 DOCKER_USERNAME
       
       - name: Tag image to DigitalOcean Container Registry
         run: docker tag ${{ secrets.REGISTRY_NAME }}/atlas-eos:$(echo $GITHUB_SHA | head -c7) ${{ secrets.REGISTRY_NAME }}/atlas-eos:$(echo $GITHUB_SHA | head -c7)
-        
+      
       - name: Push image to DigitalOcean Container Registry
         run: docker push ${{ secrets.REGISTRY_NAME }}/atlas-eos:$(echo $GITHUB_SHA | head -c7)
         
