@@ -30,7 +30,7 @@ jobs:
 #         --expiry-seconds 1200
       
       - name: Tag image to DigitalOcean Container Registry
-        run: docker tag tripletens/atlaseos:latest ${{ secrets.REGISTRY_NAME }}/atlas-eos:$(echo $GITHUB_SHA | head -c7)
+        run: docker tag ${{ secrets.REGISTRY_NAME }}/atlas-eos:$(echo $GITHUB_SHA | head -c7) ${{ secrets.REGISTRY_NAME }}/atlas-eos:$(echo $GITHUB_SHA | head -c7)
         
       - name: Push image to DigitalOcean Container Registry
         run: docker push ${{ secrets.REGISTRY_NAME }}/atlas-eos:$(echo $GITHUB_SHA | head -c7)
