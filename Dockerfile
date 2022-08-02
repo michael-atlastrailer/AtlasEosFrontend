@@ -1,3 +1,4 @@
+# <<<<<<< Updated upstream
 FROM node:18-alpine3.15 AS builder
 
 # Set working directory
@@ -36,3 +37,18 @@ COPY --from=builder /app/build .
 
 # Entry point when Docker container has started
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
+# =======
+# #stage 1
+# FROM node:latest as node
+# WORKDIR /app
+# COPY . .
+# RUN npm install --force
+# RUN npm run build --prod
+
+# #stage 2
+# FROM nginx:alpine
+# COPY --from=node /app/dist/atlas-eos /usr/share/nginx/html
+
+# #start the server
+# # ENTRYPOINT ["index.html"]
+# >>>>>>> Stashed changes
