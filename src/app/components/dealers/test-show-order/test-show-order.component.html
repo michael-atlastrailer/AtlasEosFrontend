@@ -1,3 +1,92 @@
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-md" style="margin-top: 80px">
+    <div class="modal-content modal-custom-content">
+      <div class="modal-header">
+        <h5 class="modal-title"></h5>
+        <button
+          type="button"
+          class="close close-btn"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true" class="modal-close-icon">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" *ngIf="viewFlyer">
+        <h5 class="text-center mt-3 mb-3">
+          {{ vendorBuckData!.vendor_name! }}
+        </h5>
+        <iframe
+          *ngIf="vendorBuckData!.promotional_fliers.length > 0"
+          title="{{ vendorBuckData!.vendor_name! }}"
+          [src]="
+            vendorBuckData!.promotional_fliers[0]!.pdf_url!
+              | safe: 'resourceUrl'
+          "
+          width="100%"
+          height="500px"
+          style="background-color: #525659; border: none"
+        ></iframe>
+        <p
+          *ngIf="vendorBuckData!.promotional_fliers.length == 0"
+          class="mt-3 mb-4"
+        >
+          No Flyer Available
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  class="modal fade"
+  id="exampleModal2"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-md" style="margin-top: 80px">
+    <div class="modal-content modal-custom-content">
+      <div class="modal-header">
+        <h5 class="modal-title"></h5>
+        <button
+          type="button"
+          class="close close-btn"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true" class="modal-close-icon">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" *ngIf="viewFlyer">
+        <h5 class="text-center mt-3 mb-3">
+          {{ vendorBuckData!.vendor_name! }} PROMO FLYER
+        </h5>
+        <iframe
+          *ngIf="vendorBuckData!.promotional_fliers.length > 0"
+          title="{{ vendorBuckData!.vendor_name! }}"
+          [src]="
+            vendorBuckData!.promotional_fliers[0]!.pdf_url!
+              | safe: 'resourceUrl'
+          "
+          width="100%"
+          height="500px"
+          style="background-color: #525659; border: none"
+        ></iframe>  <p
+          *ngIf="vendorBuckData!.promotional_fliers.length == 0"
+          class="mt-3 mb-4"
+        >
+          No Flyer Available
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
 <section class="overview-section">
   <div class="container-fluid p-0">
     <div class="row my-5 ml-4">
@@ -64,12 +153,34 @@
                 <i class="fa fa-search me-2"></i>
                 Search
               </button>
+              <a
+                href="#"
+                *ngIf="viewFlyer"
+                data-toggle="modal"
+                data-target="#exampleModal2"
+                class="ml-5"
+                title="click to view show buck flyer"
+              >
+                <img
+                  *ngIf="viewFlyer"
+                  src="{{ vendorBuckData.bucks[0]!.img_url! }}"
+                  class="showbuck-img"
+                />
+              </a>
             </form>
+            <p
+              class="ml-5 mt-4 py-2 link-text"
+             
+              *ngIf="viewFlyer"
+              data-toggle="modal"
+              data-target="#exampleModal"
+              >CLICK TO VIEW PROMOTIONAL FLYER</p
+            >
           </div>
 
           <div
             class="table-ctn mt-3 p-3 table-responsive"
-            style="background-color: white;"
+            style="background-color: white"
           >
             <table class="table" *ngIf="loader">
               <thead>
@@ -77,7 +188,7 @@
                   <td class="loader-td" colspan="8">
                     <div
                       class="ph-item"
-                      style="padding: 0px 0px; border: 0px; margin-bottom: 0px;"
+                      style="padding: 0px 0px; border: 0px; margin-bottom: 0px"
                     >
                       <div>
                         <div class="ph-picture"></div>
@@ -171,7 +282,7 @@
                 <th
                   mat-header-cell
                   *matHeaderCellDef
-                  style="white-space: nowrap;"
+                  style="white-space: nowrap"
                 >
                   Qty
                 </th>
@@ -185,7 +296,7 @@
                     id="cur-{{ i }}"
                     type="number"
                     class="mx-auto"
-                    style="text-align: center;"
+                    style="text-align: center"
                     min="0"
                     #inputAmt
                     placeholder="Qty"
@@ -313,7 +424,7 @@
                     {{ element.price }}
                   </span> -->
 
-                  <span id="amt-hidd-{{ i }}" style="display: none;"></span>
+                  <span id="amt-hidd-{{ i }}" style="display: none"></span>
                 </td>
               </ng-container>
 
@@ -343,14 +454,14 @@
               *ngIf="showSubmittedDetails"
               class="alert alert-success mt-2 mb-2 d-flex align-items-center"
             >
-              <i class="fa fa-check-circle" style="font-size: 30px;"></i>
+              <i class="fa fa-check-circle" style="font-size: 30px"></i>
               &nbsp;&nbsp;
               <div class="ml-2">
-                <h6 class="mb-1" style="font-size: 16px;">Success</h6>
-                <p style="font-size: 15px;">
+                <h6 class="mb-1" style="font-size: 16px">Success</h6>
+                <p style="font-size: 15px">
                   {{ itemNewlySubmitted }} new item(s) have been submitted
                 </p>
-                <p style="font-size: 15px;" *ngIf="itemAlreadySubmitted != ''">
+                <p style="font-size: 15px" *ngIf="itemAlreadySubmitted != ''">
                   The following item(s) have already been ordered. You can
                   adjust them in the Edit Order page:
                   {{ itemAlreadySubmitted }}
@@ -360,7 +471,7 @@
             <div
               class="w-100 justify-content-end d-flex py-3"
               *ngIf="canOrder"
-              style="border-top: 0.2px solid rgba(98, 98, 98, 0.484);"
+              style="border-top: 0.2px solid rgba(98, 98, 98, 0.484)"
             >
               <button
                 class="btn text-bold text-white bg-blue"

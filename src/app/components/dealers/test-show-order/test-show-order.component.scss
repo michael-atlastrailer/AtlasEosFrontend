@@ -225,24 +225,40 @@
   background-color: transparent !important;
 }
 ::ng-deep .highlighted {
-  border: 3px solid  red !important;;
-  
+  border: 3px solid red !important;
+}
+.link-text {
+  color: #00547a;
+  cursor: pointer;
+
+  :hover {
+    color: #006ea0;
+    text-decoration: underline;
+  }
+}
+.showbuck-img {
+  height: 140px;
+  min-width: 140px;
+  min-height: 140px;
+  background-color: #a8a8a8;
+  border-radius: 50%;
+  width: 140px;
 }
 table {
   input {
     width: 90px !important;
   }
 }
-input[type='number']::-webkit-inner-spin-button,
-input[type='number']::-webkit-outer-spin-button {
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none !important;
   margin: 0 !important;
 }
 
-input[type='number'] {
+input[type="number"] {
   -moz-appearance: textfield !important;
 }
-input[type='number']::placeholder {
+input[type="number"]::placeholder {
   text-align: center;
 }
 .short-note-con {
@@ -266,7 +282,7 @@ input[type='number']::placeholder {
   display: inline-block;
   padding-left: 10px;
 }
-input[type='number'] {
+input[type="number"] {
   -moz-appearance: textfield;
 }
 .view-special-text {
