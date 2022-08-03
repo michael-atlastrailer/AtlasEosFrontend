@@ -23,6 +23,7 @@ export class TokenStorageService {
     let dealerCode = data.dealer_code
     let userData = this.getUser()
     userData.dealer_code = dealerCode
+    userData.account_id = dealerCode
 
     /// window.localStorage.removeItem('user')
     window.localStorage.setItem('user', JSON.stringify(userData))
@@ -33,6 +34,7 @@ export class TokenStorageService {
     window.localStorage.removeItem('dealerData')
     let userData = this.getUser()
     userData.dealer_code = null
+    userData.account_id = null
 
     window.localStorage.removeItem('vendor')
     window.localStorage.setItem('user', JSON.stringify(userData))
