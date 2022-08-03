@@ -16,11 +16,26 @@ export class TokenStorageService {
   switchFromVendorToDealer(data: any) {
     window.localStorage.setItem('dealerData', JSON.stringify(data))
     window.localStorage.setItem('switchType', 'vendor-to-dealer')
+
+    let vendorCode = this.getUser().vendor_code
+    window.localStorage.setItem('vendor', vendorCode)
+
+    let dealerCode = data.dealer_code
+    let userData = this.getUser()
+    userData.dealer_code = dealerCode
+
+    /// window.localStorage.removeItem('user')
+    window.localStorage.setItem('user', JSON.stringify(userData))
   }
 
   switchFromDealerToVendor() {
     window.localStorage.setItem('switchType', 'dealer-to-vendor')
     window.localStorage.removeItem('dealerData')
+    let userData = this.getUser()
+    userData.dealer_code = null
+
+    window.localStorage.removeItem('vendor')
+    window.localStorage.setItem('user', JSON.stringify(userData))
   }
 
   checkSwitch() {
