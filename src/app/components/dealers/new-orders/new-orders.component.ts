@@ -29,6 +29,7 @@ export class NewOrdersComponent implements OnInit {
   noData = false;
   tableLoader = false;
   tableStatus = false;
+  viewSet = false;
   productData: any;
   @ViewChild('vendorId') vendor!: ElementRef;
   vendorId: any;
@@ -42,6 +43,7 @@ export class NewOrdersComponent implements OnInit {
     'booking',
     'special',
   ];
+  currentData: any;
   dataSrc = new MatTableDataSource<PeriodicElement>();
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
@@ -57,6 +59,14 @@ export class NewOrdersComponent implements OnInit {
 
   ngAfterViewInit() {
     this.dataSrc.paginator = this.paginator;
+  }
+  viewProduct(data: any) {
+    console.log(data);
+    this.currentData = data;
+    this.viewSet = true;
+  }
+  parser(data: any) {
+    return JSON.parse(data);
   }
 
   getAllVendors() {
