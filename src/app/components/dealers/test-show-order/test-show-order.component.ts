@@ -86,8 +86,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
   orderSuccess = false;
   sortTable: any;
   dataSrc = new MatTableDataSource<PeriodicElement>();
-  @ViewChild(MatPaginator)
-  paginator!: MatPaginator;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   canOrder = false;
   isMod = false;
   orderTable: object[] = [];
@@ -136,6 +135,9 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
   alreadyOrder = false;
   routChange = false;
   viewFlyer = false;
+  @ViewChild(MatSort)
+  sort!: MatSort;
+
   setVendor = false;
   constructor(
     private getData: HttpRequestsService,
@@ -172,8 +174,6 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
       );
     }
   }
-  @ViewChild(MatSort)
-  sort!: MatSort;
 
   ngOnInit(): void {}
   ngAfterViewInit() {}
@@ -288,7 +288,6 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
           }
           this.orderTable = [];
           this.getTotal();
-
           this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data);
           this.dataSrc.sort = this.sort;
           this.dataSrc.paginator = this.paginator;
@@ -1363,19 +1362,18 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
             this.dataSrc = new MatTableDataSource<PeriodicElement>(
               this.filterTop(result.data)
             );
+            this.dataSrc.sort = this.sort;
+            this.dataSrc.paginator = this.paginator;
           } else {
             this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data);
+            this.dataSrc.sort = this.sort;
+            this.dataSrc.paginator = this.paginator;
           }
 
           this.canOrder = true;
-          this.dataSrc.sort = this.sort;
-          this.dataSrc.paginator = this.paginator;
-          $('table-ctn').addClass('highlight');
 
-          this.canOrder = true;
-          this.dataSrc.sort = this.sort;
-          ///  this.dataSrc.paginator = this.paginator
           $('table-ctn').addClass('highlight');
+          this.canOrder = true;
         } else {
           // this.toastr.info(`Something went wrong`, 'Error');
         }
