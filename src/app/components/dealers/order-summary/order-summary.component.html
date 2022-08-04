@@ -174,63 +174,65 @@
               </table>
               <div class="table-view" *ngIf="!loader">
                 <div class="table-ctn mt-3" *ngIf="selectDefault">
-                  <div class="div" *ngFor="let order of newTable"><h5 class="text-center">{{ order[1][0].vendor_name }}</h5>
-                  <table class="order-form-table w-100 mb-4">
-                    <thead>
-                      <th>Qty</th>
-                      <th>Atlas #</th>
+                  <div class="div" *ngFor="let order of newTable">
+                    <h5 class="text-center">{{ order[1][0].vendor_name }}</h5>
+                    <table class="order-form-table w-100 mb-4">
+                      <thead>
+                        <th>Qty</th>
+                        <th>Atlas #</th>
 
-                      <th>Vendor #</th>
-                      <th>Description</th>
-                      <th>Special Price ($)</th>
-                      <th>Total ($)</th>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let product of order[1]">
-                        <td class="text-center">{{ product.qty }}</td>
-                        <td class="text-center">{{ product.atlas_id }}</td>
-                        <td class="text-center">
-                          {{ product.product_vendor_product_code }}
-                        </td>
-                        <td class="text-center">
-                          <p class="text-center">
-                            {{ product.product_description }}
-                          </p>
-                        </td>
+                        <th>Vendor #</th>
+                        <th>Description</th>
+                        <th>Special Price ($)</th>
+                        <th>Total ($)</th>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let product of order[1]">
+                          <td class="text-center">{{ product.qty }}</td>
+                          <td class="text-center">{{ product.atlas_id }}</td>
+                          <td class="text-center">
+                            {{ product.product_vendor_product_code }}
+                          </td>
+                          <td class="text-center">
+                            <p class="text-center">
+                              {{ product.product_description }}
+                            </p>
+                          </td>
 
-                        <td class="text-center">
-                          {{ product.unit_price | currency }}
-                        </td>
-                        <td class="text-center">
-                          {{ product.price | currency }}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td
-                          colspan="5"
-                          style="
-                            text-align: end;
-                            text-transform: uppercase;
-                            font-weight: 700;
-                            color: #437c17;
-                          "
-                        >
-                          Total for {{ order[1][0].vendor_name }}
-                        </td>
-                        <td
-                          style="
-                            text-align: end;
-                            text-transform: uppercase;
-                            font-weight: 700;
-                            color: #437c17;
-                          "
-                        >
-                          {{ order[2] | currency }}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table></div>
-                  
+                          <td class="text-center">
+                            {{ product.unit_price | currency }}
+                          </td>
+                          <td class="text-center">
+                            {{ product.price | currency }}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td
+                            colspan="5"
+                            style="
+                              text-align: end;
+                              text-transform: uppercase;
+                              font-weight: 700;
+                              color: #437c17;
+                            "
+                          >
+                            Total for {{ order[1][0].vendor_name }}
+                          </td>
+                          <td
+                            style="
+                              text-align: end;
+                              text-transform: uppercase;
+                              font-weight: 700;
+                              color: #437c17;
+                            "
+                          >
+                            {{ order[2] | currency }}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
                   <table class="w-100" *ngIf="selectDefault">
                     <tr>
                       <td
@@ -261,6 +263,14 @@
                       </td>
                     </tr>
                   </table>
+                  <div
+                    class="w-100 d-flex justify-content-end mt-4"
+                    *ngIf="selectDefault"
+                  >
+                    <a *ngIf="account_id" class="btn btn-primary" target="_blank" href="https://atlas-eos-backend-app-k4s5v.ondigitalocean.app/generate-pdf/{{account_id}}"
+                      ><i class="fa fa-print mr-2"></i> Print/Review</a
+                    >
+                  </div>
                 </div>
                 <div class="table-ctn mt-3" *ngIf="!selectDefault">
                   <h5 class="text-center">{{ orderTable[0].vendor_name }}</h5>

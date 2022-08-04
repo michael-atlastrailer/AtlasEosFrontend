@@ -1320,14 +1320,21 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
   }
 
   filterTop(array: any) {
-    let prodigal = array.filter((item: any) => {
-      return item.atlas_id == this.searchatlasId!;
-    });
-    let newArray = array.filter((item: any) => {
-      return item.atlas_id !== this.searchatlasId!;
-    });
+    
+     let newArray =[]
+  
+    if (this.searchatlasId == "###") {
+      newArray= array
+    } else {this.isMod = true;
+        let prodigal = array.filter((item: any) => {
+          return item.atlas_id == this.searchatlasId!;
+        });
+        newArray = array.filter((item: any) => {
+          return item.atlas_id !== this.searchatlasId!;
+        });
 
-    newArray.unshift(prodigal[0]);
+        newArray.unshift(prodigal[0]);
+    }
     return newArray;
   }
 
@@ -1353,7 +1360,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
       .httpGetRequest('/dealer/get-vendor-products/' + id)
       .then((result: any) => {
         if (result.status) {
-          this.isMod = true;
+         
           this.getVendorBuck(id);
           this.tableData = result.data;
           this.productData = result.data;
