@@ -33,12 +33,19 @@ const routes: Routes = [
     loadChildren: () =>
       import('./components/branch/branch.module').then((m) => m.BranchModule),
   },
-  
+
   {
-    path: 'outside-sales-rep',
+    path: 'outside-sales',
     loadChildren: () =>
       import('./components/outside-sales-rep/outside-sales.module').then(
         (m) => m.OutsideSalesModule
+      ),
+  },
+  {
+    path: 'inside-sales',
+    loadChildren: () =>
+      import('./components/inside-sales-rep/inside-sales.module').then(
+        (m) => m.InsideSalesModule
       ),
   },
 ];

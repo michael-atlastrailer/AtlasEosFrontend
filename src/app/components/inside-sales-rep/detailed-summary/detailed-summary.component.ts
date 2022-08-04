@@ -8,24 +8,34 @@ import Swal from 'sweetalert2'
 declare var $: any
 
 export interface PeriodicElement {
-  account: string
-  dealer_name: string
-  show_total: string
+  qty: string
+  atlas_id: string
+  vendor_code: string
+  description: string
+  special: string
+  total: string
 }
 
 @Component({
-  selector: 'app-dealer-summary',
-  templateUrl: './dealer-summary.component.html',
-  styleUrls: ['./dealer-summary.component.scss'],
+  selector: 'app-detailed-summary',
+  templateUrl: './detailed-summary.component.html',
+  styleUrls: ['./detailed-summary.component.scss'],
 })
-export class DealerSummaryComponent implements OnInit {
+export class DetailedSummaryComponent implements OnInit {
   tableView = false
   loader = true
   allVendor: any
   loaderData = [9, 8, 6]
   incomingData: any
 
-  displayedColumns: string[] = ['account', 'dealer_name', 'show_total']
+  displayedColumns: string[] = [
+    'qty',
+    'atlas_id',
+    'vendor_code',
+    'description',
+    'special',
+    'total',
+  ]
 
   dataSource = new MatTableDataSource<PeriodicElement>()
   @ViewChild(MatPaginator) paginator!: MatPaginator
@@ -35,7 +45,8 @@ export class DealerSummaryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.getDealerUsers()
+    this.getDealerUsers()
+    this.getVendors()
   }
 
   pageSizes = [3, 5, 7]
@@ -44,6 +55,23 @@ export class DealerSummaryComponent implements OnInit {
     private postData: HttpRequestsService,
     private toastr: ToastrService,
   ) {}
+
+  getVendors() {
+    this.postData
+      .httpGetRequest('/get-all-vendors')
+      .then((result: any) => {
+        console.log(result)
+
+        if (result.status) {
+          this.allVendor = result.data
+        } else {
+          // this.toastr.error(result.message, 'Try again')
+        }
+      })
+      .catch((err) => {
+        // this.toastr.error('Try again', 'Something went wrong')
+      })
+  }
 
   async removeVendor(index: any) {
     let confirmStatus = await this.confirmBox()

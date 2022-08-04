@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common'
 
 
 
-import {  OutsideSalesRoutingModule} from './outside-sales-routing.module'
-import {  OutsideSalesComponent } from './outside-sales.component'
+import {  InsideSalesRoutingModule} from './inside-sales-routing.module'
+import {  InsideSalesComponent } from './inside-sales.component'
 
 
 import { MatPaginatorModule } from '@angular/material/paginator'
@@ -13,13 +13,13 @@ import { DashboardComponent } from './dashboard/dashboard.component'
 import { DealerSummaryComponent } from './dealer-summary/dealer-summary.component'
 import { MyMessagesComponent } from './my-messages/my-messages.component'
 import { DetailedSummaryComponent } from './detailed-summary/detailed-summary.component'
-import { OutsideSalesNavbarComponent } from '../templates/outside-sales-navbar/outside-sales-navbar.component'
+import { InsideSalesNavbarComponent } from '../templates/inside-sales-navbar/inside-sales-navbar.component'
 
 @NgModule({
   declarations: [
-    OutsideSalesComponent,
+    InsideSalesComponent,
     DashboardComponent,
-    OutsideSalesNavbarComponent,
+    InsideSalesNavbarComponent,
     DealerSummaryComponent,
     MyMessagesComponent,
     DetailedSummaryComponent,
@@ -28,7 +28,7 @@ import { OutsideSalesNavbarComponent } from '../templates/outside-sales-navbar/o
     CommonModule,
     MatPaginatorModule,
     MatTableModule,
-    OutsideSalesRoutingModule,
+    InsideSalesRoutingModule,
   ],
 })
-export class OutsideSalesModule {}
+export class InsideSalesModule {}

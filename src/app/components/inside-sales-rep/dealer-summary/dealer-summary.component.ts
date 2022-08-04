@@ -35,7 +35,7 @@ export class DealerSummaryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.getDealerUsers()
+    this.getDealerUsers()
   }
 
   pageSizes = [3, 5, 7]

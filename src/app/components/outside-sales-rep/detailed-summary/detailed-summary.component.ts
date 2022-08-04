@@ -45,7 +45,7 @@ export class DetailedSummaryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getDealerUsers()
+    // this.getDealerUsers()
     this.getVendors()
   }
 

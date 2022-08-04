@@ -20,10 +20,12 @@ import { SafepipePipe } from './core/pipes/safepipe.pipe'
 import { CommonModule, CurrencyPipe } from '@angular/common'
 import { BranchNavbarComponent } from './components/templates/branch-navbar/branch-navbar.component'
 import { VendorNavbarComponent } from './components/templates/vendor-navbar/vendor-navbar.component'
-import { ChatService } from './core/services/chat.service'
+import { ChatService } from './core/services/chat.service';
+import { OutsideSalesNavbarComponent } from './components/templates/outside-sales-navbar/outside-sales-navbar.component';
+import { InsideSalesNavbarComponent } from './components/templates/inside-sales-navbar/inside-sales-navbar.component'
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, AdminLoginComponent],
+  declarations: [AppComponent, LoginComponent, AdminLoginComponent, ],
   imports: [
     BrowserModule,
     HttpClientModule,

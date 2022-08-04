@@ -19,7 +19,8 @@ export class OrderSummaryComponent implements OnInit {
   orderTotal = 0;
   loader = true;
   grandTotal = 0;
-
+  account_id: any;
+  disablePrint = true;
   constructor(
     private getData: HttpRequestsService,
     private toastr: ToastrService,
@@ -27,6 +28,7 @@ export class OrderSummaryComponent implements OnInit {
   ) {
     this.getAllVendorOrders();
     this.getCartByVendorId('all');
+    this.account_id = this.token.getUser().account_id;
   }
 
   ngOnInit(): void {}
@@ -48,6 +50,7 @@ export class OrderSummaryComponent implements OnInit {
         this.toastr.info(`Something went wrong`, 'Error');
       });
   }
+
   getCartByVendorId(id: any) {
     this.loader = true;
     console.log('fetching', id);
