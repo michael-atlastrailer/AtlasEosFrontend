@@ -19,57 +19,34 @@ export interface PeriodicElement {
   styleUrls: ['./dealer-summary.component.scss'],
 })
 export class DealerSummaryComponent implements OnInit {
-  tableView = false
-  loader = true
-  allVendor: any
-  loaderData = [9, 8, 6]
-  incomingData: any
+  tableView = true;
+  loader = false;
+  allVendor: any;
+  loaderData = [9, 8, 6];
+  incomingData: any;
+  allCategoryData: any;
+  displayedColumns: string[] = [
+    'atlas_id',
+    'vendor',
+    'description',
+    'regular',
+    'special',
+  ];
 
-  displayedColumns: string[] = ['account', 'dealer_name', 'show_total']
+  dataSource = new MatTableDataSource<PeriodicElement>();
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  dataSource = new MatTableDataSource<PeriodicElement>()
-  @ViewChild(MatPaginator) paginator!: MatPaginator
+  ngAfterViewInit() {}
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator
-  }
+  ngOnInit(): void {}
 
-  ngOnInit(): void {
-    this.getDealerUsers()
-  }
-
-  pageSizes = [3, 5, 7]
+  pageSizes = [3, 5, 7];
 
   constructor(
     private postData: HttpRequestsService,
-    private toastr: ToastrService,
-  ) {}
-
-  async removeVendor(index: any) {
-    let confirmStatus = await this.confirmBox()
-
-    if (confirmStatus) {
-      $('#remove-icon-' + index).css('display', 'none')
-      $('#remove-loader-' + index).css('display', 'inline-block')
-
-      this.postData
-        .httpGetRequest('/deactivate-dealer-user/' + index)
-        .then((result: any) => {
-          $('#remove-icon-' + index).css('display', 'inline-block')
-          $('#remove-loader-' + index).css('display', 'none')
-
-          if (result.status) {
-            this.toastr.success('Successful', result.message)
-            this.getDealerUsers()
-          } else {
-            this.toastr.error('Something went wrong', 'Try again')
-          }
-        })
-        .catch((err) => {
-          this.toastr.error('Something went wrong', 'Try again')
-        })
-    } else {
-    }
+    private toastr: ToastrService
+  ) {
+    this.getAllVendors();
   }
 
   async confirmBox() {
@@ -82,36 +59,57 @@ export class DealerSummaryComponent implements OnInit {
       cancelButtonText: 'Cancel',
     }).then((result) => {
       if (result.value) {
-        return true
+        return true;
       } else if (result.dismiss === Swal.DismissReason.cancel) {
-        return false
+        return false;
       } else {
-        return false
+        return false;
       }
-    })
+    });
   }
-
+  getAllVendors() {
+    this.postData
+      .httpGetRequest('/fetch-vendors-new-products')
+      .then((result: any) => {
+        // console.log(result);
+        if (result.status) {
+          this.allCategoryData = result.data.vendor;
+        } else {
+          this.toastr.info(`Something went wrong`, 'Error');
+        }
+      })
+      .catch((err) => {
+        this.toastr.info(`Something went wrong`, 'Error');
+      });
+  }
   getDealerUsers() {
     this.postData
       .httpGetRequest('/all-admins')
       .then((result: any) => {
-        console.log(result)
+        console.log(result);
 
         if (result.status) {
-          this.allVendor = result.data
+          this.allVendor = result.data;
           // this.dataSource = result.data
-          this.loader = false
-          this.tableView = true
-          this.incomingData = result.data
-          this.dataSource = new MatTableDataSource<PeriodicElement>(result.data)
+          this.loader = false;
+          this.tableView = true;
+          this.incomingData = result.data;
+          this.dataSource = new MatTableDataSource<PeriodicElement>(
+            result.data
+          );
 
-          this.dataSource.paginator = this.paginator
+          this.dataSource.paginator = this.paginator;
         } else {
           // this.toastr.error(result.message, 'Try again')
         }
       })
       .catch((err) => {
         // this.toastr.error('Try again', 'Something went wrong')
-      })
+      });
+  }
+  selectVendor(id: any) {
+    if (id !== 'none') {
+     
+    }
   }
 }
