@@ -7,7 +7,12 @@
 }
 .btn-primary {
   background-color: #00547a !important;
+  transition: .4s ease;
+  
 }
+.btn-primary:hover{
+   background-color: #0470a2 !important;
+ }
 ::ng-deep tr:nth-child(2n + 2) {
   background: rgb(223, 222, 222) !important;
 }
@@ -17,9 +22,7 @@
   font-size: 20px;
 }
 .header-search-ctn {
-  button {
-    background-color: #054e6e !important;
-  }
+ 
 }
 .search-input {
   max-width: 230px;
