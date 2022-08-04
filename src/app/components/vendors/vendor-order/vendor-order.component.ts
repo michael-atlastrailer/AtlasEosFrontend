@@ -129,9 +129,14 @@ export class VendorOrderComponent implements OnInit {
   }
 
   selectedVendor(data: any) {
-    console.log(data)
-    this.selectedVendorName = data.vendor_name
-    this.selectedVendorCode = data.vendor_code
+    //console.log(data.value)
+    this.selectedVendorCode = data.value
+    for (let f = 0; f < this.privilegedVendors.length; f++) {
+      const element = this.privilegedVendors[f]
+      if (element.vendor_code == data.value) {
+        this.selectedVendorName = element.vendor_name
+      }
+    }
   }
 
   getPrivilegedVendors() {

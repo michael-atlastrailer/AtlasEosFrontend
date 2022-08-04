@@ -17,7 +17,7 @@ import { MatSortModule } from '@angular/material/sort'
 import { MatSort, Sort } from '@angular/material/sort'
 import { LiveAnnouncer } from '@angular/cdk/a11y'
 import { TokenStorageService } from 'src/app/core/services/token-storage.service'
-import { CommonModule, CurrencyPipe } from '@angular/common'
+import { CommonModule, CurrencyPipe, Location } from '@angular/common'
 import Swal from 'sweetalert2'
 
 declare var $: any
@@ -149,6 +149,7 @@ export class EditOrderVendorPageComponent implements OnInit {
   tableViewDisplay: any
   eachSelectedItem: any
   assortedTableItem: any
+  currentVendorName = ''
   /////// end of importation //////////
 
   constructor(
@@ -159,6 +160,7 @@ export class EditOrderVendorPageComponent implements OnInit {
     private _liveAnnouncer: LiveAnnouncer,
     private token: TokenStorageService,
     private currencyPipe: CurrencyPipe,
+    private location: Location,
   ) {
     this.route.params.subscribe((params) => {
       this.vendorId = params['vendorId']
@@ -166,6 +168,7 @@ export class EditOrderVendorPageComponent implements OnInit {
       if (this.vendorId) {
         console.log('got in', this.vendorId)
         this.getCartByVendorId(this.vendorId)
+        this.getVendorData()
       }
     })
     this.userData = this.token.getUser()
@@ -184,6 +187,10 @@ export class EditOrderVendorPageComponent implements OnInit {
     } else {
       this._liveAnnouncer.announce('Sorting cleared')
     }
+  }
+
+  goBack() {
+    this.location.back()
   }
 
   addAssortedItem() {
@@ -230,6 +237,18 @@ export class EditOrderVendorPageComponent implements OnInit {
     $('.order-total').html(formattedAmt)
     console.log(total, 'our total')
     /// this.overTotal = total
+  }
+
+  getVendorData() {
+    this.getData
+      .httpGetRequest('/dealer/get-vendor-data/' + this.vendorId)
+      .then((result: any) => {
+        if (result.status) {
+          this.currentVendorName = result.data.vendor_name
+        } else {
+        }
+      })
+      .catch((err) => {})
   }
 
   getItemVendorItem(atlas: any) {
@@ -312,12 +331,20 @@ export class EditOrderVendorPageComponent implements OnInit {
         this.closeModalBtn.nativeElement.click()
         this.tableViewDisplay = []
         $('#closeModal').click()
+
+        console.log(res)
+
         if (res.status) {
           //  this.newlyAdded = res.data.newly_added
           //  this.existingInQuickOrder = res.data.existing_already_in_quick_order
           //  this.existingInOrder = res.data.existing_already_in_order
 
-          this.toastr.success(`item(s) has been submitted`, 'Success')
+          if (res.data.item_added > 0) {
+            this.toastr.success(`item(s) has been submitted`, 'Success')
+          } else {
+            this.toastr.error(`item(s) already in order`, 'Item Update')
+          }
+
           //  this.closeModalBtn.nativeElement.click()
           ///  this.fetchQuickOrderCart()
         } else {
