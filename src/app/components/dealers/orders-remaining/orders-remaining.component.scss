@@ -5,18 +5,20 @@
   padding: 10px;
   border-radius: 5px;
 }
-.btn-primary{
-    background-color: #00547A !important;
+.btn-primary {
+  background-color: #00547a !important;
 }
-.card-header{
+.card-header {
   // background-color: #f6f6f6;
   // border-bottom: .2px solid #a8a8a8;
-font-size: 20px;}
+  font-size: 20px;
+}
 .header-search-ctn {
   button {
     background-color: #054e6e !important;
   }
-}::ng-deep tr:nth-child(2n + 1) {
+}
+::ng-deep tr:nth-child(2n + 1) {
   background: rgb(223, 222, 222) !important;
 }
 .search-input {

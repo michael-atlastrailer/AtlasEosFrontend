@@ -74,6 +74,7 @@ export class DealerSummaryComponent implements OnInit {
         // console.log(result);
         if (result.status) {
           this.allCategoryData = result.data.vendor;
+          console.log("")
         } else {
           this.toastr.info(`Something went wrong`, 'Error');
         }

@@ -6,6 +6,7 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { ViewChild } from '@angular/core';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 
 import {
   ChartComponent,
