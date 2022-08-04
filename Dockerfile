@@ -52,6 +52,6 @@ FROM nginx:alpine
 COPY --from=node /app/dist/atlas-eos /usr/share/nginx/html
 
 #start the server
-# # ENTRYPOINT ["index.html"]
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+ENTRYPOINT ["index.html"]
+# ENTRYPOINT ["nginx", "-g", "daemon off;"]
 # >>>>>>> Stashed changes
