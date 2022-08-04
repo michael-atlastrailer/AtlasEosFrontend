@@ -31,7 +31,7 @@ WORKDIR /usr/share/nginx/html
 RUN rm -rf *
 
 # copies custom nginx to docker image to bypass 404 errors
-COPY nginx.conf /etc/nginx/nginx.conf
+# COPY nginx.conf /etc/nginx/nginx.conf
 
 # Copy static assets from builder stage
 COPY --from=builder /app/build .
