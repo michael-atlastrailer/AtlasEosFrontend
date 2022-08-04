@@ -5,9 +5,16 @@
   padding: 10px;
   border-radius: 5px;
 }
+
 .btn-primary {
   background-color: #00547a !important;
+  transition: .4s ease;
+  
 }
+.btn-primary:hover{
+   background-color: #0470a2 !important;
+ }
+
 .btn-primary:disabled {
   background-color: #00537ac6 !important;
 }
@@ -111,9 +118,7 @@ input[type="number"] {
 input[type="number"]::placeholder {
   text-align: center;
 }
-.btn-primary {
-  background-color: #00547a !important;
-}
+
 .header-search-ctn {
   button {
     background-color: #054e6e !important;

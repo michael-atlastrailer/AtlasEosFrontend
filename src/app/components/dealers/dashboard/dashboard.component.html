@@ -53,7 +53,12 @@
               <div class="card data-card">
                 <div class="card-body p-3 pb-4 align-items-center">
                   <h5 class="text-center blue-title">NEW <BR /> PRODUCTS</h5>
-                  <p class=" text-center font-weight-bold" style="font-size:14px; color:black">14</p>
+                  <p
+                    class="text-center font-weight-bold"
+                    style="font-size: 14px; color: black"
+                  >
+                    14
+                  </p>
                 </div>
               </div>
             </a>
@@ -77,8 +82,8 @@
                   <apx-chart
                     [series]="chartOptions.series"
                     [chart]="chartOptions.chart"
-                     [xaxis]="chartOptions.xaxis"
-                      [yaxis]="chartOptions.yaxis"
+                    [xaxis]="chartOptions.xaxis"
+                    [yaxis]="chartOptions.yaxis"
                     [title]="chartOptions.title"
                   ></apx-chart>
                 </div>
@@ -134,27 +139,26 @@
           </div>
         </div> -->
 
-        <h3 class="section-header mb-2">PROMOTIONAL FlYER</h3>
+        <h3 class="section-header mb-2">PROMOTIONAL FLYER</h3>
         <div class="card promotional-flyer-ctn px-4">
           <div class="pb-4 pt-0">
             <select
-            
-            
-            name="" #selectToggle
-            (change)="fetchFlyer(selectToggle.value)"
-            class="form-control custom-select select2 my-3 mt-0"
-          >
-            <option selected value="{{defaultFlyer}}" >Select Vendor</option>
-            <option
-              class="category-text"
-              value="{{ category?.vendor_code! }}"
-              *ngFor="let category of allCategoryData!"
+              name=""
+              #selectToggle
+              (change)="fetchFlyer(selectToggle.value)"
+              class="form-control custom-select select2 my-3 mt-0"
             >
-              {{ category.vendor_name }}
-            </option>
-          </select>
-            <iframe 
-              title="{{promotionalAds?.description!}}"
+              <option selected value="{{ defaultFlyer }}">Select Vendor</option>
+              <option
+                class="category-text"
+                value="{{ category?.vendor_code! }}"
+                *ngFor="let category of allCategoryData!"
+              >
+                {{ category.vendor_name }}
+              </option>
+            </select>
+            <iframe
+              title="{{ promotionalAds?.description! }}"
               [src]="promotionalAds?.pdf_url! | safe: 'resourceUrl'"
               width="100%"
               height="500px"

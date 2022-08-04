@@ -36,11 +36,13 @@
     height: 400px;
     overflow: auto;
 
+
     // ::-webkit-scrollbar {
     //   width: auto;
     // }
 
     // scrollbar-width: thin;
+
     // scrollbar-color: transparent;
     // li:hover{
     //   background-color: #14abef;
@@ -119,12 +121,13 @@
 }
 .btn-primary {
   background-color: #00547a !important;
+  transition: .4s ease;
+  
 }
-.header-search-ctn {
-  button {
-    background-color: #054e6e !important;
-  }
-}
+.btn-primary:hover, .bg-blue:hover{
+   background-color: #0470a2 !important;
+ }
+
 .indicator-wrapper {
   div:nth-child(1) {
     gap: 10px;
@@ -203,7 +206,7 @@
     color: #fff;
     font-size: 17px;
     padding: 10px;
-    text-transform: uppercase;
+    text-transform: capitalize;
     font-weight: 500;
   }
   tbody {
@@ -240,15 +243,15 @@
   background: rgb(223, 222, 222) !important;
 }
 .bg-blue {
+  transition: 0.2s ease;
   background-color: #006ea0 !important;
   color: #fff;
-  :hover {
-    background-color: #006ea0 !important;
-  }
+  :hover{
+   background-color: #0470a2 !important;
+ }
+  
 }
-.bg-blue:hover {
-  background-color: #006ea0 !important;
-}
+
 .bg-transparent {
   border: 0.5px solid #797878 !important;
   background-color: transparent !important;
