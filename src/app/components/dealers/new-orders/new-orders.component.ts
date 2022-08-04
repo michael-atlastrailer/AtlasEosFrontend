@@ -63,6 +63,7 @@ export class NewOrdersComponent implements OnInit {
   viewProduct(data: any) {
     console.log(data);
     this.currentData = data;
+    
     this.viewSet = true;
   }
   parser(data: any) {

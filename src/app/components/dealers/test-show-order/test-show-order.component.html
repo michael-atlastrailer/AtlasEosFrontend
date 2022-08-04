@@ -168,7 +168,6 @@
                 CLICK TO VIEW PROMOTIONAL FLYER
               </a>
             </div>
-         
           </div>
 
           <div
@@ -464,8 +463,8 @@
               style="border-top: 0.2px solid rgba(98, 98, 98, 0.484)"
             >
               <button
-                class="btn text-bold text-white btn-primary
-                "                [disabled]="cartLoader || alreadyOrder"
+                class="btn text-bold text-white btn-primary"
+                [disabled]="cartLoader || alreadyOrder"
                 (click)="oneAddBtn()"
               >
                 <div *ngIf="!cartLoader">Confirm Order</div>
