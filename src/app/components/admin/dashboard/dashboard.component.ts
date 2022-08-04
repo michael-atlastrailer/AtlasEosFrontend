@@ -55,11 +55,19 @@ export class DashboardComponent implements OnInit {
   initalEndTime: any
   initalStartTime: any
 
+  mostSalesDealerLoader = true
+  mostSalesDealerTableView = false
+
+  MostSalesVendorLoader = true
+  MostSalesVendorTableView = false
+
   constructor(private getData: HttpRequestsService) {}
 
   ngOnInit(): void {
-    this.getDashboardData()
     this.getProgramCountDown()
+    this.getMostSalesDealer()
+    this.getMostSalesVendor()
+    this.getallAnalysis()
   }
 
   arrangeTimer(data: any) {
@@ -269,14 +277,46 @@ export class DashboardComponent implements OnInit {
       })
   }
 
-  getDashboardData() {
+  getMostSalesDealer() {
     this.getData
-      .httpGetRequest('/admin-dashboard')
+      .httpGetRequest('/admin/most-sales-dealers-admin-dashboard')
       .then((result: any) => {
-        this.tableView = true
+        this.mostSalesDealerLoader = false
+        this.mostSalesDealerTableView = true
+        if (result.status) {
+          this.mostSalesDealerData = result.data
+        } else {
+        }
+      })
+      .catch((err) => {
+        this.mostSalesDealerLoader = false
+        this.mostSalesDealerTableView = true
+      })
+  }
 
+  getMostSalesVendor() {
+    this.getData
+      .httpGetRequest('/admin/most-sales-vendor-admin-dashboard')
+      .then((result: any) => {
+        this.MostSalesVendorLoader = false
+        this.MostSalesVendorTableView = true
+        if (result.status) {
+          this.mostSalesVendorData = result.data
+        } else {
+        }
+      })
+      .catch((err) => {
+        this.MostSalesVendorLoader = false
+        this.MostSalesVendorTableView = true
+      })
+  }
+
+  getallAnalysis() {
+    this.getData
+      .httpGetRequest('/admin/analysis-admin-dashboard')
+      .then((result: any) => {
         this.loader = false
-        console.log(result)
+        this.tableView = true
         if (result.status) {
           this.totalCardedProduct = result.data.total_carded_products
           this.totalServicePart = result.data.total_service_parts
@@ -292,14 +332,15 @@ export class DashboardComponent implements OnInit {
           this.totalAmount = result.data.total_amount
           this.totalOrder = result.data.total_item_ordered
           this.recentOrders = result.data.recent_orders
-          this.mostSalesVendorData = result.data.most_sales_vendor
-          this.mostSalesDealerData = result.data.most_sale_dealer
+          ///  this.mostSalesVendorData = result.data.most_sales_vendor
+          ///  this.mostSalesDealerData = result.data.most_sale_dealer
           //this.allCategoryData = result.data;
         } else {
         }
       })
       .catch((err) => {
         this.loader = false
+        this.tableView = true
       })
   }
 
