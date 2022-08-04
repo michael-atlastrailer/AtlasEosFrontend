@@ -1,3 +1,18 @@
+.vendor-name-text {
+  padding: 10px;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.back-btn,
+.add-btn {
+  border: 1px solid gray;
+  padding: 5px 10px;
+  background-color: #006ea0;
+  color: #ffffff;
+  border-radius: 4px;
+}
+
 .section-header {
   color: #ffffff;
   background-color: #a8a8a8;
