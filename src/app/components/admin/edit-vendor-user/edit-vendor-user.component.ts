@@ -48,10 +48,10 @@ export class EditVendorUserComponent implements OnInit {
 
   assignVendor(data: any) {
     this.vendorSelected = true
-    console.log(data.value)
+    // console.log(data)
     for (let index = 0; index < this.allVendor.length; index++) {
       const vendor = this.allVendor[index]
-      if (vendor.vendor_code == data.value) {
+      if (vendor.vendor_code == data) {
         this.selectedVendorCode = vendor.vendor_code
         this.selectedVendorName = vendor.vendor_name
         this.vendorUserForm.value.vendorCode = vendor.vendor_code
@@ -132,10 +132,11 @@ export class EditVendorUserComponent implements OnInit {
 
   submit() {
     this.vendorUserForm.value.vendorId = this.userId
-    this.btnText = false
-    this.btnLoader = true
+    // this.btnText = false
+    // this.btnLoader = true
 
     console.log(this.vendorUserForm.value)
+    console.log(this.selectedVendorName)
 
     // this.postData
     //   .httpPostRequest('/edit-vendor-user', this.vendorUserForm.value)
