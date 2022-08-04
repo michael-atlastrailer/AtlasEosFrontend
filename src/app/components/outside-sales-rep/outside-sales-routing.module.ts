@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { DealerSummaryComponent } from './dealer-summary/dealer-summary.component';
+import { DetailedSummaryComponent } from './detailed-summary/detailed-summary.component';
+import { MyMessagesComponent } from './my-messages/my-messages.component';
 import { OutsideSalesComponent } from './outside-sales.component'
-import { DashboardComponent } from './dashboard/dashboard.component'
-import { DealerSummaryComponent } from './dealer-summary/dealer-summary.component'
-import { DetailedSummaryComponent } from './detailed-summary/detailed-summary.component'
-import { MyMessagesComponent } from './my-messages/my-messages.component'
 
 const routes: Routes = [
   {
