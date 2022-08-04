@@ -51,7 +51,7 @@ export class NewOrdersComponent implements OnInit {
     private getData: HttpRequestsService,
     private toastr: ToastrService
   ) {
-    // this.getAllVendors();
+    this.getAllVendors();
     this.getAllNewProducts();
   }
 
@@ -63,7 +63,7 @@ export class NewOrdersComponent implements OnInit {
   viewProduct(data: any) {
     console.log(data);
     this.currentData = data;
-    
+
     this.viewSet = true;
   }
   parser(data: any) {
@@ -72,11 +72,11 @@ export class NewOrdersComponent implements OnInit {
 
   getAllVendors() {
     this.getData
-      .httpGetRequest('/get-all-vendors')
+      .httpGetRequest('/fetch-vendors-new-products')
       .then((result: any) => {
         console.log(result);
         if (result.status) {
-          this.allCategoryData = result.data;
+          this.allCategoryData = result.data.vendors;
         } else {
           this.toastr.info(`Something went wrong`, 'Error');
         }
@@ -84,6 +84,15 @@ export class NewOrdersComponent implements OnInit {
       .catch((err) => {
         this.toastr.info(`Something went wrong`, 'Error');
       });
+  }
+  selectVendor() {
+    let id = this.vendor.nativeElement.value;
+    console.log("id of prod", id)
+    if ((id == 'all')) {
+      this.getAllNewProducts();
+    } else {
+      this.getProductByVendorId();
+    }
   }
 
   getAllNewProducts() {
@@ -112,12 +121,12 @@ export class NewOrdersComponent implements OnInit {
       this.getAllNewProducts();
     } else {
       this.getData
-        .httpGetRequest('/sort-newproduct-by-atlas-id/' + id)
+        .httpGetRequest('/products/new/vendor_id/' + id)
         .then((result: any) => {
           console.log(result, 'promotion');
 
           if (result.status) {
-            console.log('search vendor res', result.data);
+            console.log('search vendor res vendor, producra', id, result.data);
             this.tableData = result.data;
             this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data);
             this.dataSrc.paginator = this.paginator;
