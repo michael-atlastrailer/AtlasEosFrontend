@@ -22,13 +22,10 @@ const routes: Routes = [
         component: DashboardComponent,
       },
       {
-        path: 'dealer-summary',
+        path: 'vendor-form',
         component: DealerSummaryComponent,
       },
-      {
-        path: 'detail-dealer-summary',
-        component: DetailedSummaryComponent,
-      },
+      
       {
         path: 'my-messages',
         component: MyMessagesComponent,

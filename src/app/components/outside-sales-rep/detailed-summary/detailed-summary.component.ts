@@ -22,8 +22,8 @@ export interface PeriodicElement {
   styleUrls: ['./detailed-summary.component.scss'],
 })
 export class DetailedSummaryComponent implements OnInit {
-  tableView = false
-  loader = true
+  tableView = true
+  loader = false
   allVendor: any
   loaderData = [9, 8, 6]
   incomingData: any
