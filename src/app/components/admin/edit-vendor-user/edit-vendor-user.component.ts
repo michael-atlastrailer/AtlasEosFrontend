@@ -132,35 +132,32 @@ export class EditVendorUserComponent implements OnInit {
 
   submit() {
     this.vendorUserForm.value.vendorId = this.userId
-    // this.btnText = false
-    // this.btnLoader = true
+    this.btnText = false
+    this.btnLoader = true
 
-    console.log(this.vendorUserForm.value)
-    console.log(this.selectedVendorName)
+    this.postData
+      .httpPostRequest('/edit-vendor-user', this.vendorUserForm.value)
+      .then((result: any) => {
+        console.log(result)
+        this.btnText = true
+        this.btnLoader = false
+        if (this.vendorSelected) {
+          this.vendorUserForm.value.vendor_code = this.selectedVendorCode
+        }
 
-    // this.postData
-    //   .httpPostRequest('/edit-vendor-user', this.vendorUserForm.value)
-    //   .then((result: any) => {
-    //     console.log(result)
-    //     this.btnText = true
-    //     this.btnLoader = false
-    //     if (this.vendorSelected) {
-    //       this.vendorUserForm.value.vendor_code = this.selectedVendorCode
-    //     }
-
-    //     if (result.status == true) {
-    //       this.vendorSelected = false
-    //       this.toastr.success('Successful', result.message)
-    //       this.getVendorUserData(this.userId)
-    //     } else {
-    //       this.toastr.error('Server Error', 'Try again')
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     this.btnText = true
-    //     this.btnLoader = false
-    //     this.toastr.error('Try again', 'Something went wrong')
-    //   })
+        if (result.status == true) {
+          this.vendorSelected = false
+          this.toastr.success('Successful', result.message)
+          this.getVendorUserData(this.userId)
+        } else {
+          this.toastr.error('Server Error', 'Try again')
+        }
+      })
+      .catch((err) => {
+        this.btnText = true
+        this.btnLoader = false
+        this.toastr.error('Try again', 'Something went wrong')
+      })
 
     // } else {
     //   this.manualChecker = true
