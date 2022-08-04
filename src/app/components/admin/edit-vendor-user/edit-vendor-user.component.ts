@@ -51,7 +51,7 @@ export class EditVendorUserComponent implements OnInit {
     console.log(data.value)
     for (let index = 0; index < this.allVendor.length; index++) {
       const vendor = this.allVendor[index]
-      if (vendor.vendor_name == data.value) {
+      if (vendor.vendor_code == data.value) {
         this.selectedVendorCode = vendor.vendor_code
         this.selectedVendorName = vendor.vendor_name
         this.vendorUserForm.value.vendorCode = vendor.vendor_code
@@ -135,29 +135,32 @@ export class EditVendorUserComponent implements OnInit {
     this.btnText = false
     this.btnLoader = true
 
-    this.postData
-      .httpPostRequest('/edit-vendor-user', this.vendorUserForm.value)
-      .then((result: any) => {
-        console.log(result)
-        this.btnText = true
-        this.btnLoader = false
-        if (this.vendorSelected) {
-          this.vendorUserForm.value.vendor_code = this.selectedVendorCode
-        }
+    console.log(this.vendorUserForm.value)
 
-        if (result.status == true) {
-          this.vendorSelected = false
-          this.toastr.success('Successful', result.message)
-          this.getVendorUserData(this.userId)
-        } else {
-          this.toastr.error('Server Error', 'Try again')
-        }
-      })
-      .catch((err) => {
-        this.btnText = true
-        this.btnLoader = false
-        this.toastr.error('Try again', 'Something went wrong')
-      })
+    // this.postData
+    //   .httpPostRequest('/edit-vendor-user', this.vendorUserForm.value)
+    //   .then((result: any) => {
+    //     console.log(result)
+    //     this.btnText = true
+    //     this.btnLoader = false
+    //     if (this.vendorSelected) {
+    //       this.vendorUserForm.value.vendor_code = this.selectedVendorCode
+    //     }
+
+    //     if (result.status == true) {
+    //       this.vendorSelected = false
+    //       this.toastr.success('Successful', result.message)
+    //       this.getVendorUserData(this.userId)
+    //     } else {
+    //       this.toastr.error('Server Error', 'Try again')
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     this.btnText = true
+    //     this.btnLoader = false
+    //     this.toastr.error('Try again', 'Something went wrong')
+    //   })
+
     // } else {
     //   this.manualChecker = true
     // }

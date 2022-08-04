@@ -481,7 +481,10 @@
                             <!-- <option value="">
                               Vendor...
                             </option> -->
-                            <option *ngFor="let data of allVendor">
+                            <option
+                              value="data.vendor_code"
+                              *ngFor="let data of allVendor"
+                            >
                               {{ data.vendor_name }}
                             </option>
                           </select>
