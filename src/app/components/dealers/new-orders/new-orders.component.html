@@ -22,17 +22,14 @@
         <div class="d-flex flex-column">
           <div class="d-flex justify-content-center">
             <!-- <div class="img-viewer" [style.background-image]="'url(' + currentData?.img + ')'"></div> -->
+            
             <img
-            *ngIf="viewSet"
               class="view-bg-img img-fluid"
               [id]="'img' + currentData?.id"
-              [src]="
-                'https://atlastrailer.s3.amazonaws.com/0' +
-                currentData?.atlas_id +
-                '.jpg' | safe: 'resourceUrl'
+              src="
+                https://atlastrailer.s3.amazonaws.com/0480-23.jpg
               "
             />
-            
           </div>
 
           <div>
