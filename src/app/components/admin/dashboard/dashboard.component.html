@@ -119,7 +119,7 @@
             >
               <div class="card-body">
                 <div class="table-responsive">
-                  <table class="table" *ngIf="loader">
+                  <table class="table" *ngIf="MostSalesVendorLoader">
                     <thead>
                       <tr>
                         <td class="loader-td" colspan="8">
@@ -197,7 +197,7 @@
                   </table>
 
                   <table
-                    *ngIf="tableView"
+                    *ngIf="MostSalesVendorTableView"
                     class="table table-striped text-nowrap table-wrapper2 align-items-center mb-0"
                   >
                     <thead>
@@ -243,7 +243,7 @@
             >
               <div class="card-body">
                 <div class="table-responsive">
-                  <table class="table" *ngIf="loader">
+                  <table class="table" *ngIf="mostSalesDealerLoader">
                     <thead>
                       <tr>
                         <td class="loader-td" colspan="8">
@@ -321,7 +321,7 @@
                   </table>
 
                   <table
-                    *ngIf="tableView"
+                    *ngIf="mostSalesDealerTableView"
                     class="table table-stripe text-nowrap table-wrapper2 align-items-center mb-0"
                   >
                     <thead>
