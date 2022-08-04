@@ -48,10 +48,10 @@ export class EditVendorUserComponent implements OnInit {
 
   assignVendor(data: any) {
     this.vendorSelected = true
-    console.log(data.value)
+    // console.log(data)
     for (let index = 0; index < this.allVendor.length; index++) {
       const vendor = this.allVendor[index]
-      if (vendor.vendor_name == data.value) {
+      if (vendor.vendor_code == data) {
         this.selectedVendorCode = vendor.vendor_code
         this.selectedVendorName = vendor.vendor_name
         this.vendorUserForm.value.vendorCode = vendor.vendor_code
@@ -158,6 +158,7 @@ export class EditVendorUserComponent implements OnInit {
         this.btnLoader = false
         this.toastr.error('Try again', 'Something went wrong')
       })
+
     // } else {
     //   this.manualChecker = true
     // }

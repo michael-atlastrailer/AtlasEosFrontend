@@ -1,9 +1,25 @@
+.vendor-name-text {
+  padding: 10px;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.back-btn,
+.add-btn {
+  border: 1px solid gray;
+  padding: 5px 10px;
+  background-color: #006ea0;
+  color: #ffffff;
+  border-radius: 4px;
+}
+
 .section-header {
   color: #ffffff;
   background-color: #a8a8a8;
   font-size: 15px;
   padding: 10px;
   border-radius: 5px;
+  height: 60px;
 }
 .btn-primary {
   background-color: #00547a !important;

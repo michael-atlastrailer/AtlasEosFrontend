@@ -20,11 +20,16 @@
                     <h5>Vendor Name</h5>
                   </div>
                   <div class="select-wrapper">
-                    <select name="" id="">
+                    <select
+                      #vendor
+                      name=""
+                      id=""
+                      (change)="selectedVendor(vendor)"
+                    >
                       <option value="">Select vendor</option>
 
                       <option
-                        (click)="selectedVendor(data)"
+                        value="{{ data.vendor_code }}"
                         *ngFor="let data of privilegedVendors"
                       >
                         {{ data.vendor_name }}
