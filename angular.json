@@ -33,7 +33,9 @@
 
             ],
             "scripts": [
-              "node_modules/apexcharts/dist/apexcharts.min.js"
+              "node_modules/apexcharts/dist/apexcharts.min.js",
+              "src/assets/js/jquery-3.4.1.min.js"
+
             ]
           },
           "configurations": {

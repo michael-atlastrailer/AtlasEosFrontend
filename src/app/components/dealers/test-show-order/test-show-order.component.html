@@ -146,6 +146,7 @@
                     *ngIf="showDropdown"
                     #dropdownSection
                     class="dropdown-section"
+                    id="jqxScrollBar"
                   >
                     <input
                       type="text"
@@ -200,13 +201,13 @@
                   src="{{ vendorBuckData.bucks[0]!.img_url! }}"
                   class="showbuck-img"
                 />
-              </a> <div *ngIf="viewFlyer" class="ml-3 mt-3 ">
-              <a href="#" data-toggle="modal" data-target="#exampleModal">
-                CLICK TO VIEW PROMOTIONAL FLYER
               </a>
-            </div>
+              <div *ngIf="viewFlyer" class="ml-3 mt-3">
+                <a href="#" data-toggle="modal" data-target="#exampleModal">
+                  CLICK TO VIEW PROMOTIONAL FLYER
+                </a>
+              </div>
             </form>
-           
           </div>
 
           <div
