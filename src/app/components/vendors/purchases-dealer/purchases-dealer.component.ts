@@ -24,16 +24,55 @@ export class PurchasesDealerComponent implements OnInit {
 
   noDataFound = false
   TotalForVendorAmount: number = 0
+  showSelectOption = true
 
   constructor(
     private tokenData: TokenStorageService,
     private httpServer: HttpRequestsService,
   ) {
     this.userData = tokenData.getUser()
-    this.getPrivilegedVendors()
+    ///this.getPrivilegedVendors()
+    if (this.userData.privileged_vendors) {
+      this.getPrivilegedVendors()
+      this.showSelectOption = true
+    } else {
+      this.selectedVendorCode = this.userData.vendor_code
+      this.getSingleVendorPurchasers()
+      //console.log('no vendor')
+      this.selectedVendorName = this.userData.company_name
+      this.showSelectOption = false
+    }
   }
 
   ngOnInit(): void {}
+
+  getSingleVendorPurchasers() {
+    // this.selectedState = true
+    this.tableView = false
+    this.loader = true
+    this.httpServer
+      .httpGetRequest(
+        '/vendor/get-purchases-dealers/' + this.selectedVendorCode,
+      )
+      .then((result: any) => {
+        this.tableView = true
+        this.loader = false
+        console.log(result)
+        if (result.status) {
+          this.tableView = true
+          this.incomingData = result.data
+          this.noDataFound = result.data.length > 0 ? false : true
+          if (result.data.length > 0) {
+            for (let index = 0; index < result.data.length; index++) {
+              const each = result.data[index]
+              this.TotalForVendorAmount += parseFloat(each.amount)
+            }
+          }
+        } else {
+        }
+      })
+      .catch((err) => {})
+  }
 
   getVendorPurchasers() {
     if (this.selectedVendorCode != '') {

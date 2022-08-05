@@ -15,7 +15,10 @@
               data-parent="#accordion6"
             >
               <div class="card-body">
-                <div class="d-flex w-100 filter-wrapper">
+                <div
+                  class="d-flex w-100 filter-wrapper"
+                  *ngIf="showSelectOption"
+                >
                   <div class="text-wrapper">
                     <h5>Vendor Name</h5>
                   </div>

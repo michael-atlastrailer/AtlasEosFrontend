@@ -27,6 +27,8 @@ export class VendorOrderComponent implements OnInit {
   selectedVendorCode!: string
   vendorProductData: any
   incomingData: any
+  privilageStatus = false
+  showSelectOption = true
 
   displayedColumns: string[] = [
     'atlas_id',
@@ -50,7 +52,15 @@ export class VendorOrderComponent implements OnInit {
     private httpServer: HttpRequestsService,
   ) {
     this.userData = tokenData.getUser()
-    this.getPrivilegedVendors()
+    if (this.userData.privileged_vendors) {
+      this.getPrivilegedVendors()
+      this.showSelectOption = true
+    } else {
+      this.getVendorOrders()
+      //console.log('no vendor')
+      this.selectedVendorName = this.userData.company_name
+      this.showSelectOption = false
+    }
   }
 
   ngOnInit(): void {}
@@ -139,6 +149,28 @@ export class VendorOrderComponent implements OnInit {
     }
   }
 
+  getVendorOrders() {
+    this.loader = true
+    this.tableView = false
+    this.httpServer
+      .httpGetRequest(
+        '/vendor/get-vendor-order-data/' + this.userData.vendor_code,
+      )
+      .then((result: any) => {
+        this.loader = false
+        this.tableView = true
+        console.log(result)
+        if (result.status) {
+          this.incomingData = result.data
+          this.dataSource = new MatTableDataSource<vendorProducts>(result.data)
+
+          this.dataSource.paginator = this.paginator
+        } else {
+        }
+      })
+      .catch((err) => {})
+  }
+
   getPrivilegedVendors() {
     this.httpServer
       .httpGetRequest(
@@ -151,6 +183,8 @@ export class VendorOrderComponent implements OnInit {
         console.log(result)
         if (result.status) {
           this.privilegedVendors = result.data
+
+          ///this.privilageStatus = result.data.privilege_status
         } else {
         }
       })
