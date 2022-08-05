@@ -13,6 +13,9 @@
 .text-white{
   color: #fff;
 }
+th{
+  text-align: center !important;
+}
 .profile-user {
   height: 30px;
 }
@@ -31,7 +34,19 @@ html{
   margin: 0px;
   padding: 0px;
 }
+.btn{
+  transition: .3s ease;
+}
+.btn-warning:hover{
+  background-color: #ca8104 !important;
+}.btn-success:hover{
+  background-color: #56CF94 !important;
+}
 
+
+.btn-danger:hover{
+  background-color: #bc3c3c !important;
+}
 .dealer-side {
   margin-top: 70px;
 }

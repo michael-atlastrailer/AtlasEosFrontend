@@ -85,10 +85,11 @@ export class NewOrdersComponent implements OnInit {
         this.toastr.info(`Something went wrong`, 'Error');
       });
   }
+ 
   selectVendor() {
     let id = this.vendor.nativeElement.value;
-    console.log("id of prod", id)
-    if ((id == 'all')) {
+    console.log('id of prod', id);
+    if (id == 'all') {
       this.getAllNewProducts();
     } else {
       this.getProductByVendorId();

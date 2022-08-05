@@ -195,14 +195,10 @@ input[type='number']::placeholder {
     color: #fff;
     font-size: 17px;
     padding: 10px;
-    text-transform: uppercase;
+    text-transform: capitalize;
     font-weight: 500;
   }
-  tbody {
-    tr:nth-child(2n + 2) {
-      background: rgb(223, 222, 222);
-    }
-  }
+  
   th.mat-sort-header-sorted {
     color: black;
   }
