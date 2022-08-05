@@ -135,6 +135,8 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
   alreadyOrder = false;
   routChange = false;
   viewFlyer = false;
+  viewPromoFlyer = false;
+  viewBuckFlyer = false;
   @ViewChild(MatSort)
   sort!: MatSort;
 
@@ -258,49 +260,55 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
   }
 
   getProductByVendorId() {
-    this.alreadyOrder = false;
-    this.loader = true;
-    this.tableView = false;
-    this.canOrder = false;
-    this.isMod = false;
-    this.getVendorBuck(this.vendorCode);
-    /// let id = this.vendor.nativeElement.value
-    this.showSubmittedDetails = false;
+    if (this.vendorCode == '') {
+      this.toastr.warning(`Select a vendor to search`, 'Info');
+    } else {
+      this.alreadyOrder = false;
+      this.loader = true;
+      this.tableView = false;
+      this.canOrder = false;
+      this.isMod = false;
+      this.getVendorBuck(this.vendorCode);
+      /// let id = this.vendor.nativeElement.value
+      this.showSubmittedDetails = false;
 
-    this.getData
-      .httpGetRequest('/dealer/get-vendor-products/' + this.vendorCode)
-      .then((result: any) => {
-        console.log(result, 'promotion');
-        this.loader = false;
-        this.tableView = true;
+      this.getData
+        .httpGetRequest('/dealer/get-vendor-products/' + this.vendorCode)
+        .then((result: any) => {
+          console.log(result, 'promotion');
+          this.loader = false;
+          this.tableView = true;
 
-        if (result.status) {
-          for (let h = 0; h < result.data.length; h++) {
-            const each = result.data[h];
-            each.price = '$0.00';
+          if (result.status) {
+            for (let h = 0; h < result.data.length; h++) {
+              const each = result.data[h];
+              each.price = '$0.00';
+            }
+
+            this.productData = result.data;
+
+            this.tableData = result.data;
+            if (result.data.length !== 0) {
+              this.canOrder = true;
+            }
+            this.orderTable = [];
+            this.getTotal();
+            this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data);
+            this.dataSrc.sort = this.sort;
+            this.dataSrc.paginator = this.paginator;
+          } else {
+            this.toastr.info(`Something went wrong`, 'Error');
           }
-
-          this.productData = result.data;
-
-          this.tableData = result.data;
-          if (result.data.length !== 0) {
-            this.canOrder = true;
-          }
-          this.orderTable = [];
-          this.getTotal();
-          this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data);
-          this.dataSrc.sort = this.sort;
-          this.dataSrc.paginator = this.paginator;
-        } else {
+        })
+        .catch((err) => {
           this.toastr.info(`Something went wrong`, 'Error');
-        }
-      })
-      .catch((err) => {
-        this.toastr.info(`Something went wrong`, 'Error');
-      });
+        });
+    }
   }
   getVendorBuck(id: any) {
     this.viewFlyer = false;
+    this.viewBuckFlyer = false;
+    this.viewPromoFlyer = false;
     this.getData
       .httpGetRequest('/fetch_show_buck_promotional_flier/' + id)
       .then((result: any) => {
@@ -309,6 +317,8 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
         if (result.status) {
           this.vendorBuckData = result.data;
           this.viewFlyer = true;
+           this.viewBuckFlyer = true;
+           this.viewPromoFlyer = true;
           if (this.setVendor) {
             this.dummyInput.nativeElement.value = result.data.vendor_name;
           }
@@ -1320,20 +1330,20 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
   }
 
   filterTop(array: any) {
-    
-     let newArray =[]
-  
-    if (this.searchatlasId == "###") {
-      newArray= array
-    } else {this.isMod = true;
-        let prodigal = array.filter((item: any) => {
-          return item.atlas_id == this.searchatlasId!;
-        });
-        newArray = array.filter((item: any) => {
-          return item.atlas_id !== this.searchatlasId!;
-        });
+    let newArray = [];
 
-        newArray.unshift(prodigal[0]);
+    if (this.searchatlasId == '###') {
+      newArray = array;
+    } else {
+      this.isMod = true;
+      let prodigal = array.filter((item: any) => {
+        return item.atlas_id == this.searchatlasId!;
+      });
+      newArray = array.filter((item: any) => {
+        return item.atlas_id !== this.searchatlasId!;
+      });
+
+      newArray.unshift(prodigal[0]);
     }
     return newArray;
   }
@@ -1360,7 +1370,6 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
       .httpGetRequest('/dealer/get-vendor-products/' + id)
       .then((result: any) => {
         if (result.status) {
-         
           this.getVendorBuck(id);
           this.tableData = result.data;
           this.productData = result.data;

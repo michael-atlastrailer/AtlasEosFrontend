@@ -80,12 +80,12 @@
           <div class="table-responsive" *ngIf="searchStatus && !assortedType">
             <table class="table-section">
               <thead>
-                <tr>
+               
                   <th>Description</th>
                   <th>Regular</th>
                   <th>Booking</th>
                   <th>Extended</th>
-                </tr>
+                
               </thead>
               <tbody *ngIf="!noItemFound">
                 <tr *ngFor="let data of quickOrderData!; let i = index">
@@ -182,7 +182,7 @@
               <div>
                 <button
                   class="edit-vendor-btn"
-                  routerLink="/dealers/edit-vendor-orders/{{ currentVendor }}"
+                  routerLink="/dealers/edit-order/{{ currentVendor }}"
                 >
                   Edit Item
                 </button>
@@ -717,7 +717,7 @@
               <td
                 colspan="10"
                 class="p-4"
-                style="padding: 5px; background: rgb(223, 222, 222) !important;"
+                style="padding: 5px; "
               ></td>
             </tr>
           </table>

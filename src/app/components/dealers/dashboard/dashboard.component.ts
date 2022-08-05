@@ -17,6 +17,7 @@ import {
 } from 'ng-apexcharts';
 import { HttpRequestsService } from 'src/app/core/services/http-requests.service';
 import { TokenStorageService } from 'src/app/core/services/token-storage.service';
+import { ToastrService } from 'ngx-toastr';
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
@@ -78,7 +79,8 @@ export class DashboardComponent implements OnInit {
   defaultFlyer = 1;
   constructor(
     private getData: HttpRequestsService,
-    private token: TokenStorageService
+    private token: TokenStorageService,
+    private toastr: ToastrService,
   ) {
     this.getAllVendors();
     this.getDashboardData();
@@ -163,6 +165,54 @@ export class DashboardComponent implements OnInit {
         this.promotionalData = true;
       });
   }
+  getChart() {
+    let id = this.token.getUser().account_id;
+    this.getData
+      .httpGetRequest('/fetch-all-orders-per-day/' + id)
+      .then((result: any) => {
+        console.log(result);
+        if (result.status) {
+           this.chartOptions = {
+             series: [
+               {
+                 name: 'Sales summary',
+                 data: [30, 1500, 35000],
+               },
+             ],
+             chart: {
+               height: 350,
+               type: 'bar',
+             },
+             title: {
+               text: '',
+             },
+             colors: {},
+             xaxis: {
+               categories: ['Day 1', 'Day 2', 'Day 3'],
+             },
+             yaxis: {
+               categories: [
+                 '0',
+                 '5000',
+                 '10000',
+                 '15000',
+                 '20000',
+                 '25000',
+                 '30000',
+                 '35000',
+                 '40000',
+                 '45000',
+               ],
+             },
+           };
+        } else {
+          this.toastr.info(`Something went wrong`, 'Error');
+        }
+      })
+      .catch((err) => {
+        this.toastr.info(`Something went wrong`, 'Error');
+      });
+  }
   getDashboardData() {
     let accntId = this.token.getUser().account_id;
     this.getData
@@ -173,7 +223,7 @@ export class DashboardComponent implements OnInit {
           this.showTotal = result.data.show_total;
           this.newProduct = result.data.new_products;
           this.orderRemaining = result.data.order_remaining;
-          this.netComplete = result.data.completed_orders ;
+          this.netComplete = result.data.completed_orders;
         } else {
         }
       })

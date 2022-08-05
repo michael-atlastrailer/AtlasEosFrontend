@@ -7,12 +7,11 @@
 }
 .btn-primary {
   background-color: #00547a !important;
-  transition: .4s ease;
-  
+  transition: 0.4s ease;
 }
-.btn-primary:hover{
-   background-color: #0470a2 !important;
- }
+.btn-primary:hover {
+  background-color: #0470a2 !important;
+}
 ::ng-deep tr:nth-child(2n + 2) {
   background: rgb(223, 222, 222) !important;
 }
@@ -22,7 +21,6 @@
   font-size: 20px;
 }
 .header-search-ctn {
- 
 }
 .search-input {
   max-width: 230px;
@@ -34,9 +32,14 @@
   td,
   th {
     border: 0.1px solid rgb(187, 185, 185);
-  }tr:nth-child(2n + 2) {
-  background: rgb(223, 222, 222) !important;
-}
+  }
+  tr:nth-child(2n + 2) {
+    background: rgb(223, 222, 222) !important;
+  } th {
+      padding: 10px;
+      font-weight: 500;
+      text-transform: capitalize;
+    }
   thead {
     background-color: #054e6e;
     color: #fff;
@@ -48,7 +51,6 @@
     }
   }
   tbody {
- 
     td {
       padding: 8px;
       input {
@@ -136,7 +138,7 @@ input[type="number"]::placeholder {
     color: #fff;
     font-size: 17px;
     padding: 10px;
-    text-transform: uppercase;
+    text-transform: capitalize;
     font-weight: 500;
   }
 

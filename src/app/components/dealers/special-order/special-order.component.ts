@@ -322,7 +322,8 @@ export class SpecialOrderComponent implements OnInit {
 
             this.toastr.error(
               `item with vendor part ${id} is in the booking program  you can not add to special order `,
-              'Error'
+              'Error',
+              { timeOut: 6000 }
             );
             this.arr[i].inBooking = true;
             this.isSpecial = true;

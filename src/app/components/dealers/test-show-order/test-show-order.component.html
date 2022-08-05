@@ -192,7 +192,7 @@
                 *ngIf="viewFlyer"
                 data-toggle="modal"
                 data-target="#exampleModal2"
-                class="ml-5"
+                class="ml-3"
                 title="click to view show buck flyer"
               >
                 <img
@@ -200,13 +200,13 @@
                   src="{{ vendorBuckData.bucks[0]!.img_url! }}"
                   class="showbuck-img"
                 />
-              </a>
-            </form>
-            <div *ngIf="viewFlyer" class="ml-5 mt-4 pl-5">
+              </a> <div *ngIf="viewFlyer" class="ml-3 mt-3 ">
               <a href="#" data-toggle="modal" data-target="#exampleModal">
                 CLICK TO VIEW PROMOTIONAL FLYER
               </a>
             </div>
+            </form>
+           
           </div>
 
           <div

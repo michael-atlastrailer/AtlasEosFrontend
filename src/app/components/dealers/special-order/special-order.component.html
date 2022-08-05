@@ -80,7 +80,7 @@
                       mat-sort-header
                       sortActionDescription="Sort by number"
                     >
-                      S/No
+                      S/No  <i class="fa fa-sort ml-2"></i>
                     </th>
                     <td mat-cell *matCellDef="let element; let i = index">
                       {{ i + 1 }}
@@ -93,7 +93,7 @@
                       mat-sort-header
                       sortActionDescription="Sort by number"
                     >
-                      Qty
+                      Qty  <i class="fa fa-sort ml-2"></i>
                     </th>
                     <td mat-cell *matCellDef="let element">
                       {{ element.quantity }}
@@ -112,15 +112,23 @@
                     <th
                       mat-header-cell
                       *matHeaderCellDef
+                      mat-sort-header
                       sortActionDescription="Sort by number"
                     >
-                      Vendor Parts #
+                      Vendor Parts #  <i class="fa fa-sort ml-2"></i>
                     </th>
                     <td mat-cell *matCellDef="let element">
                       {{ element.vendor_no }}
                     </td> </ng-container
                   ><ng-container matColumnDef="vendor_name">
-                    <th mat-header-cell *matHeaderCellDef>Vendor Name</th>
+                    <th
+                      mat-header-cell
+                      *matHeaderCellDef
+                      mat-sort-header
+                      sortActionDescription="Sort by number"
+                    >
+                      Vendor Name  <i class="fa fa-sort ml-2"></i>
+                    </th>
                     <td mat-cell *matCellDef="let element">
                       {{ element.vendor_name }}
                     </td>
@@ -367,7 +375,7 @@
                       )
                     "
                   >
-                    Submit
+                    Update
                   </button>
                   <button
                     class="btn btn-danger mr-2"
