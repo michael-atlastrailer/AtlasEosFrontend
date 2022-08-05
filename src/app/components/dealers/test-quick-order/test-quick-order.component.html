@@ -45,10 +45,12 @@
                   style="max-width: 70px !important;"
                   #qtyInput
                 />
+
                 <button
                   *ngIf="addBtn"
                   class="btn btn-primary ml-3"
                   (click)="oneAddBtn()"
+                  [disabled]="notAllowed"
                 >
                   <div *ngIf="!addToQuickLoader">ADD</div>
                   <div *ngIf="addToQuickLoader">
@@ -80,12 +82,10 @@
           <div class="table-responsive" *ngIf="searchStatus && !assortedType">
             <table class="table-section">
               <thead>
-               
-                  <th>Description</th>
-                  <th>Regular</th>
-                  <th>Booking</th>
-                  <th>Extended</th>
-                
+                <th>Description</th>
+                <th>Regular</th>
+                <th>Special</th>
+                <th>Extended</th>
               </thead>
               <tbody *ngIf="!noItemFound">
                 <tr *ngFor="let data of quickOrderData!; let i = index">
@@ -714,11 +714,7 @@
               *matRowDef="let row; columns: modalTableCol; let i = index"
             ></tr>
             <tr>
-              <td
-                colspan="10"
-                class="p-4"
-                style="padding: 5px; "
-              ></td>
+              <td colspan="10" class="p-4" style="padding: 5px;"></td>
             </tr>
           </table>
 

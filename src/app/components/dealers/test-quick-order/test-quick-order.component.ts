@@ -150,6 +150,7 @@ export class TestQuickOrderComponent implements OnInit {
   vendorDisplay: any
   addBtn = true
   currentVendor = ''
+  notAllowed = true
 
   //////// Achawayne stopped /////////
 
@@ -1124,12 +1125,17 @@ export class TestQuickOrderComponent implements OnInit {
             this.searchStatus = true
             this.searchLoader = false
             this.noItemFound = res.data.filtered_data.length > 0 ? false : true
+            this.notAllowed = res.data.filtered_data.length > 0 ? false : true
 
             if (res.data.filtered_data.length > 0) {
               this.currentGrouping =
                 res.data.filtered_data[0].grouping != null
                   ? res.data.filtered_data[0].grouping
                   : ''
+
+              this.notAllowed =
+                res.data.filtered_data[0].grouping != null ? true : false
+
               console.log(res.data.filtered_data)
               console.log(this.currentGrouping, 'we rae')
             }
@@ -1247,36 +1253,61 @@ export class TestQuickOrderComponent implements OnInit {
     }
   }
 
-  clearCart() {
-    this.ClearBtnText = false
-    this.ClearOrderBtnLoader = true
+  async clearQuickOrderConfirmBox() {
+    return await Swal.fire({
+      title: 'You Are About To Clear Your Quick Order',
+      text: '',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'Cancel',
+    }).then((result) => {
+      if (result.value) {
+        return true
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        return false
+      } else {
+        return false
+      }
+    })
+  }
 
-    let uid = this.token.getUser().id.toString()
+  async clearCart() {
+    if (this.tableData.length > 0) {
+      let confirmBox = await this.clearQuickOrderConfirmBox()
+      if (confirmBox) {
+        this.ClearBtnText = false
+        this.ClearOrderBtnLoader = true
+        let uid = this.token.getUser().id.toString()
+        this.getData
+          .httpGetRequest('/dealer/remove-all-user-order/' + uid)
+          .then((result: any) => {
+            this.ClearBtnText = true
+            this.ClearOrderBtnLoader = false
+            if (result.status) {
+              this.toastr.success(`${result.message}`, 'Success')
 
-    this.getData
-      .httpGetRequest('/dealer/remove-all-user-order/' + uid)
-      .then((result: any) => {
-        this.ClearBtnText = true
-        this.ClearOrderBtnLoader = false
-        if (result.status) {
-          this.toastr.success(`${result.message}`, 'Success')
+              this.fetchQuickOrderCart()
+            } else {
+              this.cartLoader = false
 
-          this.fetchQuickOrderCart()
-        } else {
-          this.cartLoader = false
-
-          this.toastr.info(`${result.message}`, 'Error')
-        }
-      })
-      .catch((err) => {
-        this.ClearBtnText = true
-        this.ClearOrderBtnLoader = false
-        if (err.message.response.dealer || err.message.response.dealer) {
-          this.toastr.info(`Please logout and login again`, 'Session Expired')
-        } else {
-          this.toastr.info(`Something went wrong`, 'Error')
-        }
-      })
+              this.toastr.info(`${result.message}`, 'Error')
+            }
+          })
+          .catch((err) => {
+            this.ClearBtnText = true
+            this.ClearOrderBtnLoader = false
+            if (err.message.response.dealer || err.message.response.dealer) {
+              this.toastr.info(
+                `Please logout and login again`,
+                'Session Expired',
+              )
+            } else {
+              this.toastr.info(`Something went wrong`, 'Error')
+            }
+          })
+      }
+    }
   }
 
   /////////// Achawayne Stopped ///////////////////
