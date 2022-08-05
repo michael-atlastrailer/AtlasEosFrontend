@@ -184,7 +184,7 @@
     table tbody {
       * {
         font-size: 14px !important;
-        padding: 5px !important;
+        // padding: 5px !important;
       }
 
       td {
@@ -192,4 +192,43 @@
       }
     }
   }
+}
+
+.desc-text {
+  display: block;
+  font-weight: bold;
+  padding-top: 5px;
+  text-align: center;
+}
+.special-text {
+  display: block;
+  text-transform: uppercase;
+  font-size: 15px;
+  font-weight: bold;
+  color: red;
+  text-align: center;
+}
+
+.assorted-color {
+  color: green;
+  display: block;
+  text-transform: uppercase;
+  font-size: 15px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.quantity-color {
+  display: block;
+  text-transform: uppercase;
+  font-size: 15px;
+  font-weight: bold;
+  color: red;
+  text-align: center;
+}
+
+.booking-text {
+  font-weight: bold;
+  text-align: center;
+  display: block;
 }

@@ -57,7 +57,7 @@ export class VendorOrderComponent implements OnInit {
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value
-    this.incomingData.vendor_name = filterValue.trim().toLowerCase()
+    this.incomingData.atlas_id = filterValue.trim().toLowerCase()
     this.dataSource = this.filterArray('*' + filterValue)
   }
 
@@ -65,7 +65,7 @@ export class VendorOrderComponent implements OnInit {
     var regex = this.convertWildcardStringToRegExp(expression)
     //console.log('RegExp: ' + regex);
     return this.incomingData.filter(function (item: any) {
-      return regex.test(item.full_name)
+      return regex.test(item.atlas_id)
     })
   }
 

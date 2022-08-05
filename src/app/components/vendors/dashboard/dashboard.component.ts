@@ -22,13 +22,14 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = this.tokenStore.getUser()
-    this.getDashboardData()
+    this.getDashboardAnalysisData()
+    this.getDashboardMostPurchaserData()
   }
 
-  getDashboardData() {
+  getDashboardMostPurchaserData() {
     this.getData
       .httpGetRequest(
-        '/vendor/vendor-dashboard/' +
+        '/vendor/vendor-dashboard-most-purchaser/' +
           this.userData.vendor_code +
           '/' +
           this.userData.id,
@@ -36,16 +37,31 @@ export class DashboardComponent implements OnInit {
       .then((result: any) => {
         this.tableView = true
         this.loader = false
-        console.log(result)
         if (result.status) {
-          this.totalSales = result.data.total_sales
-          this.mostPurchasers = result.data.purchasers
-          this.orderReceived = result.data.total_orders
+          this.mostPurchasers = result.data
         } else {
         }
       })
       .catch((err) => {
         this.loader = false
       })
+  }
+
+  getDashboardAnalysisData() {
+    this.getData
+      .httpGetRequest(
+        '/vendor/vendor-dashboard-analysis/' +
+          this.userData.vendor_code +
+          '/' +
+          this.userData.id,
+      )
+      .then((result: any) => {
+        if (result.status) {
+          this.totalSales = result.data.total_sales
+          this.orderReceived = result.data.total_orders
+        } else {
+        }
+      })
+      .catch((err) => {})
   }
 }

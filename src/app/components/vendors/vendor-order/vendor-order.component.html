@@ -172,7 +172,21 @@
                     <ng-container matColumnDef="description">
                       <th mat-header-cell *matHeaderCellDef>Description</th>
                       <td mat-cell *matCellDef="let element">
-                        {{ element.description }}
+                        <span class="desc-text">{{ element.description }}</span>
+
+                        <span
+                          *ngFor="let spec of element.spec_data!; let l = index"
+                        >
+                          <span
+                            [class.assorted-color]="spec.type == 'assorted'"
+                          ></span>
+                          <span
+                            [class.assorted-color]="spec.type == 'assorted'"
+                            [class.quantity-color]="spec.type == 'special'"
+                          >
+                            {{ spec.desc }}
+                          </span>
+                        </span>
                       </td>
                     </ng-container>
 
@@ -180,7 +194,9 @@
                     <ng-container matColumnDef="regular">
                       <th mat-header-cell *matHeaderCellDef>Regular ($)</th>
                       <td mat-cell *matCellDef="let element">
-                        {{ element.regular }}
+                        <span class="booking-text">
+                          {{ element.regular | currency }}
+                        </span>
                       </td>
                     </ng-container>
 
@@ -188,7 +204,22 @@
                     <ng-container matColumnDef="show">
                       <th mat-header-cell *matHeaderCellDef>Special ($)</th>
                       <td mat-cell *matCellDef="let element">
-                        {{ element.booking }}
+                        <!-- {{ element.booking }} -->
+
+                        <span class="booking-text">
+                          {{ element.booking | currency }}
+                        </span>
+
+                        <span
+                          *ngFor="let spec of element.spec_data; let j = index"
+                        >
+                          <span
+                            [class.assorted-color]="spec.type == 'assorted'"
+                            [class.quantity-color]="spec.type == 'special'"
+                          >
+                            {{ spec.special | currency }}
+                          </span>
+                        </span>
                       </td>
                     </ng-container>
 
@@ -202,9 +233,9 @@
 
                 <mat-paginator
                   #paginator
-                  [pageSizeOptions]="[20, 60, 80]"
+                  [pageSizeOptions]="[100, 200, 400]"
                   showFirstLastButtons
-                  pageSize="20"
+                  pageSize="100"
                 ></mat-paginator>
 
                 <!-- 

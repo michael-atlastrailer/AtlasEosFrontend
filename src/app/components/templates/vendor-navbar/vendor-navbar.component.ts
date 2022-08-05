@@ -14,7 +14,7 @@ export class VendorNavbarComponent implements OnInit {
   @ViewChild('overlay') overlay!: ElementRef
   vendorData: any
   adminData: any
-
+  vendorName = ''
   unreadMsgCount = 0
   constructor(
     private tokenStorage: TokenStorageService,
@@ -26,6 +26,7 @@ export class VendorNavbarComponent implements OnInit {
     const query = window.matchMedia('(max-width: 700px)')
     console.log(query)
     this.vendorData = this.tokenStorage.getUser()
+    this.vendorName = this.vendorData.company_name
 
     this.getUnreadMsg()
 
