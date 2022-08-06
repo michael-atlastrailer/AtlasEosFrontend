@@ -91,7 +91,7 @@
     color: #fff;
     font-size: 17px;
     padding: 10px;
-    text-transform: uppercase;
+    text-transform: capitalize;
     font-weight: 500;
   }
   th.mat-sort-header-sorted {
@@ -103,7 +103,6 @@
   }
 
   td {
-    background-color: #dfdfdf;
     padding: 8px;
     text-transform: capitalize;
     font-size: 16px;
@@ -177,7 +176,7 @@ input[type='number'] {
   font-size: 15px;
   font-weight: bold;
 }
-::ng-deep tr:nth-child(2n + 2) {
+::ng-deep tr:nth-child(2n + 1) {
   background: rgb(223, 222, 222) !important;
 }
 .quantity-color {

@@ -119,18 +119,19 @@ button{
     color: #fff;
     font-size: 16px;
     padding: 10px;
-    text-transform: uppercase;
+    text-transform: capitalize;
     font-weight: 500;
   }
 
   td {
-    background-color: #dfdfdf;
     padding: 8px;
     text-transform: uppercase;
     font-size: 14px;
     font-weight: 500;
     text-align: center;
   }
+}::ng-deep tr:nth-child(2n + 2) {
+  background: rgb(223, 222, 222) !important;
 }
 .red-text {
   color: #fb5454 !important;

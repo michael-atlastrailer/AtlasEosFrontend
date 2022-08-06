@@ -15,6 +15,7 @@ export class DashboardComponent implements OnInit {
   totalSales = 0
   userData: any
   orderReceived = 0
+  selectedVendorCode = ''
   constructor(
     private getData: HttpRequestsService,
     private tokenStore: TokenStorageService,
@@ -22,13 +23,63 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = this.tokenStore.getUser()
-    this.getDashboardData()
+
+    ///this.getPrivilegedVendors()
+    if (this.userData.privileged_vendors) {
+      ///this.getPrivilegedVendors()
+      ///this.showSelectOption = true
+      this.getDashboardAnalysisData()
+      this.getDashboardMostPurchaserData()
+    } else {
+      this.selectedVendorCode = this.userData.vendor_code
+
+      this.getSingleDashboardAnalysisData()
+      this.getSingleDashboardMostPurchaserData()
+      ///this.selectedVendorName = this.userData.company_name
+      ////this.showSelectOption = false
+    }
   }
 
-  getDashboardData() {
+  getSingleDashboardMostPurchaserData() {
     this.getData
       .httpGetRequest(
-        '/vendor/vendor-dashboard/' +
+        '/vendor/vendor-single-dashboard-most-purchaser/' +
+          this.userData.vendor_code,
+      )
+      .then((result: any) => {
+        this.tableView = true
+        this.loader = false
+        if (result.status) {
+          this.mostPurchasers = result.data
+        } else {
+        }
+      })
+      .catch((err) => {
+        this.loader = false
+      })
+  }
+
+  getSingleDashboardAnalysisData() {
+    this.getData
+      .httpGetRequest(
+        '/vendor/vendor-single-dashboard-analysis/' + this.userData.vendor_code,
+      )
+      .then((result: any) => {
+        if (result.status) {
+          this.totalSales = result.data.total_sales
+          this.orderReceived = result.data.total_orders
+        } else {
+        }
+      })
+      .catch((err) => {
+        this.loader = false
+      })
+  }
+
+  getDashboardMostPurchaserData() {
+    this.getData
+      .httpGetRequest(
+        '/vendor/vendor-single-dashboard-most-purchaser/' +
           this.userData.vendor_code +
           '/' +
           this.userData.id,
@@ -36,10 +87,27 @@ export class DashboardComponent implements OnInit {
       .then((result: any) => {
         this.tableView = true
         this.loader = false
-        console.log(result)
+        if (result.status) {
+          this.mostPurchasers = result.data
+        } else {
+        }
+      })
+      .catch((err) => {
+        this.loader = false
+      })
+  }
+
+  getDashboardAnalysisData() {
+    this.getData
+      .httpGetRequest(
+        '/vendor/vendor-dashboard-analysis/' +
+          this.userData.vendor_code +
+          '/' +
+          this.userData.id,
+      )
+      .then((result: any) => {
         if (result.status) {
           this.totalSales = result.data.total_sales
-          this.mostPurchasers = result.data.purchasers
           this.orderReceived = result.data.total_orders
         } else {
         }

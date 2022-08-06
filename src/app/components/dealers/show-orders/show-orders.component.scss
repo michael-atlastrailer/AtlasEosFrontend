@@ -86,12 +86,15 @@
   th {
     border: 0.1px solid rgb(221, 220, 220);
   }
+  tbody{
+    background-color: transparent !important;
+  }
   th {
     background-color: #054e6e;
     color: #fff;
     font-size: 17px;
     padding: 10px;
-    text-transform: uppercase;
+    text-transform: capitalize;
     font-weight: 500;
   }
   tbody {

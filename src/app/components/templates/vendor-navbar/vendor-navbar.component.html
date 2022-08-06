@@ -106,7 +106,7 @@
       </a>
     </li>
 
-    <li class="slide" (click)="closeOverLay()">
+    <!-- <li class="slide" (click)="closeOverLay()">
       <a
         class="side-menu__item"
         routerLink="/vendors/dealer-switch"
@@ -115,7 +115,7 @@
         <span class="fa fas fa-bell navbar-icons"></span>
         <span class="side-menu__label">Dealer Switch</span>
       </a>
-    </li>
+    </li> -->
 
     <li class="slide" (click)="closeOverLay()">
       <a
@@ -172,6 +172,7 @@
             data-toggle="collapse"
             data-target="#nav-collapse"
           >
+            <h6 class="nav-text-title">{{ vendorName }}</h6>
             <h6 class="nav-text-title">Vendor</h6>
             <h6 class="nav-sub-text-title">User ID: {{ vendorData?.email }}</h6>
           </div>

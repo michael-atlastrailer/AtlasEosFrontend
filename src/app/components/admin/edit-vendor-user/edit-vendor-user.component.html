@@ -469,19 +469,22 @@
                         <div class="form-group mb-3">
                           <label for="">Vendor</label>
                           <select
-                            (change)="assignVendor(vendor)"
+                            (change)="assignVendor(vendorSelect.value)"
                             type="text"
                             name="vendor"
                             class="input-value shadow-sm"
                             placeholder="Vendor"
                             required
                             formControlName="vendor"
-                            #vendor
+                            #vendorSelect
                           >
                             <!-- <option value="">
                               Vendor...
                             </option> -->
-                            <option *ngFor="let data of allVendor">
+                            <option
+                              value="{{ data.vendor_code }}"
+                              *ngFor="let data of allVendor"
+                            >
                               {{ data.vendor_name }}
                             </option>
                           </select>

@@ -14,7 +14,7 @@
               class="collapse show"
               data-parent="#accordion6"
             >
-              <div class="card-body">
+              <div class="card-body" *ngIf="showSelectOption">
                 <div class="d-flex w-100 filter-wrapper">
                   <div class="input-wrapper">
                     <div class="form-group">
@@ -184,7 +184,7 @@
                           TOTAL FOR {{ selectedVendorName }}
                         </td>
                         <td class="total-name total-col">
-                          {{ TotalForVendorAmount }}
+                          {{ TotalForVendorAmount | currency }}
                         </td>
                       </tr>
                       <tr *ngIf="selectedState">
@@ -192,7 +192,7 @@
                           GRAND TOTAL
                         </td>
                         <td class="total-name total-col">
-                          {{ TotalForVendorAmount }}
+                          {{ TotalForVendorAmount | currency }}
                         </td>
                       </tr>
                       <tr *ngIf="noDataFound">

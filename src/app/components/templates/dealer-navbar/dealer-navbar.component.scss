@@ -22,17 +22,17 @@
   border: none;
   color: #fff;
   font-weight: 600;
-  background-color: transparent;
-
+  background-color: transparent !important;
+tbody{background-color: transparent !important;}
   tr {
     border: none;
-    background-color: transparent;
+    background-color: transparent !important;
   }
   td {
     font-size: 14px;
     padding: 7px;
     box-shadow: none;
-    background-color: transparent;
+    background-color: transparent !important;
 
     text-transform: capitalize;
     border: none !important;

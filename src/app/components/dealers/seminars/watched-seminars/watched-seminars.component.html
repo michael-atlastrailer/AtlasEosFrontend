@@ -8,14 +8,16 @@
             style="font-size: 40px;"
           ></i>
           <h6 class="m-0" style="font-size: 16px; font-weight: 600;">
-            THE DURATION OF ALL SEMINAR SESSIONS IN MINUTES
+            THE DURATION OF ALL SEMINAR SESSIONS IS 30 MINUTES
           </h6>
         </div>
-        <div class="w-100 mb-4 mt-3" style="text-align: end">
-           <a
+        <div class="w-100 mb-4 mt-3" style="text-align: end;">
+          <a
             class="btn btn-info mr-2 tab-btn"
             routerLink="/dealers/all-seminars"
-            >ALL SEMINARS</a>
+          >
+            ALL SEMINARS
+          </a>
           <a
             class="btn btn-success mr-2 tab-btn"
             routerLink="/dealers/ongoing-seminars"
@@ -26,12 +28,16 @@
           <a
             class="btn btn-warning mr-2 tab-btn"
             routerLink="/dealers/sheduled-seminars"
-            >SCHEDULED SEMINARS</a>
+          >
+            SCHEDULED SEMINARS
+          </a>
 
           <a
             class="btn btn-danger mr-2 tab-btn border-thicker"
             routerLink="/dealers/watched-seminars"
-            >COMPLETED SEMINARS</a>
+          >
+            COMPLETED SEMINARS
+          </a>
         </div>
         <div class="card recent-order-card">
           <p
@@ -195,8 +201,8 @@
                         >
                           S/No
                         </th>
-                        <td mat-cell *matCellDef="let element;let i =index">
-                          {{i}}
+                        <td mat-cell *matCellDef="let element; let i = index">
+                          {{ i }}
                         </td>
                       </ng-container>
                       <ng-container matColumnDef="seminar_date">
@@ -219,12 +225,13 @@
                           style="position: relative;"
                           *matCellDef="let element"
                         >
-                          <span *ngIf="element.bookmark == 1" class="bookmark"
-                            ><i class="fa fa-bookmark" style="color: red"></i
-                          ></span>
-                          {{ element.start_time  }}
-                        </td> </ng-container
-                      ><ng-container matColumnDef="vendor_name">
+                          <span *ngIf="element.bookmark == 1" class="bookmark">
+                            <i class="fa fa-bookmark" style="color: red;"></i>
+                          </span>
+                          {{ element.start_time }}
+                        </td>
+                      </ng-container>
+                      <ng-container matColumnDef="vendor_name">
                         <th mat-header-cell *matHeaderCellDef>Vendor Name</th>
                         <td mat-cell *matCellDef="let element">
                           {{ element.vendor_name }}
@@ -240,7 +247,6 @@
                       <ng-container matColumnDef="status">
                         <th mat-header-cell *matHeaderCellDef>Status</th>
                         <td mat-cell *matCellDef="let element">
-                          {{ element.status }}
                           <p class="red-text" *ngIf="element.status == 3">
                             COMPLETED
                           </p>

@@ -45,10 +45,12 @@
                   style="max-width: 70px !important;"
                   #qtyInput
                 />
+
                 <button
                   *ngIf="addBtn"
                   class="btn btn-primary ml-3"
                   (click)="oneAddBtn()"
+                  [disabled]="notAllowed"
                 >
                   <div *ngIf="!addToQuickLoader">ADD</div>
                   <div *ngIf="addToQuickLoader">
@@ -80,12 +82,10 @@
           <div class="table-responsive" *ngIf="searchStatus && !assortedType">
             <table class="table-section">
               <thead>
-                <tr>
-                  <th>Description</th>
-                  <th>Regular</th>
-                  <th>Booking</th>
-                  <th>Extended</th>
-                </tr>
+                <th>Description</th>
+                <th>Regular</th>
+                <th>Special</th>
+                <th>Extended</th>
               </thead>
               <tbody *ngIf="!noItemFound">
                 <tr *ngFor="let data of quickOrderData!; let i = index">
@@ -182,7 +182,7 @@
               <div>
                 <button
                   class="edit-vendor-btn"
-                  routerLink="/dealers/edit-vendor-orders/{{ currentVendor }}"
+                  routerLink="/dealers/edit-order/{{ currentVendor }}"
                 >
                   Edit Item
                 </button>
@@ -198,7 +198,7 @@
                   Order List
                 </span>
               </h5>
-              <button class="btn btn-light" (click)="clearCart()">
+              <button class="btn btn-danger" (click)="clearCart()">
                 <span *ngIf="ClearBtnText">
                   <i class="fa mr-2 fa-eraser"></i>
                   Clear Cart
@@ -468,7 +468,7 @@
               style="border-top: 0.2px solid rgba(98, 98, 98, 0.484);"
             >
               <button
-                class="btn text-bold text-white bg-blue"
+                class="btn text-bold text-white btn-primary"
                 [disabled]="cartLoader"
                 (click)="submitOrder()"
               >
@@ -714,11 +714,7 @@
               *matRowDef="let row; columns: modalTableCol; let i = index"
             ></tr>
             <tr>
-              <td
-                colspan="10"
-                class="p-4"
-                style="padding: 5px; background: rgb(223, 222, 222) !important;"
-              ></td>
+              <td colspan="10" class="p-4" style="padding: 5px;"></td>
             </tr>
           </table>
 

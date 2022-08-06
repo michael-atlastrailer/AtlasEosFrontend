@@ -2,14 +2,51 @@
   <div class="container-fluid p-0">
     <div class="row my-5 ml-4">
       <div class="col-12">
-        <h3 class="section-header mb-4">Edit My Order</h3>
+        <h3 class="section-header mb-4">
+          Edit My Order
+          <button
+            style="float: right;"
+            class="mr-2 ml-2 add-btn"
+            type="button"
+            data-toggle="modal"
+            data-target=".bd-example-modal-lg"
+          >
+            Add
+            <span class="fa fa-plus"></span>
+          </button>
+
+          <button class="back-btn" style="float: right;" (click)="goBack()">
+            Back
+            <span class="fa fa-mail-reply"></span>
+          </button>
+        </h3>
+
+        <!-- <div class="d-flex justify-content-between">
+          <div>
+          </div>
+          <div>
+            
+          </div>
+        </div> -->
+
+        <div class="alert alert-success">
+          <strong>Info!</strong>
+          <br />
+          Save your order before leaving the page
+        </div>
+
         <div class="form-table-ctn px-2">
           <div class="table-ctn mt-3 p-3" style="background-color: white;">
-            <div class="d-flex justify-content-end">
-              <span class="desc-text">
-                Total:
-                <span class="order-total">{{ orderTotal | currency }}</span>
-              </span>
+            <div class="d-flex justify-content-between">
+              <div>
+                <h5 class="vendor-name-text">{{ currentVendorName }}</h5>
+              </div>
+              <div>
+                <span class="desc-text">
+                  Total:
+                  <span class="order-total">{{ orderTotal | currency }}</span>
+                </span>
+              </div>
             </div>
 
             <table class="table" *ngIf="loader">

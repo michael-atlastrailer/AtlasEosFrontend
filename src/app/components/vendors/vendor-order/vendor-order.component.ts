@@ -27,6 +27,8 @@ export class VendorOrderComponent implements OnInit {
   selectedVendorCode!: string
   vendorProductData: any
   incomingData: any
+  privilageStatus = false
+  showSelectOption = true
 
   displayedColumns: string[] = [
     'atlas_id',
@@ -50,14 +52,22 @@ export class VendorOrderComponent implements OnInit {
     private httpServer: HttpRequestsService,
   ) {
     this.userData = tokenData.getUser()
-    this.getPrivilegedVendors()
+    if (this.userData.privileged_vendors) {
+      this.getPrivilegedVendors()
+      this.showSelectOption = true
+    } else {
+      this.getVendorOrders()
+      //console.log('no vendor')
+      this.selectedVendorName = this.userData.company_name
+      this.showSelectOption = false
+    }
   }
 
   ngOnInit(): void {}
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value
-    this.incomingData.vendor_name = filterValue.trim().toLowerCase()
+    this.incomingData.atlas_id = filterValue.trim().toLowerCase()
     this.dataSource = this.filterArray('*' + filterValue)
   }
 
@@ -65,7 +75,7 @@ export class VendorOrderComponent implements OnInit {
     var regex = this.convertWildcardStringToRegExp(expression)
     //console.log('RegExp: ' + regex);
     return this.incomingData.filter(function (item: any) {
-      return regex.test(item.full_name)
+      return regex.test(item.atlas_id)
     })
   }
 
@@ -129,9 +139,36 @@ export class VendorOrderComponent implements OnInit {
   }
 
   selectedVendor(data: any) {
-    console.log(data)
-    this.selectedVendorName = data.vendor_name
-    this.selectedVendorCode = data.vendor_code
+    //console.log(data.value)
+    this.selectedVendorCode = data.value
+    for (let f = 0; f < this.privilegedVendors.length; f++) {
+      const element = this.privilegedVendors[f]
+      if (element.vendor_code == data.value) {
+        this.selectedVendorName = element.vendor_name
+      }
+    }
+  }
+
+  getVendorOrders() {
+    this.loader = true
+    this.tableView = false
+    this.httpServer
+      .httpGetRequest(
+        '/vendor/get-vendor-order-data/' + this.userData.vendor_code,
+      )
+      .then((result: any) => {
+        this.loader = false
+        this.tableView = true
+        console.log(result)
+        if (result.status) {
+          this.incomingData = result.data
+          this.dataSource = new MatTableDataSource<vendorProducts>(result.data)
+
+          this.dataSource.paginator = this.paginator
+        } else {
+        }
+      })
+      .catch((err) => {})
   }
 
   getPrivilegedVendors() {
@@ -146,6 +183,8 @@ export class VendorOrderComponent implements OnInit {
         console.log(result)
         if (result.status) {
           this.privilegedVendors = result.data
+
+          ///this.privilageStatus = result.data.privilege_status
         } else {
         }
       })

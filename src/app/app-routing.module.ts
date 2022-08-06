@@ -18,14 +18,14 @@ const routes: Routes = [
     path: 'dealers',
     loadChildren: () =>
       import('./components/dealers/dealers.module').then(
-        (m) => m.DealersModule,
+        (m) => m.DealersModule
       ),
   },
   {
     path: 'vendors',
     loadChildren: () =>
       import('./components/vendors/vendors.module').then(
-        (m) => m.VendorsModule,
+        (m) => m.VendorsModule
       ),
   },
   {
@@ -33,7 +33,22 @@ const routes: Routes = [
     loadChildren: () =>
       import('./components/branch/branch.module').then((m) => m.BranchModule),
   },
-]
+
+  {
+    path: 'outside-sales',
+    loadChildren: () =>
+      import('./components/outside-sales-rep/outside-sales.module').then(
+        (m) => m.OutsideSalesModule
+      ),
+  },
+  {
+    path: 'inside-sales',
+    loadChildren: () =>
+      import('./components/inside-sales-rep/inside-sales.module').then(
+        (m) => m.InsideSalesModule
+      ),
+  },
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

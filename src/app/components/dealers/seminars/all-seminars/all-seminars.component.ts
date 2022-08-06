@@ -109,7 +109,10 @@ export class AllSeminarsComponent implements AfterViewInit {
 
         if (result.status) {
           console.log('data result', this.tableData, result.data.length)
-          this.toastr.success('Seminar has been bookmarked', `Success`)
+          this.toastr.success(
+            'Seminar has been set to reminder, you will be reminded 15mins to the start of the seminar',
+            `Success`,
+          )
           this.FetchAllSeminars()
         } else {
           this.toastr.error('Something went wrong', `Error`)

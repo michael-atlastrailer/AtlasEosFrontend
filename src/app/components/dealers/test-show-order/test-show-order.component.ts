@@ -86,8 +86,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
   orderSuccess = false
   sortTable: any
   dataSrc = new MatTableDataSource<PeriodicElement>()
-  @ViewChild(MatPaginator)
-  paginator!: MatPaginator
+  @ViewChild(MatPaginator) paginator!: MatPaginator
   canOrder = false
   isMod = false
   orderTable: object[] = []
@@ -101,6 +100,8 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
   assortFilter: [] | any = []
   assortSecondFilter: [] | any = []
   newArrayFilter: [] | any = []
+  vendorBuckData: any
+  vendorBuckImage: any
 
   benchMarkQty = 4
 
@@ -133,7 +134,13 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
   //// End of old  code ///////
   alreadyOrder = false
   routChange = false
+  viewFlyer = false
+  viewPromoFlyer = false
+  viewBuckFlyer = false
+  @ViewChild(MatSort)
+  sort!: MatSort
 
+  setVendor = false
   constructor(
     private getData: HttpRequestsService,
     private toastr: ToastrService,
@@ -155,6 +162,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
       if (this.vendorId) {
         console.log('got in', this.vendorId, this.searchatlasId)
         this.searchVendorId(this.vendorId!)
+        this.setVendor = true
         this.selectVendor = this.vendorId
       }
     })
@@ -168,8 +176,6 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
       )
     }
   }
-  @ViewChild(MatSort)
-  sort!: MatSort
 
   ngOnInit(): void {}
   ngAfterViewInit() {}
@@ -254,45 +260,93 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
   }
 
   getProductByVendorId() {
-    this.alreadyOrder = false
-    this.loader = true
-    this.tableView = false
-    this.canOrder = false
-    this.isMod = false
-    /// let id = this.vendor.nativeElement.value
-    this.showSubmittedDetails = false
+    if (this.vendorCode == '') {
+      this.toastr.warning(`Select a vendor to search`, 'Info')
+    } else {
+      this.alreadyOrder = false
+      this.loader = true
+      this.tableView = false
+      this.canOrder = false
+      this.isMod = false
+      this.getVendorBuck(this.vendorCode)
+      /// let id = this.vendor.nativeElement.value
+      this.showSubmittedDetails = false
 
+      this.getData
+        .httpGetRequest('/dealer/get-vendor-products/' + this.vendorCode)
+        .then((result: any) => {
+          console.log(result, 'promotion')
+          this.loader = false
+          this.tableView = true
+
+          if (result.status) {
+            for (let h = 0; h < result.data.length; h++) {
+              const each = result.data[h]
+              each.price = '$0.00'
+            }
+
+            this.productData = result.data
+
+            this.tableData = result.data
+            if (result.data.length !== 0) {
+              this.canOrder = true
+            }
+            this.orderTable = []
+            this.getTotal()
+            this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data)
+            this.dataSrc.sort = this.sort
+            this.dataSrc.paginator = this.paginator
+          } else {
+            this.toastr.info(`Something went wrong`, 'Error')
+          }
+        })
+        .catch((err) => {
+          this.toastr.info(`Something went wrong`, 'Error')
+        })
+    }
+  }
+  getVendorBuck(id: any) {
+    this.viewFlyer = false
+    this.viewBuckFlyer = false
+    this.viewPromoFlyer = false
     this.getData
-      .httpGetRequest('/dealer/get-vendor-products/' + this.vendorCode)
+      .httpGetRequest('/fetch_show_buck_promotional_flier/' + id)
       .then((result: any) => {
         console.log(result, 'promotion')
-        this.loader = false
-        this.tableView = true
 
         if (result.status) {
-          for (let h = 0; h < result.data.length; h++) {
-            const each = result.data[h]
-            each.price = '$0.00'
+          this.vendorBuckData = result.data
+          this.viewFlyer = true
+
+          if (this.setVendor) {
+            this.dummyInput.nativeElement.value = result.data.vendor_name
           }
-
-          this.productData = result.data
-
-          this.tableData = result.data
-          if (result.data.length !== 0) {
-            this.canOrder = true
+          if (result.data.promotional_fliers[0]?.pdf_url!) {
+            this.viewPromoFlyer = true
           }
-          this.orderTable = []
-          this.getTotal()
-
-          this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data)
-          this.dataSrc.sort = this.sort
-          this.dataSrc.paginator = this.paginator
+          if (result.data.bucks[0]?.pdf_url!) {
+            this.viewBuckFlyer = true
+          }
+          this.setVendor = false
+          console.log(
+            'vendor buck',
+            result.data.promotional_fliers[0]?.pdf_url!,
+            result.data.bucks[0]?.pdf_url!,
+            this.viewPromoFlyer,
+            this.viewBuckFlyer,
+            this.viewFlyer,
+          )
         } else {
-          this.toastr.info(`Something went wrong`, 'Error')
+          this.viewFlyer = false
+          this.viewBuckFlyer = false
+          this.viewPromoFlyer = false
+          // this.toastr.info(`Something went wrong fetching buck data`, 'Error');
         }
       })
       .catch((err) => {
-        this.toastr.info(`Something went wrong`, 'Error')
+        this.viewFlyer = false
+        console.log('entered catch buck', err)
+        this.toastr.info(`Something went wrong fetching buck data`, 'Error')
       })
   }
 
@@ -1298,14 +1352,21 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
   }
 
   filterTop(array: any) {
-    let prodigal = array.filter((item: any) => {
-      return item.atlas_id == this.searchatlasId!
-    })
-    let newArray = array.filter((item: any) => {
-      return item.atlas_id !== this.searchatlasId!
-    })
+    let newArray = []
 
-    newArray.unshift(prodigal[0])
+    if (this.searchatlasId == '###') {
+      newArray = array
+    } else {
+      this.isMod = true
+      let prodigal = array.filter((item: any) => {
+        return item.atlas_id == this.searchatlasId!
+      })
+      newArray = array.filter((item: any) => {
+        return item.atlas_id !== this.searchatlasId!
+      })
+
+      newArray.unshift(prodigal[0])
+    }
     return newArray
   }
 
@@ -1331,8 +1392,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
       .httpGetRequest('/dealer/get-vendor-products/' + id)
       .then((result: any) => {
         if (result.status) {
-          this.isMod = true
-
+          this.getVendorBuck(id)
           this.tableData = result.data
           this.productData = result.data
 
@@ -1340,19 +1400,18 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
             this.dataSrc = new MatTableDataSource<PeriodicElement>(
               this.filterTop(result.data),
             )
+            this.dataSrc.sort = this.sort
+            this.dataSrc.paginator = this.paginator
           } else {
             this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data)
+            this.dataSrc.sort = this.sort
+            this.dataSrc.paginator = this.paginator
           }
 
           this.canOrder = true
-          this.dataSrc.sort = this.sort
-          this.dataSrc.paginator = this.paginator
-          $('table-ctn').addClass('highlight')
 
-          this.canOrder = true
-          this.dataSrc.sort = this.sort
-          ///  this.dataSrc.paginator = this.paginator
           $('table-ctn').addClass('highlight')
+          this.canOrder = true
         } else {
           // this.toastr.info(`Something went wrong`, 'Error');
         }

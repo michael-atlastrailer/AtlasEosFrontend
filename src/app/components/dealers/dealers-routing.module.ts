@@ -81,7 +81,7 @@ const routes: Routes = [
         canDeactivate: [DeactivateGuard],
       },
       {
-        path: 'edit-vendor-orders/:vendorId',
+        path: 'edit-order/:vendorId',
         component: EditOrderVendorPageComponent,
       },
 

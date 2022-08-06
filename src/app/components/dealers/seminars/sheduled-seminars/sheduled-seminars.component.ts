@@ -106,8 +106,10 @@ export class SheduledSeminarsComponent implements AfterViewInit {
         if (result.status) {          this.FetchAllSeminars();
 
           console.log('data result', this.tableData, result.data.length);
-          this.toastr.success('Seminar has been bookmarked', `Success`);
-        } else {
+this.toastr.success(
+  'Seminar has been set to reminder, you will be reminded 15mins to the start of the seminar',
+  `Success`
+);        } else {
           this.toastr.error('Something went wrong', `Error`);
         }
       })
