@@ -317,22 +317,35 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
         if (result.status) {
           this.vendorBuckData = result.data;
           this.viewFlyer = true;
-           this.viewBuckFlyer = true;
-           this.viewPromoFlyer = true;
+
           if (this.setVendor) {
             this.dummyInput.nativeElement.value = result.data.vendor_name;
           }
+          if (result.data.promotional_fliers[0]?.pdf_url!) {
+            this.viewPromoFlyer = true;
+          }
+          if (result.data.bucks[0]?.pdf_url!) {
+            this.viewBuckFlyer = true;
+          }
           this.setVendor = false;
-          console.log('buck data', this.viewFlyer, result.data);
+          console.log(
+            'vendor buck',
+            result.data.promotional_fliers[0]?.pdf_url!,
+            result.data.bucks[0]?.pdf_url!,
+            this.viewPromoFlyer,
+            this.viewBuckFlyer,
+            this.viewFlyer
+          );
         } else {
           this.viewFlyer = false;
-
-          this.toastr.info(`Something went wrong fetching buck data`, 'Error');
+          this.viewBuckFlyer = false;
+          this.viewPromoFlyer = false;
+          // this.toastr.info(`Something went wrong fetching buck data`, 'Error');
         }
       })
       .catch((err) => {
         this.viewFlyer = false;
-
+console.log("entered catch buck", err)
         this.toastr.info(`Something went wrong fetching buck data`, 'Error');
       });
   }

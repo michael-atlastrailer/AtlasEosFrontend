@@ -51,14 +51,14 @@
           <div class="col-md-3 mb-3 px-1">
             <a routerLink="/dealers/new-product">
               <div class="card data-card">
-                <div class="card-body p-3 pb-4 align-items-center">
-                  <h6 class="text-center blue-title">NEW <BR /> PRODUCTS</h6>
-                  <p
-                    class="text-center font-weight-bold"
-                    style="font-size: 14px; color: black"
-                  >
-                    {{newProduct}}
-                  </p>
+               <div class="card-body d-flex p-3 py-4 align-items-center">
+                  <div class="card-icon">
+                    <span class="fa fa-plus"></span>
+                  </div>
+                  <div class="card-details pl-2">
+                    <h5 class="card-header-text m-0 mb-2">New Product</h5>
+                    <h1 class="card-val">{{newProduct}}</h1>
+                  </div>
                 </div>
               </div>
             </a>

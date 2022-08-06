@@ -43,9 +43,11 @@ html{
   background-color: #56CF94 !important;
 }
 
-
+.btn-danger{
+  background-color: #ff0000 !important;
+}
 .btn-danger:hover{
-  background-color: #bc3c3c !important;
+  background-color: rgb(178, 27, 27) !important;
 }
 .dealer-side {
   margin-top: 70px;

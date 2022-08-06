@@ -81,6 +81,7 @@ export class DashboardComponent implements OnInit {
     private getData: HttpRequestsService,
     private token: TokenStorageService,
     private toastr: ToastrService,
+    private currencyPipe: CurrencyPipe
   ) {
     this.getAllVendors();
     this.getDashboardData();
@@ -88,7 +89,7 @@ export class DashboardComponent implements OnInit {
       series: [
         {
           name: 'Sales summary',
-          data: [30, 1500, 35000],
+          data: [0, 0, 0],
         },
       ],
       chart: {
@@ -103,20 +104,21 @@ export class DashboardComponent implements OnInit {
         categories: ['Day 1', 'Day 2', 'Day 3'],
       },
       yaxis: {
-        categories: [
-          '0',
-          '5000',
-          '10000',
-          '15000',
-          '20000',
-          '25000',
-          '30000',
-          '35000',
-          '40000',
-          '45000',
-        ],
+        //  categories: [
+        //    '0',
+        //    '5000',
+        //    '10000',
+        //    '15000',
+        //    '20000',
+        //    '25000',
+        //    '30000',
+        //    '35000',
+        //    '40000',
+        //    '45000',
+        //  ],
       },
     };
+    this.getChart()
   }
   ngOnInit(): void {}
 
@@ -172,11 +174,17 @@ export class DashboardComponent implements OnInit {
       .then((result: any) => {
         console.log(result);
         if (result.status) {
+          let len =result.data.orders.length
            this.chartOptions = {
              series: [
                {
                  name: 'Sales summary',
-                 data: [30, 1500, 35000],
+                 data: [
+                   
+                   result.data.orders[len - 3].total_price ,
+                   result.data.orders[len - 2].total_price,
+                   result.data.orders[len - 1].total_price,
+                 ],
                },
              ],
              chart: {
@@ -191,18 +199,18 @@ export class DashboardComponent implements OnInit {
                categories: ['Day 1', 'Day 2', 'Day 3'],
              },
              yaxis: {
-               categories: [
-                 '0',
-                 '5000',
-                 '10000',
-                 '15000',
-                 '20000',
-                 '25000',
-                 '30000',
-                 '35000',
-                 '40000',
-                 '45000',
-               ],
+               //  categories: [
+               //    '0',
+               //    '5000',
+               //    '10000',
+               //    '15000',
+               //    '20000',
+               //    '25000',
+               //    '30000',
+               //    '35000',
+               //    '40000',
+               //    '45000',
+               //  ],
              },
            };
         } else {
