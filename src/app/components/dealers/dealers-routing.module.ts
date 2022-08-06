@@ -31,6 +31,7 @@ import { WatchedSeminarsComponent } from './seminars/watched-seminars/watched-se
 
 import { TestQuickOrderComponent } from './test-quick-order/test-quick-order.component'
 import { DeactivateGuard } from 'src/app/core/guard/deactivate.guard'
+import { PurchaseSummaryComponent } from './purchase-summary/purchase-summary.component'
 
 
 const routes: Routes = [
@@ -75,6 +76,10 @@ const routes: Routes = [
       {
         path: 'product-seminars',
         component: ProductSeminiarsComponent,
+      },
+      {
+        path: 'purchase-summary',
+        component: PurchaseSummaryComponent,
       },
       {
         path: 'show-orders/:vendorId/:atlasId',

@@ -41,7 +41,6 @@ export class OrderSummaryComponent implements OnInit {
         // console.log(result);
         if (result.status) {
           this.vendors = result.data;
-          this.checkVendorGroup();
         } else {
           this.toastr.info(`Something went wrong`, 'Error');
         }
@@ -94,6 +93,7 @@ export class OrderSummaryComponent implements OnInit {
           this.loader = false;
           console.log('dealer id', result?.data);
           this.orderTable = result?.data;
+          this.checkVendorGroup(result.data)
         } else {
           this.loader = false;
 
@@ -106,9 +106,9 @@ export class OrderSummaryComponent implements OnInit {
         this.toastr.info(`Something went wrong`, 'Error');
       });
   }
-  checkVendorGroup() {
-    let old = this.orderTable;
-
+  checkVendorGroup(array:any) {
+    let old = array;
+   
     this.newTable = old.reduce((arr: any, obj: any) => {
       const key = obj['vendor'];
       if (!arr[key]) {
@@ -118,6 +118,7 @@ export class OrderSummaryComponent implements OnInit {
       return arr;
     }, {});
     this.newTable = Object.entries(this.newTable);
+     console.log('checking something', old, this.newTable);
     for (var i = 0; i < this.newTable.length; i++) {
       let total = 0;
       if (this.newTable[i][1].length > 0) {
