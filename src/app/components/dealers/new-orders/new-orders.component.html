@@ -63,7 +63,12 @@
           <div class="header-search-ctn">
             <form action="" class="d-flex align-items-center">
               <span class="mr-3">Vendor Name </span>
-              <select name="" class="form-control search-input" #vendorId>
+              <select
+                name=""
+                class="form-control search-input"
+                #vendorId
+                (change)="selectVendor()"
+              >
                 <option selected value="all">All Vendors</option>
 
                 <option
@@ -74,9 +79,9 @@
                   {{ category.vendor_name }}
                 </option>
               </select>
-              <button class="btn btn-primary ml-3" (click)="selectVendor()">
+              <!-- <button class="btn btn-primary ml-3">
                 <i class="fa fa-search me-2"></i> Search
-              </button>
+              </button> -->
             </form>
           </div>
 
@@ -127,6 +132,7 @@
                 </th>
                 <td mat-cell *matCellDef="let element">
                   <a
+                    title=" click to order on show order form"
                     routerLink="/dealers/show-orders/{{ element.vendor }}/{{
                       element.atlas_id
                     }}"

@@ -19,7 +19,7 @@ import { OutsideSalesNavbarComponent } from '../templates/outside-sales-navbar/o
   declarations: [
     OutsideSalesComponent,
     DashboardComponent,
-    OutsideSalesNavbarComponent,
+     OutsideSalesNavbarComponent,
     DealerSummaryComponent,
     MyMessagesComponent,
     DetailedSummaryComponent,
