@@ -35,6 +35,13 @@ export class AllVendorsComponent implements OnInit {
 
   dataSource = new MatTableDataSource<VendorData>()
   @ViewChild(MatPaginator) paginator!: MatPaginator
+  @ViewChild('paginatorFirst') paginatorFirst!: MatPaginator
+  @ViewChild('paginatorSecond') paginatorSecond!: MatPaginator
+
+  // ngAfterViewInit() {
+  //     this.dataSource.paginator = this.paginatorFirst;;
+  //     this.dataSourceWithObjectColumn.paginator = this.paginatorSecond;;
+  // }
 
   incomingData: any
   // dataSource: any
@@ -50,6 +57,7 @@ export class AllVendorsComponent implements OnInit {
   btnLoader = false
   btnText = true
   vendorId!: number
+  dataSourceWithObjectColumn: any
 
   @ViewChild('closeButton') closeButton!: ElementRef
 
@@ -65,7 +73,8 @@ export class AllVendorsComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator
+    this.dataSource.paginator = this.paginatorFirst
+    this.dataSource.paginator = this.paginatorSecond
   }
 
   get vendorFormControls() {
@@ -238,7 +247,10 @@ export class AllVendorsComponent implements OnInit {
           this.incomingData = result.data
           // this.dataSource = result.data
           this.dataSource = new MatTableDataSource(result.data)
-          this.dataSource.paginator = this.paginator
+          this.dataSourceWithObjectColumn = new MatTableDataSource(result.data)
+          this.dataSource.paginator = this.paginatorFirst
+          /////this.dataSource.paginator = this.paginatorSecond
+          this.dataSourceWithObjectColumn.paginator = this.paginatorSecond
         } else {
           this.toastr.error(result.message, 'Try again')
         }

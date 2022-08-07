@@ -31,6 +31,17 @@
                 </div>
 
                 <div class="table-responsive">
+                  <div class="d-flex">
+                    <div>
+                      <mat-paginator
+                        #paginatorFirst
+                        [pageSizeOptions]="pageSizes"
+                        pageSize="100"
+                        showFirstLastButtons
+                      ></mat-paginator>
+                    </div>
+                  </div>
+
                   <table class="table" *ngIf="loader">
                     <thead>
                       <tr>
@@ -210,6 +221,7 @@
                   </table>
                 </div>
                 <mat-paginator
+                  #paginatorSecond
                   [pageSizeOptions]="pageSizes"
                   pageSize="100"
                   showFirstLastButtons
