@@ -176,7 +176,7 @@
                           {{ data.purchaser_name }}
                         </td>
                         <td class="total-col">
-                          {{ data.amount }}
+                          {{ data.amount | number }}
                         </td>
                       </tr>
                       <tr *ngIf="selectedState">
