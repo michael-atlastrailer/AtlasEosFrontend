@@ -6,16 +6,10 @@
           <div class="card-body num-display">
             <div class="row mb-1">
               <div class="col">
-                <a
-                  class="dashboard-link"
-                  routerLink="/admin/all-booking-orders"
-                >
+                <a class="dashboard-link" routerLink="/admin/dealer-summary">
                   <p class="mb-1">Total Orders</p>
                 </a>
-                <a
-                  class="dashboard-link"
-                  routerLink="/admin/all-booking-orders"
-                >
+                <a class="dashboard-link" routerLink="/admin/dealer-summary">
                   <h3 class="mb-0 number-font">{{ totalOrder }}</h3>
                 </a>
               </div>
@@ -61,10 +55,10 @@
           <div class="card-body num-display">
             <div class="row mb-1">
               <div class="col">
-                <a class="dashboard-link" routerLink="/admin/all-vendor-users">
+                <a class="dashboard-link" routerLink="/admin/all-vendor">
                   <p class="mb-1">Total Vendors</p>
                 </a>
-                <a class="dashboard-link" routerLink="/admin/all-vendor-users">
+                <a class="dashboard-link" routerLink="/admin/all-vendor">
                   <h3 class="mb-0 number-font">{{ totalVendor }}</h3>
                 </a>
               </div>
@@ -80,18 +74,9 @@
           <div class="card-body num-display">
             <div class="row mb-1">
               <div class="col">
-                <a
-                  class="dashboard-link"
-                  routerLink="/admin/all-booking-orders"
-                >
-                  <p class="mb-1">Total Amount</p>
-                </a>
-                <a
-                  class="dashboard-link"
-                  routerLink="/admin/all-booking-orders"
-                >
-                  <h3 class="mb-0 number-font">{{ totalAmount | currency }}</h3>
-                </a>
+                <p class="mb-1">Total Amount</p>
+
+                <h3 class="mb-0 number-font">{{ totalAmount | currency }}</h3>
               </div>
             </div>
           </div>
@@ -359,7 +344,15 @@
                             {{ data.account_id }}
                           </a>
                         </td>
-                        <td>{{ data.dealer.dealer_name }}</td>
+                        <td>
+                          <a
+                            routerLink="/admin/dealer-summary/{{
+                              data.account_id
+                            }}"
+                          >
+                            {{ data.dealer.dealer_name }}
+                          </a>
+                        </td>
                         <td>
                           <span class="td-sales">
                             {{ data.total_sales | currency }}
