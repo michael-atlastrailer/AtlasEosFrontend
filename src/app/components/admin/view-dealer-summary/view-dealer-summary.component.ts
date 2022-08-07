@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { HttpRequestsService } from 'src/app/core/services/http-requests.service'
 import { ToastrService } from 'ngx-toastr'
 import { TokenStorageService } from 'src/app/core/services/token-storage.service'
+import { ActivatedRoute, Router } from '@angular/router'
 
 @Component({
   selector: 'app-view-dealer-summary',
@@ -20,69 +21,48 @@ export class ViewDealerSummaryComponent implements OnInit {
   dataInbound = false
   btnLoader = false
   userData: any
+  dealerSummary: any
+  grandTotal = ''
 
   constructor(
     private httpService: HttpRequestsService,
     private toastr: ToastrService,
     private tokenStore: TokenStorageService,
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
     this.userData = this.tokenStore.getUser()
+
+    this.route.params.subscribe((params) => {
+      if (params['account']) {
+        this.dealerCode = params['account']
+        this.getDealerSummary()
+        //this.getSingleDealerSummary()
+      } else {
+      }
+    })
   }
 
-  savePriceOverride() {
-    let data = {
-      dealerCode: this.dealerCode,
-      atlasCode: this.atlasCode,
-      newQty: this.newQty,
-      newPrice: this.newPrice,
-      authorizer: this.userData.id,
-    }
+  getDealerSummary() {
+    this.loader = true
+    this.tableView = false
 
-    this.btnLoader = true
     this.httpService
-      .httpPostRequest('/admin/save-price-override', data)
+      .httpGetRequest('/admin/view-dealer-summary/' + this.dealerCode)
       .then((result: any) => {
-        this.btnLoader = false
+        this.loader = false
+        this.tableView = true
 
         if (result.status) {
-          this.toastr.success(result.message, 'Success')
+          this.dealerSummary = result.data.data
+          this.grandTotal = result.data.grand_total
         } else {
-          this.toastr.error(result.message, 'Try again')
+          // this.toastr.error(result.message, 'Try again')
         }
       })
       .catch((err) => {
-        this.toastr.error('Try again', 'Something went wrong')
+        // this.toastr.error('Try again', 'Something went wrong')
       })
-  }
-
-  getDealerCart() {
-    if (this.atlasCode != '' && this.dealerCode != '') {
-      this.loader = true
-      this.tableView = false
-
-      this.httpService
-        .httpGetRequest(
-          '/admin/get-price-override/' + this.dealerCode + '/' + this.atlasCode,
-        )
-        .then((result: any) => {
-          this.loader = false
-          this.tableView = true
-
-          if (result.status) {
-            this.cartData = result.data
-
-            this.dataInbound = this.cartData != '' ? true : false
-
-            this.noOrderFound = this.cartData != '' ? false : true
-          } else {
-            // this.toastr.error(result.message, 'Try again')
-          }
-        })
-        .catch((err) => {
-          // this.toastr.error('Try again', 'Something went wrong')
-        })
-    }
   }
 }

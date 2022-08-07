@@ -1,6 +1,7 @@
 .control-btn {
   margin-right: 10px;
   font-size: 13px;
+  width: 180px;
 }
 
 .num-display {
@@ -125,4 +126,36 @@
 .extra-zero {
   display: inline-block;
   margin-right: -6px;
+}
+
+.activate-vendor-btn {
+  background-color: green;
+  color: #ffffff;
+}
+
+.deactivate-vendor-btn {
+  background-color: darkred;
+  color: #ffffff;
+}
+
+.vendor-btn:hover {
+  background-color: #ffffff;
+  border: 1px solid darkred;
+  color: darkred;
+}
+
+.activate-dealer-btn {
+  background-color: #1d7471;
+  color: #ffffff;
+}
+
+.deactivate-dealer-btn {
+  background-color: #1d7471;
+  color: #ffffff;
+}
+
+.dealer-btn:hover {
+  background-color: #ffffff;
+  border: 1px solid #1d7471;
+  color: #1d7471;
 }

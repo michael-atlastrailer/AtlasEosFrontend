@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { HttpRequestsService } from 'src/app/core/services/http-requests.service'
+import { ToastrService } from 'ngx-toastr'
 
 declare var $: any
 
@@ -60,14 +61,127 @@ export class DashboardComponent implements OnInit {
 
   MostSalesVendorLoader = true
   MostSalesVendorTableView = false
+  deactivateVendorLoader = false
+  deactivateDealerLoader = false
+  deactivateVendorText = true
+  deactivateDealerText = true
 
-  constructor(private getData: HttpRequestsService) {}
+  deactivateDealerBtnStatus = true
+  deactivateVendorBtnStatus = true
+
+  activateVendorBtnStatus = true
+  activateDealerBtnStatus = true
+
+  showActivateVendorBtn = false
+  showActivateDealerBtn = false
+
+  constructor(
+    private getData: HttpRequestsService,
+    private toatsr: ToastrService,
+  ) {}
 
   ngOnInit(): void {
     this.getProgramCountDown()
     this.getMostSalesDealer()
     this.getMostSalesVendor()
     this.getallAnalysis()
+    this.getUsersStatus()
+  }
+
+  activateAllDealer() {
+    this.activateDealerBtnStatus = false
+    this.getData
+      .httpGetRequest('/admin/activate-dealers')
+      .then((result: any) => {
+        this.activateDealerBtnStatus = true
+        if (result.status) {
+          this.showActivateDealerBtn = false
+        }
+        this.toatsr.success(result.message, 'success')
+      })
+      .catch((err) => {
+        this.activateDealerBtnStatus = true
+      })
+  }
+
+  activateAllVendors() {
+    this.activateVendorBtnStatus = false
+    this.getData
+      .httpGetRequest('/admin/activate-vendors')
+      .then((result: any) => {
+        this.activateVendorBtnStatus = true
+        if (result.status) {
+          this.showActivateVendorBtn = false
+        }
+        this.toatsr.success(result.message, 'success')
+      })
+      .catch((err) => {
+        this.activateVendorBtnStatus = true
+      })
+  }
+
+  getUsersStatus() {
+    this.getData
+      .httpGetRequest('/admin/get-all-users-status')
+      .then((result: any) => {
+        //this.mostSalesDealerLoader = false
+        /// this.mostSalesDealerTableView = true
+        if (result.status) {
+          for (let index = 0; index < result.data.length; index++) {
+            const userStatus = result.data[index]
+
+            if (userStatus.role == '3' && userStatus.status == 1) {
+              this.showActivateVendorBtn = true
+            } else {
+              this.showActivateVendorBtn = false
+            }
+
+            if (userStatus.role == '4' && userStatus.status == 1) {
+              this.showActivateDealerBtn = true
+            } else {
+              this.showActivateDealerBtn = false
+            }
+          }
+          ///  this.mostSalesDealerData = result.data
+        } else {
+        }
+      })
+      .catch((err) => {
+        /// this.mostSalesDealerLoader = false
+        ///this.mostSalesDealerTableView = true
+      })
+  }
+
+  deactivateAllDealers() {
+    this.deactivateDealerBtnStatus = false
+    this.getData
+      .httpGetRequest('/admin/deactivate-dealers')
+      .then((result: any) => {
+        this.deactivateDealerBtnStatus = true
+        if (result.status) {
+          this.showActivateDealerBtn = true
+        }
+        this.toatsr.success(result.message, 'success')
+      })
+      .catch((err) => {
+        this.deactivateDealerBtnStatus = true
+      })
+  }
+
+  deactivateAllVendors() {
+    this.deactivateVendorBtnStatus = false
+    this.getData
+      .httpGetRequest('/admin/deactivate-vendors')
+      .then((result: any) => {
+        this.deactivateVendorBtnStatus = true
+        if (result.status) {
+          this.showActivateVendorBtn = true
+        }
+        this.toatsr.success(result.message, 'success')
+      })
+      .catch((err) => {
+        this.deactivateVendorBtnStatus = true
+      })
   }
 
   arrangeTimer(data: any) {

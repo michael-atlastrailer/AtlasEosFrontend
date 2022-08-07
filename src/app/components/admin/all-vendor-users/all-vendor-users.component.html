@@ -187,10 +187,10 @@
                     <ng-container matColumnDef="created_date">
                       <th mat-header-cell *matHeaderCellDef>Last Login</th>
                       <td mat-cell *matCellDef="let element">
-                        <span *ngIf="element.last_login_date == null">
+                        <span *ngIf="element.last_login == null">
                           not Logged in yet
                         </span>
-                        <span *ngIf="element.last_login_date != null">
+                        <span *ngIf="element.last_login != null">
                           {{ element.last_login_date | date: 'medium' }}
                         </span>
                       </td>
