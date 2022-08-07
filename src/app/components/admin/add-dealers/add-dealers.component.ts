@@ -190,7 +190,7 @@ export class AddDealersComponent implements OnInit {
   }
 
   submit() {
-    console.log(this.dealerForm.value)
+    console.log(this.dealerForm)
 
     if (this.dealerForm.status == 'VALID') {
       console.log(this.dealerForm.value)

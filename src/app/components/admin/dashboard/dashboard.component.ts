@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { HttpRequestsService } from 'src/app/core/services/http-requests.service'
 import { ToastrService } from 'ngx-toastr'
+import Swal from 'sweetalert2'
 
 declare var $: any
 
@@ -88,36 +89,63 @@ export class DashboardComponent implements OnInit {
     this.getUsersStatus()
   }
 
-  activateAllDealer() {
-    this.activateDealerBtnStatus = false
-    this.getData
-      .httpGetRequest('/admin/activate-dealers')
-      .then((result: any) => {
-        this.activateDealerBtnStatus = true
-        if (result.status) {
-          this.showActivateDealerBtn = false
-        }
-        this.toatsr.success(result.message, 'success')
-      })
-      .catch((err) => {
-        this.activateDealerBtnStatus = true
-      })
+  async confirmBox(msg: string) {
+    return await Swal.fire({
+      title: msg,
+      text: '',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'Cancel',
+    }).then((result) => {
+      if (result.value) {
+        return true
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        return false
+      } else {
+        return false
+      }
+    })
   }
 
-  activateAllVendors() {
-    this.activateVendorBtnStatus = false
-    this.getData
-      .httpGetRequest('/admin/activate-vendors')
-      .then((result: any) => {
-        this.activateVendorBtnStatus = true
-        if (result.status) {
-          this.showActivateVendorBtn = false
-        }
-        this.toatsr.success(result.message, 'success')
-      })
-      .catch((err) => {
-        this.activateVendorBtnStatus = true
-      })
+  async activateAllDealer() {
+    let confirm = await this.confirmBox('You are about to activate all dealers')
+
+    if (confirm) {
+      this.activateDealerBtnStatus = false
+      this.getData
+        .httpGetRequest('/admin/activate-dealers')
+        .then((result: any) => {
+          this.activateDealerBtnStatus = true
+          if (result.status) {
+            this.showActivateDealerBtn = false
+          }
+          this.toatsr.success(result.message, 'success')
+        })
+        .catch((err) => {
+          this.activateDealerBtnStatus = true
+        })
+    }
+  }
+
+  async activateAllVendors() {
+    let confirm = await this.confirmBox('You are about to activate all vendors')
+
+    if (confirm) {
+      this.activateVendorBtnStatus = false
+      this.getData
+        .httpGetRequest('/admin/activate-vendors')
+        .then((result: any) => {
+          this.activateVendorBtnStatus = true
+          if (result.status) {
+            this.showActivateVendorBtn = false
+          }
+          this.toatsr.success(result.message, 'success')
+        })
+        .catch((err) => {
+          this.activateVendorBtnStatus = true
+        })
+    }
   }
 
   getUsersStatus() {
@@ -152,36 +180,48 @@ export class DashboardComponent implements OnInit {
       })
   }
 
-  deactivateAllDealers() {
-    this.deactivateDealerBtnStatus = false
-    this.getData
-      .httpGetRequest('/admin/deactivate-dealers')
-      .then((result: any) => {
-        this.deactivateDealerBtnStatus = true
-        if (result.status) {
-          this.showActivateDealerBtn = true
-        }
-        this.toatsr.success(result.message, 'success')
-      })
-      .catch((err) => {
-        this.deactivateDealerBtnStatus = true
-      })
+  async deactivateAllDealers() {
+    let confirm = await this.confirmBox(
+      'You are about to deactivate all dealers',
+    )
+
+    if (confirm) {
+      this.deactivateDealerBtnStatus = false
+      this.getData
+        .httpGetRequest('/admin/deactivate-dealers')
+        .then((result: any) => {
+          this.deactivateDealerBtnStatus = true
+          if (result.status) {
+            this.showActivateDealerBtn = true
+          }
+          this.toatsr.success(result.message, 'success')
+        })
+        .catch((err) => {
+          this.deactivateDealerBtnStatus = true
+        })
+    }
   }
 
-  deactivateAllVendors() {
-    this.deactivateVendorBtnStatus = false
-    this.getData
-      .httpGetRequest('/admin/deactivate-vendors')
-      .then((result: any) => {
-        this.deactivateVendorBtnStatus = true
-        if (result.status) {
-          this.showActivateVendorBtn = true
-        }
-        this.toatsr.success(result.message, 'success')
-      })
-      .catch((err) => {
-        this.deactivateVendorBtnStatus = true
-      })
+  async deactivateAllVendors() {
+    let confirm = await this.confirmBox(
+      'You are about to deactivate all vendors',
+    )
+
+    if (confirm) {
+      this.deactivateVendorBtnStatus = false
+      this.getData
+        .httpGetRequest('/admin/deactivate-vendors')
+        .then((result: any) => {
+          this.deactivateVendorBtnStatus = true
+          if (result.status) {
+            this.showActivateVendorBtn = true
+          }
+          this.toatsr.success(result.message, 'success')
+        })
+        .catch((err) => {
+          this.deactivateVendorBtnStatus = true
+        })
+    }
   }
 
   arrangeTimer(data: any) {
