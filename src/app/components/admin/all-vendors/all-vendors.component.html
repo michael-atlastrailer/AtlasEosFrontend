@@ -125,7 +125,7 @@
                     <ng-container matColumnDef="vendor_id">
                       <th mat-header-cell *matHeaderCellDef>Vendor Number</th>
                       <td mat-cell *matCellDef="let element">
-                        {{ element.vendor_code }}
+                        <h6 class="text-center">{{ element.vendor_code }}</h6>
                       </td>
                     </ng-container>
 
@@ -133,7 +133,7 @@
                     <ng-container matColumnDef="vendor_name">
                       <th mat-header-cell *matHeaderCellDef>Vendor Name</th>
                       <td mat-cell *matCellDef="let element">
-                        {{ element.vendor_name }}
+                        <h6 class="text-center">{{ element.vendor_name }}</h6>
                       </td>
                     </ng-container>
 
@@ -141,8 +141,14 @@
                     <ng-container matColumnDef="status">
                       <th mat-header-cell *matHeaderCellDef>Status</th>
                       <td mat-cell *matCellDef="let element">
-                        <span *ngIf="element.status == 1">Active</span>
-                        <span *ngIf="element.status == 0">Inactive</span>
+                        <h6 class="text-center" *ngIf="element.status == 1">
+                          Active
+                        </h6>
+                        <h6 class="text-center" *ngIf="element.status == 0">
+                          Inactive
+                        </h6>
+                        <!-- <span *ngIf="element.status == 1">Active</span>
+                        <span *ngIf="element.status == 0">Inactive</span> -->
                       </td>
                     </ng-container>
 
@@ -157,35 +163,42 @@
                     <ng-container matColumnDef="action">
                       <th mat-header-cell *matHeaderCellDef>Action</th>
                       <td mat-cell *matCellDef="let element">
-                        <button
-                          class="edit-btn"
-                          (click)="editVendor(element)"
-                          title="edit button"
-                          type="button"
-                          class="btn btn-primary"
-                          data-toggle="modal"
-                          data-target="#editModal"
-                        >
-                          <span class="fa fa-edit"></span>
-                        </button>
-                        <button
-                          class="delete-btn"
-                          (click)="removeVendor(element)"
-                          title="delete button"
-                        >
-                          <span
-                            class="fa fa-trash"
-                            id="remove-icon-{{ element.id }}"
-                          ></span>
-                          <div
-                            class="remove-loader"
-                            id="remove-loader-{{ element.id }}"
-                          >
-                            <span
-                              class="spinner-border spinner-border-sm"
-                            ></span>
+                        <div class="d-flex justify-content-center">
+                          <div>
+                            <button
+                              class="edit-btn"
+                              (click)="editVendor(element)"
+                              title="edit button"
+                              type="button"
+                              class="btn btn-primary"
+                              data-toggle="modal"
+                              data-target="#editModal"
+                            >
+                              <span class="fa fa-edit"></span>
+                            </button>
                           </div>
-                        </button>
+
+                          <div>
+                            <button
+                              class="delete-btn"
+                              (click)="removeVendor(element)"
+                              title="delete button"
+                            >
+                              <span
+                                class="fa fa-trash"
+                                id="remove-icon-{{ element.id }}"
+                              ></span>
+                              <div
+                                class="remove-loader"
+                                id="remove-loader-{{ element.id }}"
+                              >
+                                <span
+                                  class="spinner-border spinner-border-sm"
+                                ></span>
+                              </div>
+                            </button>
+                          </div>
+                        </div>
                       </td>
                     </ng-container>
 
@@ -198,7 +211,7 @@
                 </div>
                 <mat-paginator
                   [pageSizeOptions]="pageSizes"
-                  pageSize="20"
+                  pageSize="100"
                   showFirstLastButtons
                 ></mat-paginator>
               </div>

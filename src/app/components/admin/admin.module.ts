@@ -38,20 +38,21 @@ import { AllFaqComponent } from './all-faq/all-faq.component'
 import { EditFaqComponent } from './edit-faq/edit-faq.component'
 import { MatDatepickerModule } from '@angular/material/datepicker'
 import { MatNativeDateModule } from '@angular/material/core'
-import { MatTimepickerModule } from 'mat-timepicker';
-import { SetCountdownComponent } from './set-countdown/set-countdown.component';
-import { AddPromotionalFlyerComponent } from './add-promotional-flyer/add-promotional-flyer.component';
-import { AllPromotionalFlyerComponent } from './all-promotional-flyer/all-promotional-flyer.component';
-import { EditSeminarComponent } from './edit-seminar/edit-seminar.component';
-import { EditPromotionalFlierComponent } from './edit-promotional-flier/edit-promotional-flier.component';
-import { AtlasNotesComponent } from './atlas-notes/atlas-notes.component';
-import { VendorNotesComponent } from './vendor-notes/vendor-notes.component';
-import { PriceOverrideReportComponent } from './price-override-report/price-override-report.component';
-import { SpecialOrdersComponent } from './special-orders/special-orders.component';
-import { AllShowBucksComponent } from './all-show-bucks/all-show-bucks.component';
-import { AddShowBuckComponent } from './add-show-buck/add-show-buck.component';
-import { EditShowBuckComponent } from './edit-show-buck/edit-show-buck.component';
+import { MatTimepickerModule } from 'mat-timepicker'
+import { SetCountdownComponent } from './set-countdown/set-countdown.component'
+import { AddPromotionalFlyerComponent } from './add-promotional-flyer/add-promotional-flyer.component'
+import { AllPromotionalFlyerComponent } from './all-promotional-flyer/all-promotional-flyer.component'
+import { EditSeminarComponent } from './edit-seminar/edit-seminar.component'
+import { EditPromotionalFlierComponent } from './edit-promotional-flier/edit-promotional-flier.component'
+import { AtlasNotesComponent } from './atlas-notes/atlas-notes.component'
+import { VendorNotesComponent } from './vendor-notes/vendor-notes.component'
+import { PriceOverrideReportComponent } from './price-override-report/price-override-report.component'
+import { SpecialOrdersComponent } from './special-orders/special-orders.component'
+import { AllShowBucksComponent } from './all-show-bucks/all-show-bucks.component'
+import { AddShowBuckComponent } from './add-show-buck/add-show-buck.component'
+import { EditShowBuckComponent } from './edit-show-buck/edit-show-buck.component'
 import { ViewDealerSummaryComponent } from './view-dealer-summary/view-dealer-summary.component'
+import { VendorSummaryComponent } from './vendor-summary/vendor-summary.component'
 
 @NgModule({
   declarations: [
@@ -98,6 +99,7 @@ import { ViewDealerSummaryComponent } from './view-dealer-summary/view-dealer-su
     AddShowBuckComponent,
     EditShowBuckComponent,
     ViewDealerSummaryComponent,
+    VendorSummaryComponent,
   ],
   imports: [
     CommonModule,

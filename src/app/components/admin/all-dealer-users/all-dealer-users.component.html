@@ -209,11 +209,11 @@
                         Last Login Date
                       </th>
                       <td mat-cell *matCellDef="let element">
-                        <span *ngIf="element.last_login_date == null">
+                        <span *ngIf="element.last_login == null">
                           not Logged In
                         </span>
-                        <span *ngIf="element.last_login_date != null">
-                          {{ element.last_login_date | date: 'medium' }}
+                        <span *ngIf="element.last_login != null">
+                          {{ element.last_login | date: 'medium' }}
                         </span>
                         <!-- {{ element.created_at | date: 'medium' }} -->
                       </td>

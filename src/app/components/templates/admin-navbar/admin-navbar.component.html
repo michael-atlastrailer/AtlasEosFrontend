@@ -218,11 +218,22 @@
       </a>
     </li>
 
+    <li class="slide" (click)="closeOverLay()">
+      <a
+        class="side-menu__item"
+        routerLink="/admin/vendor-summary"
+        routerLinkActive="active-link"
+      >
+        <span class="fa fas fa-th navbar-icons"></span>
+        <span class="side-menu__label">Vendor Summary</span>
+      </a>
+    </li>
+
     <!-- Dropdown-->
     <li class="slide panel panel-default" id="dropdown">
       <a class="side-menu__item" data-toggle="collapse" href="#dropdown-lvl5">
         <span class="fa fas fa-headphones navbar-icons"></span>
-        <span class="side-menu__label support-sec">Supports</span>
+        <span class="side-menu__label support-sec">Support</span>
         <span class="fa fa-angle-down"></span>
       </a>
       <!-- Dropdown level 1 -->

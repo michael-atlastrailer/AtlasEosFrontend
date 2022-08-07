@@ -40,7 +40,7 @@ export class AllVendorsComponent implements OnInit {
   // dataSource: any
   // dataSource: any
   loaderData = [9, 8, 6]
-  pageSizes = [20, 60, 80]
+  pageSizes = [100, 200, 400]
 
   vendorForm!: FormGroup
 
