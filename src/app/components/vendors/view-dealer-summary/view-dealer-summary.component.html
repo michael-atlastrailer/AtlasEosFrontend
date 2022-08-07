@@ -144,15 +144,15 @@
                         </td>
                         <td class="text-center">{{ data.desc }}</td>
 
-                        <td class="text-right">{{ data.special }}</td>
-                        <td class="text-right">{{ data.total }}</td>
+                        <td class="text-right">{{ data.special | number }}</td>
+                        <td class="text-right">{{ data.total | number }}</td>
                       </tr>
                       <tr class="last-col">
                         <td colspan="5" class="text-right">
                           TOTAL FOR {{ vendorData.vendor_name }}
                           {{ dealerData.company_name }}
                         </td>
-                        <td class="text-right">{{ totalPrice }}</td>
+                        <td class="text-right">{{ totalPrice | currency }}</td>
                       </tr>
                       <tr *ngIf="noTableData">
                         <td colspan="8" class="text-center">No order listed</td>
@@ -165,7 +165,7 @@
                       <h6>GRAND TOTAL</h6>
                     </div>
                     <div>
-                      <h6>{{ totalPrice }}</h6>
+                      <h6>{{ totalPrice | currency }}</h6>
                     </div>
                   </div>
                 </div>
