@@ -49,7 +49,7 @@ export class AllFaqComponent implements OnInit {
     this.getFaqs()
   }
 
-  pageSizes = [3, 5, 7]
+  pageSizes = [100, 200, 1000]
 
   constructor(
     private postData: HttpRequestsService,
