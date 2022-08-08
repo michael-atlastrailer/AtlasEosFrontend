@@ -124,9 +124,20 @@ export class VendorOrderFormComponent implements OnInit {
   }
 
   vendorSelected(data: any) {
-    this.selectedVendorCode = data.vendor_code
-    this.selectedVendorName = data.vendor_name
+    // this.selectedVendorName = data
+    this.selectedVendorCode = data
+    for (let i = 0; i < this.allVendors.length; i++) {
+      const element = this.allVendors[i]
+      if (element.vendor_code == data) {
+        this.selectedVendorName = element.vendor_name
+      }
+    }
   }
+
+  // vendorSelected(data: any) {
+  //   this.selectedVendorCode = data.vendor_code
+  //   this.selectedVendorName = data.vendor_name
+  // }
 
   getAllVendors() {
     this.httpService

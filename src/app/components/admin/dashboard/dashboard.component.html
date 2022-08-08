@@ -6,17 +6,11 @@
           <div class="card-body num-display">
             <div class="row mb-1">
               <div class="col">
-                <a
-                  class="dashboard-link"
-                  routerLink="/admin/all-booking-orders"
-                >
+                <a class="dashboard-link" routerLink="/admin/dealer-summary">
                   <p class="mb-1">Total Orders</p>
                 </a>
-                <a
-                  class="dashboard-link"
-                  routerLink="/admin/all-booking-orders"
-                >
-                  <h3 class="mb-0 number-font">{{ totalOrder }}</h3>
+                <a class="dashboard-link" routerLink="/admin/dealer-summary">
+                  <h3 class="mb-0 number-font">{{ totalOrder | number }}</h3>
                 </a>
               </div>
             </div>
@@ -32,7 +26,7 @@
                   <p class="mb-1">Total Products</p>
                 </a>
                 <a class="dashboard-link" routerLink="/admin/all-products">
-                  <h3 class="mb-0 number-font">{{ totalProducts }}</h3>
+                  <h3 class="mb-0 number-font">{{ totalProducts | number }}</h3>
                 </a>
               </div>
             </div>
@@ -61,10 +55,10 @@
           <div class="card-body num-display">
             <div class="row mb-1">
               <div class="col">
-                <a class="dashboard-link" routerLink="/admin/all-vendor-users">
+                <a class="dashboard-link" routerLink="/admin/all-vendor">
                   <p class="mb-1">Total Vendors</p>
                 </a>
-                <a class="dashboard-link" routerLink="/admin/all-vendor-users">
+                <a class="dashboard-link" routerLink="/admin/all-vendor">
                   <h3 class="mb-0 number-font">{{ totalVendor }}</h3>
                 </a>
               </div>
@@ -80,18 +74,9 @@
           <div class="card-body num-display">
             <div class="row mb-1">
               <div class="col">
-                <a
-                  class="dashboard-link"
-                  routerLink="/admin/all-booking-orders"
-                >
-                  <p class="mb-1">Total Amount</p>
-                </a>
-                <a
-                  class="dashboard-link"
-                  routerLink="/admin/all-booking-orders"
-                >
-                  <h3 class="mb-0 number-font">{{ totalAmount | currency }}</h3>
-                </a>
+                <p class="mb-1">Total Amount</p>
+
+                <h3 class="mb-0 number-font">{{ totalAmount | currency }}</h3>
               </div>
             </div>
           </div>
@@ -210,8 +195,24 @@
                     </thead>
                     <tbody>
                       <tr *ngFor="let data of mostSalesVendorData">
-                        <td class="">{{ data.vendor_code }}</td>
-                        <td class="">{{ data.vendor_name }}</td>
+                        <td class="">
+                          <a
+                            routerLink="/admin/vendor-summary/{{
+                              data.vendor_code
+                            }}"
+                          >
+                            {{ data.vendor_code }}
+                          </a>
+                        </td>
+                        <td class="">
+                          <a
+                            routerLink="/admin/vendor-summary/{{
+                              data.vendor_code
+                            }}"
+                          >
+                            {{ data.vendor_name }}
+                          </a>
+                        </td>
                         <td>
                           <span class="td-sales">
                             {{ data.vendor_sales | currency }}
@@ -334,8 +335,24 @@
                     </thead>
                     <tbody>
                       <tr *ngFor="let data of mostSalesDealerData">
-                        <td>{{ data.account_id }}</td>
-                        <td>{{ data.full_name }}</td>
+                        <td>
+                          <a
+                            routerLink="/admin/dealer-summary/{{
+                              data.account_id
+                            }}"
+                          >
+                            {{ data.account_id }}
+                          </a>
+                        </td>
+                        <td>
+                          <a
+                            routerLink="/admin/dealer-summary/{{
+                              data.account_id
+                            }}"
+                          >
+                            {{ data.dealer.dealer_name }}
+                          </a>
+                        </td>
                         <td>
                           <span class="td-sales">
                             {{ data.total_sales | currency }}
@@ -496,11 +513,55 @@
               data-parent="#accordion2"
             >
               <div class="card-body mx-2">
-                <button class="btn btn-success control-btn">
-                  Deactivate Vendors
+                <button
+                  class="btn activate-vendor-btn vendor-btn control-btn"
+                  *ngIf="showActivateVendorBtn"
+                  (click)="activateAllVendors()"
+                >
+                  <span *ngIf="activateVendorBtnStatus">Activate Vendors</span>
+                  <div *ngIf="!activateVendorBtnStatus">
+                    <span class="spinner-border spinner-border-sm"></span>
+                  </div>
                 </button>
-                <button class="btn btn-outline-success control-btn">
-                  Deactivate Dealers
+
+                <button
+                  class="btn deactivate-vendor-btn vendor-btn control-btn"
+                  (click)="deactivateAllVendors()"
+                  *ngIf="!showActivateVendorBtn"
+                >
+                  <span *ngIf="deactivateVendorBtnStatus">
+                    Deactivate Vendors
+                  </span>
+
+                  <div *ngIf="!deactivateVendorBtnStatus">
+                    <span class="spinner-border spinner-border-sm"></span>
+                  </div>
+                </button>
+
+                <!-- Delaer Btn -->
+
+                <button
+                  class="btn activate-dealer-btn dealer-btn control-btn"
+                  *ngIf="showActivateDealerBtn"
+                  (click)="activateAllDealer()"
+                >
+                  <span *ngIf="activateDealerBtnStatus">Activate Dealers</span>
+                  <div *ngIf="!activateDealerBtnStatus">
+                    <span class="spinner-border spinner-border-sm"></span>
+                  </div>
+                </button>
+
+                <button
+                  class="btn deactivate-dealer-btn dealer-btn control-btn"
+                  (click)="deactivateAllDealers()"
+                  *ngIf="!showActivateDealerBtn"
+                >
+                  <span *ngIf="deactivateDealerBtnStatus">
+                    Deactivate Dealers
+                  </span>
+                  <div *ngIf="!deactivateDealerBtnStatus">
+                    <span class="spinner-border spinner-border-sm"></span>
+                  </div>
                 </button>
               </div>
             </div>

@@ -165,7 +165,7 @@ export class LoginComponent implements OnInit {
           // this.ordercheckservice.orderChecker()
           this.redirectUrl()
         } else {
-          this.toastr.error('Something went wrong', `${result.message}`)
+          this.toastr.error('Something went wrong', `Network Error`)
         }
       })
       .catch((err) => {
@@ -181,32 +181,32 @@ export class LoginComponent implements OnInit {
 
     switch (role) {
       case '1':
-        this.router.navigate(['/admin/dashboard']);
-        break;
+        this.router.navigate(['/admin/dashboard'])
+        break
 
       case '2':
-        this.router.navigate(['/branch/dashboard']);
-        break;
+        this.router.navigate(['/branch/dashboard'])
+        break
 
       case '3':
-        this.router.navigate(['/vendors/dashboard']);
-        break;
+        this.router.navigate(['/vendors/dashboard'])
+        break
 
       case '4':
         // this.toastr.info('Thank you for your Order', `Booking is now closed`)
-        this.router.navigate(['/dealers/dashboard']);
-        break;
+        this.router.navigate(['/dealers/dashboard'])
+        break
       case '5':
         // this.toastr.info('Thank you for your Order', `Booking is now closed`)
-        this.router.navigate(['/inside-sales/dashboard']);
-        break;
+        this.router.navigate(['/inside-sales/dashboard'])
+        break
       case '6':
         // this.toastr.info('Thank you for your Order', `Booking is now closed`)
-        this.router.navigate(['/outside-sales/dashboard']);
-        break;
+        this.router.navigate(['/outside-sales/dashboard'])
+        break
 
       default:
-        break;
+        break
     }
   }
 }

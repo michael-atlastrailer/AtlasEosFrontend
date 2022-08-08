@@ -110,72 +110,88 @@
                     </tbody>
                   </table>
 
-                  <table
-                    *ngIf="tableView"
-                    class="table table-striped text-nowrap table-wrapper2 align-items-center mb-0"
-                  >
-                    <thead>
-                      <tr>
-                        <th class="thead-custom font-weight-bold">Qty</th>
-                        <th class="thead-custom font-weight-bold">Atlas #</th>
-                        <th class="thead-custom font-weight-bold">Vendor #</th>
-                        <th class="thead-custom font-weight-bold">
-                          Description
-                        </th>
-                        <th class="thead-custom font-weight-bold">
-                          Special Price ($)
-                        </th>
-                        <th class="thead-custom font-weight-bold">Total ($)</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr *ngIf="dataInbound">
-                        <td>{{ cartData.qty }}</td>
-                        <td>
-                          <input
-                            type="text"
-                            class="edit-input"
-                            [(ngModel)]="newQty"
-                            placeholder="New Qty"
-                          />
-                        </td>
-                        <td>
-                          {{ cartData.atlas_id }}
-                        </td>
-                        <td>
-                          {{ cartData.vendor }}
-                        </td>
-                        <td>
-                          {{ cartData.description }}
-                        </td>
-                        <td>
-                          {{ cartData.price }}
-                        </td>
-                        <td>
-                          <input
-                            type="text"
-                            class="edit-input"
-                            [(ngModel)]="newPrice"
-                            placeholder="New Price"
-                          />
-                        </td>
-                      </tr>
-                      <tr *ngIf="noOrderFound">
-                        <td colspan="7" class="text-center">No order listed</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-
-                <hr />
-                <div *ngIf="dataInbound" class="btn-wrapper2">
-                  <button (click)="savePriceOverride()">
-                    <span *ngIf="!btnLoader">Save</span>
-
-                    <div *ngIf="btnLoader">
-                      <span class="spinner-border spinner-border-sm"></span>
+                  <div *ngFor="let item of dealerSummary">
+                    <div class="">
+                      <h5 class="top-title-table">{{ item.vendor_name }}</h5>
                     </div>
-                  </button>
+                    <div class="table-responsive">
+                      <table class="">
+                        <thead>
+                          <tr>
+                            <th class="thead-custom">Quantity</th>
+                            <th class="thead-custom">Atlas #</th>
+                            <th class="thead-custom">Vendor #</th>
+                            <th class="thead-custom">Description</th>
+                            <th class="thead-custom">Special Price ($)</th>
+                            <th class="thead-custom">Total ($)</th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          <tr *ngFor="let data of item.data">
+                            <td class="table-value-custom center-text">
+                              {{ data.qty }}
+                            </td>
+                            <td class="table-value-custom center-text">
+                              {{ data.atlas_id }}
+                            </td>
+
+                            <td class="table-value-custom center-text">
+                              {{ data.vendor_product_code }}
+                            </td>
+
+                            <td class="table-value-custom center-text">
+                              {{ data.description }}
+                            </td>
+                            <td class="table-value-custom right-align">
+                              {{ data.unit_price | currency }}
+                            </td>
+                            <td class="table-value-custom right-align">
+                              {{ data.price | currency }}
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td colspan="5">
+                              <h5 class="each-total-cate-text" style="">
+                                TOTAL FOR {{ item.vendor_name }}
+                              </h5>
+                            </td>
+                            <td>
+                              <h5 class="each-total-text" style="">
+                                {{ item.total | currency }}
+                              </h5>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  <div
+                    style="
+                      width: 100%;
+                      text-align: right;
+                      border: 1px solid gray;
+                      margin-top: 20px;
+                    "
+                  >
+                    <h5
+                      class="each-total-cate-text"
+                      style="
+                        display: inline-block;
+                        border-right: 1px solid gray;
+                      "
+                    >
+                      Grand Total ($):
+                    </h5>
+                    <h5
+                      class="each-total-text"
+                      style="display: inline-block; padding-right: 30px;"
+                    >
+                      {{ grandTotal | currency }}
+                    </h5>
+                  </div>
                 </div>
               </div>
             </div>

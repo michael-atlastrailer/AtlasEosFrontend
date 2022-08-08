@@ -49,7 +49,7 @@
 
                 <h6 class="selected-title-name">
                   <span class="selected-name">{{ selectedVendorName }}</span>
-                  Total: $ {{ totalAmount }}
+                  Total: $ {{ totalAmount | number }}
                 </h6>
 
                 <div class="table-responsive mb-3">
@@ -161,10 +161,10 @@
                           {{ data.description }}
                         </td>
                         <td>
-                          {{ data.regular }}
+                          {{ data.regular | number }}
                         </td>
                         <td>
-                          {{ data.booking }}
+                          {{ data.booking | number }}
                         </td>
                         <td class="total-col">
                           {{ data.total }}
@@ -173,7 +173,9 @@
 
                       <tr>
                         <td colspan="6" class="total-section">Total ($)</td>
-                        <td class="total-section">{{ totalAmount }}</td>
+                        <td class="total-section">
+                          {{ totalAmount | currency }}
+                        </td>
                       </tr>
 
                       <tr *ngIf="noDataFound">

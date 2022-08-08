@@ -17,253 +17,390 @@
               data-parent="#accordion7"
             >
               <div class="card card-body">
-                <button
-                  *ngIf="setCsvBtn"
-                  (click)="callUploadInput()"
-                  class="btn btn-block upload-btn mb-2"
-                >
-                  <span class="fa fa-upload upload-icon"></span>
-                  <span>Upload Products Csv</span>
-                </button>
-                <button
-                  *ngIf="uploadCsvSendBtn"
-                  (click)="uploadCsvServer()"
-                  class="btn btn-danger btn-block mb-2 p-2"
-                >
-                  <span *ngIf="csvBtnText">
-                    <span class="fa fa-upload upload-icon"></span>
-                    Upload
-                  </span>
-                  <div *ngIf="csvBtnLoader">
-                    <span class="spinner-border spinner-border-sm"></span>
+                <div class="row">
+                  <div class="col-md-8">
+                    <form [formGroup]="productForm">
+                      <div class="d-flex flex-column">
+                        <div class="w-100 in-form-section vendor-wrapper">
+                          <div class="label-section"></div>
+                          <div class="input-section">
+                            <h5 class="vendor-text">Vendor Account</h5>
+                            <input
+                              type="text"
+                              vendorAccount
+                              name=""
+                              required
+                              formControlName="vendorAccount"
+                              class="input-filter-edit shadow-sm"
+                            />
+
+                            <div
+                              class="input-alert-box"
+                              *ngIf="
+                                productFormControls.vendorAccount.invalid &&
+                                manualChecker
+                              "
+                            >
+                              <div>
+                                <span class="alert-input-msg">
+                                  {{ getErrorMessage('vendorAccount') }}
+                                </span>
+                                <span
+                                  class="fa fa-exclamation-triangle alert-input-icon"
+                                  style="float: right;"
+                                ></span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="w-100 in-form-section">
+                          <div class="label-section">
+                            <h6>Atlas # *</h6>
+                          </div>
+                          <div class="input-section">
+                            <input
+                              type="text"
+                              name="atlasId"
+                              required
+                              formControlName="atlasId"
+                              class="input-filter-edit shadow-sm"
+                            />
+
+                            <div
+                              class="input-alert-box"
+                              *ngIf="
+                                productFormControls.atlasId.invalid &&
+                                manualChecker
+                              "
+                            >
+                              <div>
+                                <span class="alert-input-msg">
+                                  {{ getErrorMessage('atlasId') }}
+                                </span>
+                                <span
+                                  class="fa fa-exclamation-triangle alert-input-icon"
+                                  style="float: right;"
+                                ></span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="w-100 in-form-section">
+                          <div class="label-section">
+                            <h6>Vendor # *</h6>
+                          </div>
+                          <div class="input-section">
+                            <input
+                              type="text"
+                              name="vendorItemId"
+                              required
+                              formControlName="vendorItemId"
+                              class="input-filter-edit shadow-sm"
+                            />
+                            <div
+                              class="input-alert-box"
+                              *ngIf="
+                                productFormControls.vendorItemId.invalid &&
+                                manualChecker
+                              "
+                            >
+                              <div>
+                                <span class="alert-input-msg">
+                                  {{ getErrorMessage('vendorItemId') }}
+                                </span>
+                                <span
+                                  class="fa fa-exclamation-triangle alert-input-icon"
+                                  style="float: right;"
+                                ></span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="w-100 in-form-section">
+                          <div class="label-section">
+                            <h6>Description *</h6>
+                          </div>
+                          <div class="input-section">
+                            <input
+                              type="text"
+                              name="description"
+                              required
+                              formControlName="description"
+                              class="input-filter-edit shadow-sm"
+                              placeholder="Description"
+                            />
+
+                            <div
+                              class="input-alert-box"
+                              *ngIf="
+                                productFormControls.description.invalid &&
+                                manualChecker
+                              "
+                            >
+                              <div>
+                                <span class="alert-input-msg">
+                                  {{ getErrorMessage('description') }}
+                                </span>
+                                <span
+                                  class="fa fa-exclamation-triangle alert-input-icon"
+                                  style="float: right;"
+                                ></span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="w-100 in-form-section">
+                          <div class="label-section">
+                            <h6>Regular *</h6>
+                          </div>
+                          <div class="input-section">
+                            <input
+                              type="text"
+                              name="regular"
+                              required
+                              formControlName="regular"
+                              class="input-filter-edit shadow-sm"
+                              placeholder="Regular Price (eg: 89.90)"
+                            />
+
+                            <div
+                              class="input-alert-box"
+                              *ngIf="
+                                productFormControls.regular.invalid &&
+                                manualChecker
+                              "
+                            >
+                              <div>
+                                <span class="alert-input-msg">
+                                  {{ getErrorMessage('regular') }}
+                                </span>
+                                <span
+                                  class="fa fa-exclamation-triangle alert-input-icon"
+                                  style="float: right;"
+                                ></span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="w-100 in-form-section">
+                          <div class="label-section">
+                            <h6>Special *</h6>
+                          </div>
+                          <div class="input-section">
+                            <input
+                              type="text"
+                              name="special"
+                              required
+                              formControlName="special"
+                              class="input-filter-edit shadow-sm"
+                              placeholder="Special Price (eg: 89.90)"
+                            />
+
+                            <div
+                              class="input-alert-box"
+                              *ngIf="
+                                productFormControls.special.invalid &&
+                                manualChecker
+                              "
+                            >
+                              <div>
+                                <span class="alert-input-msg">
+                                  {{ getErrorMessage('special') }}
+                                </span>
+                                <span
+                                  class="fa fa-exclamation-triangle alert-input-icon"
+                                  style="float: right;"
+                                ></span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="w-100 in-form-section">
+                          <div class="label-section"></div>
+                          <div class="input-section btn-wrapper">
+                            <button (click)="submit()">
+                              <span *ngIf="saveBtnStatus">Save</span>
+
+                              <div *ngIf="!saveBtnStatus">
+                                <span
+                                  class="spinner-border spinner-border-sm"
+                                ></span>
+                              </div>
+                            </button>
+                            <button (click)="resetForm()">Reset</button>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
                   </div>
-                </button>
-                <input
-                  required
-                  type="file"
-                  class="file-input-tag"
-                  #fileCsv
-                  id="csvFile"
-                  (change)="fileCsvUpload(fileCsv.files)"
-                  name="csvFile"
-                />
 
-                <form [formGroup]="productForm">
-                  <div class="d-flex flex-column">
-                    <div class="w-100 in-form-section vendor-wrapper">
-                      <div class="label-section"></div>
-                      <div class="input-section">
-                        <h5 class="vendor-text">Vendor Account</h5>
-                        <input
-                          type="text"
-                          vendorAccount
-                          name=""
-                          required
-                          formControlName="vendorAccount"
-                          class="input-filter-edit shadow-sm"
-                        />
+                  <div class="col-md-4">
+                    <div class="btn-con">
+                      <div class="product-guide">
+                        <h6>Product Upload Guide</h6>
+                        <ul>
+                          <li>
+                            First upload normal products, before (assorted or
+                            special)
+                          </li>
+                          <li>
+                            If a product is special, no need to specify the
+                            grouping
+                          </li>
+                          <li>
+                            Assorted products requires grouping, in other to
+                            identify the products associated with it
+                          </li>
 
-                        <div
-                          class="input-alert-box"
-                          *ngIf="
-                            productFormControls.vendorAccount.invalid &&
-                            manualChecker
-                          "
+                          <li>
+                            The grouping must be unique across the system in
+                            other to avoid miscalculations
+                          </li>
+                        </ul>
+                      </div>
+
+                      <div>
+                        <button
+                          *ngIf="setCsvBtn"
+                          (click)="callUploadInput()"
+                          class="btn btn-block upload-btn mb-2"
                         >
-                          <div>
-                            <span class="alert-input-msg">
-                              {{ getErrorMessage('vendorAccount') }}
-                            </span>
-                            <span
-                              class="fa fa-exclamation-triangle alert-input-icon"
-                              style="float: right;"
-                            ></span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="w-100 in-form-section">
-                      <div class="label-section">
-                        <h6>Atlas # *</h6>
-                      </div>
-                      <div class="input-section">
-                        <input
-                          type="text"
-                          name="atlasId"
-                          required
-                          formControlName="atlasId"
-                          class="input-filter-edit shadow-sm"
-                        />
-
-                        <div
-                          class="input-alert-box"
-                          *ngIf="
-                            productFormControls.atlasId.invalid && manualChecker
-                          "
+                          <span class="fa fa-upload upload-icon"></span>
+                          <span>Upload Products Csv</span>
+                        </button>
+                        <button
+                          *ngIf="uploadCsvSendBtn"
+                          (click)="uploadCsvServer()"
+                          class="btn btn-danger btn-block mb-2 p-2"
                         >
-                          <div>
-                            <span class="alert-input-msg">
-                              {{ getErrorMessage('atlasId') }}
-                            </span>
-                            <span
-                              class="fa fa-exclamation-triangle alert-input-icon"
-                              style="float: right;"
-                            ></span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="w-100 in-form-section">
-                      <div class="label-section">
-                        <h6>Vendor # *</h6>
-                      </div>
-                      <div class="input-section">
-                        <input
-                          type="text"
-                          name="vendorItemId"
-                          required
-                          formControlName="vendorItemId"
-                          class="input-filter-edit shadow-sm"
-                        />
-                        <div
-                          class="input-alert-box"
-                          *ngIf="
-                            productFormControls.vendorItemId.invalid &&
-                            manualChecker
-                          "
-                        >
-                          <div>
-                            <span class="alert-input-msg">
-                              {{ getErrorMessage('vendorItemId') }}
-                            </span>
-                            <span
-                              class="fa fa-exclamation-triangle alert-input-icon"
-                              style="float: right;"
-                            ></span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="w-100 in-form-section">
-                      <div class="label-section">
-                        <h6>Description *</h6>
-                      </div>
-                      <div class="input-section">
-                        <input
-                          type="text"
-                          name="description"
-                          required
-                          formControlName="description"
-                          class="input-filter-edit shadow-sm"
-                          placeholder="Description"
-                        />
-
-                        <div
-                          class="input-alert-box"
-                          *ngIf="
-                            productFormControls.description.invalid &&
-                            manualChecker
-                          "
-                        >
-                          <div>
-                            <span class="alert-input-msg">
-                              {{ getErrorMessage('description') }}
-                            </span>
-                            <span
-                              class="fa fa-exclamation-triangle alert-input-icon"
-                              style="float: right;"
-                            ></span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="w-100 in-form-section">
-                      <div class="label-section">
-                        <h6>Regular *</h6>
-                      </div>
-                      <div class="input-section">
-                        <input
-                          type="text"
-                          name="regular"
-                          required
-                          formControlName="regular"
-                          class="input-filter-edit shadow-sm"
-                          placeholder="Regular Price (eg: 89.90)"
-                        />
-
-                        <div
-                          class="input-alert-box"
-                          *ngIf="
-                            productFormControls.regular.invalid && manualChecker
-                          "
-                        >
-                          <div>
-                            <span class="alert-input-msg">
-                              {{ getErrorMessage('regular') }}
-                            </span>
-                            <span
-                              class="fa fa-exclamation-triangle alert-input-icon"
-                              style="float: right;"
-                            ></span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="w-100 in-form-section">
-                      <div class="label-section">
-                        <h6>Special *</h6>
-                      </div>
-                      <div class="input-section">
-                        <input
-                          type="text"
-                          name="special"
-                          required
-                          formControlName="special"
-                          class="input-filter-edit shadow-sm"
-                          placeholder="Special Price (eg: 89.90)"
-                        />
-
-                        <div
-                          class="input-alert-box"
-                          *ngIf="
-                            productFormControls.special.invalid && manualChecker
-                          "
-                        >
-                          <div>
-                            <span class="alert-input-msg">
-                              {{ getErrorMessage('special') }}
-                            </span>
-                            <span
-                              class="fa fa-exclamation-triangle alert-input-icon"
-                              style="float: right;"
-                            ></span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="w-100 in-form-section">
-                      <div class="label-section"></div>
-                      <div class="input-section btn-wrapper">
-                        <button (click)="submit()">
-                          <span *ngIf="saveBtnStatus">Save</span>
-
-                          <div *ngIf="!saveBtnStatus">
+                          <span *ngIf="csvBtnText">
+                            <span class="fa fa-upload upload-icon"></span>
+                            Upload
+                          </span>
+                          <div *ngIf="csvBtnLoader">
                             <span
                               class="spinner-border spinner-border-sm"
                             ></span>
                           </div>
                         </button>
-                        <button (click)="resetForm()">Reset</button>
+                        <input
+                          required
+                          type="file"
+                          class="file-input-tag"
+                          #fileCsv
+                          id="csvFile"
+                          (change)="fileCsvUpload(fileCsv.files)"
+                          name="csvFile"
+                        />
+                      </div>
+
+                      <div>
+                        <table
+                          id="normal-product-template"
+                          class="template-table"
+                        >
+                          <thead>
+                            <tr>
+                              <th>Vendor Code</th>
+                              <th>Vendor Name</th>
+                              <th>Atlas #</th>
+                              <th>Vendor Produc Code #</th>
+                              <th>Xref</th>
+                              <th>Description</th>
+                              <th>Regular</th>
+                              <th>Special</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>
+                                S00065
+                              </td>
+                              <td>
+                                2EZE COVERS
+                              </td>
+                              <td>
+                                876-98
+                              </td>
+                              <td>
+                                15TIRECOV
+                              </td>
+                              <td>
+                                100998-003
+                              </td>
+                              <td>
+                                VINYL FOAM TAPE 3/8 X 3/4 X 50
+                              </td>
+                              <td>76.78</td>
+                              <td>54.30</td>
+                            </tr>
+                          </tbody>
+                        </table>
+
+                        <table
+                          id="extra-product-template"
+                          class="template-table"
+                        >
+                          <thead>
+                            <tr>
+                              <th>Vendor Name</th>
+                              <th>Atlas #</th>
+                              <th>Vendor product code</th>
+                              <th>Xref #</th>
+                              <th>Description</th>
+                              <th>Regular</th>
+                              <th>Per Price</th>
+                              <th>Special</th>
+                              <th>Type</th>
+                              <th>Grouping</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>
+                                MARINCO PARK POWER
+                              </td>
+                              <td>
+                                9898-78
+                              </td>
+                              <td>
+                                676TR
+                              </td>
+                              <td>101629-001</td>
+                              <td>16+UP (4/CTN)ASSORTED BY CTN QTY</td>
+                              <td>67.87</td>
+                              <td>34.54</td>
+                              <td>65.87</td>
+                              <td>assorted</td>
+                              <td>2</td>
+                            </tr>
+                          </tbody>
+                        </table>
+
+                        <button
+                          class="btn template-download-btn"
+                          (click)="getNormalProductTemplate()"
+                        >
+                          Template For Normal Product
+                        </button>
+                      </div>
+                      <div>
+                        <button
+                          class="btn template-download-btn"
+                          (click)="getAssortedProductTemplate()"
+                        >
+                          Template For (Special and Assorted)
+                        </button>
                       </div>
                     </div>
                   </div>
-                </form>
+                </div>
               </div>
             </div>
           </div>

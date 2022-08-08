@@ -12,7 +12,6 @@
 
 .filter-wrapper {
   gap: 20px;
-  margin-bottom: 20px;
 
   .input-wrapper {
     width: 30%;
@@ -33,9 +32,6 @@
   }
 
   .btn-wrapper {
-    margin-top: auto;
-    margin-bottom: auto;
-    margin-top: 31px;
     width: 20%;
     button {
       border: 0px;
@@ -157,141 +153,85 @@
   padding-left: 10px;
 }
 
+.select-wrapper {
+  width: 300px;
+
+  select {
+    width: 300px !important;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: #555;
+    font-size: 14px;
+    outline: 0;
+    height: 38.5px;
+    line-height: 1.7;
+    padding: 6px 24px 6px 12px;
+  }
+}
+
+.download-btn {
+  background-color: #555;
+  padding: 5px;
+  border-radius: 4px;
+  border: 0px;
+  color: #ffffff;
+  font-size: 13px;
+}
+
+.btn-section {
+  gap: 10px;
+}
+
 .table-wrapper2 {
   thead {
-    background-color: #4a0013;
+    background-color: #1d7471;
+    font-weight: 800;
   }
 
   thead th {
     color: #ffffff !important;
-    background-color: #4a0013;
     padding: 10px;
-    border-radius: 5px;
   }
 }
 
-.edit-input {
-  border: 1px solid gray;
-  width: 60%;
-  padding: 10px;
-  font-size: 13px;
-}
-
-.item-img {
-  width: 40px;
-  height: 40px;
-}
-
-th {
-  background-color: black;
-  color: white;
-  padding-left: 10px;
-}
-
-table,
-td,
-th {
-  border: 1px solid cadetblue;
-}
-
-td {
-  font-size: 10px;
-  padding-left: 8px;
-}
-
-.table-value-custom {
-  font-size: 13px;
-}
-
-.center-text {
-  text-align: center;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-}
-
-.thead-custom {
-  font-size: 15px;
+.total-col {
+  text-align: right;
   font-weight: bold;
-  color: #ffffff;
+}
+
+.total-name {
+  font-weight: 800;
+  color: red;
+  font-size: 14px;
+}
+
+.purchaser-table {
+  thead {
+    tr {
+      background-color: #06504d;
+      th {
+        font-weight: 600;
+        text-align: center;
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      .shift-center {
+        text-align: center;
+      }
+
+      a {
+        color: #4a0013;
+      }
+    }
+  }
+}
+
+.purchaser-name-text {
+  display: block;
   text-align: center;
-}
-
-.vendor-logo {
-  width: 30px;
-  height: 15px;
-}
-
-.com-logo {
-  float: right;
-  top: 150px;
-  width: 30%;
-  height: 70px;
-}
-
-.right-align {
-  text-align: right;
-  padding-right: 10px;
-}
-
-.top-title {
-  font-size: 20px;
-}
-
-.sub-top-title {
-  font-size: 15px;
-}
-
-.dealer-name {
-  font-size: 15px;
-}
-
-.table-custom {
-  margin-bottom: 20px;
-}
-
-.each-total-text {
-  font-weight: 900;
-  color: darkgreen;
-  margin-bottom: 0px;
-  font-size: 15px;
-  padding-left: 5px;
-  padding-right: 10px;
-  text-align: right;
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
-
-.each-total-cate-text {
-  text-align: right;
-  font-weight: 900;
-  color: darkgreen;
-  margin-bottom: 0px;
-  font-size: 15px;
-  padding-right: 5px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
-
-.top-title-table {
-  font-weight: bold;
-  color: #ffffff;
-  background-color: #115085;
-  margin-bottom: 0px;
-  padding-left: 10px;
-  font-size: 13px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
-
-.table > * {
-  padding-bottom: 0px !important;
-  padding-top: 0px !important;
-}
-
-.table-wrapper {
-  margin-top: 50px;
 }

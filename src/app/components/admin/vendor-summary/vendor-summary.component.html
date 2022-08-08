@@ -6,7 +6,7 @@
           <div class="card">
             <div class="card-header">
               <a class="card-link" data-toggle="collapse" href="#collapseSix">
-                Purchases By Dealers
+                Vendor Summary
               </a>
             </div>
             <div
@@ -14,7 +14,7 @@
               class="collapse show"
               data-parent="#accordion6"
             >
-              <div class="card-body" *ngIf="showSelectOption">
+              <div class="card-body">
                 <div class="d-flex w-100 filter-wrapper">
                   <div class="input-wrapper">
                     <div class="form-group">
@@ -25,10 +25,14 @@
                           #vendor
                           (change)="selectedVendor(vendor.value)"
                         >
-                          <option value="">Select Vendor</option>
+                          <option value="" *ngIf="noCode">Select Vendor</option>
+                          <option value="" *ngIf="!noCode">
+                            {{ currentVendor }}
+                          </option>
+
                           <option
                             value="{{ data.vendor_code }}"
-                            *ngFor="let data of privilegedVendors"
+                            *ngFor="let data of allVendorData"
                           >
                             {{ data.vendor_name }}
                           </option>
@@ -164,21 +168,28 @@
                           {{ data.account_id }}
                         </td>
                         <td class="shift-center">
-                          <a
+                          <!-- <a
                             routerLink="/vendors/view-dealer-summary/{{
                               data.user
                             }}/{{ data.account_id }}/{{ data.vendor_code }}"
-                          >
-                            {{ data.dealer_name }}
-                          </a>
+                          > -->
+
+                          {{ data.dealer_name }}
+                          <!-- </a> -->
                         </td>
                         <td class="">
-                          {{ data.purchaser_name }}
+                          <span class="purchaser-name-text">
+                            {{ data.purchaser_name }}
+                          </span>
                         </td>
                         <td class="total-col">
-                          {{ data.amount | number }}
+                          {{ data.amount | currency }}
                         </td>
                       </tr>
+                      <tr *ngIf="noDataFound">
+                        <td colspan="5" class="text-center">No order found</td>
+                      </tr>
+
                       <tr *ngIf="selectedState">
                         <td colspan="4" class="total-name total-col">
                           TOTAL FOR {{ selectedVendorName }}
@@ -195,39 +206,8 @@
                           {{ TotalForVendorAmount | currency }}
                         </td>
                       </tr>
-                      <tr *ngIf="noDataFound">
-                        <td colspan="5" class="text-center">No order found</td>
-                      </tr>
                     </tbody>
                   </table>
-                </div>
-
-                <hr />
-                <div class="d-flex justify-content-end btn-section">
-                  <div>
-                    <button class="download-btn">
-                      <span class="fa fa-download"></span>
-                      Download as Excel
-                    </button>
-                  </div>
-                  <div>
-                    <button class="download-btn">
-                      <span class="fa fa-download"></span>
-                      Download Detailed Records
-                    </button>
-                  </div>
-                  <div>
-                    <button class="download-btn">
-                      <span class="fa fa-download"></span>
-                      Download Special Orders
-                    </button>
-                  </div>
-                  <div>
-                    <button class="download-btn">
-                      <span class="fa fa-download"></span>
-                      Download Vendor Orders
-                    </button>
-                  </div>
                 </div>
               </div>
             </div>

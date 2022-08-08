@@ -20,10 +20,15 @@
                     <h5>Vendor Name</h5>
                   </div>
                   <div class="select-wrapper">
-                    <select name="" id="">
+                    <select
+                      name=""
+                      id=""
+                      #vendor
+                      (change)="vendorSelected(vendor.value)"
+                    >
                       <option value="">Select Vendor</option>
                       <option
-                        (click)="vendorSelected(data)"
+                        value="{{ data.vendor_code }}"
                         *ngFor="let data of allVendors"
                       >
                         {{ data.vendor_name }}
@@ -193,7 +198,7 @@
                       </ng-container>
 
                       <ng-container matColumnDef="booking">
-                        <th mat-header-cell *matHeaderCellDef>Booking ($)</th>
+                        <th mat-header-cell *matHeaderCellDef>Special ($)</th>
                         <td mat-cell *matCellDef="let element">
                           <span class="booking-text">
                             {{ element.booking | currency }}
@@ -232,9 +237,9 @@
 
                   <mat-paginator
                     #paginator
-                    [pageSizeOptions]="[20, 60, 80]"
+                    [pageSizeOptions]="[100, 200, 400]"
                     showFirstLastButtons
-                    pageSize="20"
+                    pageSize="100"
                   ></mat-paginator>
                 </div>
 

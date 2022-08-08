@@ -51,7 +51,7 @@ export class AllProductsComponent implements OnInit {
     this.getAllProducts()
   }
 
-  pageSizes = [3, 5, 7]
+  pageSizes = [100, 500, 1000]
 
   constructor(
     private postData: HttpRequestsService,
