@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { HttpRequestsService } from 'src/app/core/services/http-requests.service'
 import { ToastrService } from 'ngx-toastr'
 
+declare var $: any
+
 @Component({
   selector: 'app-add-product',
   templateUrl: './add-product.component.html',
@@ -43,6 +45,18 @@ export class AddProductComponent implements OnInit {
   ngOnInit(): void {
     this.buildProductForm()
     this.browserName = this.detectBrowserName()
+  }
+
+  getNormalProductTemplate() {
+    $('#normal-product-template').table2csv({
+      filename: 'normal-product-template',
+    })
+  }
+
+  getAssortedProductTemplate() {
+    $('#extra-product-template').table2csv({
+      filename: 'extra-product-template',
+    })
   }
 
   detectBrowserName() {
