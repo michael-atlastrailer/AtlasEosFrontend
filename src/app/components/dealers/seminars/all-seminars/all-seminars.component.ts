@@ -67,8 +67,7 @@ export class AllSeminarsComponent implements AfterViewInit {
     this.tableView = false;
     this.loader = true;
     this.noData = false;
-    let dealer = this.token.getUser().account_id;
-
+    let dealer = this.token.getUser().id
     this.request
       .httpGetRequest('/fetch-all-seminars/' + dealer)
       .then((result: any) => {

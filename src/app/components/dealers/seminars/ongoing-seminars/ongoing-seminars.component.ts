@@ -94,7 +94,7 @@ export class OngoingSeminarsComponent implements AfterViewInit {
       });
   }
   bookmarkSeminar(id: any, stat: any, current: any) {
-    let dealer = this.token.getUser().account_id;
+    let dealer = this.token.getUser().id;
     let formdata = {
       seminar_id: id,
       dealer_id: dealer,
