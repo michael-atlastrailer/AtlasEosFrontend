@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { HttpRequestsService } from 'src/app/core/services/http-requests.service'
 import { ToastrService } from 'ngx-toastr'
 
+declare var $: any
+
 @Component({
   selector: 'app-add-vendors',
   templateUrl: './add-vendors.component.html',
@@ -54,6 +56,12 @@ export class AddVendorsComponent implements OnInit {
   ngOnInit(): void {
     this.buildDealerForm()
     this.browserName = this.detectBrowserName()
+  }
+
+  downloadVendorTemplate() {
+    $('#vendor-template').table2csv({
+      filename: 'vendorship-template',
+    })
   }
 
   detectBrowserName() {
