@@ -4,36 +4,74 @@
       <div class="col-md-2 col-12"></div>
 
       <div class="col-md-8 col-12">
-        <button
-          *ngIf="setCsvBtn"
-          (click)="callUploadInput()"
-          class="btn btn-block upload-btn mb-2"
-        >
-          <span class="fa fa-upload upload-icon"></span>
-          <span>Upload Vendor Csv</span>
-        </button>
-        <button
-          *ngIf="uploadCsvSendBtn"
-          (click)="uploadCsvServer()"
-          class="btn btn-danger btn-block mb-2 p-2"
-        >
-          <span *ngIf="csvBtnText">
-            <span class="fa fa-upload upload-icon"></span>
-            Upload
-          </span>
-          <div *ngIf="csvBtnLoader">
-            <span class="spinner-border spinner-border-sm"></span>
+        <table id="vendor-template">
+          <thead>
+            <tr>
+              <th>Vendor Name</th>
+              <th>Vendor</th>
+              <th>Vendor Code</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                MARINCO PARK POWER
+              </td>
+              <td>
+                vendor
+              </td>
+              <td>
+                Us6786
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="d-flex justify-content-center btn-wrapper">
+          <div>
+            <button
+              *ngIf="setCsvBtn"
+              (click)="callUploadInput()"
+              class="btn btn-block upload-btn mb-2"
+            >
+              <span class="fa fa-upload upload-icon"></span>
+              <span>Upload Vendor Csv</span>
+            </button>
+            <button
+              *ngIf="uploadCsvSendBtn"
+              (click)="uploadCsvServer()"
+              class="btn btn-danger btn-block mb-2 p-2"
+            >
+              <span *ngIf="csvBtnText">
+                <span class="fa fa-upload upload-icon"></span>
+                Upload
+              </span>
+              <div *ngIf="csvBtnLoader">
+                <span class="spinner-border spinner-border-sm"></span>
+              </div>
+            </button>
+            <input
+              required
+              type="file"
+              class="file-input-tag"
+              #fileCsv
+              id="csvFile"
+              (change)="fileCsvUpload(fileCsv.files)"
+              name="csvFile"
+            />
           </div>
-        </button>
-        <input
-          required
-          type="file"
-          class="file-input-tag"
-          #fileCsv
-          id="csvFile"
-          (change)="fileCsvUpload(fileCsv.files)"
-          name="csvFile"
-        />
+
+          <div>
+            <button
+              class="btn download-template-btn"
+              (click)="downloadVendorTemplate()"
+            >
+              <span class="fa fa-download upload-icon"></span>
+
+              Download Template
+            </button>
+          </div>
+        </div>
 
         <div class="card justify-content-center">
           <div class="card-body">
