@@ -321,8 +321,29 @@
                   {{ element.atlas_id! }}
                 </td>
               </ng-container>
+
+              <!-- <ng-container matColumnDef="vendor_name">
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  mat-sort-header
+                  sortActionDescription="Sort by name"
+                >
+                  Vendor Name
+                  <i class="fa fa-sort ml-2"></i>
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.vendor_name }}
+                </td>
+              </ng-container> -->
+
               <ng-container matColumnDef="vendor">
-                <th mat-header-cell *matHeaderCellDef>
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  mat-sort-header
+                  sortActionDescription="Sort by name"
+                >
                   Vendor #
                   <!-- <i class="fa fa-sort ml-2"></i> -->
                 </th>
@@ -330,6 +351,7 @@
                   {{ element.vendor_no }}
                 </td>
               </ng-container>
+
               <!-- Name Column -->
               <ng-container matColumnDef="description">
                 <th mat-header-cell *matHeaderCellDef>Description</th>
