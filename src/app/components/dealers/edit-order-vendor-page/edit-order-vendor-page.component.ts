@@ -327,7 +327,6 @@ export class EditOrderVendorPageComponent implements OnInit {
       .httpPostRequest('/dealer/save-item-to-cart', postData)
       .then((res: any) => {
         this.modalTableBtn = false
-        this.getCartByVendorId(this.vendorId)
         this.closeModalBtn.nativeElement.click()
         this.tableViewDisplay = []
         $('#closeModal').click()
@@ -335,6 +334,10 @@ export class EditOrderVendorPageComponent implements OnInit {
         console.log(res)
 
         if (res.status) {
+          if (res.data.item_added > 0) {
+            this.getCartByVendorId(this.vendorId)
+          }
+
           //  this.newlyAdded = res.data.newly_added
           //  this.existingInQuickOrder = res.data.existing_already_in_quick_order
           //  this.existingInOrder = res.data.existing_already_in_order

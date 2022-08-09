@@ -33,8 +33,8 @@
 
             ],
             "scripts": [
-              "node_modules/apexcharts/dist/apexcharts.min.js",
-              "src/assets/js/jquery-3.4.1.min.js"
+              "node_modules/apexcharts/dist/apexcharts.min.js"
+              
 
             ]
           },
@@ -100,7 +100,9 @@
             "karmaConfig": "karma.conf.js",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": ["src/styles.css"],
-            "scripts": []
+            "scripts": [
+            
+            ]
           }
         }
       }

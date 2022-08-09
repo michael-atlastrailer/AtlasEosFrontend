@@ -209,11 +209,11 @@
                         Last Login Date
                       </th>
                       <td mat-cell *matCellDef="let element">
-                        <span *ngIf="element.last_login_date == null">
+                        <span *ngIf="element.last_login == null">
                           not Logged In
                         </span>
-                        <span *ngIf="element.last_login_date != null">
-                          {{ element.last_login_date | date: 'medium' }}
+                        <span *ngIf="element.last_login != null">
+                          {{ element.last_login | date: 'medium' }}
                         </span>
                         <!-- {{ element.created_at | date: 'medium' }} -->
                       </td>
@@ -296,9 +296,9 @@
 
                 <mat-paginator
                   #paginator
-                  [pageSizeOptions]="[20, 60, 80]"
+                  [pageSizeOptions]="[100, 200, 400]"
                   showFirstLastButtons
-                  pageSize="20"
+                  pageSize="100"
                 ></mat-paginator>
               </div>
             </div>

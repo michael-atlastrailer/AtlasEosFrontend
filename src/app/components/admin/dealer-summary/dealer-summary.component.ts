@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr'
 import { TokenStorageService } from 'src/app/core/services/token-storage.service'
 import { MatTableDataSource } from '@angular/material/table'
 import { MatPaginator } from '@angular/material/paginator'
+import { ActivatedRoute, Router } from '@angular/router'
 
 export interface Products {
   atlas_id: string
@@ -28,6 +29,8 @@ export class DealerSummaryComponent implements OnInit {
   incomingData: any
   noItemFound = false
 
+  dealerCode = ''
+
   displayedColumns: string[] = ['dealer_code', 'dealer_name', 'sales']
 
   dataSource = new MatTableDataSource<Products>()
@@ -43,10 +46,42 @@ export class DealerSummaryComponent implements OnInit {
     private httpService: HttpRequestsService,
     private toastr: ToastrService,
     private tokenStore: TokenStorageService,
-  ) {}
+    private route: ActivatedRoute,
+  ) {
+    this.route.params.subscribe((params) => {
+      if (params['code']) {
+        this.dealerCode = params['code']
+        this.getSingleDealerSummary()
+      } else {
+        this.getDealerSummary()
+      }
+    })
+  }
 
-  ngOnInit(): void {
-    this.getDealerSummary()
+  ngOnInit(): void {}
+
+  getSingleDealerSummary() {
+    this.loader = true
+    this.tableView = false
+
+    this.httpService
+      .httpGetRequest('/admin/dealer-single-summary/' + this.dealerCode)
+      .then((result: any) => {
+        this.loader = false
+        this.tableView = true
+        if (result.status) {
+          /// this.dealerSummaryData = result.data
+          this.noItemFound = result.data.length < 0 ? true : false
+          this.incomingData = result.data
+          this.dataSource = new MatTableDataSource<Products>(result.data)
+          this.dataSource.paginator = this.paginator
+        } else {
+          this.toastr.info(`Something went wrong`, 'Error')
+        }
+      })
+      .catch((err) => {
+        this.toastr.info(`Something went wrong`, 'Error')
+      })
   }
 
   applyFilter() {

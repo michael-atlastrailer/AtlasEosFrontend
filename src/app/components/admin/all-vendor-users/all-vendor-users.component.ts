@@ -52,7 +52,7 @@ export class AllVendorUsersComponent implements OnInit {
     this.getVendorUsers()
   }
 
-  pageSizes = [3, 5, 7]
+  pageSizes = [100, 200, 400]
 
   constructor(
     private postData: HttpRequestsService,

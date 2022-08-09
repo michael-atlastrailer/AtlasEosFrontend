@@ -27,7 +27,6 @@ export class WatchedSeminarsComponent implements OnInit {
   tableView = false
   tableData: PeriodicElement[] = []
   displayedColumns: string[] = [
-    'id',
     'seminar_date',
     'start_time',
     'vendor_name',
@@ -97,7 +96,7 @@ export class WatchedSeminarsComponent implements OnInit {
       })
   }
   bookmarkSeminar(id: any, stat: any, current: any) {
-    let dealer = this.token.getUser().account_id
+    let dealer = this.token.getUser().id
     let formdata = {
       seminar_id: id,
       dealer_id: dealer,

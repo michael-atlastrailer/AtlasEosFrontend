@@ -24,6 +24,7 @@
         <div class="card promotional-flyer-ctn px-4" style="min-height: 70vh;">
           <div class="py-5" *ngIf="promotionalData">
             <iframe 
+
               title="{{promotionalAds.description}}"
               [src]="promotionalAds.pdf_url | safe: 'resourceUrl'"
               width="100%"

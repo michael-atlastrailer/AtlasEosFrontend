@@ -16,8 +16,11 @@
 }
 .thead-custom {
   font-weight: bold;
+}.btn{
+  color: #fff!important;
 }
-
+.subs{
+  margin-left: 10px;}
 .recent-btn {
   background-color: darkblue;
   padding: 4px 8px 4px 8px;
@@ -106,9 +109,8 @@
 .btn{ color: #fff !important;}
 button{
   color: #fff !important;
-}::ng-deep tr:nth-child(2n + 2) {
-  background: rgb(223, 222, 222) !important;
 }
+
 .order-form-table {
   td,
   th {    text-align: center;

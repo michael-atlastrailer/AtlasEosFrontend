@@ -12,9 +12,7 @@
 .btn-primary:hover {
   background-color: #0470a2 !important;
 }
-::ng-deep tr:nth-child(2n + 2) {
-  background: rgb(223, 222, 222) !important;
-}
+
 .card-header {
   // background-color: #f6f6f6;
   // border-bottom: .2px solid #a8a8a8;
@@ -33,9 +31,7 @@
   th {
     border: 0.1px solid rgb(187, 185, 185);
   }
-  tr:nth-child(2n + 2) {
-    background: rgb(223, 222, 222) !important;
-  } th {
+  th {
       padding: 10px;
       font-weight: 500;
       text-transform: capitalize;

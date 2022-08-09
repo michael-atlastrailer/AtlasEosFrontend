@@ -10,10 +10,10 @@
     left: 300px;
   }
 }
-.text-white{
+.text-white {
   color: #fff;
 }
-th{
+th {
   text-align: center !important;
 }
 .profile-user {
@@ -24,9 +24,9 @@ body {
   /* overflow: hidden; */
   height: 100vh;
   overflow: hidden;
-  font-family: Verdana,sans-serif;
+  font-family: Verdana, sans-serif;
 }
-html{
+html {
   height: unset !important;
 }
 .side-menu {
@@ -34,20 +34,25 @@ html{
   margin: 0px;
   padding: 0px;
 }
-.btn{
-  transition: .3s ease;
+.btn {
+  transition: 0.3s ease;
+  /* color: #fff !important; */
 }
-.btn-warning:hover{
+.btn-warning:hover {
   background-color: #ca8104 !important;
-}.btn-success:hover{
-  background-color: #56CF94 !important;
+}
+.btn-success:hover {
+  background-color: rgb(65, 155, 111) !important;
 }
 
-.btn-danger{
+.btn-danger {
   background-color: #ff0000 !important;
 }
-.btn-danger:hover{
+.btn-danger:hover {
   background-color: rgb(178, 27, 27) !important;
+}
+.btn-success {
+  background-color: #378805 !important;
 }
 .dealer-side {
   margin-top: 70px;
@@ -56,7 +61,11 @@ html{
 .admin-side {
   margin-top: 53px;
 }
-
+.mat-sort-header-container{
+  width: 100%;
+  display: flex;
+ justify-content: center;
+}
 @media screen and (max-width: 1200px) {
   .dealer-side {
     margin-top: 60px;
@@ -72,7 +81,7 @@ html{
     margin-top: -44px;
   }
 }
-html{
+html {
   overflow: hidden;
 }
 
@@ -98,22 +107,21 @@ html{
   right: 206px;
 }
 
-
-.swal2-title{
+.swal2-title {
   font-size: 15px !important;
 }
 
-.swal2-icon{
+.swal2-icon {
   width: 4em !important;
   height: 4em !important;
 }
 
-.swal2-confirm{
+.swal2-confirm {
   padding: 5px 21px !important;
-font-size: 14px !important;
+  font-size: 14px !important;
 }
 
-.swal2-cancel{
+.swal2-cancel {
   padding: 5px 21px !important;
-font-size: 14px !important;
+  font-size: 14px !important;
 }

@@ -52,13 +52,13 @@
     font-size: 17px;
     padding: 10px;
     text-transform: uppercase;
-    font-weight: 500;
+    font-weight: 400;
   }
-  tbody {
-    tr:nth-child(2n + 2) {
-      background: rgb(223, 222, 222) !important;
-    }
-  }
+  // tbody {
+  //   tr:nth-child(2n + 2) {
+  //     background: rgb(223, 222, 222) !important;
+  //   }
+  // }
   th.mat-sort-header-sorted {
     color: black;
   }
@@ -91,9 +91,7 @@
   padding: 10px;
   border-radius: 5px;
 }
-::ng-deep tr:nth-child(2n + 2) {
-  background: rgb(223, 222, 222) !important;
-}
+
 input[type='number']::-webkit-inner-spin-button,
 input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none !important;
@@ -194,7 +192,7 @@ input[type='number']::placeholder {
     font-size: 17px;
     padding: 10px;
     text-transform: capitalize;
-    font-weight: 500;
+    font-weight: 400;
   }
 
   th.mat-sort-header-sorted {

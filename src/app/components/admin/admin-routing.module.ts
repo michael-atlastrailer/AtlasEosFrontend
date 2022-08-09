@@ -39,6 +39,7 @@ import { SpecialOrdersComponent } from './special-orders/special-orders.componen
 import { VeiwReportComponent } from './veiw-report/veiw-report.component'
 import { VendorNotesComponent } from './vendor-notes/vendor-notes.component'
 import { VendorOrderFormComponent } from './vendor-order-form/vendor-order-form.component'
+import { VendorSummaryComponent } from './vendor-summary/vendor-summary.component'
 import { ViewDealerSummaryComponent } from './view-dealer-summary/view-dealer-summary.component'
 
 const routes: Routes = [
@@ -208,6 +209,18 @@ const routes: Routes = [
       {
         path: 'view-dealer-summary/:account',
         component: ViewDealerSummaryComponent,
+      },
+      {
+        path: 'vendor-summary',
+        component: VendorSummaryComponent,
+      },
+      {
+        path: 'vendor-summary/:code',
+        component: VendorSummaryComponent,
+      },
+      {
+        path: 'dealer-summary/:code',
+        component: DealerSummaryComponent,
       },
     ],
     canActivate: [AuthGuardGuard],

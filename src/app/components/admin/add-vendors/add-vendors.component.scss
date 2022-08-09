@@ -168,3 +168,23 @@ html {
 .file-input-tag {
   display: none;
 }
+
+.btn-wrapper {
+  gap: 20px;
+}
+
+.download-template-btn {
+  background-color: red;
+  padding: 10px 30px;
+  border: 0px !important;
+  border-radius: 5px;
+  color: #ffffff;
+}
+
+.upload-icon {
+  padding-right: 10px;
+}
+
+#vendor-template {
+  visibility: collapse;
+}

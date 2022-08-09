@@ -181,30 +181,16 @@
                     </tbody>
                   </table>
                   <div
-                    class="table-ctn mt-3 mat-elevation-z8"
+                    class="table-ctn mt-3 mat-elevation-z8 table-striped"
                     *ngIf="tableView"
                   >
                     <table
-                      class="order-form-table w-100 mat-elevation"
+                      class="order-form-table w-100 mat-elevation table-striped"
                       mat-table
                       [dataSource]="dataSrc"
                       matSort
                       (matSortChange)="announceSortChange($event)"
                     >
-                      <ng-container matColumnDef="id">
-                        <th
-                          mat-header-cell
-                          *matHeaderCellDef
-                          style="white-space: nowrap;"
-                          mat-sort-header
-                          sortActionDescription="Sort by number"
-                        >
-                          S/No
-                        </th>
-                        <td mat-cell *matCellDef="let element; let i = index">
-                          {{ i }}
-                        </td>
-                      </ng-container>
                       <ng-container matColumnDef="seminar_date">
                         <th
                           mat-header-cell
@@ -213,6 +199,7 @@
                           sortActionDescription="Sort by number"
                         >
                           DATE
+                          <i class="fa fa-sort ml-2"></i>
                         </th>
                         <td mat-cell *matCellDef="let element">
                           {{ element.seminar_date | date }}
@@ -224,11 +211,13 @@
                           mat-cell
                           style="position: relative;"
                           *matCellDef="let element"
+                          class="align-items-center justify-content-center d-flex"
                         >
                           <span *ngIf="element.bookmark == 1" class="bookmark">
                             <i class="fa fa-bookmark" style="color: red;"></i>
                           </span>
                           {{ element.start_time }}
+                          <p class="subs m-0">MST</p>
                         </td>
                       </ng-container>
                       <ng-container matColumnDef="vendor_name">
@@ -247,6 +236,7 @@
                       <ng-container matColumnDef="status">
                         <th mat-header-cell *matHeaderCellDef>Status</th>
                         <td mat-cell *matCellDef="let element">
+                          <!-- {{ element.status }} -->
                           <p class="red-text" *ngIf="element.status == 3">
                             COMPLETED
                           </p>
@@ -267,14 +257,17 @@
                       <ng-container matColumnDef="link">
                         <th mat-header-cell *matHeaderCellDef>Action</th>
                         <!-- <td mat-cell *matCellDef="let element">
-                          {{ element.symbol }}
-                        </td> -->
+                        {{ element.symbol }}
+                      </td> -->
                         <td class="p-3" mat-cell *matCellDef="let element">
                           <a
                             class="btn btn-info"
-                            href="{{ element.link }}"
+                            href="{{ element.completed_seminar_link }}"
                             target="_blank"
-                            *ngIf="element.status == 3"
+                            *ngIf="
+                              element.status == 3 &&
+                              element.completed_seminar_link
+                            "
                           >
                             <i
                               class="fa fa-play-circle-o"

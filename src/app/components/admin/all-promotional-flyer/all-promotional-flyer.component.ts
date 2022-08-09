@@ -47,7 +47,7 @@ export class AllPromotionalFlyerComponent implements OnInit {
     this.getAllFlyers()
   }
 
-  pageSizes = [3, 5, 7]
+  pageSizes = [100, 200, 400]
 
   constructor(
     private postData: HttpRequestsService,

@@ -1,1 +1,47 @@
-<p>purchase-summary works!</p>
+<section class="overview-section">
+    <div class="container-fluid p-0">
+      <div class="row my-5 ml-4">
+        <div class="col-12">
+          <div class="form-table-ctn px-2pt-4">
+           
+  
+            <div class="card mt-3">
+              <div
+                class="card-header justify-content-start d-flex align-items-center"
+              >
+                <p>
+                  <i class="fa fa-list-ul mr-3"></i>
+                Sales Summary
+                </p>
+              </div>
+              <div class="card-body">
+                <div class="table-ctn mt-3">
+                    <div id="accordion" *ngIf="showOrder">
+                        <div class="card" *ngFor="let order of orders">
+                          <div class="card-header btn-primary" [id]="'heading' + order.id">
+                            <h5 class="mb-0">
+                              <button class="btn btn-link" data-toggle="collapse" [attr.data-target]="'#collapse' + order.id"
+                              aria-expanded="true"
+                              [attr.aria-controls]="'collapse' + order.id">
+                             {{order.full_name}}
+                              </button>
+                            </h5>
+                          </div>
+                      
+                          <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                            <div class="card-body">
+  
+                            </div>
+                          </div>
+                        </div>
+                        
+                      </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
