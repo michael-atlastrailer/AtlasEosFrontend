@@ -226,12 +226,15 @@ export class TestQuickOrderComponent implements OnInit {
       .httpPostRequest('/dealer/submit-assorted-quick-order', postData)
       .then((res: any) => {
         this.modalTableBtn = false
-        this.showAlert = true
         if (res.status) {
           this.newlyAdded = res.data.newly_added
           this.existingInQuickOrder = res.data.existing_already_in_quick_order
           this.existingInOrder = res.data.existing_already_in_order
           this.currentVendor = res.data.current_vendor
+
+          if (res.data.existing_status == true) {
+            this.showAlert = true
+          }
 
           if (res.data.submitted_status) {
             this.toastr.success(`item(s) has been submitted`, 'Success')
@@ -897,6 +900,8 @@ export class TestQuickOrderComponent implements OnInit {
 
   oneAddBtn() {
     // let allProCount = this.productData.length
+    this.showAlert = false
+
     let addedState = false
     let inCart = false
     let postItem = []
@@ -937,7 +942,6 @@ export class TestQuickOrderComponent implements OnInit {
       this.getData
         .httpPostRequest('/dealer/submit-quick-order', postData)
         .then((res: any) => {
-          this.showAlert = true
           if (res.status) {
             this.fetchQuickOrderCart()
             this.cartLoader = false
@@ -948,6 +952,17 @@ export class TestQuickOrderComponent implements OnInit {
             this.existingInQuickOrder = res.data.existing_already_in_quick_order
             this.existingInOrder = res.data.existing_already_in_order
             this.currentVendor = res.data.current_vendor
+
+            if (res.data.existing_status == true) {
+              this.showAlert = true
+            }
+
+            if (res.data.existing_quick_order_status) {
+              this.toastr.error(
+                `item(s) already in order list`,
+                'Status Update',
+              )
+            }
 
             if (res.data.submitted_status) {
               this.toastr.success(`item(s) has been submitted`, 'Success')
