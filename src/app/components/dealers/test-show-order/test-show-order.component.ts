@@ -502,11 +502,6 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
   runTotalCalculation(index: number) {
     let currentProduct = this.productData[index]
 
-    let curQty = $('#cur-' + index).val()
-    let rawPrice = document.getElementById('amt-hidd-' + index)?.innerHTML
-    // let realPrice = rawPrice?.replace('$', '')
-    let newPrice = rawPrice?.replace(',', '')
-
     let data = {
       atlasId: currentProduct.atlas_id,
       forCal: currentProduct.forCal,
@@ -537,17 +532,15 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
       if (!presentItem) {
         for (let g = 0; g < this.addedItem.length; g++) {
           const t = this.addedItem[g]
+
           if (t.grouping == currentProduct.grouping) {
-            let rawPrice = document.getElementById('amt-hidd-' + t.index)
-              ?.innerHTML
-            // let realPrice = rawPrice?.replace('$', '')
-            let newPrice = rawPrice?.replace(',', '')
-            // t.price = newPrice
-            t.forCal = currentProduct.forCal
+            if (t.grouping != null && currentProduct.grouping != null) {
+              t.forCal = currentProduct.forCal
+            }
           } else {
             for (let i = 0; i < this.addedItem.length; i++) {
               const item = this.addedItem[i]
-              if (item.atlasId == currentProduct.atlasId) {
+              if (item.atlasId == currentProduct.atlas_id) {
                 // item.price = newPrice
                 item.forCal = currentProduct.forCal
 
@@ -558,6 +551,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
           }
           //groupings
         }
+        console.log(data, 'entery level')
         this.addedItem.push(data)
       } else {
         // for (let i = 0; i < this.addedItem.length; i++) {
@@ -574,10 +568,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
     this.overTotal = 0
     for (let j = 0; j < this.addedItem.length; j++) {
       const h = this.addedItem[j]
-      console.log(h)
-      ///  console.log('price no : ' + h.price)
       this.overTotal += parseFloat(h.forCal)
-      // console.log(this.overTotal)
     }
 
     console.log(this.addedItem)
