@@ -39,7 +39,7 @@
                 <input
                   type="number"
                   class="search-input form-control"
-                  [disabled]="disabled"
+                  [disabled]="notAllowed"
                   min="0"
                   (input)="runCalculation(qtyInput.value, 0)"
                   style="max-width: 70px !important;"
