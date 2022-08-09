@@ -172,11 +172,11 @@
                     </tbody>
                   </table>
                   <div
-                  class="table-ctn mt-3 mat-elevation-z8"
+                  class="table-ctn mt-3 mat-elevation-z8 table-striped"
                   *ngIf="tableView"
                 >
                   <table
-                    class="order-form-table w-100 mat-elevation"
+                    class="order-form-table w-100 mat-elevation table-striped"
                     mat-table
                     [dataSource]="dataSrc"
                     matSort
@@ -190,7 +190,7 @@
                         mat-sort-header
                         sortActionDescription="Sort by number"
                       >
-                        DATE
+                        DATE  <i class="fa fa-sort ml-2"></i>
                       </th>
                       <td mat-cell *matCellDef="let element">
                         {{ element.seminar_date | date }}

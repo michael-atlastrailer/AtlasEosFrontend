@@ -124,7 +124,7 @@
 
             <table
               *ngIf="!loader"
-              class="order-form-table w-100 mat-elevation"
+              class="order-form-table w-100 mat-elevation table-striped"
               mat-table
               [dataSource]="dataSrc"
               matSort
@@ -516,7 +516,7 @@
 
           <table
             *ngIf="modalTableView"
-            class="order-form-table w-100 mat-elevation"
+            class="order-form-table w-100 mat-elevation table-striped"
             mat-table
             [dataSource]="tableViewDisplay"
           >
