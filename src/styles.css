@@ -61,7 +61,11 @@ html {
 .admin-side {
   margin-top: 53px;
 }
-
+.mat-sort-header-container{
+  width: 100%;
+  display: flex;
+ justify-content: center;
+}
 @media screen and (max-width: 1200px) {
   .dealer-side {
     margin-top: 60px;
