@@ -182,20 +182,7 @@
                       matSort
                       (matSortChange)="announceSortChange($event)"
                     >
-                      <ng-container matColumnDef="id">
-                        <th
-                          mat-header-cell
-                          *matHeaderCellDef
-                          style="white-space: nowrap"
-                          mat-sort-header
-                          sortActionDescription="Sort by number"
-                        >
-                          S/No
-                        </th>
-                        <td mat-cell *matCellDef="let element; let i =index">
-                          {{i}}
-                        </td>
-                      </ng-container>
+                   
                       <ng-container matColumnDef="seminar_date">
                         <th
                           mat-header-cell
@@ -214,12 +201,12 @@
                         <td
                           mat-cell
                           style="position: relative"
-                          *matCellDef="let element"
+                          *matCellDef="let element" class="align-items-center justify-content-center d-flex"
                         >
                           <span *ngIf="element.bookmark == 1" class="bookmark"
                             ><i class="fa fa-bookmark" style="color: red"></i
                           ></span>
-                          {{ element.start_time  }}
+                          {{ element.start_time  }} <p class="subs m-0">MST</p>
                         </td> </ng-container
                       ><ng-container matColumnDef="vendor_name">
                         <th mat-header-cell *matHeaderCellDef>Vendor Name</th>
@@ -263,9 +250,9 @@
                         <td class="p-3" mat-cell *matCellDef="let element">
                           <a
                             class="btn btn-info"
-                            href="{{ element.link }}"
+                            href="{{ element.completed_seminar_link }}"
                             target="_blank"
-                            *ngIf="element.status == 3"
+                            *ngIf="element.status == 3 && element.completed_seminar_link"
                           >
                             <i
                               class="fa fa-play-circle-o"

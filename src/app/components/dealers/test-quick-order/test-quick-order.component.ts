@@ -58,7 +58,7 @@ export class TestQuickOrderComponent implements OnInit {
   displayedColumns: string[] = [
     'qty',
     'atlas_id',
-    'vendor',
+    'vendor','vendor_name',
     'description',
     'booking',
     'special',
