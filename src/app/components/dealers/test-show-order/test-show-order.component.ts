@@ -1392,19 +1392,22 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
       .then((result: any) => {
         if (result.status) {
           this.getVendorBuck(id)
-          this.tableData = result.data
-          this.productData = result.data
 
           if (this.searchatlasId) {
             this.dataSrc = new MatTableDataSource<PeriodicElement>(
               this.filterTop(result.data),
             )
+            this.tableData = this.filterTop(result.data)
+            this.productData = this.filterTop(result.data)
             this.dataSrc.sort = this.sort
             this.dataSrc.paginator = this.paginator
           } else {
             this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data)
             this.dataSrc.sort = this.sort
             this.dataSrc.paginator = this.paginator
+
+            this.tableData = result.data
+            this.productData = result.data
           }
 
           this.canOrder = true
