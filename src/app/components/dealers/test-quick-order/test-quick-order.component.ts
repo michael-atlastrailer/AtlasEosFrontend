@@ -59,6 +59,7 @@ export class TestQuickOrderComponent implements OnInit {
     'qty',
     'atlas_id',
     'vendor',
+    'vendor_name',
     'description',
     'booking',
     'special',
