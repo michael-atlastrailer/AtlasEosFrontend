@@ -159,14 +159,11 @@
             >
               &times;
             </button>
-            <!-- <strong>Success!</strong> -->
-            <!-- <p>
-              {{ newlyAdded }} new item(s) has been added to your quick order.
-            </p> -->
-            <p *ngIf="existingInQuickOrder != ''">
+
+            <!-- <p *ngIf="existingInQuickOrder != ''">
               {{ existingInQuickOrder }} has been added to your quick order
               already.
-            </p>
+            </p> -->
 
             <div
               class="d-flex justify-content-between"
@@ -285,7 +282,7 @@
 
             <table
               *ngIf="tableView"
-              class="order-form-table w-100 mat-elevation"
+              class="order-form-table w-100 mat-elevation table table-striped"
               mat-table
               [dataSource]="dataSrc"
               matSort
@@ -316,41 +313,18 @@
                 </td>
               </ng-container>
               <ng-container matColumnDef="atlas_id">
-                <th
-                  mat-header-cell
-                  *matHeaderCellDef
-                  mat-sort-header
-                  sortActionDescription="Sort by number"
-                >
+                <th mat-header-cell *matHeaderCellDef>
                   Atlas #
-                  <i class="fa fa-sort ml-2"></i>
+                  <!-- <i class="fa fa-sort ml-2"></i> -->
                 </th>
                 <td mat-cell *matCellDef="let element">
                   {{ element.atlas_id! }}
                 </td>
               </ng-container>
-              <ng-container matColumnDef="vendor_name">
-                <th
-                  mat-header-cell
-                  *matHeaderCellDef
-                  mat-sort-header
-                  sortActionDescription="Sort by name"
-                >
-                  Vendor Name
-                  <i class="fa fa-sort ml-2"></i>
-                </th>
-                <td mat-cell *matCellDef="let element">
-                  {{ element.vendor_name}}
-                </td>
-              </ng-container> <ng-container matColumnDef="vendor">
-                <th
-                  mat-header-cell
-                  *matHeaderCellDef
-                  mat-sort-header
-                  sortActionDescription="Sort by name"
-                >
+              <ng-container matColumnDef="vendor">
+                <th mat-header-cell *matHeaderCellDef>
                   Vendor #
-                  <i class="fa fa-sort ml-2"></i>
+                  <!-- <i class="fa fa-sort ml-2"></i> -->
                 </th>
                 <td mat-cell *matCellDef="let element">
                   {{ element.vendor_no }}
@@ -629,7 +603,7 @@
             <ng-container matColumnDef="atlas_id">
               <th mat-header-cell *matHeaderCellDef>
                 Atlas #
-                <i class="fa fa-sort ml-2"></i>
+                <!-- <i class="fa fa-sort ml-2"></i> -->
               </th>
               <td mat-cell *matCellDef="let element">
                 {{ element.atlas_id! }}
@@ -642,7 +616,7 @@
                 sortActionDescription="Sort by name"
               >
                 Vendor #
-                <i class="fa fa-sort ml-2"></i>
+                <!-- <i class="fa fa-sort ml-2"></i> -->
               </th>
               <td mat-cell *matCellDef="let element">
                 {{ element.vendor }}
