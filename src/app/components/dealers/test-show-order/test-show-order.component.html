@@ -44,7 +44,7 @@
   aria-labelledby="exampleModalLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog" style="margin-top: 80px">
+  <div class="modal-dialog" style="margin-top: 80px;">
     <div class="modal-content modal-custom-content">
       <div class="modal-header">
         <h5 class="modal-title"></h5>
@@ -155,9 +155,8 @@
                   #dummyInput
                 />
 
-                <div class="body-wrapper">
+                <div class="body-wrapper" *ngIf="showDropdown">
                   <div
-                    *ngIf="showDropdown"
                     #dropdownSection
                     class="dropdown-section"
                     id="jqxScrollBar"
@@ -304,7 +303,7 @@
             <div class="d-flex justify-content-between align-items-center">
               <div>
                 <mat-paginator
-                  [pageSizeOptions]="[100, 200, 50]"
+                  [pageSizeOptions]="[10, 200, 50]"
                   showFirstLastButtons
                   aria-label="Select page seminar pages"
                 ></mat-paginator>
@@ -336,7 +335,8 @@
                 >
                   <input
                     [disabled]="alreadyOrder"
-                    id="cur-{{ i }}"
+                    id="cur-{{ element.position }}"
+                    [value]="element.qty"
                     type="number"
                     class="mx-auto"
                     style="text-align: center;"
@@ -345,49 +345,59 @@
                     placeholder="Qty"
                     (keyup)="
                       runCalculation(
-                        i,
+                        element.position,
                         inputAmt.value,
                         $event,
                         element.atlas_id
                       )
                     "
                   />
-                  <!-- <span>{{ i }}</span> -->
+                  <span>{{ element.position }}</span>
                 </td>
               </ng-container>
               <ng-container matColumnDef="atlas_id">
                 <th
                   mat-header-cell
                   *matHeaderCellDef
-                  mat-sort-header class="mx-auto"
+                  mat-sort-header
+                  class="mx-auto"
                   sortActionDescription="Sort by number"
                 >
                   Atlas #
                   <i class="fa fa-sort ml-2"></i>
                 </th>
-                <td mat-cell *matCellDef="let element" title="click to view product info"
+                <td
+                  mat-cell
+                  *matCellDef="let element"
+                  title="click to view product info"
                   (click)="viewProduct(element)"
-                  style="cursor: pointer"
+                  style="cursor: pointer;"
                   data-toggle="modal"
-                  data-target="#exampleModal">
+                  data-target="#exampleModal"
+                >
                   {{ element.atlas_id! }}
                 </td>
               </ng-container>
-              <ng-container matColumnDef="vendor" >
+              <ng-container matColumnDef="vendor">
                 <th
                   mat-header-cell
                   *matHeaderCellDef
-                  mat-sort-header class="mx-auto"
+                  mat-sort-header
+                  class="mx-auto"
                   sortActionDescription="Sort by name"
                 >
                   Vendor #
                   <i class="fa fa-sort ml-2"></i>
                 </th>
-                <td mat-cell *matCellDef="let element" title="click to view product info"
+                <td
+                  mat-cell
+                  *matCellDef="let element"
+                  title="click to view product info"
                   (click)="viewProduct(element)"
-                  style="cursor: pointer"
+                  style="cursor: pointer;"
                   data-toggle="modal"
-                  data-target="#exampleModal">
+                  data-target="#exampleModal"
+                >
                   {{ element.vendor_product_code }}
                 </td>
               </ng-container>
@@ -431,11 +441,16 @@
                   <span class="booking-text">
                     {{ element.booking | currency }}
                     <span
-                      class="ticker fa fa-check normal-booking-{{ i }}"
+                      class="ticker fa fa-check normal-booking-{{
+                        element.position
+                      }}"
                       id=""
                     ></span>
 
-                    <span id="u-price-{{ i }}" class="u-price-text"></span>
+                    <span
+                      id="u-price-{{ element.position }}"
+                      class="u-price-text"
+                    ></span>
                   </span>
 
                   <span *ngFor="let spec of element.spec_data; let j = index">
@@ -445,9 +460,9 @@
                     >
                       {{ spec.special | currency }}
                       <span
-                        class="ticker fa fa-check special-booking-{{ i }}-{{
-                          j
-                        }}"
+                        class="ticker fa fa-check special-booking-{{
+                          element.position
+                        }}-{{ j }}"
                         id=""
                       ></span>
                     </span>
@@ -466,16 +481,19 @@
                     #extend
                     *ngIf="element.price != ''"
                     class="total-text"
-                    id="amt-{{ i }}"
+                    id="amt-{{ element.position }}"
                   >
-                    {{ dummyAmt | currency }}
+                    {{ element.price }}
                   </span>
 
                   <!-- <span #extend class="total-text" id="amt-{{ i }}">
                     {{ element.price }}
                   </span> -->
 
-                  <span id="amt-hidd-{{ i }}" style="display: none;"></span>
+                  <span
+                    id="amt-hidd-{{ element.position }}"
+                    style="display: none;"
+                  ></span>
                 </td>
               </ng-container>
 

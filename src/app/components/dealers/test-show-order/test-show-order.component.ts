@@ -287,20 +287,25 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
           this.tableView = true
 
           if (result.status) {
+            let productRes = result.data
+
             for (let h = 0; h < result.data.length; h++) {
               const each = result.data[h]
               each.price = '$0.00'
+              each.position = h
+              each.forCal = 0
+              each.unitPrice = 0
             }
 
-            this.productData = result.data
+            this.productData = productRes
 
-            this.tableData = result.data
+            this.tableData = productRes
             if (result.data.length !== 0) {
               this.canOrder = true
             }
             this.orderTable = []
             this.getTotal()
-            this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data)
+            this.dataSrc = new MatTableDataSource<PeriodicElement>(productRes)
             this.dataSrc.sort = this.sort
             this.dataSrc.paginator = this.paginator
           } else {
@@ -368,12 +373,13 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
       let curQty = $('#cur-' + h).val()
       if (curQty != '' && curQty != undefined) {
         let data = this.productData[h]
-        let rawUnit = document.getElementById('u-price-' + h)?.innerText
-        let unit = rawUnit?.replace(',', '.')
 
-        let rawPrice = document.getElementById('amt-hidd-' + h)?.innerHTML
-        // let realPrice = rawPrice?.replace('$', '')
-        let newPrice = rawPrice?.replace(',', '.')
+        // let rawUnit = document.getElementById('u-price-' + h)?.innerText
+        // let unit = rawUnit?.replace(',', '.')
+
+        // let rawPrice = document.getElementById('amt-hidd-' + h)?.innerHTML
+        // // let realPrice = rawPrice?.replace('$', '')
+        // let newPrice = rawPrice?.replace(',', '.')
 
         let cartData = {
           uid: this.userData.id,
@@ -382,8 +388,8 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
           atlas_id: data.atlas_id,
           product_id: data.id,
           qty: curQty,
-          price: newPrice,
-          unit_price: unit,
+          price: data.forCal,
+          unit_price: data.unitPrice,
           groupings: data.grouping,
           type: 'null',
         }
@@ -500,7 +506,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
 
     let data = {
       atlasId: currentProduct.atlas_id,
-      price: newPrice,
+      forCal: currentProduct.forCal,
       grouping: currentProduct.grouping,
       index: index,
     }
@@ -519,7 +525,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
       for (let i = 0; i < this.addedItem.length; i++) {
         const item = this.addedItem[i]
         if (item.atlasId == currentProduct.atlas_id) {
-          item.price = newPrice
+          item.forCal = currentProduct.forCal
           presentItem = true
         } else {
         }
@@ -533,14 +539,15 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
               ?.innerHTML
             // let realPrice = rawPrice?.replace('$', '')
             let newPrice = rawPrice?.replace(',', '')
-            t.price = newPrice
+            // t.price = newPrice
+            t.forCal = currentProduct.forCal
           } else {
             for (let i = 0; i < this.addedItem.length; i++) {
-              // let rawPrice = document.getElementById('amt-hidd-' + t.index)
-              //   ?.innerHTML
               const item = this.addedItem[i]
               if (item.atlasId == currentProduct.atlasId) {
-                item.price = newPrice
+                // item.price = newPrice
+                item.forCal = currentProduct.forCal
+
                 console.log('found de atlas id', currentProduct.atlasId)
               } else {
               }
@@ -566,9 +573,11 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
       const h = this.addedItem[j]
       console.log(h)
       ///  console.log('price no : ' + h.price)
-      this.overTotal += parseFloat(h.price)
+      this.overTotal += parseFloat(h.forCal)
       // console.log(this.overTotal)
     }
+
+    console.log(this.addedItem)
   }
 
   runCalculation(index: number, qty: any, event: any, atlas: any) {
@@ -656,8 +665,11 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
 
                         // }
 
-                        // this.productData[e.atlas_id].price = formattedAmt
-                        // this.productData[e.atlas_id].calPrice = newPrice
+                        this.productData[e.pos].price = newPrice
+                        this.productData[e.pos].calPrice = newPrice
+                        this.productData[e.pos].qty = quantity
+                        this.productData[e.pos].forCal = newPrice
+                        this.productData[e.pos].unitPrice = e.booking
 
                         $('#u-price-' + e.pos).html(price)
                         $('#amt-' + e.pos).html(formattedAmt)
@@ -676,7 +688,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
 
                   this.anotherLinePhaseFilter.map((val: any, index: any) => {
                     if (curr.grouping == val.group) {
-                      console.log(curr.grouping)
+                      // console.log(curr.grouping)
                       newTotalAss += parseInt(val.quantity)
                     }
                   })
@@ -711,6 +723,12 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
                             newPrice,
                             '$',
                           )
+
+                          this.productData[eleK.pos].price = formattedAmt
+                          this.productData[eleK.pos].calPrice = newPrice
+                          this.productData[eleK.pos].qty = eleK.quantity
+                          this.productData[eleK.pos].forCal = newPrice
+                          this.productData[eleK.pos].unitPrice = eleK.booking
 
                           // for (let t = 0; t < this.productData.length; t++) {
                           //   const tt = this.productData[t]
@@ -801,6 +819,15 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
                             //   }
                             // }
 
+                            this.productData[
+                              activeData.pos
+                            ].price = formattedAmt
+                            this.productData[activeData.pos].calPrice = newPrice
+                            this.productData[activeData.pos].qty =
+                              activeData.quantity
+                            this.productData[activeData.pos].forCal = newPrice
+                            this.productData[activeData.pos].unitPrice = special
+
                             $('#u-price-' + activeData.pos).html(special)
                             $('#amt-' + activeData.pos).html(formattedAmt)
                             $('#amt-hidd-' + activeData.pos).html(newPrice)
@@ -835,6 +862,12 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
 
                               // this.productData[pp.pos].calPrice = newPrice
                               // this.productData[pp.pos].price = formattedAmt
+
+                              this.productData[pp.pos].price = formattedAmt
+                              this.productData[pp.pos].calPrice = newPrice
+                              this.productData[pp.pos].qty = activeData.quantity
+                              this.productData[pp.pos].forCal = newPrice
+                              this.productData[pp.pos].unitPrice = special
 
                               $('#u-price-' + pp.pos).html(special)
                               $('#amt-' + pp.pos).html(formattedAmt)
@@ -967,7 +1000,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
                 this.currentProductAmt = calAmt
                 $('#u-price-' + index).html(this.normalPrice)
                 let formattedAmt = this.currencyPipe.transform(calAmt, '$')
-                arr.nativeElement.innerHTML = formattedAmt
+                ///arr.nativeElement.innerHTML = formattedAmt
 
                 // this.productData[index].price = formattedAmt
                 // this.productData[index].calPrice = calAmt
@@ -978,6 +1011,12 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
                 //     tt.price = formattedAmt
                 //   }
                 // }
+
+                this.productData[index].price = formattedAmt
+                this.productData[index].calPrice = calAmt
+                this.productData[index].qty = qty
+                this.productData[index].forCal = calAmt
+                this.productData[index].unitPrice = this.normalPrice
 
                 $('#amt-' + index).html(formattedAmt)
                 $('#amt-hidd-' + index).html(calAmt)
@@ -1007,6 +1046,12 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
             //   }
             // }
 
+            this.productData[index].price = formattedAmt
+            this.productData[index].calPrice = calAmt
+            this.productData[index].qty = qty
+            this.productData[index].forCal = calAmt
+            this.productData[index].unitPrice = price
+
             $('#amt-' + index).html(formattedAmt)
             $('#amt-hidd-' + index).html(calAmt)
           }
@@ -1032,6 +1077,12 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
           //     tt.price = formattedAmt
           //   }
           // }
+
+          this.productData[index].price = formattedAmt
+          this.productData[index].calPrice = calAmt
+          this.productData[index].qty = qty
+          this.productData[index].forCal = calAmt
+          this.productData[index].unitPrice = price
 
           $('#amt-' + index).html(formattedAmt)
         }
@@ -1148,6 +1199,12 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
                     //   }
                     // }
 
+                    this.productData[activeData.pos].price = formattedAmt
+                    this.productData[activeData.pos].calPrice = newPrice
+                    this.productData[activeData.pos].qty = activeData.quantity
+                    this.productData[activeData.pos].forCal = newPrice
+                    this.productData[activeData.pos].unitPrice = special
+
                     $('#u-price-' + activeData.pos).html(special)
                     $('#amt-' + activeData.pos).html(formattedAmt)
                     $('#amt-hidd-' + activeData.pos).html(newPrice)
@@ -1179,6 +1236,12 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
                     //     tt.price = formattedAmt
                     //   }
                     // }
+
+                    this.productData[activeData.pos].price = formattedAmt
+                    this.productData[activeData.pos].calPrice = newPrice
+                    this.productData[activeData.pos].qty = activeData.quantity
+                    this.productData[activeData.pos].forCal = newPrice
+                    this.productData[activeData.pos].unitPrice = special
 
                     $('#u-price-' + activeData.pos).html(special)
                     $('#amt-' + activeData.pos).html(formattedAmt)
@@ -1212,6 +1275,13 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
 
                       // this.productData[activeData.pos].price = formattedAmt
                       // this.productData[activeData.pos].calPrice = newPrice
+
+                      this.productData[activeData.pos].price = formattedAmt
+                      this.productData[activeData.pos].calPrice = newPrice
+                      this.productData[activeData.pos].qty = activeData.quantity
+                      this.productData[activeData.pos].forCal = newPrice
+
+                      this.productData[activeData.pos].unitPrice = booking
 
                       $('#u-price-' + activeData.pos).html(booking)
                       $('#amt-' + activeData.pos).html(formattedAmt)
@@ -1258,6 +1328,12 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
                     // this.productData[agaa.pos].price = formattedAmt
                     // this.productData[agaa.pos].calPrice = newPrice
 
+                    this.productData[agaa.pos].price = formattedAmt
+                    this.productData[agaa.pos].calPrice = newPrice
+                    this.productData[agaa.pos].qty = agaa.quantity
+                    this.productData[agaa.pos].forCal = newPrice
+                    this.productData[agaa.pos].unitPrice = special
+
                     $('#u-price-' + agaa.pos).html(special)
                     $('#amt-' + agaa.pos).html(formattedAmt)
                     $('#amt-hidd-' + agaa.pos).html(newPrice)
@@ -1282,6 +1358,12 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
 
                     // this.productData[agaa.pos].price = formattedAmt
                     // this.productData[agaa.pos].calPrice = newPrice
+
+                    this.productData[agaa.pos].price = formattedAmt
+                    this.productData[agaa.pos].calPrice = newPrice
+                    this.productData[agaa.pos].qty = agaa.quantity
+                    this.productData[agaa.pos].forCal = newPrice
+                    this.productData[agaa.pos].unitPrice = special
 
                     $('#u-price-' + agaa.pos).html(special)
                     $('#amt-' + agaa.pos).html(formattedAmt)
@@ -1315,12 +1397,21 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
         // }
 
         let formattedAmt = this.currencyPipe.transform(0, '$')
+
+        this.productData[index].price = formattedAmt
+        this.productData[index].calPrice = 0
+        this.productData[index].qty = 0
+        this.productData[index].forCal = 0
+        this.productData[index].unitPrice = 0
+
         $('#amt-' + index).html(formattedAmt)
         $('#amt-hidd-' + index).html(0)
       }
     }
 
     this.runTotalCalculation(index)
+
+    console.log(this.productData)
   }
 
   ///////////////// End of old code /////////////
@@ -1401,20 +1492,37 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
           this.getVendorBuck(id)
 
           if (this.searchatlasId) {
-            this.dataSrc = new MatTableDataSource<PeriodicElement>(
-              this.filterTop(result.data),
-            )
-            this.tableData = this.filterTop(result.data)
-            this.productData = this.filterTop(result.data)
+            let productRes = this.filterTop(result.data)
+
+            for (let h = 0; h < productRes.length; h++) {
+              const each = productRes[h]
+              each.price = '$0.00'
+              each.position = h
+              each.forCal = 0
+              each.unitPrice = 0
+            }
+
+            this.dataSrc = new MatTableDataSource<PeriodicElement>(productRes)
+            this.tableData = this.filterTop(productRes)
+            this.productData = this.filterTop(productRes)
             this.dataSrc.sort = this.sort
             this.dataSrc.paginator = this.paginator
           } else {
-            this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data)
+            let productRes = result.data
+
+            for (let h = 0; h < productRes.length; h++) {
+              const each = productRes[h]
+              each.price = '$0.00'
+              each.position = h
+              each.forCal = 0
+              each.unitPrice = 0
+            }
+            this.dataSrc = new MatTableDataSource<PeriodicElement>(productRes)
             this.dataSrc.sort = this.sort
             this.dataSrc.paginator = this.paginator
 
-            this.tableData = result.data
-            this.productData = result.data
+            this.tableData = productRes
+            this.productData = productRes
           }
 
           this.canOrder = true
