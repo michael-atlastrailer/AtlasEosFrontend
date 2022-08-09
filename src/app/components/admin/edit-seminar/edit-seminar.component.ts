@@ -67,10 +67,11 @@ export class EditSeminarComponent implements OnInit {
           this.seminarForm = this.fb.group({
             topic: [result.data.topic],
             link: [result.data.link],
-            startTime: [new Date(result.data.start_time).getTime()],
+            startTime: [''],
             stopTime: [''],
             seminarDate: [result.data.seminar_date],
             vendorName: [result.data.vendor_name],
+            completedLink: [''],
           })
         } else {
           // this.toastr.error(result.message, 'Try again')
@@ -124,34 +125,39 @@ export class EditSeminarComponent implements OnInit {
   }
 
   submit() {
+    this.seminarForm.value.seminarId = this.currentSeminarData.id
+    this.seminarForm.value.startTime = this.currentSeminarData.start_time
+    this.seminarForm.value.stopTime = this.currentSeminarData.stop_time
+
     console.log(this.seminarForm.value)
-    if (this.seminarForm.status == 'VALID') {
-      this.manualChecker = false
-      this.saveBtnStatus = false
 
-      this.seminarForm.value.vendorCode = this.saveVendorCode
-      this.seminarForm.value.startTime = this.selectedStartTime
-      this.seminarForm.value.stopTime = this.selectedEndTime
-      this.seminarForm.value.id = this.seminarId
+    // if (this.seminarForm.status == 'VALID') {
+    //   this.manualChecker = false
+    //   this.saveBtnStatus = false
 
-      this.postData
-        .httpPostRequest('/edit-seminar', this.seminarForm.value)
-        .then((result: any) => {
-          this.saveBtnStatus = true
-          if (result.status) {
-            this.toastr.success(result.message, `Successful`)
-          } else {
-            this.toastr.error(result.message, 'Try again')
-          }
-        })
-        .catch((err) => {
-          this.saveBtnStatus = true
+    //   this.seminarForm.value.vendorCode = this.saveVendorCode
+    //   this.seminarForm.value.startTime = this.selectedStartTime
+    //   this.seminarForm.value.stopTime = this.selectedEndTime
+    //   this.seminarForm.value.id = this.seminarId
 
-          this.toastr.error('Try again', 'Something went wrong')
-        })
-    } else {
-      this.manualChecker = true
-    }
+    //   this.postData
+    //     .httpPostRequest('/edit-seminar', this.seminarForm.value)
+    //     .then((result: any) => {
+    //       this.saveBtnStatus = true
+    //       if (result.status) {
+    //         this.toastr.success(result.message, `Successful`)
+    //       } else {
+    //         this.toastr.error(result.message, 'Try again')
+    //       }
+    //     })
+    //     .catch((err) => {
+    //       this.saveBtnStatus = true
+
+    //       this.toastr.error('Try again', 'Something went wrong')
+    //     })
+    // } else {
+    //   this.manualChecker = true
+    // }
   }
 
   resetForm() {
@@ -206,6 +212,7 @@ export class EditSeminarComponent implements OnInit {
       stopTime: [''],
       seminarDate: [''],
       vendorName: [''],
+      completedLink: [''],
     })
   }
 }
