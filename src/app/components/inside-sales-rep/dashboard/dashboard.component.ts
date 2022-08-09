@@ -68,14 +68,15 @@ export class DashboardComponent implements OnInit {
   getDashboardData() {
     let accntId = this.token.getUser().account_id;
     this.getData
-      .httpGetRequest('/dealer-dashboard/' + accntId)
+      .httpGetRequest('/sales-rep/dashboard-analysis/' + accntId)
       .then((result: any) => {
         console.log(result);
         if (result.status) {
           this.totalDealers = result.data.total_dealers;
-          this.totalLogged = result.data.new_products;
-          this.totalNotLogged = result.data.order_remaining;
+          this.totalLogged = result.data.total_logged_in;
+          this.totalNotLogged = result.data.total_not_logged_in;
           this.purchaseTotal = result.data.total_sales;
+          console.log("res dashboard", result.data, this.totalDealers,this.totalLogged, this.totalNotLogged, this.purchaseTotal)
         } else {
         }
       })
