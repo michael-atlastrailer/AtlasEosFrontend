@@ -67,7 +67,7 @@ export class EditSeminarComponent implements OnInit {
           this.seminarForm = this.fb.group({
             topic: [result.data.topic],
             link: [result.data.link],
-            startTime: [''],
+            startTime: [new Date(result.data.start_time).getTime()],
             stopTime: [''],
             seminarDate: [result.data.seminar_date],
             vendorName: [result.data.vendor_name],
