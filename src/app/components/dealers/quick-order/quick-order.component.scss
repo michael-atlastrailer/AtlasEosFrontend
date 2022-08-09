@@ -99,9 +99,7 @@
   padding: 10px;
   border-radius: 5px;
 }
-::ng-deep tbody tr:nth-child(2n + 1) {
-  background: rgb(223, 222, 222) !important;
-}
+
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none !important;

@@ -157,7 +157,7 @@
                 {{ category.vendor_name }}
               </option>
             </select>
-            <iframe
+            <iframe *ngIf="promotionalData"
               title="{{ promotionalAds?.description! }}"
               [src]="promotionalAds?.pdf_url! | safe: 'resourceUrl'"
               width="100%"

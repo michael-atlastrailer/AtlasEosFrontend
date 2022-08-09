@@ -88,9 +88,7 @@
     border-bottom-style: solid;
   }
 }
-::ng-deep tr:nth-child(2n + 2) {
-  background: rgb(223, 222, 222) !important;
-}
+
 .attending-seminar-wrapper {
   border: 1px solid grey;
   border-radius: 5px;
