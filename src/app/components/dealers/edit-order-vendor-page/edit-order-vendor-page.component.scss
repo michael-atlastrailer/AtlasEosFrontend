@@ -4,6 +4,17 @@
   text-transform: capitalize;
 }
 
+::ng-deep {
+  .mat-sort-header-content {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .mat-header-cell {
+    font-weight: 400 !important;
+  }
+}
+
 .back-btn,
 .add-btn {
   border: 1px solid gray;
@@ -112,7 +123,6 @@
     font-weight: 500;
   }
   tbody {
-    
   }
   th.mat-sort-header-sorted {
     color: black;
@@ -140,6 +150,7 @@
     }
   }
 }
+
 
 .bg-blue {
   background-color: #006ea0 !important;
@@ -251,8 +262,12 @@ input[type='number'] {
   font-weight: bold;
 }
 
+.delete-btn:hover {
+  background-color: rgb(178, 27, 27) !important;
+}
+
 .delete-btn {
-  background-color: darkred;
+  background-color: #bd2130;
   color: #ffffff;
   border-radius: 4px;
   border: 0px;
