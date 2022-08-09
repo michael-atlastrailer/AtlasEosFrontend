@@ -1,0 +1,97 @@
+.data-card {
+    border: 0px solid transparent;
+    border-left: 2px solid #0a5476;
+    height: 120px;
+    text-decoration: none !important;
+  }
+  a {
+    text-decoration: none !important;
+  }
+  .tbody-text-timer {
+    font-size: 14px;
+  }
+  .timer-table {
+    td {
+      padding: 15px 5px;
+    }
+  }
+  .card-icon {
+    color: white;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    background-color: #6348F6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px !important;
+    position: relative;
+    text-decoration: none !important;
+  
+    font-size: 32px;
+  }
+  .apexcharts-canvas {
+    tspan {
+      font-size: 15px !important;
+    }
+  }
+  .custom-select {
+    font-size: 15px;
+  }
+  .countdown-header {
+    background-color: #a8a8a8;
+    color: #fff;
+    font-size: 13px;
+  }
+  .card-details {
+    color: #000 !important;
+  }
+  .card-link {
+    font-size: 20px;
+    font-weight: 400;
+    color: black;
+    padding-left: 10px;
+  }
+  .table-wrapper {
+    font-weight: 500;
+    color: #fff;
+    background-color: #6348F6
+  }
+  .countdown {
+    font-weight: 600;
+    color: #353434;
+    // font-style: italic;
+  }
+  .card-header-text {
+    background-color: transparent !important;
+    text-decoration: none !important;
+  
+    font-size: 0.75rem;
+    color: rgb(60, 60, 60) !important;
+  }
+  .card-val {
+    font-size: 1.2rem;
+    color: #000;
+    text-decoration: none !important;
+  }
+  .blue-title {
+    color:#6348F6;
+    text-decoration: none !important;
+    font-size: 19px !important;
+  }
+  .grey {
+    background-color: #e6e3e3;
+  }
+  .promotional-flyer-ctn {
+    .header {
+      color: rgb(60, 60, 60) !important;
+    }
+  }
+  .section-header {
+    color: #ffffff;
+    background-color: #a8a8a8;
+    font-size: 15px;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
