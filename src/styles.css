@@ -46,10 +46,10 @@ html {
 }
 
 .btn-danger {
-  background-color: #ff0000 !important;
+  background-color: #8b0000 !important;
 }
 .btn-danger:hover {
-  background-color: rgb(178, 27, 27) !important;
+  background-color: #630303 !important;
 }
 .btn-success {
   background-color: #378805 !important;

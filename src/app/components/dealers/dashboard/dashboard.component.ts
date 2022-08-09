@@ -77,7 +77,11 @@ export class DashboardComponent implements OnInit {
   orderRemaining = 0;
   newProduct = 0;
   defaultFlyer = 'top';
-  pdfDefault ={pdf_url:'https://atlas-eos-backend-app-k4s5v.ondigitalocean.app/storage/pdf/default_banner_1660041352.pdf',description:"Atlas"}
+  pdfDefault = {
+    pdf_url:
+      'https://atlas-eos-backend-app-k4s5v.ondigitalocean.app/storage/pdf/default_banner_1660041352.pdf',
+    description: 'Atlas',
+  };
   constructor(
     private getData: HttpRequestsService,
     private token: TokenStorageService,
@@ -119,7 +123,7 @@ export class DashboardComponent implements OnInit {
         //  ],
       },
     };
-    this.getChart()
+    this.getChart();
   }
   ngOnInit(): void {}
 
@@ -131,14 +135,15 @@ export class DashboardComponent implements OnInit {
         if (result.status) {
           this.allCategoryData = result.data;
           console.log('albendor', result.data);
-         
+
           this.fetchFlyer(this.defaultFlyer);
         } else {
         }
       })
       .catch((err) => {});
   }
-  fetchFlyer(data: any) { this.init = false;
+  fetchFlyer(data: any) {
+    this.init = false;
 
     console.log('chosen one', data);
     this.promotionalLoader = true;
@@ -146,35 +151,34 @@ export class DashboardComponent implements OnInit {
     this.promotionalStatus = false;
 
     console.log(data, 'id');
-    if(data=='top'){
-      console.log(data, 'id',this.pdfDefault,this.promotionalAds);
-      this.promotionalAds=this.pdfDefault
-    
-      console.log(data, 'id',this.pdfDefault,this.promotionalAds);
+    if (data == 'top') {
+      console.log(data, 'id', this.pdfDefault, this.promotionalAds);
+      this.promotionalAds = this.pdfDefault;
+
+      console.log(data, 'id', this.pdfDefault, this.promotionalAds);
       this.promotionalData = true;
-    }else{
-     
-    console.log(data, 'id');
+    } else {
+      console.log(data, 'id');
 
-    this.getData
-      .httpGetRequest('/show-promotional-flier-by-vendor-id/' + data)
-      .then((result: any) => {
-        console.log(result, 'promotion');
+      this.getData
+        .httpGetRequest('/show-promotional-flier-by-vendor-id/' + data)
+        .then((result: any) => {
+          console.log(result, 'promotion');
 
-        this.promotionalLoader = false;
-        if (result.status) {
-          // this.promotionalData = result.data.length > 0 ? true : false;
-          // this.promotionalStatus = result.data.length <= 0 ? true : false;
+          this.promotionalLoader = false;
+          if (result.status) {
+            // this.promotionalData = result.data.length > 0 ? true : false;
+            // this.promotionalStatus = result.data.length <= 0 ? true : false;
 
-          this.promotionalAds = result.data[0];
+            this.promotionalAds = result.data[0];
+            this.promotionalData = true;
+          } else {
+          }
+        })
+        .catch((err) => {
+          this.promotionalLoader = false;
           this.promotionalData = true;
-        } else {
-        }
-      })
-      .catch((err) => {
-        this.promotionalLoader = false;
-        this.promotionalData = true;
-      });
+        });
     }
   }
   getChart() {
@@ -184,45 +188,56 @@ export class DashboardComponent implements OnInit {
       .then((result: any) => {
         console.log(result);
         if (result.status) {
-          let len =result.data.orders.length
-           this.chartOptions = {
-             series: [
-               {
-                 name: 'Sales summary',
-                 data: [
-                   
-                   result.data.orders[len - 3].total_price ,
-                   result.data.orders[len - 2].total_price,
-                   result.data.orders[len - 1].total_price,
-                 ],
-               },
-             ],
-             chart: {
-               height: 350,
-               type: 'bar',
-             },
-             title: {
-               text: '',
-             },
-             colors: {},
-             xaxis: {
-               categories: ['Day 1', 'Day 2', 'Day 3'],
-             },
-             yaxis: {
-               //  categories: [
-               //    '0',
-               //    '5000',
-               //    '10000',
-               //    '15000',
-               //    '20000',
-               //    '25000',
-               //    '30000',
-               //    '35000',
-               //    '40000',
-               //    '45000',
-               //  ],
-             },
-           };
+          let len = result.data.orders.length;
+          let rev = result.data.orders.reverse();
+          let rev1, rev2, rev3: any;
+          rev1 = rev[0]?.total_price;
+          rev2 = rev[1]?.total_price;
+          rev3 = rev[3]?.total_price;
+          if (rev.length <1) {
+            rev1 = 0;
+          }
+          if (rev.length <2) {
+            rev2 = 0;
+          }
+          if (rev.length <3) {
+            rev3 = 0;
+          }
+          console.log('reverse table', rev, rev.length,rev1,rev2,rev3);
+
+          this.chartOptions = {
+            series: [
+              {
+                name: 'Sales summary',
+                data: [rev1, rev2, rev3],
+              },
+            ],
+            chart: {
+              height: 350,
+              type: 'bar',
+            },
+            title: {
+              text: '',
+            },
+            colors: {},
+            xaxis: {
+              categories: ['Day 1', 'Day 2', 'Day 3'],
+            },
+            yaxis: {
+              //  categories: [
+              //    '0',
+              //    '5000',
+              //    '10000',
+              //    '15000',
+              //    '20000',
+              //    '25000',
+              //    '30000',
+              //    '35000',
+              //    '40000',
+              //    '45000',
+              //  ],
+            },
+          };
         } else {
           this.toastr.info(`Something went wrong`, 'Error');
         }
