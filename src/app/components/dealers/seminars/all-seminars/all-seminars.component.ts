@@ -27,7 +27,7 @@ export class AllSeminarsComponent implements AfterViewInit {
   tableView = false;
   tableData: PeriodicElement[] = [];
   displayedColumns: string[] = [
-    'id',
+  
     'seminar_date',
     'start_time',
     'vendor_name',

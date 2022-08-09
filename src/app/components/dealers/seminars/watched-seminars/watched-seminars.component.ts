@@ -27,7 +27,7 @@ export class WatchedSeminarsComponent implements OnInit {
   tableView = false;
   tableData: PeriodicElement[] = [];
   displayedColumns: string[] = [
-    'id',
+   
     'seminar_date',
     'start_time',
     'vendor_name',
