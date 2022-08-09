@@ -176,7 +176,7 @@
                 <div class="table-ctn mt-3" *ngIf="selectDefault">
                   <div class="div" *ngFor="let order of newTable">
                     <h5 class="text-center">{{ order[1][0].vendor_name }}</h5>
-                    <table class="order-form-table w-100 mb-4">
+                    <table class="order-form-table w-100 mb-4 table-striped">
                       <thead>
                         <th>Qty</th>
                         <th>Atlas #</th>
@@ -274,7 +274,7 @@
                 </div>
                 <div class="table-ctn mt-3" *ngIf="!selectDefault">
                   <h5 class="text-center">{{ orderTable[0].vendor_name }}</h5>
-                  <table class="order-form-table w-100 mb-4">
+                  <table class="order-form-table w-100 mb-4 table-striped">
                     <thead>
                       <th>Qty</th>
                       <th>Atlas #</th>
