@@ -13,6 +13,9 @@
   // border-bottom: .2px solid #a8a8a8;
   font-size: 20px;
 }
+.text-start {
+  text-align: start !important;
+}
 .iframe {
   border: 2px solid rgba(211, 211, 211, 0.719);
   box-shadow: none;
@@ -67,14 +70,15 @@
   // border-radius: 10px;
   overflow: hidden;
   height: 48px;
-  
-  button {font-weight: 700 !important;
-  color:#00547a !important;
-  font-size: 18px !important;
+
+  button {
+    font-weight: 700 !important;
+    color: #00547a !important;
+    font-size: 18px !important;
     text-decoration: none !important;
   }
 }
-.accordion-body{
+.accordion-body {
   font-size: 15px;
   color: #5a5858;
 }
