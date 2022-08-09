@@ -76,7 +76,8 @@ export class DashboardComponent implements OnInit {
   showTotal = 0;
   orderRemaining = 0;
   newProduct = 0;
-  defaultFlyer = 1;
+  defaultFlyer = 'top';
+  pdfDefault ={pdf_url:'https://atlas-eos-backend-app-k4s5v.ondigitalocean.app/storage/pdf/default_banner_1660041352.pdf',description:"Atlas"}
   constructor(
     private getData: HttpRequestsService,
     private token: TokenStorageService,
@@ -130,21 +131,29 @@ export class DashboardComponent implements OnInit {
         if (result.status) {
           this.allCategoryData = result.data;
           console.log('albendor', result.data);
-          this.defaultFlyer = result.data[0].vendor_code;
-          this.fetchFlyer(result.data[0].vendor_code);
+         
+          this.fetchFlyer(this.defaultFlyer);
         } else {
         }
       })
       .catch((err) => {});
   }
-  fetchFlyer(data: any) {
-    this.init = false;
+  fetchFlyer(data: any) { this.init = false;
 
     console.log('chosen one', data);
     this.promotionalLoader = true;
     this.promotionalData = false;
     this.promotionalStatus = false;
 
+    console.log(data, 'id');
+    if(data=='top'){
+      console.log(data, 'id',this.pdfDefault,this.promotionalAds);
+      this.promotionalAds=this.pdfDefault
+    
+      console.log(data, 'id',this.pdfDefault,this.promotionalAds);
+      this.promotionalData = true;
+    }else{
+     
     console.log(data, 'id');
 
     this.getData
@@ -166,6 +175,7 @@ export class DashboardComponent implements OnInit {
         this.promotionalLoader = false;
         this.promotionalData = true;
       });
+    }
   }
   getChart() {
     let id = this.token.getUser().account_id;
