@@ -122,10 +122,7 @@
       border: 0.1px solid rgb(174, 174, 174);
     }
   }
-}
-// ::ng-deep tr:nth-child(2n + 2) {
-//   background: rgb(223, 222, 222) !important;
-// }
+
 .bg-blue {
   background-color: #006ea0 !important;
   color: #fff;
@@ -206,4 +203,5 @@ input[type="number"] {
   font-size: 15px;
   font-weight: bold;
   color: red;
+}
 }
