@@ -295,6 +295,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
               each.position = h
               each.forCal = 0
               each.unitPrice = 0
+              each.qty = ''
             }
 
             this.productData = productRes
@@ -369,9 +370,11 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
     let postItem = []
     this.cartLoader = true
 
-    for (let h = 0; h < allProCount; h++) {
-      let curQty = $('#cur-' + h).val()
-      if (curQty != '' && curQty != undefined) {
+    for (let h = 0; h < this.productData.length; h++) {
+      let curQty = this.productData[h].qty
+      //// console.log(this.productData)
+
+      if (curQty != '0' && curQty != undefined && curQty != '') {
         let data = this.productData[h]
 
         // let rawUnit = document.getElementById('u-price-' + h)?.innerText
@@ -1400,7 +1403,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
 
         this.productData[index].price = formattedAmt
         this.productData[index].calPrice = 0
-        this.productData[index].qty = 0
+        this.productData[index].qty = ''
         this.productData[index].forCal = 0
         this.productData[index].unitPrice = 0
 
@@ -1411,7 +1414,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
 
     this.runTotalCalculation(index)
 
-    console.log(this.productData)
+    ///console.log(this.productData)
   }
 
   ///////////////// End of old code /////////////
@@ -1500,6 +1503,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
               each.position = h
               each.forCal = 0
               each.unitPrice = 0
+              each.qty = ''
             }
 
             this.dataSrc = new MatTableDataSource<PeriodicElement>(productRes)
