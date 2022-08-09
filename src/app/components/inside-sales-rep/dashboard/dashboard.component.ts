@@ -6,6 +6,9 @@ import {
   ApexXAxis,
   ApexTitleSubtitle,
 } from 'ng-apexcharts';
+import { ToastrService } from 'ngx-toastr';
+import { HttpRequestsService } from 'src/app/core/services/http-requests.service';
+import { TokenStorageService } from 'src/app/core/services/token-storage.service';
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
@@ -20,7 +23,14 @@ declare var $: any;
 })
 export class DashboardComponent implements OnInit {
   public chartOptions: any;
-  constructor() {
+  totalDealers=0
+  purchaseTotal=0
+  totalLogged=0
+  totalNotLogged=0
+  constructor(private getData: HttpRequestsService,
+    private token: TokenStorageService,
+    private toastr: ToastrService,) {
+      this.getDashboardData()
     this.chartOptions = {
       series: [
         {
@@ -54,6 +64,22 @@ export class DashboardComponent implements OnInit {
         ],
       },
     };
+  }
+  getDashboardData() {
+    let accntId = this.token.getUser().account_id;
+    this.getData
+      .httpGetRequest('/dealer-dashboard/' + accntId)
+      .then((result: any) => {
+        console.log(result);
+        if (result.status) {
+          this.totalDealers = result.data.total_dealers;
+          this.totalLogged = result.data.new_products;
+          this.totalNotLogged = result.data.order_remaining;
+          this.purchaseTotal = result.data.total_sales;
+        } else {
+        }
+      })
+      .catch((err) => {});
   }
 
   ngOnInit(): void {}

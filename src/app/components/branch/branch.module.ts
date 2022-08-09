@@ -12,6 +12,9 @@ import { DetailedSummaryComponent } from './detailed-summary/detailed-summary.co
 
 import { MatPaginatorModule } from '@angular/material/paginator'
 import { MatTableModule } from '@angular/material/table'
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatInputModule } from '@angular/material/input';
+import { VendorOrderFormComponent } from './vendor-order-form/vendor-order-form.component'
 
 @NgModule({
   declarations: [
@@ -21,9 +24,10 @@ import { MatTableModule } from '@angular/material/table'
     DealerSummaryComponent,
     MyMessagesComponent,
     DetailedSummaryComponent,
+    VendorOrderFormComponent,
   ],
   imports: [
-    CommonModule,
+    CommonModule, MatFormFieldModule,MatInputModule,
     MatPaginatorModule,
     MatTableModule,
     BranchRoutingModule,

@@ -5,6 +5,7 @@ import { DashboardComponent } from './dashboard/dashboard.component'
 import { DealerSummaryComponent } from './dealer-summary/dealer-summary.component'
 import { DetailedSummaryComponent } from './detailed-summary/detailed-summary.component'
 import { MyMessagesComponent } from './my-messages/my-messages.component'
+import { VendorOrderFormComponent } from './vendor-order-form/vendor-order-form.component'
 
 const routes: Routes = [
   {
@@ -32,6 +33,9 @@ const routes: Routes = [
       {
         path: 'my-messages',
         component: MyMessagesComponent,
+      },{
+        path: 'vendor-form',
+        component: VendorOrderFormComponent,
       },
     ],
   },

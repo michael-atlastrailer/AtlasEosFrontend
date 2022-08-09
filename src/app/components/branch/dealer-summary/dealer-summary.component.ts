@@ -1,8 +1,16 @@
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { TokenizeResult } from '@angular/compiler/src/ml_parser/lexer';
 import { Component, OnInit, ViewChild } from '@angular/core'
-import { HttpRequestsService } from 'src/app/core/services/http-requests.service'
-import { ToastrService } from 'ngx-toastr'
-import { MatPaginator } from '@angular/material/paginator'
-import { MatTableDataSource } from '@angular/material/table'
+
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort, Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { HttpRequestsService } from 'src/app/core/services/http-requests.service';
+import { TokenStorageService } from 'src/app/core/services/token-storage.service';
+
+
 import Swal from 'sweetalert2'
 
 declare var $: any
@@ -42,9 +50,18 @@ export class DealerSummaryComponent implements OnInit {
 
   constructor(
     private postData: HttpRequestsService,
-    private toastr: ToastrService,
+    private token: TokenStorageService,
+    private toastr: ToastrService,private _liveAnnouncer: LiveAnnouncer
   ) {}
-
+  @ViewChild(MatSort)
+  sort!: MatSort;
+  announceSortChange(sortState: Sort) {
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
+  }
   async removeVendor(index: any) {
     let confirmStatus = await this.confirmBox()
 
@@ -90,10 +107,15 @@ export class DealerSummaryComponent implements OnInit {
       }
     })
   }
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
 
+   
+  }
   getDealerUsers() {
+    let id = this.token.getUser().id
     this.postData
-      .httpGetRequest('/all-admins')
+      .httpGetRequest('/branch/get-dealer-order-summary/'+id)
       .then((result: any) => {
         console.log(result)
 
@@ -103,8 +125,9 @@ export class DealerSummaryComponent implements OnInit {
           this.loader = false
           this.tableView = true
           this.incomingData = result.data
+          console.log("incoming data,re",result.data)
           this.dataSource = new MatTableDataSource<PeriodicElement>(result.data)
-
+          this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator
         } else {
           // this.toastr.error(result.message, 'Try again')
