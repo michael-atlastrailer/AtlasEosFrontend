@@ -60,9 +60,7 @@ export class DealerNavbarComponent implements OnInit {
     }, 10000)
 
     this.chatService.getNotification().subscribe((data: any) => {
-      setTimeout(() => {
-        this.getUnreadMsg()
-      }, 10)
+      this.getUnreadMsg()
     })
   }
 

@@ -76,14 +76,20 @@ export class MessagesComponent implements OnInit {
 
     this.getVendorCoworkers()
     this.chatService.openChatConnection(userId)
+
+    this.chatService.getNotification().subscribe((data: any) => {
+      this.getUnreadMsgBasedOnRole()
+    })
+
     this.chatService.getMessages().subscribe((message: string) => {
       if (message != '') {
         this.startCounter()
-        this.getUnreadMsgBasedOnRole()
 
-        setTimeout(() => {
-          this.scrollToElement()
-        }, 80)
+        if (this.userHasBeenSelected) {
+          setTimeout(() => {
+            this.scrollToElement()
+          }, 80)
+        }
       }
       if (this.userHasBeenSelected) {
         this.getMsgAsync()
