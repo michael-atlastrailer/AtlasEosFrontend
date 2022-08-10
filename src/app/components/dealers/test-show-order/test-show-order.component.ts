@@ -656,7 +656,6 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
                         //   if(element.atlas_id == ele.atlas_id){
                         //     element.price = newPrice
                         //   }
-
                         // }
 
                         this.productData[e.pos].price = newPrice
@@ -1405,7 +1404,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
 
     this.runTotalCalculation(index)
 
-    ///console.log(this.productData)
+    //// console.log(this.productData)
   }
 
   ///////////////// End of old code /////////////
