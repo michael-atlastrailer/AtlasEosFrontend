@@ -31,19 +31,19 @@ import { MessagesComponent } from './messages/messages.component'
 
 import { PromotionalFlyerComponent } from './promotional-flyer/promotional-flyer.component'
 import { SearchComponent } from './search/search.component'
-import { MatSortModule } from '@angular/material/sort';
+import { MatSortModule } from '@angular/material/sort'
 
-import { ViewSupportTicketComponent } from './view-support-ticket/view-support-ticket.component';
-import { SupportTicketsComponent } from './support-tickets/support-tickets.component';
-import { EditOrderVendorPageComponent } from './edit-order-vendor-page/edit-order-vendor-page.component';
-import { TestShowOrderComponent } from './test-show-order/test-show-order.component';
+import { ViewSupportTicketComponent } from './view-support-ticket/view-support-ticket.component'
+import { SupportTicketsComponent } from './support-tickets/support-tickets.component'
+import { EditOrderVendorPageComponent } from './edit-order-vendor-page/edit-order-vendor-page.component'
+import { TestShowOrderComponent } from './test-show-order/test-show-order.component'
 
-import { TableRowComponent } from './table-row/table-row.component';
+import { TableRowComponent } from './table-row/table-row.component'
 import { WatchedSeminarsComponent } from './seminars/watched-seminars/watched-seminars.component'
 
 import { TestQuickOrderComponent } from './test-quick-order/test-quick-order.component'
 import { DeactivateGuard } from 'src/app/core/guard/deactivate.guard'
-
+import { MatMenuModule } from '@angular/material/menu'
 
 @NgModule({
   declarations: [
@@ -88,6 +88,7 @@ import { DeactivateGuard } from 'src/app/core/guard/deactivate.guard'
     MatPaginatorModule,
     MatSortModule,
     PdfViewerModule,
+    MatMenuModule,
   ],
   providers: [DeactivateGuard],
 })
