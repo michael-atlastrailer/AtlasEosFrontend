@@ -178,8 +178,8 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
     }
   }
 
-  ngOnInit(): void {}
-  ngAfterViewInit() {}
+  ngOnInit(): void { }
+  ngAfterViewInit() { }
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`)
@@ -574,831 +574,160 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
     console.log(this.addedItem)
   }
 
-  runCalculation(index: number, qty: any, event: any, atlas: any) {
-    if (event.key != 'Tab') {
-      if (qty !== '') {
-        let curr = this.productData[index]
-        let atlasId = curr.atlas_id
-        let spec = curr.spec_data
-        curr.qty = qty
+  /**
+ * Updates the Product with the specified index.
+ *
+ * @param {number} index The index number position of the product.
+ * @param {number} amount The amount calculated as quantity * price.
+ * @param {number} price The selected price for product calculation (normal, special, assorted).
+ * @param {string|null} spec The is the index point to specify what offer was uses from the spec_data eg: (`0` meaning normal price used) or (`0-1` meaning the 2nd price was used from the spec_data) .
+ * @return {any} returns the new value after being assigned.
+ */
+  assignSalesValue = (index: number, quantity: number, amount: number, price: number, spec: string | null) => {
+    // update each unique element
+    this.productData[index].qty = quantity ?? '';
+    this.productData[index].selected_spec = spec;
+    this.productData[index].forCal = amount;
+    this.productData[index].calPrice = amount;
+    this.productData[index].unitPrice = price;
+    this.productData[index].price = this.currencyPipe.transform(amount, '$');
 
-        if (!this.allAddedItemAtlasID.includes(atlasId)) {
-          this.allAddedItemAtlasID.push(atlasId)
+    this.currentProductAmt = amount;
+
+    console.log(this.productData[index]);
+    return this.productData[index]
+  }
+
+  /**
+   * Updates the Product with the specified index.
+   *
+   * @param {any} current The current product.
+   * @return {void}.
+   */
+  updateOtherAssorted = (current:any) => {
+    let totalQuantity = this.getTotalAssortedQuantity(current);
+    this.assortFilter = this.assortFilter.map((ass: any) => {
+      let update_ass = ass;
+      let price = parseFloat(ass.booking)
+      let calAmt = parseInt(ass.qty) * price;
+      let selected_spec = `${ass.position}`;
+
+      ass.spec_data.map((sp: any, af_index: number) => {
+        let curAmt = parseFloat(sp.special)
+        if (totalQuantity >= parseInt(sp.cond)) {
+          price = curAmt;
+          calAmt = parseInt(ass.qty) * price;
+          selected_spec = `${ass.position}-${af_index}`
         }
+      })
 
-        if (spec !== null) {
-          if (spec.length > 0) {
-            for (let j = 0; j < spec.length; j++) {
-              const f = spec[j]
-              if (f.type == 'assorted') {
-                curr.quantity = qty
-                curr.pos = index
-                this.assortFilter.push(curr)
-                for (let y = 0; y < this.assortFilter.length; y++) {
-                  const t = this.assortFilter[y]
-                  if (t.id == curr.id) {
-                  } else {
-                    this.assortFilter.push(curr)
-                  }
+      update_ass = this.assignSalesValue(ass.position, ass.qty, calAmt, price, selected_spec)
+      // update record in assortFilter
+      return update_ass;
+    })
+  }
 
-                  this.newArrayFilter = this.assortFilter.filter(
-                    (x: any, y: any) => this.assortFilter.indexOf(x) == y,
-                  )
 
-                  let secondPhase: any = []
-                  let anotherFilter: any = []
-                  let letsContinue = false
+  /**
+ * Updates the Product with the specified index.
+ *
+ * @param {any} current The current product.
+ * @return {number} returns total assorted quantity.
+ */
+  getTotalAssortedQuantity = (current: any) => {
+    let totalQuantity = this.assortFilter.reduce((accumulate: number, af: any) => {
+      // const newQuantity = (current.grouping === af.grouping) ? parseInt(af.qty) : 0;
+      const newQuantity = (current.grouping) ? parseInt(af.qty) : 0;
 
-                  for (let h = 0; h < this.newArrayFilter.length; h++) {
-                    const e = this.newArrayFilter[h]
-                    if (e.grouping == curr.grouping) {
-                      if (e.spec_data.length > 0) {
-                        letsContinue = true
-                        //console.log(e.spec_data);
-                        // e.spec_data[h].quantity = e.quantity;
-                        // e.spec_data[h].pos = e.pos;
-                        // e.spec_data[0].arrIndex = e.spec_data.length - 1;
-                        // secondPhase.push(e.spec_data[0]);
+      return accumulate + newQuantity;
+    }, 0)
 
-                        e.spec_data.pos = e.pos
-                        e.spec_data.quantity = e.quantity
-                        e.spec_data.atlas_id = e.atlas_id
-                        e.spec_data.group = e.grouping
+    return totalQuantity;
+  }
 
-                        for (let t = 0; t < e.spec_data.length; t++) {
-                          let ele = e.spec_data[t]
-                          ele.quantity = e.quantity
-                          ele.pos = e.pos
-                          ele.atlas_id = e.atlas_id
-                          ele.arrIndex = t
-                          secondPhase.push(ele)
-                        }
-                        this.anotherLinePhase.push(e.spec_data)
-                      } else {
-                        let price = parseFloat(e.booking)
-                        let quantity = parseInt(e.quantity)
-                        let newPrice = price * quantity
-                        let formattedAmt = this.currencyPipe.transform(
-                          newPrice,
-                          '$',
-                        )
 
-                        // for (let t = 0; t < this.productData.length; t++) {
-                        //   const tt = this.productData[t]
-                        //   if (tt.atlas_id == atlas) {
-                        //     tt.price = formattedAmt
-                        //     tt.qty = qty
-                        //   }
-                        // }
+  /**
+   * Updates the Product with the specified index.
+   *
+   * @param {any} prc The current product.
+   * @return {boolean} returns true/false if section price has been selected.
+   */
+  checkSpecials(prc: any, curIndex?: number) {
+    // console.log(prc);
+    let check = false;
+    if (prc?.selected_spec) {
+      // console.log(prc?.selected_spec);
+      if (Number.isInteger(curIndex)) {
+        check = (`${prc.position}-${curIndex}` === prc?.selected_spec)
+      } else {
+        check = (`${prc.position}` === prc?.selected_spec)
+      }
+    }
 
-                        // for (let a = 0; a < this.productData.length; a++) {
-                        //   const element = this.productData[a];
-                        //   if(element.atlas_id == ele.atlas_id){
-                        //     element.price = newPrice
-                        //   }
-                        // }
+    return check;
+  }
 
-                        this.productData[e.pos].price = newPrice
-                        this.productData[e.pos].calPrice = newPrice
-                        this.productData[e.pos].qty = quantity
-                        this.productData[e.pos].forCal = newPrice
-                        this.productData[e.pos].unitPrice = e.booking
+  runCalculation(index: number, quantity: string, event: any, atlas: any) {
+    if (event.key != 'Tab') {
+      const qty = quantity.length ? parseInt(quantity) : 0;
+      let curr = this.productData[index]
+      let atlasId = curr.atlas_id
+      let spec = curr.spec_data
+      curr.qty = qty ?? ''
 
-                        $('#u-price-' + e.pos).html(price)
-                        $('#amt-' + e.pos).html(formattedAmt)
-                        $('#amt-hidd-' + e.pos).html(newPrice)
-                      }
-                    } else {
-                    }
-                  }
+      if (qty) {
+        // calculate default prices
+        let price = parseFloat(curr.booking)
+        let calAmt = qty * price;
+        let selected_spec = `${index}`;
 
-                  this.anotherLinePhaseFilter = this.anotherLinePhase.filter(
-                    (v: any, i: any, a: any) =>
-                      a.findIndex((t: any) => t.atlas_id === v.atlas_id) === i,
-                  )
+        if (!this.allAddedItemAtlasID.includes(atlasId)) this.allAddedItemAtlasID.push(atlasId)
 
-                  let newTotalAss = 0
+        // console.log(curr);
+        if (spec && spec.length) {
+          // search through offers
+          spec.map((sp: any, af_index: number) => {
+            let curAmt = parseFloat(sp.special)
+            let cond = parseInt(sp.cond)
 
-                  this.anotherLinePhaseFilter.map((val: any, index: any) => {
-                    if (curr.grouping == val.group) {
-                      // console.log(curr.grouping)
-                      newTotalAss += parseInt(val.quantity)
-                    }
-                  })
+            if (sp.type === 'assorted') {
+              // add curr product as assorted if has assorted specials
+              const assortIds = this.assortFilter.map((ass: any) => ass.atlas_id);
+              if (!assortIds.includes(curr.atlas_id)) this.assortFilter.push(curr);
+              // get total quantity of assorted
 
-                  /// console.log(newTotalAss, 'Total');
+              let totalQuantity = this.getTotalAssortedQuantity(curr)
+              // console.log(totalQuantity, this.assortFilter);
+              if (totalQuantity >= cond) {
+                price = curAmt;
+                calAmt = qty * price;
+                selected_spec = `${index}-${af_index}`
 
-                  if (letsContinue) {
-                    let status = false
-                    for (
-                      let h = 0;
-                      h < this.anotherLinePhaseFilter.length;
-                      h++
-                    ) {
-                      const k = this.anotherLinePhaseFilter[h]
-                      if (newTotalAss >= parseInt(k[0].cond)) {
-                        status = true
-
-                        $('.normal-booking-' + k.pos).css('display', 'none')
-                      } else {
-                        for (let hj = 0; hj < k.length; hj++) {
-                          const eleK = k[hj]
-                          $(
-                            '.special-booking-' +
-                              eleK.pos +
-                              '-' +
-                              eleK.arrIndex,
-                          ).css('display', 'none')
-
-                          let booking = parseFloat(eleK.booking)
-                          let newPrice = parseInt(eleK.quantity) * booking
-                          let formattedAmt = this.currencyPipe.transform(
-                            newPrice,
-                            '$',
-                          )
-
-                          this.productData[eleK.pos].price = formattedAmt
-                          this.productData[eleK.pos].calPrice = newPrice
-                          this.productData[eleK.pos].qty = eleK.quantity
-                          this.productData[eleK.pos].forCal = newPrice
-                          this.productData[eleK.pos].unitPrice = eleK.booking
-
-                          // for (let t = 0; t < this.productData.length; t++) {
-                          //   const tt = this.productData[t]
-                          //   if (tt.atlas_id == atlas) {
-                          //     tt.price = formattedAmt
-                          //     tt.qty = qty
-
-                          //   }
-                          // }
-
-                          ///this.productData[eleK.pos].calPrice = newPrice
-                          ///this.productData[eleK.pos].price = formattedAmt
-
-                          $('#u-price-' + eleK.pos).html(booking)
-                          $('#amt-' + eleK.pos).html(formattedAmt)
-                          $('#amt-hidd-' + eleK.pos).html(newPrice)
-                        }
-
-                        let price = parseFloat(k.booking)
-                        $('.normal-booking-' + k.pos).css(
-                          'display',
-                          'inline-block',
-                        )
-                      }
-                    }
-
-                    if (status) {
-                      let tickArrToBeRemoved = []
-                      //// If total Assorted is greater than condition /////
-                      for (
-                        let i = 0;
-                        i < this.anotherLinePhaseFilter.length;
-                        i++
-                      ) {
-                        const jk = this.anotherLinePhaseFilter[i]
-                        let currArrLength = jk.length
-
-                        for (let j = 0; j < jk.length; j++) {
-                          --currArrLength
-                          const backWard = jk[currArrLength]
-                          const frontWard = jk[j]
-
-                          if (
-                            newTotalAss < backWard.cond &&
-                            newTotalAss >= frontWard.cond
-                          ) {
-                            let nxt = frontWard.arrIndex + 1
-                            let preData = jk[nxt]
-                            let activeData = frontWard
-
-                            $('.normal-booking-' + activeData.pos).css(
-                              'display',
-                              'none',
-                            )
-
-                            $(
-                              '.special-booking-' +
-                                activeData.pos +
-                                '-' +
-                                activeData.arrIndex,
-                            ).css('display', 'inline-block')
-
-                            $(
-                              '.special-booking-' +
-                                preData.pos +
-                                '-' +
-                                preData.arrIndex,
-                            ).css('display', 'none')
-                            let special = parseFloat(activeData.special)
-                            let newPrice =
-                              parseInt(activeData.quantity) * special
-                            let formattedAmt = this.currencyPipe.transform(
-                              newPrice,
-                              '$',
-                            )
-
-                            // this.productData[
-                            //   activeData.pos
-                            // ].price = formattedAmt
-
-                            // this.productData[activeData.pos].calPrice = newPrice
-
-                            // for (let t = 0; t < this.productData.length; t++) {
-                            //   const tt = this.productData[t]
-                            //   if (tt.atlas_id == atlas) {
-                            //     tt.price = formattedAmt
-                            //     tt.qty = qty
-                            //   }
-                            // }
-
-                            this.productData[
-                              activeData.pos
-                            ].price = formattedAmt
-                            this.productData[activeData.pos].calPrice = newPrice
-                            this.productData[activeData.pos].qty =
-                              activeData.quantity
-                            this.productData[activeData.pos].forCal = newPrice
-                            this.productData[activeData.pos].unitPrice = special
-
-                            $('#u-price-' + activeData.pos).html(special)
-                            $('#amt-' + activeData.pos).html(formattedAmt)
-                            $('#amt-hidd-' + activeData.pos).html(newPrice)
-                          } else {
-                            let pre = backWard.arrIndex - 1
-                            let preData = jk[pre]
-                            let activeData = backWard
-                            let chNxt = pre + 1
-                            let chpp = jk[chNxt]
-
-                            // console.log('dropped', activeData);
-                            let pp = jk[j]
-
-                            if (newTotalAss >= pp.cond) {
-                              let special = parseFloat(pp.special)
-                              let newPrice = parseInt(pp.quantity) * special
-                              let formattedAmt = this.currencyPipe.transform(
-                                newPrice,
-                                '$',
-                              )
-
-                              for (
-                                let t = 0;
-                                t < this.productData.length;
-                                t++
-                              ) {
-                                const tt = this.productData[t]
-                                if (tt.atlas_id == atlas) {
-                                  tt.price = formattedAmt
-                                }
-                              }
-
-                              // this.productData[pp.pos].calPrice = newPrice
-                              // this.productData[pp.pos].price = formattedAmt
-
-                              this.productData[pp.pos].price = formattedAmt
-                              this.productData[pp.pos].calPrice = newPrice
-                              this.productData[pp.pos].qty = activeData.quantity
-                              this.productData[pp.pos].forCal = newPrice
-                              this.productData[pp.pos].unitPrice = special
-
-                              $('#u-price-' + pp.pos).html(special)
-                              $('#amt-' + pp.pos).html(formattedAmt)
-                              $('#amt-hidd-' + pp.pos).html(newPrice)
-                            }
-
-                            $(
-                              '.special-booking-' +
-                                activeData.pos +
-                                '-' +
-                                activeData.arrIndex,
-                            ).css('display', 'inline-block')
-
-                            if (preData != undefined) {
-                              tickArrToBeRemoved.push(preData)
-                            }
-                            for (
-                              let hi = 0;
-                              hi < tickArrToBeRemoved.length;
-                              hi++
-                            ) {
-                              const kk = tickArrToBeRemoved[hi]
-                              $(
-                                '.special-booking-' +
-                                  kk.pos +
-                                  '-' +
-                                  kk.arrIndex,
-                              ).css('display', 'none')
-                            }
-
-                            // console.log(tickArrToBeRemoved);
-                          }
-                        }
-                      }
-                    } else {
-                      /// if total Assorted is not greater than condition /////
-                    }
-                  }
-                }
-              } else {
-                ///////// Speacial Price ////////
-                let arr = this.extendField.toArray()[index]
-                let specialAmt = 0
-                let specialCond = 0
-                let specData = this.productData[index].spec_data
-                this.normalPrice = parseFloat(this.productData[index].booking)
-                for (let i = 0; i < specData.length; i++) {
-                  let curAmt = parseFloat(specData[i].special)
-                  let cond = parseInt(specData[i].cond)
-                  let orignialAmt = parseFloat(specData[i].booking)
-                  specData[i].arrIndex = i
-                  let nextArr = i + 1
-                  let len = specData.length
-
-                  if (qty >= cond) {
-                    this.normalPrice = curAmt
-                    $('.normal-booking-' + index).css('display', 'none')
-
-                    $(
-                      '.special-booking-' + index + '-' + specData[i].arrIndex,
-                    ).css('display', 'inline-block')
-
-                    let g = i - 1
-                    let nxt = i + 1
-
-                    if (specData[nxt]) {
-                      $('.special-booking-' + index + '-' + nxt).css(
-                        'display',
-                        'none',
-                      )
-                    } else {
-                    }
-
-                    $('.special-booking-' + index + '-' + g).css(
-                      'display',
-                      'none',
-                    )
-                  } else {
-                    this.normalPrice = this.normalPrice
-                    $('.special-booking-' + index + '-' + i).css(
-                      'display',
-                      'none',
-                    )
-                    let nxt = i + 1
-                    let pre = i - 1
-
-                    if (specData[nxt]) {
-                      let cond = specData[nxt].cond
-                      if (qty < cond) {
-                        $('.normal-booking-' + index).css(
-                          'display',
-                          'inline-block',
-                        )
-                      } else {
-                        $('.normal-booking-' + index).css('display', 'none')
-                      }
-                      $('.normal-booking-' + index).css('display', 'none')
-                    } else {
-                      // console.log(specData[pre]);
-                      let preData = specData[pre]
-                      if (preData) {
-                        let preCond = parseInt(preData.cond)
-                        // console.log(`${preCond} and ${qty}`);
-                        if (qty >= preCond) {
-                          $('.normal-booking-' + index).css('display', 'none')
-                        } else {
-                        }
-                      } else {
-                        $('.normal-booking-' + index).css(
-                          'display',
-                          'inline-block',
-                        )
-                      }
-
-                      if (qty >= cond) {
-                        $('.normal-booking-' + index).css('display', 'none')
-                      } else {
-                      }
-                    }
-                  }
-
-                  if (qty >= cond) {
-                    this.normalPrice = curAmt
-                  } else {
-                    this.normalPrice = this.normalPrice
-                  }
-                }
-
-                let calAmt = qty * this.normalPrice
-                this.currentProductAmt = calAmt
-                $('#u-price-' + index).html(this.normalPrice)
-                let formattedAmt = this.currencyPipe.transform(calAmt, '$')
-                ///arr.nativeElement.innerHTML = formattedAmt
-
-                // this.productData[index].price = formattedAmt
-                // this.productData[index].calPrice = calAmt
-
-                // for (let t = 0; t < this.productData.length; t++) {
-                //   const tt = this.productData[t]
-                //   if (tt.atlas_id == atlas) {
-                //     tt.price = formattedAmt
-                //   }
-                // }
-
-                this.productData[index].price = formattedAmt
-                this.productData[index].calPrice = calAmt
-                this.productData[index].qty = qty
-                this.productData[index].forCal = calAmt
-                this.productData[index].unitPrice = this.normalPrice
-
-                $('#amt-' + index).html(formattedAmt)
-                $('#amt-hidd-' + index).html(calAmt)
+                // run update on all assorted product sale value
+                this.updateOtherAssorted(curr);
+              }
+            } else if (sp.type === 'special') {
+              ///////// Special Price ////////
+              if (qty >= cond) {
+                price = curAmt;
+                calAmt = qty * price;
+                selected_spec = `${index}-${af_index}`
               }
             }
-          } else {
-            let quantity = parseInt(qty)
-            let price = parseFloat(curr.booking)
-
-            let calAmt = quantity * price
-            this.currentProductAmt = calAmt
-
-            ///console.log(price, 'unit Price');
-            $('#u-price-' + index).html(price)
-
-            $('.normal-booking-' + index).css('display', 'inline-block')
-
-            let formattedAmt = this.currencyPipe.transform(calAmt, '$')
-
-            // this.productData[index].price = formattedAmt
-            // this.productData[index].calPrice = calAmt
-
-            // for (let t = 0; t < this.productData.length; t++) {
-            //   const tt = this.productData[t]
-            //   if (tt.atlas_id == atlas) {
-            //     tt.price = formattedAmt
-            //   }
-            // }
-
-            this.productData[index].price = formattedAmt
-            this.productData[index].calPrice = calAmt
-            this.productData[index].qty = qty
-            this.productData[index].forCal = calAmt
-            this.productData[index].unitPrice = price
-
-            $('#amt-' + index).html(formattedAmt)
-            $('#amt-hidd-' + index).html(calAmt)
-          }
+            // update product sale value
+            curr = this.assignSalesValue(index, qty, calAmt, price, selected_spec)
+          })
         } else {
-          console.log('trying to find it')
-          let quantity = parseInt(qty)
-          let price = parseFloat(curr.booking)
-
-          let calAmt = quantity * price
-          this.currentProductAmt = calAmt
-
-          $('#u-price-' + index).html(price)
-          $('#amt-hidd-' + index).html(calAmt)
-          $('.normal-booking-' + index).css('display', 'inline-block')
-          let formattedAmt = this.currencyPipe.transform(calAmt, '$')
-
-          // this.productData[index].price = formattedAmt
-          // this.productData[index].calPrice = calAmt
-
-          // for (let t = 0; t < this.productData.length; t++) {
-          //   const tt = this.productData[t]
-          //   if (tt.atlas_id == atlas) {
-          //     tt.price = formattedAmt
-          //   }
-          // }
-
-          this.productData[index].price = formattedAmt
-          this.productData[index].calPrice = calAmt
-          this.productData[index].qty = qty
-          this.productData[index].forCal = calAmt
-          this.productData[index].unitPrice = price
-
-          $('#amt-' + index).html(formattedAmt)
+          // update product sale value
+          curr = this.assignSalesValue(index, qty, calAmt, price, selected_spec)
         }
       } else {
-        if (qty == '' || qty == 0) {
-          for (let h = 0; h < this.assortFilter.length; h++) {
-            let ele = this.assortFilter[h]
-            let curr = this.productData[index]
-
-            if (curr.atlas_id == ele.atlas_id) {
-              const index = this.assortFilter.indexOf(ele)
-              if (index >= 0) {
-                this.assortFilter.splice(index, 1)
-              }
-            }
-          }
-
-          for (let h = 0; h < this.newArrayFilter.length; h++) {
-            let ele = this.newArrayFilter[h]
-            let curr = this.productData[index]
-
-            if (curr.atlas_id == ele.atlas_id) {
-              const index = this.newArrayFilter.indexOf(ele)
-              if (index >= 0) {
-                this.newArrayFilter.splice(index, 1)
-              }
-              this.assortFilter = this.newArrayFilter
-            }
-          }
-
-          // console.log(this.anotherLinePhaseFilter, 'tersting another line')
-
-          for (let hy = 0; hy < this.anotherLinePhaseFilter.length; hy++) {
-            let he = this.anotherLinePhaseFilter[hy]
-            let curr = this.productData[index]
-            if (curr.atlas_id == he.atlas_id) {
-              const ind = this.anotherLinePhaseFilter.indexOf(he)
-              if (ind >= 0) {
-                this.anotherLinePhaseFilter.splice(ind, 1)
-              }
-              this.anotherLinePhase = []
-              this.anotherLinePhase = this.anotherLinePhaseFilter
-            }
-          }
-
-          // console.log(this.anotherLinePhase, 'tersting another line')
-
-          let checkTotalAss = 0
-          let curr = this.productData[index]
-
-          this.anotherLinePhase.map((val: any, index: any) => {
-            if (curr.grouping == val.group) {
-              checkTotalAss += parseInt(val.quantity)
-            }
-          })
-
-          // console.log(checkTotalAss)
-
-          for (let tk = 0; tk < this.anotherLinePhase.length; tk++) {
-            let jk = this.anotherLinePhase[tk]
-            let tickArrToBeRemoved = []
-            // const jk = this.anotherLinePhaseFilter[i];
-            let currArrLength = jk.length
-
-            if (curr.grouping == jk.group) {
-              if (jk.length > 1) {
-                for (let kl = 0; kl < jk.length; kl++) {
-                  const kelly = jk[kl]
-                  --currArrLength
-                  const backWard = jk[currArrLength]
-                  const frontWard = jk[kl]
-
-                  if (
-                    checkTotalAss < backWard.cond &&
-                    checkTotalAss >= frontWard.cond
-                  ) {
-                    let nxt = frontWard.arrIndex + 1
-                    let preData = jk[nxt]
-                    let activeData = frontWard
-
-                    $('.normal-booking-' + activeData.pos).css(
-                      'display',
-                      'none',
-                    )
-
-                    $(
-                      '.special-booking-' +
-                        activeData.pos +
-                        '-' +
-                        activeData.arrIndex,
-                    ).css('display', 'inline-block')
-
-                    $(
-                      '.special-booking-' +
-                        preData.pos +
-                        '-' +
-                        preData.arrIndex,
-                    ).css('display', 'none')
-
-                    let special = activeData.special
-                    let newPrice = parseInt(activeData.quantity) * special
-                    let formattedAmt = this.currencyPipe.transform(
-                      newPrice,
-                      '$',
-                    )
-
-                    // this.productData[activeData.pos].price = formattedAmt
-                    // this.productData[activeData.pos].calPrice = newPrice
-
-                    // for (let t = 0; t < this.productData.length; t++) {
-                    //   const tt = this.productData[t]
-                    //   if (tt.atlas_id == atlas) {
-                    //     tt.price = formattedAmt
-                    //   }
-                    // }
-
-                    this.productData[activeData.pos].price = formattedAmt
-                    this.productData[activeData.pos].calPrice = newPrice
-                    this.productData[activeData.pos].qty = activeData.quantity
-                    this.productData[activeData.pos].forCal = newPrice
-                    this.productData[activeData.pos].unitPrice = special
-
-                    $('#u-price-' + activeData.pos).html(special)
-                    $('#amt-' + activeData.pos).html(formattedAmt)
-                    $('#amt-hidd-' + activeData.pos).html(newPrice)
-                  } else {
-                    let pre = backWard.arrIndex - 1
-                    let preData = jk[pre]
-                    let activeData = backWard
-
-                    $(
-                      '.special-booking-' +
-                        activeData.pos +
-                        '-' +
-                        activeData.arrIndex,
-                    ).css('display', 'inline-block')
-
-                    let special = activeData.special
-                    let newPrice = parseInt(activeData.quantity) * special
-                    let formattedAmt = this.currencyPipe.transform(
-                      newPrice,
-                      '$',
-                    )
-
-                    // this.productData[activeData.pos].price = formattedAmt
-                    // this.productData[activeData.pos].calPrice = newPrice
-
-                    // for (let t = 0; t < this.productData.length; t++) {
-                    //   const tt = this.productData[t]
-                    //   if (tt.atlas_id == atlas) {
-                    //     tt.price = formattedAmt
-                    //   }
-                    // }
-
-                    this.productData[activeData.pos].price = formattedAmt
-                    this.productData[activeData.pos].calPrice = newPrice
-                    this.productData[activeData.pos].qty = activeData.quantity
-                    this.productData[activeData.pos].forCal = newPrice
-                    this.productData[activeData.pos].unitPrice = special
-
-                    $('#u-price-' + activeData.pos).html(special)
-                    $('#amt-' + activeData.pos).html(formattedAmt)
-                    $('#amt-hidd-' + activeData.pos).html(newPrice)
-
-                    /// console.log(activeData, 'we testing it here, innsed')
-
-                    if (checkTotalAss >= activeData.cond) {
-                    } else {
-                      if (preData != undefined) {
-                        tickArrToBeRemoved.push(activeData)
-                      }
-                      $('.normal-booking-' + activeData.pos).css(
-                        'display',
-                        'inline-block',
-                      )
-
-                      let booking = activeData.booking
-                      let newPrice = parseInt(activeData.quantity) * booking
-                      let formattedAmt = this.currencyPipe.transform(
-                        newPrice,
-                        '$',
-                      )
-
-                      // for (let t = 0; t < this.productData.length; t++) {
-                      //   const tt = this.productData[t]
-                      //   if (tt.atlas_id == atlas) {
-                      //     tt.price = formattedAmt
-                      //   }
-                      // }
-
-                      // this.productData[activeData.pos].price = formattedAmt
-                      // this.productData[activeData.pos].calPrice = newPrice
-
-                      this.productData[activeData.pos].price = formattedAmt
-                      this.productData[activeData.pos].calPrice = newPrice
-                      this.productData[activeData.pos].qty = activeData.quantity
-                      this.productData[activeData.pos].forCal = newPrice
-
-                      this.productData[activeData.pos].unitPrice = booking
-
-                      $('#u-price-' + activeData.pos).html(booking)
-                      $('#amt-' + activeData.pos).html(formattedAmt)
-                      $('#amt-hidd-' + activeData.pos).html(newPrice)
-                    }
-
-                    if (preData != undefined) {
-                      tickArrToBeRemoved.push(preData)
-                    }
-                    for (let hi = 0; hi < tickArrToBeRemoved.length; hi++) {
-                      const kk = tickArrToBeRemoved[hi]
-                      $('.special-booking-' + kk.pos + '-' + kk.arrIndex).css(
-                        'display',
-                        'none',
-                      )
-                    }
-                  }
-                }
-              } else {
-                for (let ag = 0; ag < jk.length; ag++) {
-                  const agaa = jk[ag]
-
-                  if (checkTotalAss >= agaa.cond) {
-                    $('.normal-booking-' + agaa.pos).css('display', 'none')
-
-                    $('.special-booking-' + agaa.pos + '-' + agaa.arrIndex).css(
-                      'display',
-                      'inline-block',
-                    )
-                    let special = agaa.special
-                    let newPrice = parseInt(agaa.quantity) * special
-                    let formattedAmt = this.currencyPipe.transform(
-                      newPrice,
-                      '$',
-                    )
-
-                    // for (let t = 0; t < this.productData.length; t++) {
-                    //   const tt = this.productData[t]
-                    //   if (tt.atlas_id == atlas) {
-                    //     tt.price = formattedAmt
-                    //   }
-                    // }
-
-                    // this.productData[agaa.pos].price = formattedAmt
-                    // this.productData[agaa.pos].calPrice = newPrice
-
-                    this.productData[agaa.pos].price = formattedAmt
-                    this.productData[agaa.pos].calPrice = newPrice
-                    this.productData[agaa.pos].qty = agaa.quantity
-                    this.productData[agaa.pos].forCal = newPrice
-                    this.productData[agaa.pos].unitPrice = special
-
-                    $('#u-price-' + agaa.pos).html(special)
-                    $('#amt-' + agaa.pos).html(formattedAmt)
-                    $('#amt-hidd-' + agaa.pos).html(newPrice)
-                  } else {
-                    $('.special-booking-' + agaa.pos + '-' + agaa.arrIndex).css(
-                      'display',
-                      'none',
-                    )
-                    let special = agaa.special
-                    let newPrice = parseInt(agaa.quantity) * special
-                    let formattedAmt = this.currencyPipe.transform(
-                      newPrice,
-                      '$',
-                    )
-
-                    // for (let t = 0; t < this.productData.length; t++) {
-                    //   const tt = this.productData[t]
-                    //   if (tt.atlas_id == atlas) {
-                    //     tt.price = formattedAmt
-                    //   }
-                    // }
-
-                    // this.productData[agaa.pos].price = formattedAmt
-                    // this.productData[agaa.pos].calPrice = newPrice
-
-                    this.productData[agaa.pos].price = formattedAmt
-                    this.productData[agaa.pos].calPrice = newPrice
-                    this.productData[agaa.pos].qty = agaa.quantity
-                    this.productData[agaa.pos].forCal = newPrice
-                    this.productData[agaa.pos].unitPrice = special
-
-                    $('#u-price-' + agaa.pos).html(special)
-                    $('#amt-' + agaa.pos).html(formattedAmt)
-                    $('#amt-hidd-' + agaa.pos).html(newPrice)
-                  }
-                }
-              }
-            }
-          }
-        }
-
-        /// qty = 0;
-        let curr = this.productData[index]
-        let spec = curr.spec_data
-
-        $('.normal-booking-' + index).css('display', 'none')
-        if (spec != null) {
-          for (let h = 0; h < spec.length; h++) {
-            $('.special-booking-' + index + '-' + h).css('display', 'none')
-          }
-        }
-
-        // this.productData[index].price = '$0.00'
-        // this.productData[index].calPrice = 0
-
-        // for (let t = 0; t < this.productData.length; t++) {
-        //   const tt = this.productData[t]
-        //   if (tt.atlas_id == atlas) {
-        //     tt.price = '$0.00'
-        //   }
-        // }
-
-        let formattedAmt = this.currencyPipe.transform(0, '$')
-
-        this.productData[index].price = formattedAmt
-        this.productData[index].calPrice = 0
-        this.productData[index].qty = ''
-        this.productData[index].forCal = 0
-        this.productData[index].unitPrice = 0
-
-        $('#amt-' + index).html(formattedAmt)
-        $('#amt-hidd-' + index).html(0)
+        // update product sale value
+        curr = this.assignSalesValue(index, 0, 0, 0, null)
+        // remove current data from assorted products
+        const assortIds = this.assortFilter.map((ass: any) => ass.atlas_id);
+        // run update on all assorted product sale value
+        if (assortIds.includes(curr.atlas_id)) this.updateOtherAssorted(curr);
       }
     }
 
@@ -1609,4 +938,6 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
       return true
     }
   }
+
+
 }
