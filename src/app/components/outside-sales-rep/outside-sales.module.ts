@@ -14,6 +14,8 @@ import { DealerSummaryComponent } from './dealer-summary/dealer-summary.componen
 import { MyMessagesComponent } from './my-messages/my-messages.component'
 import { DetailedSummaryComponent } from './detailed-summary/detailed-summary.component'
 import { OutsideSalesNavbarComponent } from '../templates/outside-sales-navbar/outside-sales-navbar.component'
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatInputModule } from '@angular/material/input'
 
 @NgModule({
   declarations: [
@@ -26,7 +28,7 @@ import { OutsideSalesNavbarComponent } from '../templates/outside-sales-navbar/o
   ],
   imports: [
     CommonModule,
-    MatPaginatorModule,
+    MatPaginatorModule, MatFormFieldModule,MatInputModule,
     MatTableModule,
     OutsideSalesRoutingModule,
   ],

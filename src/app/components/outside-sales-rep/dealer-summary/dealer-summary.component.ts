@@ -4,6 +4,8 @@ import { ToastrService } from 'ngx-toastr'
 import { MatPaginator } from '@angular/material/paginator'
 import { MatTableDataSource } from '@angular/material/table'
 import Swal from 'sweetalert2'
+import { MatSort } from '@angular/material/sort'
+import { TokenStorageService } from 'src/app/core/services/token-storage.service'
 
 declare var $: any
 
@@ -35,65 +37,28 @@ export class DealerSummaryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.getDealerUsers()
+    this.getDealerUsers()
   }
 
-  pageSizes = [3, 5, 7]
+ 
 
   constructor(
     private postData: HttpRequestsService,
-    private toastr: ToastrService,
+    private toastr: ToastrService,private token: TokenStorageService,
   ) {}
 
-  async removeVendor(index: any) {
-    let confirmStatus = await this.confirmBox()
+  @ViewChild(MatSort)
+  sort!: MatSort;
 
-    if (confirmStatus) {
-      $('#remove-icon-' + index).css('display', 'none')
-      $('#remove-loader-' + index).css('display', 'inline-block')
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
 
-      this.postData
-        .httpGetRequest('/deactivate-dealer-user/' + index)
-        .then((result: any) => {
-          $('#remove-icon-' + index).css('display', 'inline-block')
-          $('#remove-loader-' + index).css('display', 'none')
-
-          if (result.status) {
-            this.toastr.success('Successful', result.message)
-            this.getDealerUsers()
-          } else {
-            this.toastr.error('Something went wrong', 'Try again')
-          }
-        })
-        .catch((err) => {
-          this.toastr.error('Something went wrong', 'Try again')
-        })
-    } else {
-    }
+   
   }
-
-  async confirmBox() {
-    return await Swal.fire({
-      title: 'You Are About To Remove This Vendor User',
-      text: '',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Yes',
-      cancelButtonText: 'Cancel',
-    }).then((result) => {
-      if (result.value) {
-        return true
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        return false
-      } else {
-        return false
-      }
-    })
-  }
-
   getDealerUsers() {
+    let id = this.token.getUser().id
     this.postData
-      .httpGetRequest('/all-admins')
+      .httpGetRequest('/sales-rep/get-purchasers-dealer/'+id)
       .then((result: any) => {
         console.log(result)
 
@@ -103,8 +68,9 @@ export class DealerSummaryComponent implements OnInit {
           this.loader = false
           this.tableView = true
           this.incomingData = result.data
+          console.log("incoming data,re",result.data)
           this.dataSource = new MatTableDataSource<PeriodicElement>(result.data)
-
+          this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator
         } else {
           // this.toastr.error(result.message, 'Try again')
