@@ -48,7 +48,7 @@ export class DetailedSummaryComponent implements OnInit {
     private postData: HttpRequestsService,
     private toastr: ToastrService,
     private token: TokenStorageService
-  ) {}
+  ) {this.getVendors()}
   ngOnInit(): void {
     throw new Error('Method not implemented.')
   }
@@ -85,7 +85,7 @@ export class DetailedSummaryComponent implements OnInit {
       this.noData = true;
     } else {
       this.postData
-        .httpGetRequest('/branch-dealers-orders/' + id)
+        .httpGetRequest('/sales-rep/dealers-summary/' + id)
         .then((result: any) => {
           console.log(result);
 
