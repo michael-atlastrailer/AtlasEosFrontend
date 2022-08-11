@@ -88,6 +88,7 @@ const routes: Routes = [
       {
         path: 'edit-order/:vendorId',
         component: EditOrderVendorPageComponent,
+        canDeactivate: [DeactivateGuard],
       },
 
       {

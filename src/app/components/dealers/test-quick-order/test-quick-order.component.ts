@@ -87,6 +87,7 @@ export class TestQuickOrderComponent implements OnInit {
 
   dummyAmt = 0
   userData: any
+  TotalAmount = 0
 
   @ViewChildren('extend')
   extendField!: QueryList<ElementRef>
@@ -238,6 +239,10 @@ export class TestQuickOrderComponent implements OnInit {
 
           if (res.data.submitted_status) {
             this.toastr.success(`item(s) has been submitted`, 'Success')
+          }
+
+          if (!res.data.submitted_status) {
+            this.toastr.error(`item(s) already in cart`, 'Cart Update')
           }
 
           this.closeModalBtn.nativeElement.click()
@@ -965,7 +970,7 @@ export class TestQuickOrderComponent implements OnInit {
             }
 
             if (res.data.submitted_status) {
-              this.toastr.success(`item(s) has been submitted`, 'Success')
+              this.toastr.success(`item has been add to cart`, 'Success')
             }
 
             this.orderTable = []
@@ -1213,6 +1218,11 @@ export class TestQuickOrderComponent implements OnInit {
           this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data)
           // this.dataSrc.sort = this.sort
           this.dataSrc.paginator = this.paginator
+          for (let h = 0; h < result.data.length; h++) {
+            const element = result.data[h]
+
+            this.TotalAmount += parseFloat(element.price)
+          }
         } else {
           // this.toastr.info(`Something went wrong`, 'Error')
         }
@@ -1257,7 +1267,10 @@ export class TestQuickOrderComponent implements OnInit {
           $('#remove-loader-' + index).css('display', 'none')
 
           if (result.status) {
-            this.toastr.success('Successful', result.message)
+            this.toastr.success(
+              'Successful',
+              'all item has been successfully removed from the cart',
+            )
             this.fetchQuickOrderCart()
           } else {
             this.toastr.error('Something went wrong', 'Try again')
@@ -1301,7 +1314,10 @@ export class TestQuickOrderComponent implements OnInit {
             this.ClearBtnText = true
             this.ClearOrderBtnLoader = false
             if (result.status) {
-              this.toastr.success(`${result.message}`, 'Success')
+              this.toastr.success(
+                `All Item has been successfully removed from the cart`,
+                'Success',
+              )
 
               this.fetchQuickOrderCart()
             } else {
@@ -1425,7 +1441,10 @@ export class TestQuickOrderComponent implements OnInit {
           if (result.status) {
             this.cartLoader = false
             this.orderSuccess = true
-            this.toastr.success(`${result.message}`, 'Success')
+            this.toastr.success(
+              `Item(s) has been successfully submitted`,
+              'Success',
+            )
             this.fetchQuickOrderCart()
           } else {
             this.cartLoader = false

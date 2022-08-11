@@ -80,9 +80,7 @@ export class DashboardComponent implements OnInit {
     this.getData
       .httpGetRequest(
         '/vendor/vendor-single-dashboard-most-purchaser/' +
-          this.userData.vendor_code +
-          '/' +
-          this.userData.id,
+          this.userData.vendor_code,
       )
       .then((result: any) => {
         this.tableView = true

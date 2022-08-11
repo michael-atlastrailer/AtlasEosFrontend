@@ -44,7 +44,7 @@
   aria-labelledby="exampleModalLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog" style="margin-top: 80px">
+  <div class="modal-dialog" style="margin-top: 80px;">
     <div class="modal-content modal-custom-content">
       <div class="modal-header">
         <h5 class="modal-title"></h5>
@@ -145,6 +145,8 @@
             <form action="" class="d-flex align-items-center form-wrapper">
               <span class="mr-3">Vendor Name</span>
 
+              <!-- <button mat-button [matMenuTriggerFor]="menu">Menu</button> -->
+
               <div class="select-wrapper">
                 <input
                   class="dummy-input"
@@ -153,11 +155,14 @@
                   value="Select vendor "
                   readonly
                   #dummyInput
+                  mat-button
+                  [matMenuTriggerFor]="menu"
                 />
 
-                <div class="body-wrapper">
+                <!--                 
+
+                <div class="body-wrapper" *ngIf="showDropdown">
                   <div
-                    *ngIf="showDropdown"
                     #dropdownSection
                     class="dropdown-section"
                     id="jqxScrollBar"
@@ -178,8 +183,34 @@
                       </li>
                     </div>
                   </div>
-                </div>
+                </div> -->
               </div>
+
+              <mat-menu #menu="matMenu" class="mat-menu">
+                <!-- <div class="body-wrapper"> -->
+                <div
+                  #dropdownSection
+                  class="dropdown-section"
+                  id="jqxScrollBar"
+                >
+                  <input
+                    type="text"
+                    class="dropdown-filter"
+                    (keyup)="applyFilter($event)"
+                    #input
+                  />
+
+                  <div>
+                    <li
+                      *ngFor="let data of allVendors"
+                      (click)="getAllSelectedDealerUsers(data)"
+                    >
+                      {{ data.vendor_name }}
+                    </li>
+                  </div>
+                </div>
+                <!-- </div> -->
+              </mat-menu>
 
               <!-- <select name="" class="form-control search-input" #vendorId>
                 <option [selected]="selectVendor == 0" value="0">
@@ -304,7 +335,7 @@
             <div class="d-flex justify-content-between align-items-center">
               <div>
                 <mat-paginator
-                  [pageSizeOptions]="[100, 200, 50]"
+                  [pageSizeOptions]="[100, 200, 500]"
                   showFirstLastButtons
                   aria-label="Select page seminar pages"
                 ></mat-paginator>
@@ -319,7 +350,7 @@
               mat-table
               [dataSource]="dataSrc"
               matSort
-              (matSortChange)="announceSortChange($event)"
+              (matSortChange)="sortData($event)"
             >
               <ng-container matColumnDef="qty">
                 <th
@@ -336,7 +367,8 @@
                 >
                   <input
                     [disabled]="alreadyOrder"
-                    id="cur-{{ i }}"
+                    id="cur-{{ element.position }}"
+                    [value]="element.qty"
                     type="number"
                     class="mx-auto"
                     style="text-align: center;"
@@ -345,49 +377,52 @@
                     placeholder="Qty"
                     (keyup)="
                       runCalculation(
-                        i,
+                        element.position,
                         inputAmt.value,
                         $event,
                         element.atlas_id
                       )
                     "
                   />
-                  <!-- <span>{{ i }}</span> -->
+                  <!-- <span>{{ element.position }}</span> -->
                 </td>
               </ng-container>
               <ng-container matColumnDef="atlas_id">
                 <th
                   mat-header-cell
                   *matHeaderCellDef
-                  mat-sort-header class="mx-auto"
-                  sortActionDescription="Sort by number"
+                  class="mx-auto"
+                  mat-sort-header="atlas_id"
                 >
                   Atlas #
                   <i class="fa fa-sort ml-2"></i>
                 </th>
-                <td mat-cell *matCellDef="let element" title="click to view product info"
+                <td
+                  mat-cell
+                  *matCellDef="let element"
+                  title="click to view product info"
                   (click)="viewProduct(element)"
-                  style="cursor: pointer"
+                  style="cursor: pointer;"
                   data-toggle="modal"
-                  data-target="#exampleModal">
+                  data-target="#exampleModal"
+                >
                   {{ element.atlas_id! }}
                 </td>
               </ng-container>
-              <ng-container matColumnDef="vendor" >
-                <th
-                  mat-header-cell
-                  *matHeaderCellDef
-                  mat-sort-header class="mx-auto"
-                  sortActionDescription="Sort by name"
-                >
+              <ng-container matColumnDef="vendor">
+                <th mat-header-cell *matHeaderCellDef class="mx-auto">
                   Vendor #
-                  <i class="fa fa-sort ml-2"></i>
+                  <!-- <i class="fa fa-sort ml-2"></i> -->
                 </th>
-                <td mat-cell *matCellDef="let element" title="click to view product info"
+                <td
+                  mat-cell
+                  *matCellDef="let element"
+                  title="click to view product info"
                   (click)="viewProduct(element)"
-                  style="cursor: pointer"
+                  style="cursor: pointer;"
                   data-toggle="modal"
-                  data-target="#exampleModal">
+                  data-target="#exampleModal"
+                >
                   {{ element.vendor_product_code }}
                 </td>
               </ng-container>
@@ -431,11 +466,16 @@
                   <span class="booking-text">
                     {{ element.booking | currency }}
                     <span
-                      class="ticker fa fa-check normal-booking-{{ i }}"
+                      class="ticker fa fa-check normal-booking-{{
+                        element.position
+                      }}"
                       id=""
                     ></span>
 
-                    <span id="u-price-{{ i }}" class="u-price-text"></span>
+                    <span
+                      id="u-price-{{ element.position }}"
+                      class="u-price-text"
+                    ></span>
                   </span>
 
                   <span *ngFor="let spec of element.spec_data; let j = index">
@@ -445,11 +485,15 @@
                     >
                       {{ spec.special | currency }}
                       <span
-                        class="ticker fa fa-check special-booking-{{ i }}-{{
-                          j
-                        }}"
+                        class="ticker fa fa-check special-booking-{{
+                          element.position
+                        }}-{{ j }}"
                         id=""
                       ></span>
+                      <!-- <span
+                        *ngIf="element.qty > element.cond"
+                        class="ticker fa fa-check"
+                      ></span> -->
                     </span>
                   </span>
                 </td>
@@ -466,16 +510,19 @@
                     #extend
                     *ngIf="element.price != ''"
                     class="total-text"
-                    id="amt-{{ i }}"
+                    id="amt-{{ element.position }}"
                   >
-                    {{ dummyAmt | currency }}
+                    {{ element.price }}
                   </span>
 
                   <!-- <span #extend class="total-text" id="amt-{{ i }}">
                     {{ element.price }}
                   </span> -->
 
-                  <span id="amt-hidd-{{ i }}" style="display: none;"></span>
+                  <span
+                    id="amt-hidd-{{ element.position }}"
+                    style="display: none;"
+                  ></span>
                 </td>
               </ng-container>
 

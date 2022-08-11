@@ -18,23 +18,16 @@
             >
               <div class="card-body">
                 <div class="filter-section">
-                  <div>
-                    <h6 class="filter-title">Dealer Account</h6>
+                 
+                  <div class="input-wrapper"><label for=""> <h6 class="filter-title mr-3">Dealer Account</h6></label>
+                   <mat-form-field>
+                      <input matInput (keyup)="applyFilter(input.value)" type="text"
+                    
+                      class="table-search form-control" style="height: 23px;"
+                      #input>
+                    </mat-form-field>
                   </div>
-                  <div class="input-wrapper">
-                    <input
-                      type="text"
-                      placeholder="Enter Account No...."
-                      class="table-search"
-                      #input
-                    />
-                  </div>
-                  <div>
-                    <button class="search-btn">
-                      <span class="fa fa-search"></span>
-                      search
-                    </button>
-                  </div>
+                 
                 </div>
 
                 <div class="table-responsive">
@@ -132,21 +125,21 @@
                     <ng-container matColumnDef="account">
                       <th mat-header-cell *matHeaderCellDef>Account #</th>
                       <td mat-cell *matCellDef="let element">
-                        {{ element.account }}
+                        {{ element.account_id }}
                       </td>
                     </ng-container>
 
                     <ng-container matColumnDef="dealer_name">
                       <th mat-header-cell *matHeaderCellDef>Dealer Name</th>
                       <td mat-cell *matCellDef="let element">
-                        {{ element.dealer_name }}
+                        {{ element.full_name }}
                       </td>
                     </ng-container>
 
                     <ng-container matColumnDef="show_total">
                       <th mat-header-cell *matHeaderCellDef>Show Total</th>
                       <td mat-cell *matCellDef="let element">
-                        {{ element.show_total }}
+                        {{ element.total_price | currency }}
                       </td>
                     </ng-container>
 

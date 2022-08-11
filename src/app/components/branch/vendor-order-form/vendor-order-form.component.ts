@@ -14,13 +14,12 @@ export interface Products {
   status: string
   created_date: string
 }
-
 @Component({
-  selector: 'app-dealer-summary',
-  templateUrl: './dealer-summary.component.html',
-  styleUrls: ['./dealer-summary.component.scss'],
+  selector: 'app-vendor-order-form',
+  templateUrl: './vendor-order-form.component.html',
+  styleUrls: ['./vendor-order-form.component.scss']
 })
-export class DealerSummaryComponent implements OnInit {
+export class VendorOrderFormComponent implements OnInit {
   tableView = true
   loader = false
   allVendors: any

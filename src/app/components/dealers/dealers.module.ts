@@ -44,6 +44,8 @@ import { WatchedSeminarsComponent } from './seminars/watched-seminars/watched-se
 import { TestQuickOrderComponent } from './test-quick-order/test-quick-order.component'
 import { DeactivateGuard } from 'src/app/core/guard/deactivate.guard'
 
+import { MatMenuModule } from '@angular/material/menu'
+
 @NgModule({
   declarations: [
     DealersComponent,
@@ -87,6 +89,7 @@ import { DeactivateGuard } from 'src/app/core/guard/deactivate.guard'
     MatPaginatorModule,
     MatSortModule,
     PdfViewerModule,
+    MatMenuModule,
   ],
   providers: [DeactivateGuard],
 })
