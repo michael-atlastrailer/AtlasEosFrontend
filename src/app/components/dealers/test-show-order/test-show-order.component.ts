@@ -32,6 +32,7 @@ import { ComponentCanDeactivate } from 'src/app/core/model/can-deactivate'
 import { ChatService } from 'src/app/core/services/chat.service'
 
 export interface PeriodicElement {
+  position: number
   atlas_id: any
   vendor: string
   description: string
@@ -42,6 +43,7 @@ export interface PeriodicElement {
 
 const ELEMENT_DATA: PeriodicElement[] = [
   {
+    position: 0,
     atlas_id: '',
     vendor: '',
     description: '',
@@ -137,8 +139,10 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
   viewFlyer = false
   viewPromoFlyer = false
   viewBuckFlyer = false
-  @ViewChild(MatSort)
-  sort!: MatSort
+  // @ViewChild(MatSort)
+  // sort!: MatSort
+
+  sortedData!: PeriodicElement[]
 
   setVendor = false
   currentData: any
@@ -179,13 +183,36 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
   }
 
   ngOnInit(): void {}
-  ngAfterViewInit() {}
+  ngAfterViewInit() {
+    ///this.dataSrc.sort = this.sort
+  }
+
   announceSortChange(sortState: Sort) {
+    console.log(sortState, 'testing')
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`)
     } else {
       this._liveAnnouncer.announce('Sorting cleared')
     }
+  }
+
+  sortData(sort: Sort) {
+    const data = this.productData.slice()
+    if (!sort.active || sort.direction === '') {
+      this.dataSrc = data
+      return
+    }
+
+    this.dataSrc = data.sort((a: any, b: any) => {
+      const isAsc = sort.direction === 'asc'
+      switch (sort.active) {
+        case 'atlas_id':
+          return compare(a.atlas_id, b.atlas_id, isAsc)
+
+        default:
+          return 0
+      }
+    })
   }
 
   ///////// Old code ///////////
@@ -307,7 +334,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
             this.orderTable = []
             this.getTotal()
             this.dataSrc = new MatTableDataSource<PeriodicElement>(productRes)
-            this.dataSrc.sort = this.sort
+            /// this.dataSrc.sort = this.sort
             this.dataSrc.paginator = this.paginator
           } else {
             this.toastr.info(`Something went wrong`, 'Error')
@@ -1509,8 +1536,9 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
             this.dataSrc = new MatTableDataSource<PeriodicElement>(productRes)
             this.tableData = this.filterTop(productRes)
             this.productData = this.filterTop(productRes)
-            this.dataSrc.sort = this.sort
+            /// this.dataSrc.sort = this.sort
             this.dataSrc.paginator = this.paginator
+            this.sortedData = this.productData.slice()
           } else {
             let productRes = result.data
 
@@ -1522,7 +1550,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
               each.unitPrice = 0
             }
             this.dataSrc = new MatTableDataSource<PeriodicElement>(productRes)
-            this.dataSrc.sort = this.sort
+            // this.dataSrc.sort = this.sort
             this.dataSrc.paginator = this.paginator
 
             this.tableData = productRes
@@ -1619,4 +1647,8 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
       return true
     }
   }
+}
+
+function compare(a: number | string, b: number | string, isAsc: boolean) {
+  return (a < b ? -1 : 1) * (isAsc ? 1 : -1)
 }

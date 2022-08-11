@@ -350,7 +350,7 @@
               mat-table
               [dataSource]="dataSrc"
               matSort
-              (matSortChange)="announceSortChange($event)"
+              (matSortChange)="sortData($event)"
             >
               <ng-container matColumnDef="qty">
                 <th
@@ -391,9 +391,8 @@
                 <th
                   mat-header-cell
                   *matHeaderCellDef
-                  mat-sort-header
                   class="mx-auto"
-                  sortActionDescription="Sort by number"
+                  mat-sort-header="atlas_id"
                 >
                   Atlas #
                   <i class="fa fa-sort ml-2"></i>
@@ -411,15 +410,9 @@
                 </td>
               </ng-container>
               <ng-container matColumnDef="vendor">
-                <th
-                  mat-header-cell
-                  *matHeaderCellDef
-                  mat-sort-header
-                  class="mx-auto"
-                  sortActionDescription="Sort by name"
-                >
+                <th mat-header-cell *matHeaderCellDef class="mx-auto">
                   Vendor #
-                  <i class="fa fa-sort ml-2"></i>
+                  <!-- <i class="fa fa-sort ml-2"></i> -->
                 </th>
                 <td
                   mat-cell
