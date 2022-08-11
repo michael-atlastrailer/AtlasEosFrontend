@@ -189,22 +189,31 @@
 
           <div class="table-ctn mt-3 p-3" style="background-color: white;">
             <div class="card-header d-flex justify-content-between">
-              <h5 class="">
-                <span>
-                  <i class="fa mr-2 fa-list"></i>
-                  Order List
-                </span>
-              </h5>
-              <button class="btn btn-danger" (click)="clearCart()">
-                <span *ngIf="ClearBtnText">
-                  <i class="fa mr-2 fa-eraser"></i>
-                  Clear Cart
-                </span>
+              <div>
+                <h5 class="">
+                  <span>
+                    <i class="fa mr-2 fa-list"></i>
+                    Order List
+                  </span>
+                </h5>
+              </div>
 
-                <span *ngIf="ClearOrderBtnLoader">
-                  <span class="spinner-border spinner-border-sm"></span>
-                </span>
-              </button>
+              <div>
+                <button class="btn btn-danger mb-3" (click)="clearCart()">
+                  <span *ngIf="ClearBtnText">
+                    <i class="fa mr-2 fa-eraser"></i>
+                    Clear Cart
+                  </span>
+
+                  <span *ngIf="ClearOrderBtnLoader">
+                    <span class="spinner-border spinner-border-sm"></span>
+                  </span>
+                </button>
+
+                <h5 style="font-weight: bold; margin-bottom: 0px;">
+                  Total: {{ TotalAmount | currency }}
+                </h5>
+              </div>
             </div>
 
             <table class="table" *ngIf="loader">
@@ -450,6 +459,12 @@
                 <td colspan="10" class="p-4"></td>
               </tr>
             </table>
+
+            <div class="d-flex justify-content-end">
+              <h5 style="font-weight: bold;">
+                Total: {{ TotalAmount | currency }}
+              </h5>
+            </div>
 
             <!-- <mat-paginator
               [pageSizeOptions]="[10, 20, 50, 100]"
@@ -725,16 +740,6 @@
               <td colspan="10" class="p-4" style="padding: 5px;"></td>
             </tr>
           </table>
-
-          <!-- <div class="d-flex justify-content-end" *ngIf="tableView">
-            <span class="desc-text">Total: {{ overTotal | currency }}</span>
-          </div> -->
-
-          <!-- <mat-paginator
-            [pageSizeOptions]="[10, 20, 50, 100]"
-            showFirstLastButtons
-            aria-label="Select page seminar pages"
-          ></mat-paginator> -->
 
           <div
             class="w-100 justify-content-end d-flex py-3"

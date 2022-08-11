@@ -145,6 +145,8 @@
             <form action="" class="d-flex align-items-center form-wrapper">
               <span class="mr-3">Vendor Name</span>
 
+              <!-- <button mat-button [matMenuTriggerFor]="menu">Menu</button> -->
+
               <div class="select-wrapper">
                 <input
                   class="dummy-input"
@@ -153,7 +155,11 @@
                   value="Select vendor "
                   readonly
                   #dummyInput
+                  mat-button
+                  [matMenuTriggerFor]="menu"
                 />
+
+                <!--                 
 
                 <div class="body-wrapper" *ngIf="showDropdown">
                   <div
@@ -177,8 +183,34 @@
                       </li>
                     </div>
                   </div>
-                </div>
+                </div> -->
               </div>
+
+              <mat-menu #menu="matMenu" class="mat-menu">
+                <!-- <div class="body-wrapper"> -->
+                <div
+                  #dropdownSection
+                  class="dropdown-section"
+                  id="jqxScrollBar"
+                >
+                  <input
+                    type="text"
+                    class="dropdown-filter"
+                    (keyup)="applyFilter($event)"
+                    #input
+                  />
+
+                  <div>
+                    <li
+                      *ngFor="let data of allVendors"
+                      (click)="getAllSelectedDealerUsers(data)"
+                    >
+                      {{ data.vendor_name }}
+                    </li>
+                  </div>
+                </div>
+                <!-- </div> -->
+              </mat-menu>
 
               <!-- <select name="" class="form-control search-input" #vendorId>
                 <option [selected]="selectVendor == 0" value="0">
@@ -318,7 +350,7 @@
               mat-table
               [dataSource]="dataSrc"
               matSort
-              (matSortChange)="announceSortChange($event)"
+              (matSortChange)="sortData($event)"
             >
               <ng-container matColumnDef="qty">
                 <th
@@ -359,9 +391,8 @@
                 <th
                   mat-header-cell
                   *matHeaderCellDef
-                  mat-sort-header
                   class="mx-auto"
-                  sortActionDescription="Sort by number"
+                  mat-sort-header="atlas_id"
                 >
                   Atlas #
                   <i class="fa fa-sort ml-2"></i>
@@ -379,15 +410,9 @@
                 </td>
               </ng-container>
               <ng-container matColumnDef="vendor">
-                <th
-                  mat-header-cell
-                  *matHeaderCellDef
-                  mat-sort-header
-                  class="mx-auto"
-                  sortActionDescription="Sort by name"
-                >
+                <th mat-header-cell *matHeaderCellDef class="mx-auto">
                   Vendor #
-                  <i class="fa fa-sort ml-2"></i>
+                  <!-- <i class="fa fa-sort ml-2"></i> -->
                 </th>
                 <td
                   mat-cell

@@ -33,7 +33,6 @@ import { TestQuickOrderComponent } from './test-quick-order/test-quick-order.com
 import { DeactivateGuard } from 'src/app/core/guard/deactivate.guard'
 import { PurchaseSummaryComponent } from './purchase-summary/purchase-summary.component'
 
-
 const routes: Routes = [
   {
     path: '',
@@ -89,6 +88,7 @@ const routes: Routes = [
       {
         path: 'edit-order/:vendorId',
         component: EditOrderVendorPageComponent,
+        canDeactivate: [DeactivateGuard],
       },
 
       {
@@ -165,7 +165,7 @@ const routes: Routes = [
     ],
     canActivate: [AuthGuardGuard],
   },
-];
+]
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],

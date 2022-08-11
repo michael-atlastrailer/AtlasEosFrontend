@@ -17,13 +17,16 @@
 //   background: rgba(204, 204, 204, 0.4);
 // }
 
+.mat-menu {
+  border: 1px solid #009ae0;
+}
+
 .dropdown-section {
   background-color: #ffffff;
-  box-shadow: 1px 4px 2px rgb(219, 208, 208);
+  // box-shadow: 1px 4px 2px rgb(219, 208, 208);
   padding: 10px;
   margin-top: 0px;
   border-radius: 4px;
-  border: 1px solid #009ae0;
   div {
     padding: 0px;
     margin: 0px;
@@ -102,11 +105,11 @@
 }
 
 .body-wrapper {
-  position: absolute;
-  z-index: 9;
-  width: 24%;
-  border-radius: 4px;
-  height: 200px;
+  // position: absolute;
+  // z-index: 9;
+  // width: 24%;
+  // border-radius: 4px;
+  // height: 200px;
 }
 
 .section-header {
