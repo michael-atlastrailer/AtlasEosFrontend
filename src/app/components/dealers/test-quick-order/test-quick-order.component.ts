@@ -1218,9 +1218,9 @@ export class TestQuickOrderComponent implements OnInit {
           this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data)
           // this.dataSrc.sort = this.sort
           this.dataSrc.paginator = this.paginator
+          this.TotalAmount = 0
           for (let h = 0; h < result.data.length; h++) {
             const element = result.data[h]
-
             this.TotalAmount += parseFloat(element.price)
           }
         } else {
