@@ -26,7 +26,6 @@
                         <input
                           type="text"
                           name="topic"
-                          required
                           formControlName="topic"
                           class="input-filter-edit shadow-sm"
                         />
@@ -58,11 +57,10 @@
                         <select
                           (change)="assignVendor(vendor)"
                           type="text"
-                          name="vendorName"
+                          name="vendor_name"
                           class="input-value shadow-sm"
                           placeholder="Select Vendor"
-                          required
-                          formControlName="vendorName"
+                          formControlName="vendor_name"
                           #vendor
                         >
                           <option value="">
@@ -76,7 +74,7 @@
                         <div
                           class="input-alert-box"
                           *ngIf="
-                            productFormControls.vendorName.invalid &&
+                            productFormControls.vendor_name.invalid &&
                             manualChecker
                           "
                         >
@@ -100,9 +98,8 @@
                       <div class="input-section">
                         <input
                           type="date"
-                          name="seminarDate"
-                          required
-                          formControlName="seminarDate"
+                          name="seminar_date"
+                          formControlName="seminar_date"
                           class="input-filter-edit shadow-sm"
                           placeholder="Regular Price (eg: 89.90)"
                         />
@@ -110,7 +107,7 @@
                         <div
                           class="input-alert-box"
                           *ngIf="
-                            productFormControls.seminarDate.invalid &&
+                            productFormControls.seminar_date.invalid &&
                             manualChecker
                           "
                         >
@@ -134,18 +131,18 @@
                       <div class="input-section">
                         <input
                           matTimepicker
-                          #startTime="matTimepicker"
+                          #start_time="matTimepicker"
                           type="time"
-                          name="startTime"
-                          formControlName="startTime"
+                          name="start_time"
+                          formControlName="start_time"
                           class="input-filter-edit shadow-sm"
                           id="startTimePicker"
-                          (timeChange)="timeChangeHandler(startTime)"
+                          (timeChange)="timeChangeHandler(start_time)"
                         />
                         <div
                           class="input-alert-box"
                           *ngIf="
-                            productFormControls.startTime.invalid &&
+                            productFormControls.start_time.invalid &&
                             manualChecker
                           "
                         >
@@ -171,8 +168,8 @@
                           matTimepicker
                           #endTime="matTimepicker"
                           type="time"
-                          name="stopTime"
-                          formControlName="stopTime"
+                          name="stop_time"
+                          formControlName="stop_time"
                           class="input-filter-edit shadow-sm"
                           placeholder="stopTime"
                           id="endtimePicker"
@@ -182,7 +179,7 @@
                         <div
                           class="input-alert-box"
                           *ngIf="
-                            productFormControls.stopTime.invalid &&
+                            productFormControls.stop_time.invalid &&
                             manualChecker
                           "
                         >
@@ -206,9 +203,8 @@
                       <div class="input-section">
                         <input
                           type="text"
-                          name="link"
-                          required
-                          formControlName="link"
+                          name="join_link"
+                          formControlName="join_link"
                           class="input-filter-edit shadow-sm"
                           placeholder="seminar link"
                         />
@@ -216,7 +212,8 @@
                         <div
                           class="input-alert-box"
                           *ngIf="
-                            productFormControls.link.invalid && manualChecker
+                            productFormControls.join_link.invalid &&
+                            manualChecker
                           "
                         >
                           <div>
@@ -239,12 +236,52 @@
                       <div class="input-section">
                         <input
                           type="text"
-                          name="completedLink"
-                          required
-                          formControlName="completedLink"
+                          name="completed_seminar_link"
+                          formControlName="completed_seminar_link"
                           class="input-filter-edit shadow-sm"
-                          placeholder="compelted seminar link"
+                          placeholder="completed seminar link"
                         />
+                      </div>
+                    </div>
+
+                    <div class="w-100 in-form-section">
+                      <div class="label-section">
+                        <h6>Seminar Status *</h6>
+                      </div>
+                      <div class="input-section">
+                        <select
+                          type="text"
+                          name="status"
+                          class="input-value shadow-sm"
+                          placeholder="Select seminar status"
+                          required
+                          formControlName="status"
+                          #vendor
+                        >
+                          <option value="">
+                            Status
+                          </option>
+                          <option value="1">Scheduled</option>
+                          <option value="2">Ongoing</option>
+                          <option value="3">Watched (ended)</option>
+                        </select>
+
+                        <div
+                          class="input-alert-box"
+                          *ngIf="
+                            productFormControls.status.invalid && manualChecker
+                          "
+                        >
+                          <div>
+                            <span class="alert-input-msg">
+                              {{ getErrorMessage('status') }}
+                            </span>
+                            <span
+                              class="fa fa-exclamation-triangle alert-input-icon"
+                              style="float: right;"
+                            ></span>
+                          </div>
+                        </div>
                       </div>
                     </div>
 
