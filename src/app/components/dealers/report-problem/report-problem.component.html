@@ -6,11 +6,11 @@
           <div class="card bg-transparent border-0">
             <div
               class="card-header mb-4 d-flex justify-content-between align-items-center"
-              style="background-color: #f6f6f6"
+              style="background-color: #f6f6f6;"
             >
               <span>Report A Problem</span>
-              <span
-                ><a
+              <span>
+                <a
                   routerLink="/dealers/tickets"
                   class="btn btn-light mr-2"
                   style="
@@ -18,14 +18,17 @@
                     background: #fff !important;
                     border: 0.3px solid #85838392 !important;
                   "
-                  ><i class="fa fa-list mr-2"></i> Tickets</a
-                ></span
-              >
+                >
+                  <i class="fa fa-list mr-2"></i>
+                  Tickets
+                </a>
+              </span>
             </div>
 
             <div class="card-body p-0 mt-3 bg-white">
               <div class="card-header">
-                <i class="fa fa-comments mr-3"></i> Please tell us more
+                <i class="fa fa-comments mr-3"></i>
+                Please tell us more
               </div>
               <div class="card-body">
                 <form>
@@ -50,9 +53,9 @@
                     required
                   ></textarea>
                   <div class="alert alert-warning mt-2">
-                    <i class="fa fa-info-circle"></i>&nbsp;&nbsp; Max attachment
-                    is 5MB, File format supported (pdf, doc, docx, xls, jpeg,
-                    png, gif)
+                    <i class="fa fa-info-circle"></i>
+                    &nbsp;&nbsp; Max attachment is 5MB, File format supported
+                    (pdf, doc, docx, xls, jpeg, png, gif)
                   </div>
                   <input
                     name="file"
@@ -62,7 +65,7 @@
                     (change)="fileUpload()"
                     max-size="5000"
                     class="form-control-file p-2"
-                    style="border: 0.2px solid #ced4da"
+                    style="border: 0.2px solid #ced4da;"
                   />
                   <div class="w-100 justify-content-end d-flex mt-3">
                     <div
@@ -70,31 +73,34 @@
                       *ngIf="responseSuccess"
                       #reportForm
                     >
-                      <i class="fa fa-check-circle" style="font-size: 40px"></i
-                      >&nbsp;&nbsp;
+                      <i
+                        class="fa fa-check-circle"
+                        style="font-size: 40px;"
+                      ></i>
+                      &nbsp;&nbsp;
                       <div class="ml-2">
                         <h4 class="mb-2">Message sent Successfully</h4>
                         <p>
                           Your message has been received, and a member of our
-                          team will get back to you in 5minutes.
+                          team will get back to you soon.
                         </p>
                       </div>
                     </div>
                     <button
                       class="btn btn-light"
-                      style="border: 0.2px solid #858383"
+                      style="border: 0.2px solid #858383;"
                       [disabled]="formLoader"
                       (click)="submitReport()"
                     >
                       <div *ngIf="!formLoader">
-                        <i class="fa fa-paper-plane mr-2"></i>Send
+                        <i class="fa fa-paper-plane mr-2"></i>
+                        Send
                       </div>
 
                       <div *ngIf="formLoader">
                         <span
                           class="spinner-border spinner-border-sm text-dark"
-                        >
-                        </span>
+                        ></span>
                       </div>
                     </button>
                   </div>

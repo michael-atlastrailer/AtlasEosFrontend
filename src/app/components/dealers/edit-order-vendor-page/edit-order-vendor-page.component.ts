@@ -19,6 +19,7 @@ import { LiveAnnouncer } from '@angular/cdk/a11y'
 import { TokenStorageService } from 'src/app/core/services/token-storage.service'
 import { CommonModule, CurrencyPipe, Location } from '@angular/common'
 import Swal from 'sweetalert2'
+import { ComponentCanDeactivate } from 'src/app/core/model/can-deactivate'
 
 declare var $: any
 
@@ -47,7 +48,7 @@ class AddEditProduct {
   templateUrl: './edit-order-vendor-page.component.html',
   styleUrls: ['./edit-order-vendor-page.component.scss'],
 })
-export class EditOrderVendorPageComponent implements OnInit {
+export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
   tableData: PeriodicElement[] = []
   displayedColumns: string[] = [
     'qty',
@@ -150,6 +151,7 @@ export class EditOrderVendorPageComponent implements OnInit {
   eachSelectedItem: any
   assortedTableItem: any
   currentVendorName = ''
+  editedInput = false
   /////// end of importation //////////
 
   constructor(
@@ -981,6 +983,7 @@ export class EditOrderVendorPageComponent implements OnInit {
     let allProCount = this.cartData.length
     let postItem = []
     this.saveBtnLoader = true
+    this.editedInput = false
 
     for (let h = 0; h < allProCount; h++) {
       let curQty = $('#cur-' + h).val()
@@ -1025,10 +1028,6 @@ export class EditOrderVendorPageComponent implements OnInit {
           this.tableData = result.data
           this.cartData = result.data
           this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data)
-
-          /// this.runTotalCalculation()
-
-          //// this.getTotal()
           for (let d = 0; d < result.data.length; d++) {
             const element = result.data[d]
 
@@ -1040,6 +1039,8 @@ export class EditOrderVendorPageComponent implements OnInit {
             }
 
             this.addedItem.push(data)
+
+            this.toastr.success('Item saved successfully', 'Success')
           }
         } else {
           this.toastr.error('Something went wrong', 'Try again')
@@ -1052,7 +1053,7 @@ export class EditOrderVendorPageComponent implements OnInit {
       })
   }
 
-  async confirmBox() {
+  async deleteConfirmBox() {
     return await Swal.fire({
       title: 'You Are About To Remove This Item From Your Order',
       text: '',
@@ -1072,7 +1073,7 @@ export class EditOrderVendorPageComponent implements OnInit {
   }
 
   async deleteQuickOrderItem(atlsId: any, index: any, tableIndex: any) {
-    let confirmStatus = await this.confirmBox()
+    let confirmStatus = await this.deleteConfirmBox()
 
     if (confirmStatus) {
       let uid = this.token.getUser().id.toString()
@@ -1229,6 +1230,7 @@ export class EditOrderVendorPageComponent implements OnInit {
   }
 
   runCalculation(index: number, qty: any) {
+    this.editedInput = true
     if (qty !== '') {
       let curr = this.cartData[index]
       let spec = curr.spec_data
@@ -1954,5 +1956,29 @@ export class EditOrderVendorPageComponent implements OnInit {
       .catch((err) => {
         this.toastr.info(`Something went wrong`, 'Error')
       })
+  }
+
+  async confirmBox() {
+    console.log('heheh')
+    if (this.editedInput == true) {
+      return await Swal.fire({
+        title: 'You are about to leave this page',
+        text: 'Any items not added to your cart will be lost',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Ok',
+        cancelButtonText: 'Cancel',
+      }).then((result) => {
+        if (result.value) {
+          return true
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          return false
+        } else {
+          return false
+        }
+      })
+    } else {
+      return true
+    }
   }
 }
