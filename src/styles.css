@@ -57,7 +57,16 @@ html {
 .dealer-side {
   margin-top: 70px;
 }
+.clickable{
+  color: #00547a;
+  transition: .2s ease;
+  cursor: pointer;
+  
+}
 
+.clickable:hover{
+    text-decoration: underline !important;
+  }
 .admin-side {
   margin-top: 53px;
 }

@@ -27,7 +27,6 @@ export class WatchedSeminarsComponent implements OnInit {
   tableView = false;
   tableData: PeriodicElement[] = [];
   displayedColumns: string[] = [
-   
     'seminar_date',
     'start_time',
     'vendor_name',
@@ -95,6 +94,22 @@ export class WatchedSeminarsComponent implements OnInit {
         this.toastr.error('Try again', 'Something went wrong');
         this.noData = true;
       });
+  }
+  to12Hr(val: any) {
+    val = val.split(':');
+    let daylight = 'AM';
+    if (parseInt(val[0]) > 12) {
+      val[0] = Math.abs(parseInt(val[0]) - 12);
+      daylight = 'PM';
+    } else {
+      daylight = 'AM';
+    }
+
+    val =
+      val.reduce((n: any, m: any) => {
+        return n + ':' + m;
+      }) + daylight;
+    return val;
   }
   bookmarkSeminar(id: any, stat: any, current: any) {
     let dealer = this.token.getUser().id;

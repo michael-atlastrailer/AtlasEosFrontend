@@ -292,9 +292,16 @@
                     *ngIf="arrNotSpec.length > 0"
                     style="text-align: center; color: red"
                   >
-                    Cannot submit, Items {{ arrNotSpec.join() }} are already in
+                    Cannot submit, Item(s) {{ arrNotSpec.join() }} are already in
                     the show order form
                   </p>
+                   <!-- <p
+                    class="title-banner text-end mt-1"
+                    *ngIf="duplicateArr.length > 0"
+                    style="text-align: center; color: red"
+                  >
+                    Cannot submit, Item(s) {{ duplicateArr.join() }} was added twice
+                  </p> -->
                   <div class="mt-3 d-flex justify-content-end">
                     <button
                       class="btn btn-primary mr-2"

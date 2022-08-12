@@ -121,4 +121,18 @@ export class AllSeminarsComponent implements AfterViewInit {
         this.toastr.error('Try again', 'Something went wrong');
       });
   }
+  to12Hr(val:any) {
+    val = val.split(":")
+    let daylight="AM"
+    if (parseInt(val[0]) > 12) {
+      val[0] = Math.abs(parseInt(val[0]) - 12);
+     daylight="PM"
+    } else {
+        daylight = 'AM';
+    }
+    
+    val = val.reduce((n: any, m: any) => { return n + ":" + m }) +daylight
+    return val
+  }
+
 }
