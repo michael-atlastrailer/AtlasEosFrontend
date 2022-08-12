@@ -203,13 +203,20 @@ export class DashboardComponent implements OnInit {
           if (rev.length <3) {
             rev3 = 0;
           }
-          console.log('reverse table', rev, rev.length,rev1,rev2,rev3);
+          console.log(
+            'reverse table',
+            rev,
+            
+            rev1,
+            rev2,
+            rev3
+          );
 
           this.chartOptions = {
             series: [
               {
                 name: 'Sales summary',
-                data: [rev1, rev2, rev3],
+                data: [rev1.toFixed(2), rev2.toFixed(2), , rev3.toFixed(2)],
               },
             ],
             chart: {

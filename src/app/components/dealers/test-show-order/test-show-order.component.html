@@ -256,7 +256,7 @@
           </div>
 
           <div
-            class="table-ctn mt-3 p-3 table-responsive"
+            class="table-ctn mt-5 p-3 pt-5 table-responsive"
             style="background-color: white;"
           >
             <table class="table" *ngIf="loader">
@@ -402,22 +402,27 @@
                   *matCellDef="let element"
                   title="click to view product info"
                   (click)="viewProduct(element)"
-                  style="cursor: pointer;"
-                  data-toggle="modal"
-                  data-target="#exampleModal"
-                >
+
+                  style="cursor: pointer"
+                  data-toggle="modal" class="clickable"
+                  data-target="#exampleModal">
                   {{ element.atlas_id! }}
                 </td>
               </ng-container>
-              <ng-container matColumnDef="vendor">
-                <th mat-header-cell *matHeaderCellDef class="mx-auto">
+              <ng-container matColumnDef="vendor" >
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef 
+                  mat-sort-header class="mx-auto"
+                  sortActionDescription="Sort by name"
+                >
+
                   Vendor #
                   <!-- <i class="fa fa-sort ml-2"></i> -->
                 </th>
-                <td
-                  mat-cell
-                  *matCellDef="let element"
-                  title="click to view product info"
+ dealer-dealer
+                <td mat-cell *matCellDef="let element" title="click to view product info" class="clickable"
+
                   (click)="viewProduct(element)"
                   style="cursor: pointer;"
                   data-toggle="modal"

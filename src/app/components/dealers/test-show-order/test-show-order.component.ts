@@ -331,11 +331,13 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
             if (result.data.length !== 0) {
               this.canOrder = true
             }
-            this.orderTable = []
-            this.getTotal()
-            this.dataSrc = new MatTableDataSource<PeriodicElement>(productRes)
-            /// this.dataSrc.sort = this.sort
-            this.dataSrc.paginator = this.paginator
+
+            this.orderTable = [];
+            this.getTotal();
+            this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data);
+            this.dataSrc.paginator = this.paginator;
+            this.dataSrc.sort = this.sort;
+
           } else {
             this.toastr.info(`Something went wrong`, 'Error')
           }

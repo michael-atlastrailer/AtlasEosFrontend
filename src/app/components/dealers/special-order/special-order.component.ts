@@ -72,7 +72,7 @@ export class SpecialOrderComponent implements OnInit {
   allOrderPage = false
   dataSrc = new MatTableDataSource<PeriodicElement>()
   @ViewChild(MatPaginator)
-
+duplicateArr:any=[]
   paginator!: MatPaginator;
   isSpecial = false;
   arrNotSpec: any = [];
@@ -273,7 +273,7 @@ export class SpecialOrderComponent implements OnInit {
     console.log('errror disable', this.disableSubmit, error);
 
 
-    if (this.arr.length < 1) {
+    if (this.arr?.length < 1) {
       error = true
     } else {
       for (var i = 0; i < this.arr.length; i++) {
@@ -321,7 +321,7 @@ export class SpecialOrderComponent implements OnInit {
             this.disableSubmit = save;
 
             this.toastr.error(
-              `item with vendor part ${id} is in the booking program  you can not add to special order `,
+              `item with vendor part ${id} is on the show order form and you cannot add them here `,
               'Error',
               { timeOut: 6000 }
             );
@@ -338,7 +338,22 @@ export class SpecialOrderComponent implements OnInit {
   }
   checkConstraint() {
     this.arrNotSpec = [];
+  function toFindDuplicates(arry:any) {
+      const uniqueElements = new Set(arry);
+      const filteredElements = arry.filter((item:any) => {
+        if (uniqueElements.has(item.vendor_no)) {
+          uniqueElements.delete(item);
+        } else {
+          return item.vendor_no;
+        }
+      });
+
+      return [...new Set(uniqueElements)];
+  }
+      const duplicates = toFindDuplicates(this.arr)
+    
     for (var i = 0; i < this.arr.length; i++) {
+     
       if (this.arr[i].qty == '') {
         this.cannotSubmit = true;
       }if (this.arr[i].qty == null) {
@@ -347,6 +362,7 @@ export class SpecialOrderComponent implements OnInit {
       if (this.arr[i].vendor_no == '') {
         this.cannotSubmit = true;
       }
+      
       if (this.arr[i].inBooking == true) {
         this.cannotSubmit = true;
         this.arrNotSpec.push(this.arr[i].vendor_no);
@@ -357,7 +373,7 @@ export class SpecialOrderComponent implements OnInit {
     if (this.arrNotSpec.length==0) {
       this.submitOrder();
     }
-    console.log('checking constraint', this.arrNotSpec, this.cannotSubmit);
+    console.log('checking constraint', this.arrNotSpec, this.cannotSubmit, duplicates);
 
   }
   getUser(uid: string, userlist: any) {
