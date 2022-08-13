@@ -216,7 +216,7 @@ export class DashboardComponent implements OnInit {
             series: [
               {
                 name: 'Sales summary',
-                data: [rev1.toFixed(2), rev2.toFixed(2), , rev3.toFixed(2)],
+                data: [rev1.toFixed(2), rev2.toFixed(2),rev3.toFixed(2)]
               },
             ],
             chart: {
