@@ -3,7 +3,7 @@
 <aside class="app-sidebar scrollable">
   <div
     class="side-header d-flex align-items-center"
-    style="height: 80px; width: 290px"
+    style="height: 80px; width: 290px;"
   >
     <a class="header-brand1" href="/login">
       <img
@@ -18,7 +18,7 @@
       <a
         aria-label="Hide Sidebar"
         class="ms-5"
-        style="color: white; height: 30px; width: 30px"
+        style="color: white; height: 30px; width: 30px;"
         data-toggle="sidebar"
         href="#"
         (click)="toggleSideNav()"
@@ -139,7 +139,7 @@
           </a>
         </li>
       </ng-container>
-       <ng-container>
+      <ng-container>
         <li class="slide" (click)="closeOverLay()">
           <a
             class="side-menu__item"
@@ -147,7 +147,7 @@
             routerLinkActive="active-item"
           >
             <span class="fa fa-list navbar-icons"></span>
-            <span class="side-menu__label">Purchaser   Summary</span>
+            <span class="side-menu__label">Purchaser Summary</span>
           </a>
         </li>
       </ng-container>
@@ -292,7 +292,7 @@
 <div class="app-header header d-block pt-0">
   <div
     class="container-fluid p-0 d-flex align-items-center w-100"
-    style="height: 80px"
+    style="height: 80px;"
   >
     <div class="d-flex over-layer-header w-100">
       <a class="header-brand d-md-none">
@@ -354,6 +354,9 @@
 
         <div class="dropdown d-none d-md-flex notifications">
           <a class="nav-link icon mb-2 bell-icon" routerLink="/dealer/cart">
+            <span class="badge badge-primary notify-con">
+              {{ unreadReplyCounter }}
+            </span>
             <i class="fa fa-bell text-secondary"></i>
           </a>
         </div>
@@ -422,7 +425,11 @@
             <!-- <a class="dropdown-item" href="#">
               <i class="dropdown-icon mdi mdi-account-outline"></i> My Profile
             </a> -->
-            <a class="dropdown-item" (click)="logout()" style="cursor: pointer">
+            <a
+              class="dropdown-item"
+              (click)="logout()"
+              style="cursor: pointer;"
+            >
               <i class="dropdown-icon mdi mdi-logout-variant"></i>
               Sign out
             </a>
@@ -715,16 +722,18 @@
   </div>
   <div
     class="container-fluid p-0 d-flex align-items-center pt-2 justify-content-between"
-    style="height: 50px; background-color: #14abef"
+    style="height: 50px; background-color: #14abef;"
   >
-    <div class="d-flex align-items-center"><p class="title-dash mb-0">DASHBOARD</p>
+    <div class="d-flex align-items-center">
+      <p class="title-dash mb-0">DASHBOARD</p>
 
-    <p
-      class="greet mb-0 ml-3"
-      style="font-weight: 700; text-transform: capitalize"
-    >
-      Welcome, {{ firstName }} {{ lastName }}
-    </p></div>
+      <p
+        class="greet mb-0 ml-3"
+        style="font-weight: 700; text-transform: capitalize;"
+      >
+        Welcome, {{ firstName }} {{ lastName }}
+      </p>
+    </div>
     <div class="">
       <table
         class="table text-nowrap table-wrapper align-items-center mb-0 timer-table"
@@ -733,16 +742,28 @@
           <tr>
             <td><span class="timer-title">EVENT ENDS IN:</span></td>
             <td>
-              <span class="tbody-text-timer" ><span id="days">0</span> days</span>
+              <span class="tbody-text-timer">
+                <span id="days">0</span>
+                days
+              </span>
             </td>
             <td>
-              <span class="tbody-text-timer"><span  id="hours"> 00</span> hours </span>
+              <span class="tbody-text-timer">
+                <span id="hours">00</span>
+                hours
+              </span>
             </td>
             <td>
-              <span class="tbody-text-timer" ><span id="minutes"> 00</span> minutes </span>
+              <span class="tbody-text-timer">
+                <span id="minutes">00</span>
+                minutes
+              </span>
             </td>
             <td>
-              <span class="tbody-text-timer" ><span id="seconds"> 00 </span>seconds </span>
+              <span class="tbody-text-timer">
+                <span id="seconds">00</span>
+                seconds
+              </span>
             </td>
           </tr>
         </tbody>

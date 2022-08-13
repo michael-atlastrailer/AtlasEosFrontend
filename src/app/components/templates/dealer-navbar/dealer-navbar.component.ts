@@ -66,6 +66,7 @@ export class DealerNavbarComponent implements OnInit {
 
   unreadMsgCount = 0
   dealerData: any
+  unreadReplyCounter = 0
   constructor(
     private router: Router,
     private tokenStorage: TokenStorageService,
@@ -93,6 +94,17 @@ export class DealerNavbarComponent implements OnInit {
   switchToVendor() {
     this.tokenStorage.switchFromDealerToVendor()
     this.router.navigate(['/vendors/dealer-switch'])
+  }
+
+  getUnreadReportProblem() {
+    this.getHttpData
+      .httpGetRequest('/dealer/unread-report-reply/' + this.dealerData.id)
+      .then((result: any) => {
+        if (result.status) {
+          this.unreadReplyCounter = result.data
+        }
+      })
+      .catch((err) => {})
   }
 
   getUnreadMsg() {
