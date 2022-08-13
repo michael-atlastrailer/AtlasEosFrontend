@@ -59,7 +59,7 @@ export class ReportProblemComponent implements OnInit {
           description: desc,
           photo: img,
           user_id: this.token.getUser().id,
-          role: 'dealer',
+          role: '4',
           dealer_id: this.token.getUser().account_id,
         }
         console.log('formdata', sub, desc, typeof img, formData)

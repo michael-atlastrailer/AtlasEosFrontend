@@ -54,9 +54,11 @@ export class DealerNavbarComponent implements OnInit {
     this.getData()
     this.dealerData = this.tokenStorage.getUser()
     this.getUnreadMsg()
+    this.getUnreadReportProblem()
 
     setInterval(() => {
       this.getUnreadMsg()
+      this.getUnreadReportProblem()
     }, 10000)
 
     this.chatService.getNotification().subscribe((data: any) => {

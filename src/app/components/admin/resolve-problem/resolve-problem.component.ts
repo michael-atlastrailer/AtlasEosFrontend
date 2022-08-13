@@ -28,7 +28,7 @@ export class ResolveProblemComponent implements OnInit {
 
   getAllReport() {
     this.postData
-      .httpGetRequest('/get-all-reports')
+      .httpGetRequest('/admin/get-all-reports')
       .then((result: any) => {
         console.log(result)
         this.reportLoader = false
