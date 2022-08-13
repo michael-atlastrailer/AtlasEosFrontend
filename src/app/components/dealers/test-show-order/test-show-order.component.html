@@ -471,16 +471,10 @@
                   <span class="booking-text">
                     {{ element.booking | currency }}
                     <span
-                      class="ticker fa fa-check normal-booking-{{
-                        element.position
-                      }}"
-                      id=""
+                      *ngIf="checkSpecials(element)"
+                      class="ticker fa fa-check normal-booking-{{element.position}}"
                     ></span>
-
-                    <span
-                      id="u-price-{{ element.position }}"
-                      class="u-price-text"
-                    ></span>
+                    <span id="u-price-{{ element.position }}" class="u-price-text"></span>
                   </span>
 
                   <span *ngFor="let spec of element.spec_data; let j = index">
@@ -489,11 +483,15 @@
                       [class.quantity-color]="spec.type == 'special'"
                     >
                       {{ spec.special | currency }}
-                      <span
+                      <!-- <span
                         class="ticker fa fa-check special-booking-{{
                           element.position
                         }}-{{ j }}"
                         id=""
+                      ></span> -->
+                      <span
+                        *ngIf="checkSpecials(element, j)"
+                        class="ticker fa fa-check special-booking-{{element.position}}-{{j}}"
                       ></span>
                       <!-- <span
                         *ngIf="element.qty > element.cond"
@@ -513,7 +511,7 @@
                 >
                   <span
                     #extend
-                    *ngIf="element.price != ''"
+                    *ngIf="element.price !== ''"
                     class="total-text"
                     id="amt-{{ element.position }}"
                   >

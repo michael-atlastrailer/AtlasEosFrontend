@@ -350,7 +350,9 @@
                               data.account_id
                             }}"
                           >
-                            {{ data.dealer.dealer_name }}
+                            {{
+                              data.dealer != null ? data.dealer.dealer_name : ''
+                            }}
                           </a>
                         </td>
                         <td>
