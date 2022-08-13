@@ -182,8 +182,8 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
     }
   }
 
-  ngOnInit(): void { }
-  ngAfterViewInit() { }
+  ngOnInit(): void {}
+  ngAfterViewInit() {}
 
   announceSortChange(sortState: Sort) {
     console.log(sortState, 'testing')
@@ -600,26 +600,32 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
   }
 
   /**
- * Updates the Product with the specified index.
- *
- * @param {number} index The index number position of the product.
- * @param {number} amount The amount calculated as quantity * price.
- * @param {number} price The selected price for product calculation (normal, special, assorted).
- * @param {string|null} spec The is the index point to specify what offer was uses from the spec_data eg: (`0` meaning normal price used) or (`0-1` meaning the 2nd price was used from the spec_data) .
- * @return {any} returns the new value after being assigned.
- */
-  assignSalesValue = (index: number, quantity: number, amount: number, price: number, spec: string | null) => {
+   * Updates the Product with the specified index.
+   *
+   * @param {number} index The index number position of the product.
+   * @param {number} amount The amount calculated as quantity * price.
+   * @param {number} price The selected price for product calculation (normal, special, assorted).
+   * @param {string|null} spec The is the index point to specify what offer was uses from the spec_data eg: (`0` meaning normal price used) or (`0-1` meaning the 2nd price was used from the spec_data) .
+   * @return {any} returns the new value after being assigned.
+   */
+  assignSalesValue = (
+    index: number,
+    quantity: number | string,
+    amount: number,
+    price: number,
+    spec: string | null,
+  ) => {
     // update each unique element
-    this.productData[index].qty = quantity ?? '';
-    this.productData[index].selected_spec = spec;
-    this.productData[index].forCal = amount;
-    this.productData[index].calPrice = amount;
-    this.productData[index].unitPrice = price;
-    this.productData[index].price = this.currencyPipe.transform(amount, '$');
+    this.productData[index].qty = quantity != 0 ? quantity : ''
+    this.productData[index].selected_spec = spec
+    this.productData[index].forCal = amount
+    this.productData[index].calPrice = amount
+    this.productData[index].unitPrice = price
+    this.productData[index].price = this.currencyPipe.transform(amount, '$')
 
-    this.currentProductAmt = amount;
+    this.currentProductAmt = amount
 
-    console.log(this.productData[index]);
+    console.log(this.productData[index])
     return this.productData[index]
   }
 
@@ -630,46 +636,61 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
    * @return {void}.
    */
   updateOtherAssorted = (current: any) => {
-    let totalQuantity = this.getTotalAssortedQuantity(current);
+    let totalQuantity = this.getTotalAssortedQuantity(current)
     this.assortFilter = this.assortFilter.map((ass: any) => {
-      let update_ass = ass;
+      console.log(ass, 'checking asses')
+      // if (ass.qty != '' || ass.qty > 0) {
+      let update_ass = ass
       let price = parseFloat(ass.booking)
-      let calAmt = parseInt(ass.qty) * price;
-      let selected_spec = `${ass.position}`;
+      let calAmt = parseInt(ass.qty) * price
+      let selected_spec = `${ass.position}`
 
       ass.spec_data.map((sp: any, af_index: number) => {
         let curAmt = parseFloat(sp.special)
         if (totalQuantity >= parseInt(sp.cond)) {
-          price = curAmt;
-          calAmt = parseInt(ass.qty) * price;
+          price = curAmt
+          calAmt = parseInt(ass.qty) * price
           selected_spec = `${ass.position}-${af_index}`
         }
       })
 
-      update_ass = this.assignSalesValue(ass.position, ass.qty, calAmt, price, selected_spec)
+      let curQty = ass.qty == 0 ? '' : ass.qty
+
+      if (curQty != '') {
+        update_ass = this.assignSalesValue(
+          ass.position,
+          curQty,
+          calAmt,
+          price,
+          selected_spec,
+        )
+      }
+
       // update record in assortFilter
-      return update_ass;
+      // }
+      return update_ass
     })
   }
 
-
   /**
- * Updates the Product with the specified index.
- *
- * @param {any} current The current product.
- * @return {number} returns total assorted quantity.
- */
+   * Updates the Product with the specified index.
+   *
+   * @param {any} current The current product.
+   * @return {number} returns total assorted quantity.
+   */
   getTotalAssortedQuantity = (current: any) => {
-    let totalQuantity = this.assortFilter.reduce((accumulate: number, af: any) => {
-      // const newQuantity = (current.grouping === af.grouping) ? parseInt(af.qty) : 0;
-      const newQuantity = (current.grouping) ? parseInt(af.qty) : 0;
+    let totalQuantity = this.assortFilter.reduce(
+      (accumulate: number, af: any) => {
+        // const newQuantity = (current.grouping === af.grouping) ? parseInt(af.qty) : 0;
+        const newQuantity = current.grouping ? parseInt(af.qty) : 0
 
-      return accumulate + newQuantity;
-    }, 0)
+        return accumulate + newQuantity
+      },
+      0,
+    )
 
-    return totalQuantity;
+    return totalQuantity
   }
-
 
   /**
    * Updates the Product with the specified index.
@@ -679,22 +700,22 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
    */
   checkSpecials(prc: any, curIndex?: number) {
     // console.log(prc);
-    let check = false;
+    let check = false
     if (prc?.selected_spec) {
       // console.log(prc?.selected_spec);
       if (Number.isInteger(curIndex)) {
-        check = (`${prc.position}-${curIndex}` === prc?.selected_spec)
+        check = `${prc.position}-${curIndex}` === prc?.selected_spec
       } else {
-        check = (`${prc.position}` === prc?.selected_spec)
+        check = `${prc.position}` === prc?.selected_spec
       }
     }
 
-    return check;
+    return check
   }
 
   runCalculation(index: number, quantity: string, event: any, atlas: any) {
     if (event.key != 'Tab') {
-      const qty = quantity.length ? parseInt(quantity) : 0;
+      const qty = quantity.length ? parseInt(quantity) : 0
       let curr = this.productData[index]
       let atlasId = curr.atlas_id
       let spec = curr.spec_data
@@ -703,10 +724,11 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
       if (qty) {
         // calculate default prices
         let price = parseFloat(curr.booking)
-        let calAmt = qty * price;
-        let selected_spec = `${index}`;
+        let calAmt = qty * price
+        let selected_spec = `${index}`
 
-        if (!this.allAddedItemAtlasID.includes(atlasId)) this.allAddedItemAtlasID.push(atlasId)
+        if (!this.allAddedItemAtlasID.includes(atlasId))
+          this.allAddedItemAtlasID.push(atlasId)
 
         // console.log(curr);
         if (spec && spec.length) {
@@ -717,30 +739,39 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
 
             if (sp.type === 'assorted') {
               // add curr product as assorted if has assorted specials
-              const assortIds = this.assortFilter.map((ass: any) => ass.atlas_id);
-              if (!assortIds.includes(curr.atlas_id)) this.assortFilter.push(curr);
+              const assortIds = this.assortFilter.map(
+                (ass: any) => ass.atlas_id,
+              )
+              if (!assortIds.includes(curr.atlas_id))
+                this.assortFilter.push(curr)
               // get total quantity of assorted
 
               let totalQuantity = this.getTotalAssortedQuantity(curr)
               // console.log(totalQuantity, this.assortFilter);
               if (totalQuantity >= cond) {
-                price = curAmt;
-                calAmt = qty * price;
+                price = curAmt
+                calAmt = qty * price
                 selected_spec = `${index}-${af_index}`
 
                 // run update on all assorted product sale value
-                this.updateOtherAssorted(curr);
+                this.updateOtherAssorted(curr)
               }
             } else if (sp.type === 'special') {
               ///////// Special Price ////////
               if (qty >= cond) {
-                price = curAmt;
-                calAmt = qty * price;
+                price = curAmt
+                calAmt = qty * price
                 selected_spec = `${index}-${af_index}`
               }
             }
             // update product sale value
-            curr = this.assignSalesValue(index, qty, calAmt, price, selected_spec)
+            curr = this.assignSalesValue(
+              index,
+              qty,
+              calAmt,
+              price,
+              selected_spec,
+            )
           })
         } else {
           // update product sale value
@@ -750,9 +781,9 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
         // update product sale value
         curr = this.assignSalesValue(index, 0, 0, 0, null)
         // remove current data from assorted products
-        const assortIds = this.assortFilter.map((ass: any) => ass.atlas_id);
+        const assortIds = this.assortFilter.map((ass: any) => ass.atlas_id)
         // run update on all assorted product sale value
-        if (assortIds.includes(curr.atlas_id)) this.updateOtherAssorted(curr);
+        if (assortIds.includes(curr.atlas_id)) this.updateOtherAssorted(curr)
       }
     }
 
@@ -964,8 +995,6 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
       return true
     }
   }
-
-
 }
 
 function compare(a: number | string, b: number | string, isAsc: boolean) {
