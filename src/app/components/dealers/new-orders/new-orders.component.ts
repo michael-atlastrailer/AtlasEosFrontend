@@ -99,18 +99,31 @@ export class NewOrdersComponent implements OnInit {
     let urlPng = 'https://atlastrailer.s3.amazonaws.com/0' + atlas_id + '.png';
     console.log('url', urlPng, urlJpg, atlas_id);
     let url: any;
-
+ var settings = {
+   cache: false,
+   async: true,
+   crossDomain: true,
+   url: urlJpg,
+   method: 'GET',
+   headers: {
+     accept: 'application/json',
+     'Access-Control-Allow-Origin': '*',
+     'Access-Control-Allow-Credentials': true,
+     'Access-Control-Allow-Headers':' x-requested-with'
+   },
+ };
     if (atlas_id == null) {
       this.currentData.isUrlJpg = false;
     } else {
-      return await $.get(urlJpg)
+      return await $.ajax(settings)
         .done(() => {
           this.currentData.isUrlJpg = true;
           console.log('entered png');
 
           this.currentData.url = urlJpg;
         })
-        .fail(() => {
+        .fail((e: any) => {
+          console.log('error jpg', e);
           this.currentData.isUrlJpg = false;
         });
     }
@@ -120,17 +133,31 @@ export class NewOrdersComponent implements OnInit {
     let urlPng = 'https://atlastrailer.s3.amazonaws.com/0' + atlas_id + '.png';
     console.log('url', urlPng, urlJpg, atlas_id);
     let url: any;
+    var settings = {
+      cache: false,
 
+      async: true,
+      crossDomain: true,
+      url: urlPng,
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+        'Access-Control-Allow-Headers': ' x-requested-with',
+      },
+    };
     if (atlas_id == null) {
       this.currentData.isUrlPng = false;
     } else {
-      return await $.get('urlPng')
+      return await $.ajax(settings)
         .done(() => {
           console.log('entered png');
           this.currentData.isUrlPng = true;
           this.currentData.url = urlPng;
         })
-        .fail(() => {
+        .fail((e: any) => {
+          console.log('error png', e);
           this.currentData.isUrlPng = false;
         });
     }
