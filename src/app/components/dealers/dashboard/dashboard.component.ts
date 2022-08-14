@@ -189,19 +189,26 @@ export class DashboardComponent implements OnInit {
         console.log(result);
         if (result.status) {
           let len = result.data.orders.length;
-          let rev = result.data.orders.reverse();
+          let rev = result.data.orders;
           let rev1, rev2, rev3: any;
-          rev1 = rev[0]?.total_price;
-          rev2 = rev[1]?.total_price;
-          rev3 = rev[3]?.total_price;
-          if (rev.length <1) {
-            rev1 = 0;
+         rev1 = 0;
+          rev2 = 0; rev3 = 0;
+         
+           console.log(
+             'res',
+             result.data.dates.indexOf('2022-08-15'),
+             rev[result.data.dates.indexOf('2022-08-14')]?.total_price
+           );
+          if (result.data.dates.indexOf('2022-08-10')!== -1) {
+            rev1 = rev[result.data.dates.indexOf('2022-08-10')]?.total_price;
+            
           }
-          if (rev.length <2) {
-            rev2 = 0;
+          if (result.data.dates.indexOf('2022-08-15') !== -1) {
+           
+             rev2 = rev[result.data.dates.indexOf('2022-08-15')]?.total_price;
           }
-          if (rev.length <3) {
-            rev3 = 0;
+          if (result.data.dates.indexOf('2022-08-16') !== -1) {
+            rev3 = rev[result.data.dates.indexOf('2022-08-16')]?.total_price;
           }
           console.log(
             'reverse table',
@@ -216,7 +223,7 @@ export class DashboardComponent implements OnInit {
             series: [
               {
                 name: 'Sales summary',
-                data: [rev1.toFixed(2), rev2.toFixed(2), , rev3.toFixed(2)],
+                data: [rev1.toFixed(2), rev2.toFixed(2),rev3.toFixed(2)]
               },
             ],
             chart: {

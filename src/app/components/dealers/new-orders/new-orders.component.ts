@@ -6,11 +6,14 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
+import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { HttpRequestsService } from 'src/app/core/services/http-requests.service';
 
+declare var $: any;
+$.support.cors = true;
 export interface PeriodicElement {
   atlas_id: string;
   vendor: string;
@@ -60,16 +63,105 @@ export class NewOrdersComponent implements OnInit {
   ngAfterViewInit() {
     this.dataSrc.paginator = this.paginator;
   }
+
+  sortData(sort: Sort) {
+    const data = this.dataSrc.data.slice();
+    if (!sort.active || sort.direction === '') {
+      this.dataSrc.data = data;
+      return;
+    }
+
+    this.dataSrc.data = data.sort((a: any, b: any) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'atlas_id':
+          return compare(a.atlas_id, b.atlas_id, isAsc);
+
+        default:
+          return 0;
+      }
+    });
+  }
   viewProduct(data: any) {
     console.log(data);
     this.currentData = data;
+    this.isImageJpg('480-23');
+    this.isImagePng('480-23');
 
+    //https://atlastrailer.s3.amazonaws.com/0480-23.jpg
     this.viewSet = true;
   }
   parser(data: any) {
     return JSON.parse(data);
   }
+  async isImageJpg(atlas_id: any) {
+    let urlJpg = 'https://atlastrailer.s3.amazonaws.com/0' + atlas_id + '.jpg';
+    let urlPng = 'https://atlastrailer.s3.amazonaws.com/0' + atlas_id + '.png';
+    console.log('url', urlPng, urlJpg, atlas_id);
+    let url: any;
+ var settings = {
+   cache: false,
+   async: true,
+   crossDomain: true,
+   url: urlJpg,
+   method: 'GET',
+   headers: {
+     accept: 'application/json',
+     'Access-Control-Allow-Origin': '*',
+     'Access-Control-Allow-Credentials': true,
+     'Access-Control-Allow-Headers':' x-requested-with'
+   },
+ };
+    if (atlas_id == null) {
+      this.currentData.isUrlJpg = false;
+    } else {
+      return await $.ajax(settings)
+        .done(() => {
+          this.currentData.isUrlJpg = true;
+          console.log('entered png');
 
+          this.currentData.url = urlJpg;
+        })
+        .fail((e: any) => {
+          console.log('error jpg', e);
+          this.currentData.isUrlJpg = false;
+        });
+    }
+  }
+  async isImagePng(atlas_id: any) {
+    let urlJpg = 'https://atlastrailer.s3.amazonaws.com/0' + atlas_id + '.jpg';
+    let urlPng = 'https://atlastrailer.s3.amazonaws.com/0' + atlas_id + '.png';
+    console.log('url', urlPng, urlJpg, atlas_id);
+    let url: any;
+    var settings = {
+      cache: false,
+
+      async: true,
+      crossDomain: true,
+      url: urlPng,
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+        'Access-Control-Allow-Headers': ' x-requested-with',
+      },
+    };
+    if (atlas_id == null) {
+      this.currentData.isUrlPng = false;
+    } else {
+      return await $.ajax(settings)
+        .done(() => {
+          console.log('entered png');
+          this.currentData.isUrlPng = true;
+          this.currentData.url = urlPng;
+        })
+        .fail((e: any) => {
+          console.log('error png', e);
+          this.currentData.isUrlPng = false;
+        });
+    }
+  }
   getAllVendors() {
     this.getData
       .httpGetRequest('/fetch-vendors-new-products')
@@ -85,7 +177,7 @@ export class NewOrdersComponent implements OnInit {
         this.toastr.info(`Something went wrong`, 'Error');
       });
   }
- 
+
   selectVendor() {
     let id = this.vendor.nativeElement.value;
     console.log('id of prod', id);
@@ -140,4 +232,7 @@ export class NewOrdersComponent implements OnInit {
         });
     }
   }
+}
+function compare(a: number | string, b: number | string, isAsc: boolean) {
+  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }

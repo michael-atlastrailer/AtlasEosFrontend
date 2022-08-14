@@ -93,6 +93,7 @@ export class EditOrderComponent implements OnInit {
         .httpGetRequest('/dealer/delete-item-cart/' + dealerId + '/' + id)
         .then((res: any) => {
           if (res.status) {
+            this.getAllVendorOrders()
             this.toastr.success(res.message)
           } else {
             this.toastr.error('Something went wrong ', `Try again`)
