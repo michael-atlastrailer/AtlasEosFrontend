@@ -94,6 +94,7 @@ export class DealerPurchaserSummaryComponent implements OnInit {
     this.getProducts(this.id.toString());
   }
   getProducts(a: string) {
+    this.id=parseInt(a)
     console.log('a',this.products[a])
     this.tableData = this.products[a];
     this.getTotal(this.tableData)
@@ -101,8 +102,8 @@ export class DealerPurchaserSummaryComponent implements OnInit {
   getTotal(table: any) {
     let total = 0;
     for (var i = 0; i < table.length; i++) {
-console.log('price totla', )
-      total = total+parseFloat(table[0].price);
+console.log('price totla', table[i].price,parseFloat(table[0].price),table.length);
+      total = total+parseFloat(table[i].price);
     }
     this.orderTotal=total
   }
