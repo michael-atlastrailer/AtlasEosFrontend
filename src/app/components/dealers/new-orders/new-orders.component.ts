@@ -76,6 +76,8 @@ export class NewOrdersComponent implements OnInit {
       switch (sort.active) {
         case 'atlas_id':
           return compare(a.atlas_id, b.atlas_id, isAsc);
+        case 'vendor_name':
+          return compare(a.vendor_name, b.vendor_name, isAsc);
 
         default:
           return 0;
@@ -87,7 +89,8 @@ export class NewOrdersComponent implements OnInit {
     this.currentData = data;
     this.isImageJpg('480-23');
     this.isImagePng('480-23');
-
+    this.currentData.isUrlPng = true;
+    this.currentData.isUrlJpg=true
     //https://atlastrailer.s3.amazonaws.com/0480-23.jpg
     this.viewSet = true;
   }
@@ -99,35 +102,42 @@ export class NewOrdersComponent implements OnInit {
     let urlPng = 'https://atlastrailer.s3.amazonaws.com/0' + atlas_id + '.png';
     console.log('url', urlPng, urlJpg, atlas_id);
     let url: any;
- var settings = {
-   cache: false,
-   async: true,
-   crossDomain: true,
-   url: urlJpg,
-   method: 'GET',
-   headers: {
-     accept: 'application/json',
-     'Access-Control-Allow-Origin': '*',
-     'Access-Control-Allow-Credentials': true,
-     'Access-Control-Allow-Headers':' x-requested-with'
-   },
- };
+    
     if (atlas_id == null) {
       this.currentData.isUrlJpg = false;
     } else {
-      return await $.ajax(settings)
-        .done(() => {
-          this.currentData.isUrlJpg = true;
-          console.log('entered png');
+      var img = new Image();
 
-          this.currentData.url = urlJpg;
-        })
-        .fail((e: any) => {
-          console.log('error jpg', e);
-          this.currentData.isUrlJpg = false;
-        });
+      img.onerror = img.onabort = async () => {
+        this.currentData.isUrlJpg = false;
+      };
+      img.onload = async () => {
+        this.currentData.isUrlJpg = true;
+        console.log('entered Jpg');
+
+        this.currentData.url = urlJpg;
+      };
+      img.src = urlPng;
     }
   }
+  getJSON = (url: any, callback: any) => {
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+    console.log('started', xhr.status);
+    xhr.onreadystatechange = () => {
+      let status = xhr.readyState;
+      console.log('statusxml', xhr.readyState, xhr.status);
+      if (status == 4) {
+        callback(null, xhr.response);
+      } else {
+        callback(status);
+      }
+    };
+
+    xhr.send();
+  };
+
   async isImagePng(atlas_id: any) {
     let urlJpg = 'https://atlastrailer.s3.amazonaws.com/0' + atlas_id + '.jpg';
     let urlPng = 'https://atlastrailer.s3.amazonaws.com/0' + atlas_id + '.png';
@@ -147,19 +157,22 @@ export class NewOrdersComponent implements OnInit {
         'Access-Control-Allow-Headers': ' x-requested-with',
       },
     };
+
     if (atlas_id == null) {
       this.currentData.isUrlPng = false;
     } else {
-      return await $.ajax(settings)
-        .done(() => {
-          console.log('entered png');
-          this.currentData.isUrlPng = true;
-          this.currentData.url = urlPng;
-        })
-        .fail((e: any) => {
-          console.log('error png', e);
-          this.currentData.isUrlPng = false;
-        });
+    var img = new Image();
+
+    img.onerror = img.onabort = async () => {
+      this.currentData.isUrlPng = false;
+    };
+    img.onload = async () => {
+      this.currentData.isUrlPng = true;
+      console.log('entered png');
+
+      this.currentData.url = urlPng;
+    };
+    img.src = urlPng;
     }
   }
   getAllVendors() {

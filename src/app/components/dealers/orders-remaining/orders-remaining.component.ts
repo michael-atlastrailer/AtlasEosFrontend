@@ -24,7 +24,9 @@ export class OrdersRemainingComponent implements OnInit {
   displayedColumns: string[] = ['id', 'vendor_name'];
   noData = false;
   dataSrc = new MatTableDataSource<PeriodicElement>();
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  @ViewChild(MatPaginator)
+  paginator!: MatPaginator;
   @ViewChild(MatSort)
   sort!: MatSort;
   constructor(
@@ -39,6 +41,9 @@ export class OrdersRemainingComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  ngAfterViewInit() {
+    this.dataSrc.paginator = this.paginator;
+  }
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
@@ -68,8 +73,7 @@ export class OrdersRemainingComponent implements OnInit {
           this.dataSrc = new MatTableDataSource<PeriodicElement>(
             result.data.order_remaining
           );
-          this.dataSrc.paginator = this.paginator;
-          this.dataSrc.sort = this.sort;
+        this.dataSrc.paginator = this.paginator;
         } else {
           this.toastr.error('Something went wrong', `${result.message}`);
           this.noData = true;
@@ -80,4 +84,27 @@ export class OrdersRemainingComponent implements OnInit {
         this.noData = true;
       });
   }
+  sortData(sort: Sort) {
+    const data = this.dataSrc.data.slice();
+    if (!sort.active || sort.direction === '') {
+      this.dataSrc.data = data;
+      return;
+    }
+
+    this.dataSrc.data = data.sort((a: any, b: any) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'index':
+          return compare(a.index, b.index, isAsc);
+        case 'vendor_name':
+          return compare(a.vendor_name, b.vendor_name, isAsc);
+
+        default:
+          return 0;
+      }
+    });
+  }
+}
+function compare(a: number | string, b: number | string, isAsc: boolean) {
+  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }

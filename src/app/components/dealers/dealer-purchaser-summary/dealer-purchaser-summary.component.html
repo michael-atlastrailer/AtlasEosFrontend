@@ -16,24 +16,18 @@
                       class="search-input form-control px-3"
                       style="display: block"
                       placeholder="Select Vendor.."
-                      #vendorId
+                      #vendorInput
+                      (change)="getProducts(vendorInput?.value!)"
                     >
-                      <option value="all" selected>Select a Vendor..</option>
-                      <option value="all" selected>All vendors</option>
                       <option
+                        [selected]="i == id"
                         class="category-text"
-                        value="{{ vendor.vendor_code }}"
-                        *ngFor="let vendor of vendors"
+                        value="{{ i }}"
+                        *ngFor="let vendor of vendors; let i = index"
                       >
                         {{ vendor.vendor_name }}
                       </option>
                     </select>
-                    <button
-                      class="btn btn-primary ml-3"
-                      (click)="getCartByVendorId(vendorId.value)"
-                    >
-                      <i class="fa fa-search mr-2"></i> Go
-                    </button>
                   </div>
                 </form>
               </div>
@@ -173,139 +167,8 @@
                 </tbody>
               </table>
               <div class="table-view" *ngIf="!loader">
-                <div class="table-ctn mt-3" *ngIf="selectDefault">
-                  <div class="div" *ngFor="let order of newTable">
-                    <h5 class="text-center">{{ order[1][0].vendor_name }}</h5>
-                    <table class="order-form-table w-100 mb-4 table-striped">
-                      <thead>
-                        <th>Qty</th>
-                        <th>Atlas #</th>
-
-                        <th>Vendor #</th>
-                        <th>Description</th>
-                        <th>Special Price ($)</th>
-                        <th>Total ($)</th>
-                      </thead>
-                      <tbody>
-                        <tr *ngFor="let product of order[1]">
-                          <td class="text-center">{{ product.qty }}</td>
-                          <td class="text-center">{{ product.atlas_id }}</td>
-                          <td class="text-center">
-                            {{ product.product_vendor_product_code }}
-                          </td>
-                          <td  class="short-note-con text-center">
-                          
-                              <span class="desc-text d-block">{{
-                                product.product_description!
-                              }}</span>
-                              <span
-                                *ngFor="
-                                  let spec of parser(
-                                    product.product_spec_data!
-                                  );
-                                  let l = index
-                                "
-                              >
-                                <span
-                                  [class.assorted-color]="
-                                    spec.type == 'assorted'
-                                  "
-                                ></span>
-                                <span
-                                  [class.assorted-color]="
-                                    spec.type == 'assorted'
-                                  "
-                                  [class.quantity-color]="
-                                    spec.type == 'special'
-                                  "
-                                >
-                                  {{ spec.desc }}
-                                </span>
-                              </span>
-                          
-                          </td>
-
-                          <td class="text-center">
-                            {{ product.unit_price | currency }}
-                          </td>
-                          <td class="text-center">
-                            {{ product.price | currency }}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td
-                            colspan="5"
-                            style="
-                              text-align: end;
-                              text-transform: uppercase;
-                              font-weight: 700;
-                              color: #437c17;
-                            "
-                          >
-                            Total for {{ order[1][0].vendor_name }}
-                          </td>
-                          <td
-                            style="
-                              text-align: end;
-                              text-transform: uppercase;
-                              font-weight: 700;
-                              color: #437c17;
-                            "
-                          >
-                            {{ order[2] | currency }}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-
-                  <table class="w-100" *ngIf="selectDefault">
-                    <tr>
-                      <td
-                        colspan="2"
-                        style="
-                          text-align: end;
-                          padding: 10px;
-                          text-transform: uppercase;
-                          font-weight: 700;
-                          background-color: #f0f0f0;
-                          border: 0.5px solid #cccaca;
-                        "
-                      >
-                        Grand Total($)
-                      </td>
-                      <td
-                        style="
-                          width: 150px;
-                          padding: 10px;
-                          background-color: #f0f0f0;
-                          border: 0.5px solid #cccaca;
-                          text-align: end;
-                          text-transform: uppercase;
-                          font-weight: 700;
-                        "
-                      >
-                        {{ grandTotal | currency }}
-                      </td>
-                    </tr>
-                  </table>
-                  <div
-                    class="w-100 d-flex justify-content-end mt-4"
-                    *ngIf="selectDefault"
-                  >
-                    <a
-                      *ngIf="account_id"
-                      class="btn btn-primary"
-                      target="_blank"
-                      [href]="'https://atlas-eos-backend-app-k4s5v.ondigitalocean.app/generate-pdf/'+
-                        account_id
-                      +'/'+getLocal('lang')"
-                      ><i class="fa fa-print mr-2"></i> Print/Review</a
-                    >
-                  </div>
-                </div>
                 <div class="table-ctn mt-3" *ngIf="!selectDefault">
-                  <h5 class="text-center">{{ orderTable[0].vendor_name }}</h5>
+                  <h5 class="text-center">{{ vendors[id].vendor_name }}</h5>
                   <table class="order-form-table w-100 mb-4 table-striped">
                     <thead>
                       <th>Qty</th>
@@ -317,11 +180,11 @@
                       <th>Total ($)</th>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let product of orderTable">
+                      <tr *ngFor="let product of tableData">
                         <td class="text-center">{{ product.qty }}</td>
                         <td class="text-center">{{ product.atlas_id }}</td>
                         <td class="text-center">
-                          {{ product.product_vendor_product_code }}
+                          {{ product.vendor_product_code }}
                         </td>
                         <td class="text-center">
                           <p class="text-center">
@@ -346,7 +209,7 @@
                             color: #437c17;
                           "
                         >
-                          Total for {{ orderTable[0]?.vendor_name }}
+                          Total for {{ vendors[id].vendor_name }}
                         </td>
                         <td
                           style="
@@ -361,6 +224,21 @@
                       </tr>
                     </tbody>
                   </table>
+
+                  <div
+                    class="w-100 d-flex justify-content-end mt-4"
+                    *ngIf="selectDefault"
+                  >
+                    <a
+                      class="btn btn-primary"
+                      target="_blank"
+                      [href]="
+                        'https://atlas-eos-backend-app-k4s5v.ondigitalocean.app/generate-pdf/' +
+                        uid
+                      "
+                      ><i class="fa fa-print mr-2"></i> Print/Review</a
+                    >
+                  </div>
                 </div>
               </div>
             </div>

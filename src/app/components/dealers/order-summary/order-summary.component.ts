@@ -149,6 +149,11 @@ export class OrderSummaryComponent implements OnInit {
     }
   }
   parser(data: any) {
+    
     return JSON.parse(data);
   }
+  getLocal(e: any) {
+    return localStorage.getItem(e)
+  }
+
 }

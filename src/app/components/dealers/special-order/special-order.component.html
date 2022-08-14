@@ -69,18 +69,17 @@
                   class="seperate-table w-100 mat-elevation table-striped"
                   mat-table
                   [dataSource]="dataSrc"
-                  matSort
-                  (matSortChange)="announceSortChange($event)"
+                   matSort
+               (matSortChange)="sortData($event)"
                 >
                   <ng-container matColumnDef="id">
                     <th
                       mat-header-cell
                       *matHeaderCellDef
                       style="white-space: nowrap"
-                      mat-sort-header
-                      sortActionDescription="Sort by number"
+
                     >
-                      S/No  <i class="fa fa-sort ml-2"></i>
+                      S/No 
                     </th>
                     <td mat-cell *matCellDef="let element; let i = index">
                       {{ i + 1 }}
@@ -90,8 +89,7 @@
                     <th
                       mat-header-cell
                       *matHeaderCellDef
-                      mat-sort-header
-                      sortActionDescription="Sort by number"
+                      mat-sort-header="quantity"
                     >
                       Qty  <i class="fa fa-sort ml-2"></i>
                     </th>
@@ -112,8 +110,7 @@
                     <th
                       mat-header-cell
                       *matHeaderCellDef
-                      mat-sort-header
-                      sortActionDescription="Sort by number"
+                      mat-sort-header="vendor_no"
                     >
                       Vendor Parts #  <i class="fa fa-sort ml-2"></i>
                     </th>
@@ -124,8 +121,7 @@
                     <th
                       mat-header-cell
                       *matHeaderCellDef
-                      mat-sort-header
-                      sortActionDescription="Sort by number"
+                      mat-sort-header="vendor_name"
                     >
                       Vendor Name  <i class="fa fa-sort ml-2"></i>
                     </th>
@@ -186,11 +182,11 @@
                   <i>No Data Found</i>
                 </p>
                 <mat-paginator
-                  [pageSizeOptions]="[5, 10, 20]"
-                  showFirstLastButtons
-                  aria-label="Select page seminar pages"
-                >
-                </mat-paginator>
+              [pageSizeOptions]="[100, 200, 50, 500, 1000]"
+              showFirstLastButtons
+              aria-label="Select page seminar pages"
+            >
+            </mat-paginator>
               </div>
             </div>
           </div>
