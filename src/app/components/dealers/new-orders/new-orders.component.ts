@@ -12,7 +12,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { HttpRequestsService } from 'src/app/core/services/http-requests.service';
 
-declare var $ :any
+declare var $: any;
+$.support.cors = true;
 export interface PeriodicElement {
   atlas_id: string;
   vendor: string;
@@ -84,40 +85,55 @@ export class NewOrdersComponent implements OnInit {
   viewProduct(data: any) {
     console.log(data);
     this.currentData = data;
+    this.isImageJpg('480-23');
+    this.isImagePng('480-23');
 
+    //https://atlastrailer.s3.amazonaws.com/0480-23.jpg
     this.viewSet = true;
   }
   parser(data: any) {
     return JSON.parse(data);
   }
-  async isImage(atlas_id: any) {
+  async isImageJpg(atlas_id: any) {
     let urlJpg = 'https://atlastrailer.s3.amazonaws.com/0' + atlas_id + '.jpg';
     let urlPng = 'https://atlastrailer.s3.amazonaws.com/0' + atlas_id + '.png';
     console.log('url', urlPng, urlJpg, atlas_id);
-    let url: any
-    
-    if (atlas_id == null) {
-  return false
-    } else {
-       return await $.get(urlJpg)
-         .done(function () {
-           console.log('entered jpg');
+    let url: any;
 
-           return (url = urlJpg);
-         })
-         .fail(async function () {
-           url = false;
-           return await $.get(urlPng)
-             .done(function () {
-               console.log('entered png');
-               return (url = urlPng);
-             })
-             .fail(function () {
-               return (url = false);
-             });
-         });
-}
-     
+    if (atlas_id == null) {
+      this.currentData.isUrlJpg = false;
+    } else {
+      return await $.get(urlJpg)
+        .done(() => {
+          this.currentData.isUrlJpg = true;
+          console.log('entered png');
+
+          this.currentData.url = urlJpg;
+        })
+        .fail(() => {
+          this.currentData.isUrlJpg = false;
+        });
+    }
+  }
+  async isImagePng(atlas_id: any) {
+    let urlJpg = 'https://atlastrailer.s3.amazonaws.com/0' + atlas_id + '.jpg';
+    let urlPng = 'https://atlastrailer.s3.amazonaws.com/0' + atlas_id + '.png';
+    console.log('url', urlPng, urlJpg, atlas_id);
+    let url: any;
+
+    if (atlas_id == null) {
+      this.currentData.isUrlPng = false;
+    } else {
+      return await $.get('urlPng')
+        .done(() => {
+          console.log('entered png');
+          this.currentData.isUrlPng = true;
+          this.currentData.url = urlPng;
+        })
+        .fail(() => {
+          this.currentData.isUrlPng = false;
+        });
+    }
   }
   getAllVendors() {
     this.getData
