@@ -199,8 +199,8 @@ export class DashboardComponent implements OnInit {
              result.data.dates.indexOf('2022-08-15'),
              rev[result.data.dates.indexOf('2022-08-14')]?.total_price
            );
-          if (result.data.dates.indexOf('2022-08-10')!== -1) {
-            rev1 = rev[result.data.dates.indexOf('2022-08-10')]?.total_price;
+          if (result.data.dates.indexOf('2022-08-14')!== -1) {
+            rev1 = rev[result.data.dates.indexOf('2022-08-14')]?.total_price;
             
           }
           if (result.data.dates.indexOf('2022-08-15') !== -1) {
