@@ -403,13 +403,6 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
       if (curQty != '0' && curQty != undefined && curQty != '') {
         let data = this.productData[h]
 
-        // let rawUnit = document.getElementById('u-price-' + h)?.innerText
-        // let unit = rawUnit?.replace(',', '.')
-
-        // let rawPrice = document.getElementById('amt-hidd-' + h)?.innerHTML
-        // // let realPrice = rawPrice?.replace('$', '')
-        // let newPrice = rawPrice?.replace(',', '.')
-
         let cartData = {
           uid: this.userData.id,
           dealer: this.userData.account_id,
@@ -534,13 +527,6 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
       grouping: currentProduct.grouping,
       index: index,
     }
-
-    // let data = {
-    //   atlasId: currentProduct.atlas_id,
-    //   price: currentProduct.calPrice,
-    //   grouping: currentProduct.grouping,
-    //   index: index,
-    // }
 
     if (this.addedItem.length == 0) {
       this.addedItem.push(data)
