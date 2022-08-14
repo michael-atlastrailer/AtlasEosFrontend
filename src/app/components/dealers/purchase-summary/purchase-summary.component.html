@@ -40,7 +40,7 @@
                                   <tr *ngFor="let vendor of order.all_vendors">
                                     
                                     <td class="text-start">
-                                      {{ vendor[3] }}
+                                      <a routerLink="/dealers/purchase-summary/{{order.id}}/{{vendor[0]}}">{{ vendor[3] }}</a>
                                     </td>
                                     
                                     <td    style="

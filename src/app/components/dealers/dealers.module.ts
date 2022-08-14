@@ -43,7 +43,8 @@ import { WatchedSeminarsComponent } from './seminars/watched-seminars/watched-se
 
 import { TestQuickOrderComponent } from './test-quick-order/test-quick-order.component'
 import { DeactivateGuard } from 'src/app/core/guard/deactivate.guard'
-import { MatMenuModule } from '@angular/material/menu'
+import { MatMenuModule } from '@angular/material/menu';
+import { DealerPurchaserSummaryComponent } from './dealer-purchaser-summary/dealer-purchaser-summary.component'
 
 @NgModule({
   declarations: [
@@ -78,6 +79,7 @@ import { MatMenuModule } from '@angular/material/menu'
     WatchedSeminarsComponent,
 
     TestQuickOrderComponent,
+     DealerPurchaserSummaryComponent,
   ],
   imports: [
     CommonModule,
