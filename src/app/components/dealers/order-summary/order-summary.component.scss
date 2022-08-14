@@ -25,6 +25,51 @@ font-size: 20px;}
   color: #054e6e;
 } 
 
+.short-note-con {
+  position: relative;
+}
+.desc-text {
+  display: block;
+  font-weight: bold;
+}
+.special-text {
+  display: block;
+  text-transform: uppercase;
+  font-size: 15px;
+  font-weight: bold;
+  color: red;
+}
+.view-special-text-amt {
+  font-size: 14px;
+  color: red;
+  font-weight: 700;
+  display: inline-block;
+  padding-left: 10px;
+}
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+.view-special-text {
+  font-size: 14px;
+  color: red;
+  font-weight: 700;
+}
+
+.assorted-color {
+  color: green;
+  display: block;
+  text-transform: uppercase;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.quantity-color {
+  display: block;
+  text-transform: uppercase;
+  font-size: 15px;
+  font-weight: bold;
+  color: red;
+}
 .order-form-table {
   td,
   th {

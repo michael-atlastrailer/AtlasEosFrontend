@@ -93,7 +93,7 @@ export class OrderSummaryComponent implements OnInit {
           this.loader = false;
           console.log('dealer id', result?.data);
           this.orderTable = result?.data;
-          this.checkVendorGroup(result.data)
+          this.checkVendorGroup(result.data);
         } else {
           this.loader = false;
 
@@ -106,9 +106,9 @@ export class OrderSummaryComponent implements OnInit {
         this.toastr.info(`Something went wrong`, 'Error');
       });
   }
-  checkVendorGroup(array:any) {
+  checkVendorGroup(array: any) {
     let old = array;
-   
+
     this.newTable = old.reduce((arr: any, obj: any) => {
       const key = obj['vendor'];
       if (!arr[key]) {
@@ -118,7 +118,7 @@ export class OrderSummaryComponent implements OnInit {
       return arr;
     }, {});
     this.newTable = Object.entries(this.newTable);
-     console.log('checking something', old, this.newTable);
+    console.log('checking something', old, this.newTable);
     for (var i = 0; i < this.newTable.length; i++) {
       let total = 0;
       if (this.newTable[i][1].length > 0) {
@@ -147,5 +147,8 @@ export class OrderSummaryComponent implements OnInit {
     } else {
       return (this.orderTotal = 0);
     }
+  }
+  parser(data: any) {
+    return JSON.parse(data);
   }
 }

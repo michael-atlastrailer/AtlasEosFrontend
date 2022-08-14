@@ -193,10 +193,36 @@
                           <td class="text-center">
                             {{ product.product_vendor_product_code }}
                           </td>
-                          <td class="text-center">
-                            <p class="text-center">
-                              {{ product.product_description }}
-                            </p>
+                          <td  class="short-note-con text-center">
+                          
+                              <span class="desc-text d-block">{{
+                                product.product_description!
+                              }}</span>
+                              <span
+                                *ngFor="
+                                  let spec of parser(
+                                    product.product_spec_data!
+                                  );
+                                  let l = index
+                                "
+                              >
+                                <span
+                                  [class.assorted-color]="
+                                    spec.type == 'assorted'
+                                  "
+                                ></span>
+                                <span
+                                  [class.assorted-color]="
+                                    spec.type == 'assorted'
+                                  "
+                                  [class.quantity-color]="
+                                    spec.type == 'special'
+                                  "
+                                >
+                                  {{ spec.desc }}
+                                </span>
+                              </span>
+                          
                           </td>
 
                           <td class="text-center">
@@ -267,7 +293,13 @@
                     class="w-100 d-flex justify-content-end mt-4"
                     *ngIf="selectDefault"
                   >
-                    <a *ngIf="account_id" class="btn btn-primary" target="_blank" href="https://atlas-eos-backend-app-k4s5v.ondigitalocean.app/generate-pdf/{{account_id}}"
+                    <a
+                      *ngIf="account_id"
+                      class="btn btn-primary"
+                      target="_blank"
+                      href="https://atlas-eos-backend-app-k4s5v.ondigitalocean.app/generate-pdf/{{
+                        account_id
+                      }}"
                       ><i class="fa fa-print mr-2"></i> Print/Review</a
                     >
                   </div>
