@@ -14,7 +14,7 @@
                   <div class="input-group">
                     <select
                       class="search-input form-control px-3"
-                      style="display: block"
+                      style="display: block;"
                       placeholder="Select Vendor.."
                       #vendorId
                     >
@@ -32,7 +32,8 @@
                       class="btn btn-primary ml-3"
                       (click)="getCartByVendorId(vendorId.value)"
                     >
-                      <i class="fa fa-search mr-2"></i> Go
+                      <i class="fa fa-search mr-2"></i>
+                      Go
                     </button>
                   </div>
                 </form>
@@ -193,36 +194,26 @@
                           <td class="text-center">
                             {{ product.product_vendor_product_code }}
                           </td>
-                          <td  class="short-note-con text-center">
-                          
-                              <span class="desc-text d-block">{{
-                                product.product_description!
-                              }}</span>
+                          <td class="short-note-con text-center">
+                            <span class="desc-text d-block">
+                              {{ product.product_description! }}
+                            </span>
+                            <span
+                              *ngFor="
+                                let spec of parser(product.product_spec_data!);
+                                let l = index
+                              "
+                            >
                               <span
-                                *ngFor="
-                                  let spec of parser(
-                                    product.product_spec_data!
-                                  );
-                                  let l = index
-                                "
+                                [class.assorted-color]="spec.type == 'assorted'"
+                              ></span>
+                              <span
+                                [class.assorted-color]="spec.type == 'assorted'"
+                                [class.quantity-color]="spec.type == 'special'"
                               >
-                                <span
-                                  [class.assorted-color]="
-                                    spec.type == 'assorted'
-                                  "
-                                ></span>
-                                <span
-                                  [class.assorted-color]="
-                                    spec.type == 'assorted'
-                                  "
-                                  [class.quantity-color]="
-                                    spec.type == 'special'
-                                  "
-                                >
-                                  {{ spec.desc }}
-                                </span>
+                                {{ spec.desc }}
                               </span>
-                          
+                            </span>
                           </td>
 
                           <td class="text-center">
@@ -297,11 +288,16 @@
                       *ngIf="account_id"
                       class="btn btn-primary"
                       target="_blank"
-                      [href]="'https://atlas-eos-backend-app-k4s5v.ondigitalocean.app/generate-pdf/'+
-                        account_id
-                      +'/'+getLocal('lang')"
-                      ><i class="fa fa-print mr-2"></i> Print/Review</a
+                      [href]="
+                        'https://atlas-eos-app-hvw34.ondigitalocean.app/' +
+                        account_id +
+                        '/' +
+                        getLocal('lang')
+                      "
                     >
+                      <i class="fa fa-print mr-2"></i>
+                      Print/Review
+                    </a>
                   </div>
                 </div>
                 <div class="table-ctn mt-3" *ngIf="!selectDefault">
