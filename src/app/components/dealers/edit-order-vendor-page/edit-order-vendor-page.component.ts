@@ -1039,9 +1039,8 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
             }
 
             this.addedItem.push(data)
-
-            this.toastr.success('Item saved successfully', 'Success')
           }
+          this.toastr.success('Item saved successfully', 'Success')
         } else {
           this.toastr.error('Something went wrong', 'Try again')
         }
