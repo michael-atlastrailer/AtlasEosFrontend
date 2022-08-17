@@ -10,6 +10,12 @@
   height: 50px !important;
 }
 
+::ng-deep {
+  .mat-paginator-page-size {
+    display: none !important;
+  }
+}
+
 .filter-wrapper {
   gap: 10px;
   margin-bottom: 20px;
