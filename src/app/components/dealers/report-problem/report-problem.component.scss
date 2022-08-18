@@ -12,7 +12,8 @@
   // background-color: #f6f6f6;
   // border-bottom: .2px solid #a8a8a8;
   font-size: 20px;
-}.spinner-border {
+}
+.spinner-border {
   color: #ffffff;
 }
 .header-search-ctn {
@@ -59,14 +60,25 @@
   // border-radius: 10px;
   overflow: hidden;
   height: 48px;
-  
-  button {font-weight: 700 !important;
-  color:#00547a !important;
-  font-size: 18px !important;
+
+  button {
+    font-weight: 700 !important;
+    color: #00547a !important;
+    font-size: 18px !important;
     text-decoration: none !important;
   }
 }
-.accordion-body{
+.accordion-body {
   font-size: 15px;
   color: #5a5858;
+}
+
+.msg-alert-title {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.btn-alert-wrapper {
+  display: flex;
+  gap: 10px;
 }
