@@ -87,38 +87,43 @@ export class NewOrdersComponent implements OnInit {
   viewProduct(data: any) {
     console.log(data);
     this.currentData = data;
-    this.isImageJpg('480-23');
-    this.isImagePng('480-23');
+    this.isImageJpg(this.currentData.atlas_id);
+    this.isImagePng(this.currentData.atlas_id);
     this.currentData.isUrlPng = true;
-    this.currentData.isUrlJpg=true
+    this.currentData.isUrlJpg = true;
     //https://atlastrailer.s3.amazonaws.com/0480-23.jpg
     this.viewSet = true;
   }
   parser(data: any) {
     return JSON.parse(data);
   }
-  async isImageJpg(atlas_id: any) {
+  isImageJpg(atlas_id: any) {
     let urlJpg = 'https://atlastrailer.s3.amazonaws.com/0' + atlas_id + '.jpg';
     let urlPng = 'https://atlastrailer.s3.amazonaws.com/0' + atlas_id + '.png';
     console.log('url', urlPng, urlJpg, atlas_id);
     let url: any;
-    
-    if (atlas_id == null) {
-      this.currentData.isUrlJpg = false;
-    } else {
-      var img = new Image();
+    this.currentData.isUrlJpg = true;
+    this.currentData.urlJpg = urlJpg;
+    // if (atlas_id == null) {
+    //   this.currentData.isUrlJpg = false;
+    // } else {
+    //   var img = new Image();
 
-      img.onerror = img.onabort = async () => {
-        this.currentData.isUrlJpg = false;
-      };
-      img.onload = async () => {
-        this.currentData.isUrlJpg = true;
-        console.log('entered Jpg');
+    //   img.src = urlPng;
+    //   img.onerror = () => {
+    //      console.log('entered else jpg err');
+    //      this.currentData.isUrlJpg = false;
+    //    };
+    //    img.onabort = () => {
+    //      this.currentData.isUrlJpg = false;
+    //       console.log('entered else jpg abort');
+    //    };
+    //    img.onload = () => {
+    //      this.currentData.isUrlJpg = true;
+    //      console.log('entered Jpg');
 
-        this.currentData.url = urlJpg;
-      };
-      img.src = urlPng;
-    }
+    //    };
+    // }
   }
   getJSON = (url: any, callback: any) => {
     let xhr = new XMLHttpRequest();
@@ -138,42 +143,41 @@ export class NewOrdersComponent implements OnInit {
     xhr.send();
   };
 
-  async isImagePng(atlas_id: any) {
+  isImagePng(atlas_id: any) {
     let urlJpg = 'https://atlastrailer.s3.amazonaws.com/0' + atlas_id + '.jpg';
     let urlPng = 'https://atlastrailer.s3.amazonaws.com/0' + atlas_id + '.png';
     console.log('url', urlPng, urlJpg, atlas_id);
     let url: any;
-    var settings = {
-      cache: false,
+    this.currentData.isUrlPng = false;
+    this.currentData.urlPng = urlPng;
+    // if (atlas_id == null) {
+    //   this.currentData.isUrlPng = false;
+    // } else {
+    //   var img = new Image();
+    //   console.log('entered man them');
 
-      async: true,
-      crossDomain: true,
-      url: urlPng,
-      method: 'GET',
-      headers: {
-        accept: 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Credentials': true,
-        'Access-Control-Allow-Headers': ' x-requested-with',
-      },
-    };
+    //   img.src = urlPng;
+    //   img.onerror = () => {
+    //     this.currentData.isUrlPng = false;
+    //     console.log('entered else png err');
+    //   };
+    //   img.onabort = () => {
+    //     this.currentData.isUrlPng = false;
+    //     console.log('entered else png abort');
+    //   };
+    //   img.onload = () => {
+    //     this.currentData.isUrlPng = true;
+    //     console.log('entered png');
 
-    if (atlas_id == null) {
-      this.currentData.isUrlPng = false;
-    } else {
-    var img = new Image();
-
-    img.onerror = img.onabort = async () => {
-      this.currentData.isUrlPng = false;
-    };
-    img.onload = async () => {
-      this.currentData.isUrlPng = true;
-      console.log('entered png');
-
-      this.currentData.url = urlPng;
-    };
-    img.src = urlPng;
-    }
+    //     this.currentData.url = urlPng;
+    //   };
+    // }
+  }
+  jpgErr() {
+    this.currentData.isUrlJpg = false;
+  }
+  pngErr() {
+    this.currentData.isUrlPng = false;
   }
   getAllVendors() {
     this.getData
