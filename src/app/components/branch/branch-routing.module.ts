@@ -31,15 +31,20 @@ const routes: Routes = [
         component: DetailedSummaryComponent,
       },
       {
+        path: 'detail-dealer-summary/:account_id',
+        component: DetailedSummaryComponent,
+      },
+      {
         path: 'my-messages',
         component: MyMessagesComponent,
-      },{
+      },
+      {
         path: 'vendor-form',
         component: VendorOrderFormComponent,
       },
     ],
   },
-]
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

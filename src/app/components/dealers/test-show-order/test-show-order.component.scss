@@ -26,36 +26,37 @@
 .mat-menu {
   border: 1px solid #009ae0;
 }
-.scrollbar-fix::-webkit-scrollbar-button {
-  display: block !important;
-  background-color: rgb(191, 186, 186);
-  background-repeat: no-repeat;
-  height: 7px;
-  background-size: 50%;
-  background-position: center;
+
+// .scrollbar-fix::-webkit-scrollbar-button {
+//   display: block !important;
+//   background-color: rgb(191, 186, 186);
+//   background-repeat: no-repeat;
+//   height: 7px;
+//   background-size: 50%;
+//   background-position: center;
   
-}
-.scrollbar-fix::-webkit-scrollbar-thumb{
-  background-color: #00547a;
-}
-.scrollbar-fix::-webkit-scrollbar-track{
-   background-color: rgba(204, 199, 199, 0.428);
-}
-.scrollbar-fix::-webkit-scrollbar-button:vertical:start:increment {
-  background-image: url("https://upload.wikimedia.org/wikipedia/commons/7/7e/Chevron-up.svg");
-}
+// }
+// .scrollbar-fix::-webkit-scrollbar-thumb{
+//   background-color: #00547a;
+// }
+// .scrollbar-fix::-webkit-scrollbar-track{
+//    background-color: rgba(204, 199, 199, 0.428);
+// }
+// .scrollbar-fix::-webkit-scrollbar-button:vertical:start:increment {
+//   background-image: url("https://upload.wikimedia.org/wikipedia/commons/7/7e/Chevron-up.svg");
+// }
 
-.scrollbar-fix::-webkit-scrollbar-button:vertical:start:decrement {
-  display: none;
-}
+// .scrollbar-fix::-webkit-scrollbar-button:vertical:start:decrement {
+//   display: none;
+// }
 
-.scrollbar-fix::-webkit-scrollbar-button:vertical:end:increment {
-  display: none;
-}
+// .scrollbar-fix::-webkit-scrollbar-button:vertical:end:increment {
+//   display: none;
+// }
 
-.scrollbar-fix::-webkit-scrollbar-button:vertical:end:decrement {
-  background-image: url("https://upload.wikimedia.org/wikipedia/commons/e/ee/Chevron-down.svg");
-}
+// .scrollbar-fix::-webkit-scrollbar-button:vertical:end:decrement {
+//   background-image: url("https://upload.wikimedia.org/wikipedia/commons/e/ee/Chevron-down.svg");
+// }
 
 .dropdown-section {
   background-color: #ffffff;

@@ -11,6 +11,7 @@
             <div class="card-header">
               <div class="select-filter w-100">
                 <div class="select-wrapper">
+               
                   <select
                     name=""
                     #selectToggle
@@ -19,11 +20,11 @@
                     (change)="getDealerOrders(selectToggle.value)"
                   >
                     <option value="none">select a dealer</option>
-                    <option
+                    <option [selected]="data.acccount_id !==selectedId"
                       value="{{ data.account_id }}"
                       *ngFor="let data of allVendor"
                     >
-                      {{ data.dealer_name }}
+                      {{ data.purchaser_name }}
                     </option>
                   </select>
                 </div>

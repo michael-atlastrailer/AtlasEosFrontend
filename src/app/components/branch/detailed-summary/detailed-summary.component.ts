@@ -5,6 +5,7 @@ import { MatPaginator } from '@angular/material/paginator'
 import { MatTableDataSource } from '@angular/material/table'
 import Swal from 'sweetalert2'
 import { TokenStorageService } from 'src/app/core/services/token-storage.service'
+import { ActivatedRoute } from '@angular/router'
 
 declare var $: any
 
@@ -43,14 +44,25 @@ export class DetailedSummaryComponent implements OnInit {
     'special',
     'total',
   ];
-
+selectedId:any
   constructor(
     private postData: HttpRequestsService,
     private toastr: ToastrService,
-    private token: TokenStorageService
-  ) {this.getVendors()}
+    private token: TokenStorageService,
+    private route: ActivatedRoute
+  ) {
+    this.getVendors();
+    this.route.params.subscribe((params) => {
+    
+      let accnt = params['account_id']
+      if (accnt) {
+        this.selectedId=accnt
+        this.getDealerOrders(accnt)
+      }
+    })
+  }
   ngOnInit(): void {
-    throw new Error('Method not implemented.')
+    throw new Error('Method not implemented.');
   }
 
   getVendors() {
@@ -67,7 +79,7 @@ export class DetailedSummaryComponent implements OnInit {
         }
       })
       .catch((err) => {
-        // this.toastr.error('Try again', 'Something went wrong')
+   this.toastr.error('Try again', 'Something went wrong')
       });
   }
 

@@ -5,6 +5,7 @@ import { DealerSummaryComponent } from './dealer-summary/dealer-summary.componen
 import { DetailedSummaryComponent } from './detailed-summary/detailed-summary.component';
 import { MyMessagesComponent } from './my-messages/my-messages.component';
 import { InsideSalesComponent } from './inside-sales.component'
+import { VendorOrderFormComponent } from './vendor-order-form/vendor-order-form.component';
 
 const routes: Routes = [
   {
@@ -22,10 +23,21 @@ const routes: Routes = [
         component: DashboardComponent,
       },
       {
-        path: 'vendor-form',
+        path: 'dealer-summary',
         component: DealerSummaryComponent,
       },
-      
+      {
+        path: 'detailed-dealer-summary',
+        component: DetailedSummaryComponent,
+      },
+      {
+        path: 'detailed-dealer-summary/:account_id',
+        component: DetailedSummaryComponent,
+      },
+      {
+        path: 'vendor-form',
+        component: VendorOrderFormComponent,
+      },
       {
         path: 'my-messages',
         component: MyMessagesComponent,
