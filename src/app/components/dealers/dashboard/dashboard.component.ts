@@ -14,6 +14,10 @@ import {
   ApexChart,
   ApexXAxis,
   ApexTitleSubtitle,
+  ApexDataLabels,
+  ApexFill,
+  ApexPlotOptions,
+  ApexYAxis,
 } from 'ng-apexcharts';
 import { HttpRequestsService } from 'src/app/core/services/http-requests.service';
 import { TokenStorageService } from 'src/app/core/services/token-storage.service';
@@ -22,7 +26,11 @@ export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
   xaxis: ApexXAxis;
+  dataLabels: ApexDataLabels;
+  plotOptions: ApexPlotOptions;
+  fill: ApexFill;
   title: ApexTitleSubtitle;
+  yaxis: ApexYAxis;
 };
 declare var $: any;
 @Component({
@@ -36,7 +44,8 @@ export class DashboardComponent implements OnInit {
   promotionalStatus = false;
   promotionalAds: any;
   allCategoryData: any;
-  public chartOptions: any;
+  
+  public chartOptions: Partial<ChartOptions>;
   countDownDate = new Date('June 25, 2022 15:37:25').getTime();
   count: any = 34;
   countDownElement = <HTMLInputElement>(
@@ -100,10 +109,16 @@ export class DashboardComponent implements OnInit {
         height: 350,
         type: 'bar',
       },
+      dataLabels: {
+        enabled: true,
+        enabledOnSeries: undefined,
+        formatter: function (value: any) {
+          return '$' + value.toFixed(2);
+        },
+      },
       title: {
         text: '',
       },
-      colors: {},
       xaxis: {
         categories: ['Day 1', 'Day 2', 'Day 3'],
       },
@@ -193,25 +208,22 @@ export class DashboardComponent implements OnInit {
           rev1 = 0;
           rev2 = 0;
           rev3 = 0;
-          let ron = result.data.dates.indexOf('2022-08-17');
+          let ron = result.data.dates.indexOf('2022-08-18');
 
           console.log(
             'res',
             ron,
-            typeof ron,
-            rev[result.data.dates.indexOf('2022-08-17')]?.total_price * 1.0
+            result.data.dates.indexOf('2022-08-18') !== -1,
+            rev[result.data.dates.indexOf('2022-08-18')]?.total_price
           );
           if (result.data.dates.indexOf('2022-08-17') !== -1) {
-            rev1 =
-              rev[result.data.dates.indexOf('2022-08-17')]?.total_price * 1.0;
+            rev1 = rev[result.data.dates.indexOf('2022-08-17')]?.total_price;
           }
           if (result.data.dates.indexOf('2022-08-18') !== -1) {
-            rev2 =
-              rev[result.data.dates.indexOf('2022-08-19')]?.total_price * 1.0;
+            rev2 = rev[result.data.dates.indexOf('2022-08-18')]?.total_price;
           }
           if (result.data.dates.indexOf('2022-08-19') !== -1) {
-            rev3 =
-              rev[result.data.dates.indexOf('2022-08-19')]?.total_price * 1.0;
+            rev3 = rev[result.data.dates.indexOf('2022-08-19')]?.total_price;
           }
           console.log(
             'reverse table',
@@ -229,6 +241,13 @@ export class DashboardComponent implements OnInit {
                 data: [rev1.toFixed(2), rev2.toFixed(2), rev3.toFixed(2)],
               },
             ],
+            yaxis: {
+              labels: {
+                formatter: function (value: any) {
+                  return '$' + value.toFixed(2);
+                },
+              },
+            },
             chart: {
               height: 350,
               type: 'bar',
@@ -240,25 +259,15 @@ export class DashboardComponent implements OnInit {
                 return '$' + value.toFixed(2);
               },
             },
-
             title: {
               text: '',
             },
-            colors: {},
             xaxis: {
               tooltip: {
                 enabled: true,
                 offsetY: -35,
               },
               categories: ['Day 1', 'Day 2', 'Day 3'],
-            },
-
-            yaxis: {
-              labels: {
-                formatter: function (value: any) {
-                  return '$' + value.toFixed(2);
-                },
-              },
             },
           };
         } else {
