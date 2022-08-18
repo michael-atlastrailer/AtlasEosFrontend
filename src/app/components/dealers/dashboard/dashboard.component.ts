@@ -78,8 +78,7 @@ export class DashboardComponent implements OnInit {
   newProduct = 0;
   defaultFlyer = 'top';
   pdfDefault = {
-    pdf_url:
-      'https://atlas-eos-backend-app-k4s5v.ondigitalocean.app/storage/pdf/default_banner_1660041352.pdf',
+    pdf_url: 'https://atlasdoc.urge2k.com/XtraAir.pdf',
     description: 'Atlas',
   };
   constructor(
@@ -191,29 +190,33 @@ export class DashboardComponent implements OnInit {
           let len = result.data.orders.length;
           let rev = result.data.orders;
           let rev1, rev2, rev3: any;
-         rev1 = 0;
-          rev2 = 0; rev3 = 0;
-         
-           console.log(
-             'res',
-             result.data.dates.indexOf('2022-08-15'),
-             rev[result.data.dates.indexOf('2022-08-14')]?.total_price
-           );
-          if (result.data.dates.indexOf('2022-08-14')!== -1) {
-            rev1 = rev[result.data.dates.indexOf('2022-08-14')]?.total_price;
-            
+          rev1 = 0;
+          rev2 = 0;
+          rev3 = 0;
+          let ron = result.data.dates.indexOf('2022-08-17');
+
+          console.log(
+            'res',
+            ron,
+            typeof ron,
+            rev[result.data.dates.indexOf('2022-08-17')]?.total_price * 1.0
+          );
+          if (result.data.dates.indexOf('2022-08-17') !== -1) {
+            rev1 =
+              rev[result.data.dates.indexOf('2022-08-17')]?.total_price * 1.0;
           }
-          if (result.data.dates.indexOf('2022-08-15') !== -1) {
-           
-             rev2 = rev[result.data.dates.indexOf('2022-08-15')]?.total_price;
+          if (result.data.dates.indexOf('2022-08-18') !== -1) {
+            rev2 =
+              rev[result.data.dates.indexOf('2022-08-19')]?.total_price * 1.0;
           }
-          if (result.data.dates.indexOf('2022-08-16') !== -1) {
-            rev3 = rev[result.data.dates.indexOf('2022-08-16')]?.total_price;
+          if (result.data.dates.indexOf('2022-08-19') !== -1) {
+            rev3 =
+              rev[result.data.dates.indexOf('2022-08-19')]?.total_price * 1.0;
           }
           console.log(
             'reverse table',
             rev,
-            
+
             rev1,
             rev2,
             rev3
@@ -230,31 +233,32 @@ export class DashboardComponent implements OnInit {
               height: 350,
               type: 'bar',
             },
+            dataLabels: {
+              enabled: true,
+              enabledOnSeries: undefined,
+              formatter: function (value: any) {
+                return '$' + value.toFixed(2);
+              },
+            },
+
             title: {
               text: '',
             },
             colors: {},
             xaxis: {
+              tooltip: {
+                enabled: true,
+                offsetY: -35,
+              },
               categories: ['Day 1', 'Day 2', 'Day 3'],
             },
+
             yaxis: {
               labels: {
-                formatter: function (value:any) {
-                  return  '$'+value ;
+                formatter: function (value: any) {
+                  return '$' + value.toFixed(2);
                 },
               },
-              //  categories: [
-              //    '0',
-              //    '5000',
-              //    '10000',
-              //    '15000',
-              //    '20000',
-              //    '25000',
-              //    '30000',
-              //    '35000',
-              //    '40000',
-              //    '45000',
-              //  ],
             },
           };
         } else {

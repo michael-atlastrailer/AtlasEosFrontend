@@ -5,6 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import Swal from 'sweetalert2';
 import { TokenStorageService } from 'src/app/core/services/token-storage.service';
+import { ActivatedRoute } from '@angular/router';
 
 declare var $: any;
 
@@ -48,15 +49,24 @@ export class DetailedSummaryComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
 
-  ngOnInit(): void {
-   
-  }
+  ngOnInit(): void {}
 
+  selectedId: any;
   constructor(
     private postData: HttpRequestsService,
     private toastr: ToastrService,
-    private token: TokenStorageService
-  ) {}
+    private token: TokenStorageService,
+    private route: ActivatedRoute
+  ) {
+    this.getVendors();
+    this.route.params.subscribe((params) => {
+      let accnt = params['account_id'];
+      if (accnt) {
+        this.selectedId = accnt;
+        this.getDealerOrders(accnt);
+      }
+    });
+  }
 
   getVendors() {
     let id = this.token.getUser().id;
@@ -79,7 +89,7 @@ export class DetailedSummaryComponent implements OnInit {
   getDealerOrders(id: string) {
     this.loader = true;
     this.tableView = false;
-    this.noData = false
+    this.noData = false;
     // let id = '1021-11';
     if (id == 'none') {
       this.showTotal = 0;
@@ -109,11 +119,13 @@ export class DetailedSummaryComponent implements OnInit {
               this.tableView = false;
             }
           } else {
-            this.noData = true;this.loader = false;
+            this.noData = true;
+            this.loader = false;
             // this.toastr.error(result.message, 'Try again')
           }
         })
-        .catch((err) => {this.loader = false;
+        .catch((err) => {
+          this.loader = false;
           this.noData = true;
           // this.toastr.error('Try again', 'Something went wrong')
         });
