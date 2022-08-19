@@ -260,6 +260,14 @@
                             ></i>
                             WATCH
                           </a>
+                           <a
+                            class="btn btn-warning"
+                           disabled
+                            
+                            *ngIf="element.status == 3 && element.completed_seminar_link ==null"
+                          >
+                            LOADING
+                          </a>
                           <a
                             class="btn btn-success"
                             href="{{ element.link }}"
