@@ -432,43 +432,38 @@
                         </div>
                       </div>
 
-                      <!-- <div class="col-md-6">
-                          <div class="form-group mb-3">
-                            <label for="">Dealer</label>
-                            <select
-                              type="text"
-                              name="dealer"
-                              class="input-value shadow-sm"
-                              placeholder="Dealer"
-                              required
-                              formControlName="dealer"
-                            >
-                              <option value="">
-                                Dealer..
-                              </option>
-                              <option value="active">Revent</option>
-                              <option value="active">Aladdin</option>
-                            </select>
-  
-                            <div
-                              class="input-alert-box"
-                              *ngIf="
-                                vendorUserFormControls.dealer.invalid &&
-                                manualChecker
-                              "
-                            >
-                              <div>
-                                <span class="alert-input-msg">
-                                  {{ getErrorMessage('dealer') }}
-                                </span>
-                                <span
-                                  class="fa fa-exclamation-triangle alert-input-icon"
-                                  style="float: right;"
-                                ></span>
-                              </div>
+                      <div class="col-md-6">
+                        <div class="form-group mb-3">
+                          <label for="">Location</label>
+
+                          <input
+                            type="text"
+                            name="location"
+                            class="input-value shadow-sm"
+                            placeholder="Location...."
+                            required
+                            formControlName="location"
+                            value=""
+                          />
+                          <div
+                            class="input-alert-box"
+                            *ngIf="
+                              vendorUserFormControls.location.invalid &&
+                              manualChecker
+                            "
+                          >
+                            <div>
+                              <span class="alert-input-msg">
+                                {{ getErrorMessage('location') }}
+                              </span>
+                              <span
+                                class="fa fa-exclamation-triangle alert-input-icon"
+                                style="float: right;"
+                              ></span>
                             </div>
                           </div>
-                        </div> -->
+                        </div>
+                      </div>
 
                       <div class="col-md-6">
                         <div class="form-group mb-3">
