@@ -238,13 +238,13 @@ export class DashboardComponent implements OnInit {
             series: [
               {
                 name: 'Sales summary',
-                data: [rev1.toFixed(2), rev2.toFixed(2), rev3.toFixed(2)],
+                data: [rev1.toFixed(0), rev2.toFixed(0), rev3.toFixed(0)],
               },
             ],
             yaxis: {
               labels: {
                 formatter: function (value: any) {
-                  return '$' + value.toFixed(2);
+                  return '$' + value.toFixed(0);
                 },
               },
             },

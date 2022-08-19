@@ -35,7 +35,7 @@
         routerLinkActive="active-link"
       >
         <span class="fa fas fa-list-alt navbar-icons"></span>
-        <span class="side-menu__label">Purchases by Dealer (Sumary)</span>
+        <span class="side-menu__label">Purchases by Dealer (Summary)</span>
       </a>
     </li>
     <li class="slide" (click)="closeOverLay()">
@@ -119,8 +119,8 @@
             <h6 class="nav-sub-text-title">User ID: {{ adminData?.email }}</h6>
           </div>
 
-          <div id="nav-collapse" class="collapse">
-            <p>
+         <div id="nav-collapse" class="collapse">
+            <p (click)="logout()" style="cursor: pointer;">
               <span class="fa fas fa-power-off"></span>
               Logout
             </p>
