@@ -34,8 +34,8 @@ export class DealerSummaryComponent implements OnInit {
 
   displayedColumns: string[] = [
     'account_id',
-    'purchaser_name',
-    'amount',
+    'full_name',
+    'total_price',
     'last_login',
   ];
 
@@ -63,10 +63,10 @@ export class DealerSummaryComponent implements OnInit {
       switch (sort.active) {
         case 'account_id':
           return compare(a.account_id, b.account_id, isAsc);
-        case 'amount':
-          return compare(a.amount, b.amount, isAsc);
-        case 'purchaser_name':
-          return compare(a.purchaser_name, b.purchaser_name, isAsc);
+        case 'total_price':
+          return compare(a.total_price, b.total_price, isAsc);
+        case 'full_name':
+          return compare(a.full_name, b.full_name, isAsc);
 
         default:
           return 0;

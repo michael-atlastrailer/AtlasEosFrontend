@@ -68,7 +68,7 @@ export class DashboardComponent implements OnInit {
     };
   }
   getDashboardData() {
-    let accntId = this.token.getUser().account_id;
+    let accntId = this.token.getUser().id;
     this.getData
       .httpGetRequest('/sales-rep/dashboard-analysis/' + accntId)
       .then((result: any) => {
