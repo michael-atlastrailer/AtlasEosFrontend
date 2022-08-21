@@ -128,14 +128,16 @@ export class EditSeminarComponent implements OnInit {
 
   submit() {
     this.seminarForm.value.seminar_id = this.currentSeminarData.id
+
     this.seminarForm.value.start_time =
       this.seminarForm.value.start_time == ''
         ? this.currentSeminarData.start_time
-        : this.seminarForm.value.start_time
+        : this.selectedStartTime
+
     this.seminarForm.value.stop_time =
       this.seminarForm.value.stop_time == ''
         ? this.currentSeminarData.stop_time
-        : this.seminarForm.value.stop_time
+        : this.selectedEndTime
 
     /// console.log(this.seminarForm.value)
 
