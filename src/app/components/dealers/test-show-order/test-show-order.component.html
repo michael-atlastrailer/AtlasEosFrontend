@@ -556,7 +556,7 @@
               <tr
                 mat-row
                 *matRowDef="let row; columns: displayedColumns; let i = index"
-                [class.highlighted]="i == 0 && isMod"
+                [class.highlighted]="i == highlightIndex! && isMod"
               ></tr>
               <tr>
                 <td
