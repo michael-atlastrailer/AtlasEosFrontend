@@ -418,7 +418,7 @@
                   data-toggle="modal"
                   class="clickable"
                   data-target="#exampleModal"
-                ><span class="new" *ngIf='element?.is_new!'></span>
+                ><span class="new" *ngIf='element?.check_new!'></span>
                   {{ element.atlas_id! }}
                 </td>
               </ng-container>
@@ -556,7 +556,7 @@
               <tr
                 mat-row
                 *matRowDef="let row; columns: displayedColumns; let i = index"
-                [class.highlighted]="i == 0 && isMod"
+                [class.highlighted]="i == highlightIndex! && isMod"
               ></tr>
               <tr>
                 <td

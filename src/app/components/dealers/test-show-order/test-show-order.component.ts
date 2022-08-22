@@ -144,7 +144,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
   // sort!: MatSort
 
   sortedData!: PeriodicElement[]
-
+highlightIndex = null
   setVendor = false
   currentData: any
   constructor(
@@ -836,17 +836,12 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
     if (this.searchatlasId == '###') {
       newArray = array
     } else {
-      this.isMod = true
-      let prodigal = array.filter((item: any) => {
-        return item.atlas_id == this.searchatlasId!
-      })
-      newArray = array.filter((item: any) => {
-        return item.atlas_id !== this.searchatlasId!
-      })
-
-      newArray.unshift(prodigal[0])
+      this.isMod = true 
+       this.highlightIndex=array.findIndex((item:any) => {
+       return item.atlas_id == this.searchatlasId!
+     })
     }
-    return newArray
+    return array
   }
 
   getCart() {

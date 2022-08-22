@@ -19,7 +19,19 @@
             <div class="card-body">
               <div class="row justify-content-center">
                 <div class="col-md-9">
-                  <div class="table-ctn mt-3">
+                  <div class="table-ctn mt-3"> <div class="w-100 d-flex justify-content-end">
+                      <mat-form-field>
+                        <input
+                          matInput
+                          (keyup)="applyFilter(input.value)"
+                          type="text"
+                          placeholder="search.."
+                          class="table-search form-control"
+                          style="height: 23px"
+                          #input
+                        />
+                      </mat-form-field>
+                    </div> 
                     <table class="table" *ngIf="loader">
                       <thead>
                         <tr>
@@ -96,19 +108,7 @@
                         </tr>
                       </tbody>
                     </table>
-                    <div class="w-100 d-flex justify-content-end">
-                      <mat-form-field>
-                        <input
-                          matInput
-                          (keyup)="applyFilter(input.value)"
-                          type="text"
-                          placeholder="search.."
-                          class="table-search form-control"
-                          style="height: 23px"
-                          #input
-                        />
-                      </mat-form-field>
-                    </div>  
+                    
                     <table
                       *ngIf="!loader"
                       class="order-form-table w-100 mat-elevation table-striped"
