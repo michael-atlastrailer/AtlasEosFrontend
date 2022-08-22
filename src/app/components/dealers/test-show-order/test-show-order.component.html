@@ -344,6 +344,18 @@
                 <span class="desc-text">Total: {{ overTotal | currency }}</span>
               </div>
             </div>
+            <div class="d-flex justify-content-end">
+              <div>
+                <input
+                  (keyup)="atlasIdFilter($event)"
+                  placeholder="Search columns"
+                  #input
+                  type="text"
+                  placeholder="Search...."
+                  class="table-search"
+                />
+              </div>
+            </div>
             <table
               *ngIf="tableView"
               class="order-form-table w-100 mat-elevation table-striped"
@@ -402,27 +414,31 @@
                   *matCellDef="let element"
                   title="click to view product info"
                   (click)="viewProduct(element)"
-
-                  style="cursor: pointer"
-                  data-toggle="modal" class="clickable"
-                  data-target="#exampleModal">
+                  style="cursor: pointer;"
+                  data-toggle="modal"
+                  class="clickable"
+                  data-target="#exampleModal"
+                >
                   {{ element.atlas_id! }}
                 </td>
               </ng-container>
-              <ng-container matColumnDef="vendor" >
+              <ng-container matColumnDef="vendor">
                 <th
                   mat-header-cell
-                  *matHeaderCellDef 
-                  mat-sort-header class="mx-auto"
+                  *matHeaderCellDef
+                  mat-sort-header
+                  class="mx-auto"
                   sortActionDescription="Sort by name"
                 >
-
                   Vendor #
                   <!-- <i class="fa fa-sort ml-2"></i> -->
                 </th>
- dealer-dealer
-                <td mat-cell *matCellDef="let element" title="click to view product info" class="clickable"
-
+                dealer-dealer
+                <td
+                  mat-cell
+                  *matCellDef="let element"
+                  title="click to view product info"
+                  class="clickable"
                   (click)="viewProduct(element)"
                   style="cursor: pointer;"
                   data-toggle="modal"
@@ -472,9 +488,14 @@
                     {{ element.booking | currency }}
                     <span
                       *ngIf="checkSpecials(element)"
-                      class="ticker fa fa-check normal-booking-{{element.position}}"
+                      class="ticker fa fa-check normal-booking-{{
+                        element.position
+                      }}"
                     ></span>
-                    <span id="u-price-{{ element.position }}" class="u-price-text"></span>
+                    <span
+                      id="u-price-{{ element.position }}"
+                      class="u-price-text"
+                    ></span>
                   </span>
 
                   <span *ngFor="let spec of element.spec_data; let j = index">
@@ -491,7 +512,9 @@
                       ></span> -->
                       <span
                         *ngIf="checkSpecials(element, j)"
-                        class="ticker fa fa-check special-booking-{{element.position}}-{{j}}"
+                        class="ticker fa fa-check special-booking-{{
+                          element.position
+                        }}-{{ j }}"
                       ></span>
                       <!-- <span
                         *ngIf="element.qty > element.cond"

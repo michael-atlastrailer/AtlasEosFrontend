@@ -132,6 +132,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
   itemAlreadySubmitted: any = ''
   itemNewlySubmitted = 0
   showSubmittedDetails = false
+  incomingData: any
 
   //// End of old  code ///////
   alreadyOrder = false
@@ -229,6 +230,21 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
     // this.viewSet = true;
   }
 
+  atlasIdFilter(event: any) {
+    const filterValue = (event.target as HTMLInputElement).value
+    if (this.incomingData) {
+      this.incomingData.atlas_id = filterValue.trim().toLowerCase()
+      this.dataSrc = this.atlasFilterValue('*' + filterValue)
+    }
+  }
+
+  atlasFilterValue(expression: string) {
+    var regex = this.convertWildcardStringToRegExp(expression)
+    return this.incomingData.filter(function (item: any) {
+      return regex.test(item.atlas_id)
+    })
+  }
+
   applyFilter(event: any) {
     const filterValue = (event.target as HTMLInputElement).value
     this.incomingVendorData.vendor_name = filterValue.trim().toLowerCase()
@@ -313,6 +329,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
 
           if (result.status) {
             let productRes = result.data
+            this.incomingData = result.data
 
             for (let h = 0; h < result.data.length; h++) {
               const each = result.data[h]
@@ -858,6 +875,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
 
           if (this.searchatlasId) {
             let productRes = this.filterTop(result.data)
+            this.incomingData = result.data
 
             for (let h = 0; h < productRes.length; h++) {
               const each = productRes[h]

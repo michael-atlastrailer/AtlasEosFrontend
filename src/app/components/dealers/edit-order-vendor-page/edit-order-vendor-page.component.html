@@ -49,6 +49,19 @@
               </div>
             </div>
 
+            <div class="d-flex justify-content-end">
+              <div>
+                <input
+                  (keyup)="atlasIdFilter($event)"
+                  placeholder="Search columns"
+                  #input
+                  type="text"
+                  placeholder="Search...."
+                  class="table-search"
+                />
+              </div>
+            </div>
+
             <table class="table" *ngIf="loader">
               <thead>
                 <tr>
@@ -217,10 +230,10 @@
 
                   <span class="booking-text">
                     {{ element.booking | currency }}
-                    <!-- <span
+                    <span
                       class="ticker fa fa-check normal-booking-{{ i }}"
                       id=""
-                    ></span> -->
+                    ></span>
 
                     <span id="u-price-{{ i }}" class="u-price-text">
                       {{ element.unit_price }}
@@ -233,12 +246,12 @@
                       [class.quantity-color]="spec.type == 'special'"
                     >
                       {{ spec.special | currency }}
-                      <!-- <span
+                      <span
                         class="ticker fa fa-check special-booking-{{ i }}-{{
                           j
                         }}"
                         id=""
-                      ></span> -->
+                      ></span>
                     </span>
                   </span>
                 </td>

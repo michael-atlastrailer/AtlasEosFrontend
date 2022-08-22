@@ -152,6 +152,9 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
   assortedTableItem: any
   currentVendorName = ''
   editedInput = false
+  assortedCheckerArray: any | []
+
+  incomingData: any
   /////// end of importation //////////
 
   constructor(
@@ -189,6 +192,51 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
     } else {
       this._liveAnnouncer.announce('Sorting cleared')
     }
+  }
+
+  atlasIdFilter(event: any) {
+    const filterValue = (event.target as HTMLInputElement).value
+    if (this.incomingData) {
+      this.incomingData.atlas_id = filterValue.trim().toLowerCase()
+      this.dataSrc = this.atlasFilterValue('*' + filterValue)
+    }
+  }
+
+  atlasFilterValue(expression: string) {
+    var regex = this.convertWildcardStringToRegExp(expression)
+    return this.incomingData.filter(function (item: any) {
+      return regex.test(item.atlas_id)
+    })
+  }
+
+  escapeRegExp(str: string) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  }
+
+  convertWildcardStringToRegExp(expression: string) {
+    var terms = expression.split('*')
+
+    var trailingWildcard = false
+
+    var expr = ''
+    for (var i = 0; i < terms.length; i++) {
+      if (terms[i]) {
+        if (i > 0 && terms[i - 1]) {
+          expr += '.*'
+        }
+        trailingWildcard = false
+        expr += this.escapeRegExp(terms[i])
+      } else {
+        trailingWildcard = true
+        expr += '.*'
+      }
+    }
+
+    if (!trailingWildcard) {
+      expr += '.*'
+    }
+
+    return new RegExp('^' + expr + '$', 'i')
   }
 
   goBack() {
@@ -1228,6 +1276,98 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
     }
   }
 
+  runAssortedCalculation(totalQty: number) {
+    for (let index = 0; index < this.assortedCheckerArray.length; index++) {
+      const pis = this.assortedCheckerArray[index]
+      for (let jIndex = 0; jIndex < pis.length; jIndex++) {
+        const parker = pis[jIndex]
+        let qty = pis.qty
+        let booking = parker.booking
+        let price = parseInt(qty) * parseFloat(booking)
+        this.cartData[pis.assIndex].price = price
+        this.cartData[pis.assIndex].qty = qty
+
+        if (totalQty >= parseInt(parker.cond)) {
+          let qty = pis.qty
+          let special = parker.special
+          let price = parseInt(qty) * parseFloat(special)
+          this.cartData[pis.assIndex].price = price
+          this.cartData[pis.assIndex].qty = qty
+        } else {
+        }
+      }
+    }
+
+    this.assortedCheckerArray = []
+  }
+
+  calculationChecker(index: number, qty: any) {
+    this.editedInput = true
+    let curr = this.cartData[index]
+    this.cartData[index].qty = qty
+    let spec = curr.spec_data
+    let curAtlasId = curr.atlas_id
+    let grouping = curr.grouping
+    if (qty != '') {
+      if (spec != null && spec.length > 0) {
+        let itemType = spec[0].type
+        if (itemType == 'assorted') {
+          let totalQty = 0
+          for (let index = 0; index < this.cartData.length; index++) {
+            const ele = this.cartData[index]
+            if (grouping == ele.grouping) {
+              totalQty += parseInt(ele.qty)
+              ele.spec_data.position = ele.position
+              ele.spec_data.qty = ele.qty
+              ele.spec_data.price = ele.price
+              ele.spec_data.assIndex = index
+              this.assortedCheckerArray.push(ele.spec_data)
+            }
+          }
+
+          this.runAssortedCalculation(totalQty)
+        }
+
+        if (itemType == 'special') {
+          console.log('we are on special')
+        }
+      } else {
+        let currItem = this.cartData[index]
+        let bookingPrice = parseFloat(currItem.booking)
+        let price = parseInt(qty) * bookingPrice
+        currItem.price = price
+      }
+    } else {
+      if (spec != null && spec.length > 0) {
+        let itemType = spec[0].type
+        if (itemType == 'assorted') {
+          let totalQty = 0
+          for (let index = 0; index < this.cartData.length; index++) {
+            const ele = this.cartData[index]
+            if (grouping == ele.grouping) {
+              totalQty += ele.qty != '' ? parseInt(ele.qty) : 0
+              ele.spec_data.position = ele.position
+              ele.spec_data.qty = ele.qty
+              ele.spec_data.price = ele.qty != '' ? ele.price : 0
+              ele.spec_data.assIndex = index
+              console.log(ele.spec_data, 'our own hellow worls')
+              this.assortedCheckerArray.push(ele.spec_data)
+            }
+          }
+
+          // this.runAssortedCalculation(totalQty)
+        }
+      } else {
+        let currItem = this.cartData[index]
+        let bookingPrice = parseFloat(currItem.booking)
+        let price = 0 * bookingPrice
+        currItem.price = price
+      }
+    }
+
+    //// this.allOverTotal()
+  }
+
   runCalculation(index: number, qty: any) {
     this.editedInput = true
     if (qty !== '') {
@@ -1921,12 +2061,20 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
       .then((result: any) => {
         this.loader = false
         if (result.status) {
-          console.log('search vendor res', result.data)
-          this.tableData = result.data
-          this.cartData = result.data
-          this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data)
+          let inComingData = result.data
 
-          if (result.data.length !== 0) {
+          this.incomingData = result.data
+
+          for (let index = 0; index < inComingData.length; index++) {
+            const element = inComingData[index]
+            element.position = index
+          }
+
+          this.tableData = inComingData
+          this.cartData = inComingData
+          this.dataSrc = new MatTableDataSource<PeriodicElement>(inComingData)
+
+          if (inComingData.length !== 0) {
             this.canOrder = true
           }
           this.orderTable = []
@@ -1935,6 +2083,8 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
           for (let d = 0; d < result.data.length; d++) {
             const element = result.data[d]
             /// this.runTotalCalculation(d)
+
+            ///console.log(element.qty)
 
             let data = {
               atlasId: element.atlas_id,
