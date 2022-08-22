@@ -22,14 +22,13 @@
         <div class="d-flex flex-column">
           <div class="d-block text-center">
             <!-- <div class="img-viewer" [style.background-image]="'url(' + currentData?.img + ')'"></div> -->
-              <img
+            <img
               class="view-bg-img img-fluid"
               [id]="'img' + currentData?.id"
               src="
                 https://atlastrailer.s3.amazonaws.com/0480-23.jpg
               "
             />
-           
           </div>
 
           <div>
@@ -86,6 +85,19 @@
           </div>
 
           <div class="table-ctn mt-3 p-3" style="background-color: white">
+            <div class="w-100 d-flex justify-content-end">
+              <mat-form-field>
+                <input
+                  matInput
+                  (keyup)="applyFilter(input.value)"
+                  type="text"
+                  placeholder="search.."
+                  class="table-search form-control"
+                  style="height: 23px"
+                  #input
+                />
+              </mat-form-field>
+            </div>
             <table
               class="order-form-table w-100 mat-elevation table-striped"
               mat-table
@@ -112,6 +124,7 @@
                   data-target="#exampleModal"
                   class="clickable"
                 >
+                  <span class="new"></span>
                   {{ element.atlas_id }}
                 </td>
               </ng-container>

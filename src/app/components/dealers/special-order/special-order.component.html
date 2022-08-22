@@ -64,6 +64,19 @@
           <div class="card" *ngIf="!vendorSelected">
             <div class="card-header">Order List</div>
             <div class="card-body mt-3">
+               <div class="w-100 d-flex justify-content-end">
+              <mat-form-field>
+                <input
+                  matInput
+                  (keyup)="applyFilter(input.value)"
+                  type="text"
+                  placeholder="search.."
+                  class="table-search form-control"
+                  style="height: 23px"
+                  #input
+                />
+              </mat-form-field>
+            </div>
               <div class="table-ctn mt-3">
                 <table
                   class="seperate-table w-100 mat-elevation table-striped"

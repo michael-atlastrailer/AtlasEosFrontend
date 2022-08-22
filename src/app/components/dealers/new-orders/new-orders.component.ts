@@ -97,6 +97,9 @@ export class NewOrdersComponent implements OnInit {
   parser(data: any) {
     return JSON.parse(data);
   }
+  applyFilter(filterValue: string) {
+    this.dataSrc.filter = filterValue.trim().toLowerCase();
+  }
   isImageJpg(atlas_id: any) {
     let urlJpg = 'https://atlastrailer.s3.amazonaws.com/0' + atlas_id + '.jpg';
     let urlPng = 'https://atlastrailer.s3.amazonaws.com/0' + atlas_id + '.png';

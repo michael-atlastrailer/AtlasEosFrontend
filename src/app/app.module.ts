@@ -23,13 +23,17 @@ import { VendorNavbarComponent } from './components/templates/vendor-navbar/vend
 import { ChatService } from './core/services/chat.service';
 import { OutsideSalesNavbarComponent } from './components/templates/outside-sales-navbar/outside-sales-navbar.component';
 import { InsideSalesNavbarComponent } from './components/templates/inside-sales-navbar/inside-sales-navbar.component'
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatInputModule } from '@angular/material/input'
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, AdminLoginComponent, ],
+  declarations: [AppComponent, LoginComponent, AdminLoginComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
     FormsModule,
     CommonModule,
 
