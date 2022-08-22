@@ -95,7 +95,8 @@ export class NewOrdersComponent implements OnInit {
     this.viewSet = true;
   }
   parser(data: any) {
-    return JSON.parse(data);
+    let ret = JSON.parse(data);
+    return ret
   }
   applyFilter(filterValue: string) {
     this.dataSrc.filter = filterValue.trim().toLowerCase();
