@@ -124,7 +124,7 @@
                   data-target="#exampleModal"
                   class="clickable"
                 >
-                  <span class="new"></span>
+                  <span class="new" *ngIf='element?.check_new!'></span>
                   {{ element.atlas_id }}
                 </td>
               </ng-container>
