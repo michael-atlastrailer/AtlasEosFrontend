@@ -94,6 +94,9 @@ export class SpecialOrderComponent implements OnInit {
   @ViewChild(MatSort)
   sort!: MatSort;
   ngOnInit(): void {}
+  applyFilter(filterValue: string) {
+    this.dataSrc.filter = filterValue.trim().toLowerCase();
+  }
   sortData(sort: Sort) {
     const data = this.dataSrc.data.slice();
     if (!sort.active || sort.direction === '') {

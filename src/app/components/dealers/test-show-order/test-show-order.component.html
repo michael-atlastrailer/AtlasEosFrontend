@@ -256,7 +256,7 @@
           </div>
 
           <div
-            class="table-ctn mt-5 p-3 pt-5 table-responsive"
+            class="table-ctn  p-3 table-responsive"
             style="background-color: white;"
           >
             <table class="table" *ngIf="loader">
@@ -418,7 +418,7 @@
                   data-toggle="modal"
                   class="clickable"
                   data-target="#exampleModal"
-                >
+                ><span class="new" *ngIf='element?.is_new!'></span>
                   {{ element.atlas_id! }}
                 </td>
               </ng-container>

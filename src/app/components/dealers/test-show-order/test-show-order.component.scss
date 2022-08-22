@@ -58,6 +58,18 @@
 //   background-image: url("https://upload.wikimedia.org/wikipedia/commons/e/ee/Chevron-down.svg");
 // }
 
+.new {
+  background-size: contain !important;
+  background: url("../../../../assets/new-icon.png");
+  background-repeat: no-repeat;
+  height: 20px;
+  width: 30px;
+  display: block;
+  top: 40px;
+  padding: 2px 3px;
+  left: -10px;
+  position: relative;
+}
 .dropdown-section {
   background-color: #ffffff;
   // box-shadow: 1px 4px 2px rgb(219, 208, 208);
