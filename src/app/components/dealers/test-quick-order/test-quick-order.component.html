@@ -29,7 +29,7 @@
                   disabled
                   #vendorInput
                   [value]="vendorDisplay?.vendor_name"
-                  class="search-input form-control"
+                  class="search-input form-control notranslate"
                   style="width: 200px !important;"
                 />
               </div>
@@ -347,7 +347,7 @@
                 >
                   Vendor Name
                 </th>
-                <td mat-cell *matCellDef="let element">
+                <td mat-cell *matCellDef="let element" class="notranslate">
                   {{ element.vendor_name }}
                 </td>
               </ng-container>
