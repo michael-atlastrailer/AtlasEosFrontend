@@ -44,7 +44,7 @@ export class DashboardComponent implements OnInit {
   promotionalStatus = false;
   promotionalAds: any;
   allCategoryData: any;
-  
+
   public chartOptions: Partial<ChartOptions>;
   countDownDate = new Date('June 25, 2022 15:37:25').getTime();
   count: any = 34;
@@ -222,9 +222,7 @@ export class DashboardComponent implements OnInit {
           if (result.data.dates.indexOf('2022-08-18') !== -1) {
             rev2 = rev[result.data.dates.indexOf('2022-08-18')]?.total_price;
           }
-          if (result.data.dates.indexOf('2022-08-19') !== -1) {
-            rev3 = rev[result.data.dates.indexOf('2022-08-19')]?.total_price;
-          }
+
           console.log(
             'reverse table',
             rev,
@@ -238,7 +236,7 @@ export class DashboardComponent implements OnInit {
             series: [
               {
                 name: 'Sales summary',
-                data: [rev1.toFixed(0), rev2.toFixed(0), rev3.toFixed(0)],
+                data: [rev1.toFixed(0), rev2.toFixed(0)],
               },
             ],
             yaxis: {
@@ -267,7 +265,7 @@ export class DashboardComponent implements OnInit {
                 enabled: true,
                 offsetY: -35,
               },
-              categories: ['Day 1', 'Day 2', 'Day 3'],
+              categories: ['Day 1', 'Day 2'],
             },
           };
         } else {
