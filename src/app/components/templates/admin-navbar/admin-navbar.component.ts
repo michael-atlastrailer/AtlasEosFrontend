@@ -30,9 +30,7 @@ export class AdminNavbarComponent implements OnInit {
     }, 10000)
 
     this.chatService.getNotification().subscribe((data: any) => {
-      setTimeout(() => {
         this.getUnreadMsg()
-      }, 100)
     })
   }
 
