@@ -454,6 +454,7 @@ export class SpecialOrderComponent implements OnInit {
   }
   clearOrder() {
     this.arr = [];
+    
   }
 }
 function compare(a: number | string, b: number | string, isAsc: boolean) {
