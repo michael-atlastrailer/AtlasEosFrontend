@@ -215,6 +215,30 @@
                                     </div>
                                   </ul>
                                 </div>
+
+                                <div class="" *ngIf="showRecentChatUsers">
+                                  <h6 class="unread-msg-text">
+                                    Recent Chat Users
+                                  </h6>
+
+                                  <ul class="unread-msg-ul">
+                                    <div
+                                      *ngFor="let data of userDealerRecentChat"
+                                    >
+                                      <li
+                                        class="vendor-user-name"
+                                        *ngIf="data.id != userId"
+                                        (click)="selectedUser(data)"
+                                      >
+                                        <span
+                                          class="fa fa-address-card coworker-icon"
+                                        ></span>
+                                        {{ data?.first_name }}
+                                        {{ data?.last_name }}
+                                      </li>
+                                    </div>
+                                  </ul>
+                                </div>
                               </div>
 
                               <div class="tab-pane container" id="menu3">

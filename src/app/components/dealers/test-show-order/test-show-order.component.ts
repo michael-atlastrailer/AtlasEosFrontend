@@ -144,7 +144,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
   // sort!: MatSort
 
   sortedData!: PeriodicElement[]
-highlightIndex = null
+  highlightIndex = null
   setVendor = false
   currentData: any
   constructor(
@@ -454,8 +454,11 @@ highlightIndex = null
           this.cartLoader = false
           this.itemAlreadySubmitted = res.data.item_details
           this.itemNewlySubmitted = res.data.item_added
-          this.toastr.success(` item(s) has been submitted`, 'Success')
           this.emptyTableQty()
+          if (res.data.item_added > 0) {
+            this.toastr.success(`item(s) has been submitted`, 'Success')
+          }
+
           /// this.orderTable = []
           /// this.getTotal()
           /// this.getCart()
@@ -836,10 +839,10 @@ highlightIndex = null
     if (this.searchatlasId == '###') {
       newArray = array
     } else {
-      this.isMod = true 
-       this.highlightIndex=array.findIndex((item:any) => {
-       return item.atlas_id == this.searchatlasId!
-     })
+      this.isMod = true
+      this.highlightIndex = array.findIndex((item: any) => {
+        return item.atlas_id == this.searchatlasId!
+      })
     }
     return array
   }
@@ -946,6 +949,7 @@ highlightIndex = null
               `${this.orderLen}  item(s) have been added to cart`,
               'Success',
             )
+
             this.orderTable = []
             this.getTotal()
             this.getCart()

@@ -41,6 +41,8 @@ export class MessagesComponent implements OnInit {
   dealerMsgCount = 0
   vendorMsgCount = 0
   selectedUserUniqueId = ''
+  showRecentChatUsers = false
+  userDealerRecentChat: any
 
   @ViewChild('chatWrapper') private chatWrapper!: ElementRef
   @ViewChild('audioTag') private audioTag!: ElementRef
@@ -103,12 +105,26 @@ export class MessagesComponent implements OnInit {
     this.getUnreadMsg()
     this.getAllDamin()
     this.getUnreadMsgBasedOnRole()
+    this.getUserRecentChatHistory()
   }
 
   startCounter() {
     setInterval(() => {
       this.getUserChatAsync()
     }, 10000)
+  }
+
+  getUserRecentChatHistory() {
+    this.postData
+      .httpGetRequest('/chat/get-chat-history/' + this.userId + '/4')
+      .then((result: any) => {
+        this.showRecentChatUsers = true
+        if (result.status) {
+          this.userDealerRecentChat = result.data
+        } else {
+        }
+      })
+      .catch((err) => {})
   }
 
   getUnreadMsgBasedOnRole() {
