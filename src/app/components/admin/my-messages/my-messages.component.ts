@@ -57,9 +57,7 @@ export class MyMessagesComponent implements OnInit {
   @ViewChild('chatWrapper') private chatWrapper!: ElementRef
   @ViewChild('dummyDealerInput') private dummyDealerInput!: ElementRef
   @ViewChild('dummyVendorInput') private dummyVendorInput!: ElementRef
-
   @ViewChild('inputVendor') private inputVendor!: ElementRef
-
   @ViewChild('inputDealer') private inputDealer!: ElementRef
 
   coworkerMsgCount = 0
@@ -83,7 +81,6 @@ export class MyMessagesComponent implements OnInit {
     this.chatService.getMessages().subscribe((message: string) => {
       if (message != '') {
         this.startCounter()
-
         setTimeout(() => {
           this.scrollToElement()
         }, 80)
@@ -261,10 +258,7 @@ export class MyMessagesComponent implements OnInit {
     this.toggleVendorDropDown()
     this.postData
       .httpGetRequest(
-        '/dealer/get-selected-company-vendor/' +
-          data.vendor_code +
-          '/' +
-          this.userId,
+        '/admin/get-chat-selected-vendor-users/' + data.vendor_code,
       )
       .then((result: any) => {
         this.vendorLoader = false
@@ -426,7 +420,7 @@ export class MyMessagesComponent implements OnInit {
   getUserChatAsync() {
     this.postData
       .httpGetRequest(
-        '/get-user-chat/' + this.userId + '/' + this.selectedUserData.id,
+        '/get-user-chat-async/' + this.selectedUserData.id + '/' + this.userId,
       )
       .then((result: any) => {
         if (result.status) {
@@ -529,7 +523,7 @@ export class MyMessagesComponent implements OnInit {
   getMsgAsync() {
     this.postData
       .httpGetRequest(
-        '/get-user-chat/' + this.userId + '/' + this.selectedUserData.id,
+        '/get-user-chat-async/' + this.selectedUserData.id + '/' + this.userId,
       )
       .then((result: any) => {
         this.chatHistoryLoader = false

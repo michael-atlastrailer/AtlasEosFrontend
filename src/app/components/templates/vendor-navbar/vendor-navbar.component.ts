@@ -33,6 +33,10 @@ export class VendorNavbarComponent implements OnInit {
     this.chatService.getNotification().subscribe((data: any) => {
       this.getUnreadMsg()
     })
+
+    setInterval(() => {
+      this.getUnreadMsg()
+    }, 1000)
   }
 
   getUnreadMsg() {

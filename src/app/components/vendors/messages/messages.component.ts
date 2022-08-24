@@ -300,7 +300,7 @@ export class MessagesComponent implements OnInit {
   getUserChat() {
     this.postData
       .httpGetRequest(
-        '/get-user-chat/' + this.userId + '/' + this.selectedUserData.id,
+        '/get-user-chat/' + this.selectedUserData.id + '/' + this.userId,
       )
       .then((result: any) => {
         this.chatHistoryLoader = false
@@ -382,7 +382,7 @@ export class MessagesComponent implements OnInit {
   getMsgAsync() {
     this.postData
       .httpGetRequest(
-        '/get-user-chat/' + this.userId + '/' + this.selectedUserData.id,
+        '/get-user-chat-async/' + this.selectedUserData.id + '/' + this.userId,
       )
       .then((result: any) => {
         this.chatHistoryLoader = false
