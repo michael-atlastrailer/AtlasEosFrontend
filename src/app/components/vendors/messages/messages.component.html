@@ -108,35 +108,45 @@
                                   <input
                                     class="dummy-input"
                                     type="text"
-                                    (click)="toggleVendors()"
                                     value="Select dealer company"
                                     readonly
                                     #dummyInput
+                                    mat-button
+                                    [matMenuTriggerFor]="dealerMenu"
                                   />
 
-                                  <div
-                                    *ngIf="showDropdown"
-                                    #dropdownSection
-                                    class="dropdown-section"
+                                  <mat-menu
+                                    #dealerMenu="matMenu"
+                                    class="mat-menu"
                                   >
-                                    <input
-                                      type="text"
-                                      class="dropdown-filter"
-                                      (keyup)="applyFilter($event)"
-                                      #input
-                                    />
+                                    <div
+                                      #dropdownSection
+                                      class="dropdown-section"
+                                    >
+                                      <input
+                                        type="text"
+                                        class="dropdown-filter"
+                                        (keyup)="applyFilter($event)"
+                                        #input
+                                      />
 
-                                    <ul>
-                                      <li
-                                        *ngFor="let data of allDealers"
-                                        (click)="
-                                          getAllSelectedDealerUsers(data)
-                                        "
-                                      >
-                                        {{ data.company_name }}
-                                      </li>
-                                    </ul>
-                                  </div>
+                                      <ul>
+                                        <li
+                                          style="
+                                            cursor: pointer;
+                                            padding-top: 5px;
+                                            padding-bottom: 5px;
+                                          "
+                                          *ngFor="let data of allDealers"
+                                          (click)="
+                                            getAllSelectedDealerUsers(data)
+                                          "
+                                        >
+                                          {{ data.company_name }}
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </mat-menu>
                                 </div>
 
                                 <ul class="coworker-ul">

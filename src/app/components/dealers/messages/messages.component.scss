@@ -2,6 +2,55 @@
   padding-top: 50px;
 }
 
+::ng-deep {
+  .dropdown-section {
+    background-color: #ffffff;
+    // box-shadow: 1px 4px 2px rgb(219, 208, 208);
+    padding: 10px;
+    margin-top: 0px;
+    border-radius: 4px;
+    div {
+      padding: 0px;
+      margin: 0px;
+      margin-top: 10px;
+      height: 250px;
+      overflow-y: auto;
+      display: block;
+
+      // scrollbar-width: thin;
+      ////scrollbar-color: transparent;
+      // li:hover{
+      //   background-color: #14abef;
+      //   color: #ffffff;
+      // }
+
+      .vendor-ul {
+        li {
+          padding: 10px 10px;
+          margin-top: 5px;
+          margin-bottom: 5px;
+          font-size: 15px;
+          cursor: pointer !important;
+          list-style-type: none;
+        }
+
+        li:hover {
+          background-color: #006ea0;
+          color: #ffffff;
+        }
+      }
+    }
+
+    .dropdown-filter {
+      width: 100%;
+      // border: 1px solid gray;
+      padding: 8px;
+      font-size: 12px;
+      border-radius: 4px;
+    }
+  }
+}
+
 .ph-loader-item {
   padding: 0px !important;
   border: 0px !important;
@@ -353,37 +402,6 @@
   border-radius: 4px;
   margin-bottom: 10px;
   cursor: pointer;
-}
-
-.dropdown-section {
-  background-color: #ffffff;
-  box-shadow: 1px 4px 2px rgb(219, 208, 208);
-  padding: 10px;
-  margin-top: -10px;
-
-  ul {
-    padding: 0px;
-    margin: 0px;
-    margin-top: 10px;
-    height: 400px;
-    overflow: auto;
-    scrollbar-width: thin;
-    scrollbar-color: transparent;
-    li {
-      padding: 10px 0px;
-      border-bottom: 1px solid #ccc;
-      font-size: 11px;
-      cursor: pointer;
-    }
-  }
-
-  .dropdown-filter {
-    width: 100%;
-    border: 1px solid #ccc;
-    padding: 8px;
-    font-size: 12px;
-    border-radius: 4px;
-  }
 }
 
 .typing-text {
