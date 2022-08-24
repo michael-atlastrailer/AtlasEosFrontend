@@ -109,11 +109,13 @@ export class MyMessagesComponent implements OnInit {
     let user = this.tokeStore.getUser()
     this.userData = this.tokeStore.getUser()
     this.userId = user.id
-    let userId = user.id + user.first_name
-    this.uniqueUserId = userId
+
+    let userIdChat = user.id + user.first_name
+    this.uniqueUserId = user.id + user.first_name
     this.vendorCode = user.vendor_code
+
     this.getVendorCoworkers()
-    this.chatService.openChatConnection(userId)
+    this.chatService.openChatConnection(userIdChat)
     this.getUsersUnreadMsg()
     this.getAllDamin()
     this.getAllUsersCompany()
@@ -167,6 +169,10 @@ export class MyMessagesComponent implements OnInit {
   }
 
   trackKeyPress(event: any) {
+    if (event.key == 'Enter') {
+      this.sendMsg()
+      event.preventDefault()
+    }
     let data = {
       user: this.selectedUserData.id + this.selectedUserData.first_name,
       msg: this.msg,
@@ -399,6 +405,10 @@ export class MyMessagesComponent implements OnInit {
     })
   }
 
+  checkForEnter(event: any) {
+    console.log(event)
+  }
+
   sendMsg() {
     if (this.msg != '') {
       this.startCounter()
@@ -547,5 +557,13 @@ export class MyMessagesComponent implements OnInit {
         }
       })
       .catch((err) => {})
+  }
+
+  ngOnDestroy() {
+    this.selectedUserData = ''
+  }
+
+  resmoveSelected() {
+    this.selectedUserData = ''
   }
 }

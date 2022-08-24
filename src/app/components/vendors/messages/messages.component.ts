@@ -142,6 +142,10 @@ export class MessagesComponent implements OnInit {
   }
 
   trackKeyPress(event: any) {
+    if (event.key == 'Enter') {
+      this.sendMsg()
+      event.preventDefault()
+    }
     let data = {
       user: this.selectedUserData.id + this.selectedUserData.first_name,
       msg: this.msg,
@@ -409,5 +413,13 @@ export class MessagesComponent implements OnInit {
         }
       })
       .catch((err) => {})
+  }
+
+  ngOnDestroy() {
+    this.selectedUserData = ''
+  }
+
+  resmoveSelected() {
+    this.selectedUserData = ''
   }
 }

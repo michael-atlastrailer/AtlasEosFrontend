@@ -22,7 +22,7 @@ export class MessagesComponent implements OnInit {
   messages: any[] = []
   loggedInUser: any
 
-  msg = ''
+  msg: string = ''
   uniqueUserId!: string
   userId!: string
   dealerCode!: string
@@ -57,6 +57,7 @@ export class MessagesComponent implements OnInit {
   adminMsgCount = 0
   dealerMsgCount = 0
   vendorMsgCount = 0
+  InterSetter: any
 
   constructor(
     private postData: HttpRequestsService,
@@ -72,12 +73,13 @@ export class MessagesComponent implements OnInit {
     this.userData = this.tokeStore.getUser()
 
     this.userId = user.id
-    let userId = user.id + user.first_name
-    this.uniqueUserId = userId
+
+    let userIdChat = user.id + user.first_name
+    this.uniqueUserId = user.id + user.first_name
     this.dealerCode = user.account_id
 
     this.getVendorCoworkers()
-    this.chatService.openChatConnection(userId)
+    this.chatService.openChatConnection(userIdChat)
 
     this.chatService.getNotification().subscribe((data: any) => {
       this.getUnreadMsgBasedOnRole()
@@ -89,6 +91,11 @@ export class MessagesComponent implements OnInit {
     this.chatService.getMessages().subscribe((message: any) => {
       if (message != '') {
         this.startCounter()
+
+        // this.getUserChatAsync()
+        // this.InterSetter = setInterval(() => {
+        //   this.getUserChatAsync()
+        // }, 10000)
 
         if (this.userHasBeenSelected) {
           setTimeout(() => {
@@ -120,6 +127,14 @@ export class MessagesComponent implements OnInit {
     })
   }
 
+  ngOnDestroy() {
+    this.selectedUserData = ''
+  }
+
+  resmoveSelected() {
+    this.selectedUserData = ''
+  }
+
   startCounter() {
     setInterval(() => {
       this.getUserChatAsync()
@@ -143,7 +158,7 @@ export class MessagesComponent implements OnInit {
   getUserChatAsync() {
     this.postData
       .httpGetRequest(
-        '/get-user-chat/' + this.userId + '/' + this.selectedUserData.id,
+        '/get-user-chat-async/' + this.selectedUserData.id + '/' + this.userId,
       )
       .then((result: any) => {
         if (result.status) {
@@ -165,6 +180,10 @@ export class MessagesComponent implements OnInit {
   }
 
   trackKeyPress(event: any) {
+    if (event.key == 'Enter') {
+      this.sendMsg()
+      event.preventDefault()
+    }
     let data = {
       user: this.selectedUserData.id + this.selectedUserData.first_name,
       msg: this.msg,
@@ -296,7 +315,13 @@ export class MessagesComponent implements OnInit {
 
   sendMsg() {
     if (this.msg != '') {
+      // this.getUserChatAsync()
+      // this.InterSetter = setInterval(() => {
+      //   this.getUserChatAsync()
+      // }, 10000)
+
       this.startCounter()
+
       let data = {
         user: this.selectedUserData.id + this.selectedUserData.first_name,
         msg: this.msg,
