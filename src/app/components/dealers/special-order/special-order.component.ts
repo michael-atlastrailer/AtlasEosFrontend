@@ -1,32 +1,33 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y'
-import { CurrencyPipe } from '@angular/common'
-import { Component, OnInit, ViewChild } from '@angular/core'
-import { MatPaginator } from '@angular/material/paginator'
-import { MatSort, Sort } from '@angular/material/sort'
-import { MatTableDataSource } from '@angular/material/table'
-import { ActivatedRoute, Router } from '@angular/router'
-import { ToastrService } from 'ngx-toastr'
-import { HttpRequestsService } from 'src/app/core/services/http-requests.service'
-import { TokenStorageService } from 'src/app/core/services/token-storage.service'
-import { T } from '../show-orders/show-orders.component'
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { CurrencyPipe } from '@angular/common';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort, Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { filter } from 'rxjs';
+import { HttpRequestsService } from 'src/app/core/services/http-requests.service';
+import { TokenStorageService } from 'src/app/core/services/token-storage.service';
+import { T } from '../show-orders/show-orders.component';
 interface Dealer {
-  fname: string
-  lname: string
-  id: any
+  fname: string;
+  lname: string;
+  id: any;
 }
 class Product {
-  public quantity: number | undefined
-  description: string | undefined
-  vendor_no: string | undefined
-  vendor_code: string | undefined
+  public quantity: number | undefined;
+  description: string | undefined;
+  vendor_no: string | undefined;
+  vendor_code: string | undefined;
 }
-declare var $: any
+declare var $: any;
 export interface PeriodicElement {
-  no: number
-  qty: string
-  description: string
-  vendor_name: string
-  vendor_code: string
+  no: number;
+  qty: string;
+  description: string;
+  vendor_name: string;
+  vendor_code: string;
 }
 
 @Component({
@@ -239,7 +240,7 @@ export class SpecialOrderComponent implements OnInit {
           if (result.status) {
             this.saveLoader = false;
             this.toastr.success(`Order saved`, 'Success');
-            this.arr = [];
+            this.clearOrder();
           } else {
             this.saveLoader = false;
 
@@ -295,7 +296,7 @@ export class SpecialOrderComponent implements OnInit {
   checkEmptyStat(id: any, j: any, check: boolean) {
     let error = false;
     console.log('errror disable', this.disableSubmit, error);
-
+ this.hasDuplicates(this.arr);
     if (this.arr?.length < 1) {
       error = true;
     } else {
@@ -358,7 +359,17 @@ export class SpecialOrderComponent implements OnInit {
         // this.toastr.info(`Something went wrong`, 'Error');
       });
   }
+  hasDuplicates(a: any) {
+    let filteredArr = a.filter((item: any, i: any) => {
+      return a.indexOf(item) !== i;
+    });
+   
+    const noDups = new Set(a.vendor_no);
+ console.log('filtrted array', filteredArr,noDups);
+    // return a.length !== noDups.size;
+  }
   checkConstraint() {
+   
     this.arrNotSpec = [];
     function toFindDuplicates(arry: any) {
       const uniqueElements = new Set(arry);
@@ -454,7 +465,7 @@ export class SpecialOrderComponent implements OnInit {
   }
   clearOrder() {
     this.arr = [];
-    
+    this.arr.push(new Product());
   }
 }
 function compare(a: number | string, b: number | string, isAsc: boolean) {

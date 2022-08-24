@@ -208,66 +208,113 @@ export class DashboardComponent implements OnInit {
           rev1 = 0;
           rev2 = 0;
           rev3 = 0;
-          let ron = result.data.dates.indexOf('2022-08-18');
+          let ron = result.data.dates.indexOf('2022-08-24');
 
           console.log(
             'res',
             ron,
-            result.data.dates.indexOf('2022-08-18') !== -1,
-            rev[result.data.dates.indexOf('2022-08-18')]?.total_price
+            result.data.dates.indexOf('2022-08-24') !== -1,
+            rev[result.data.dates.indexOf('2022-08-24')]?.total_price
           );
-          if (result.data.dates.indexOf('2022-08-17') !== -1) {
-            rev1 = rev[result.data.dates.indexOf('2022-08-17')]?.total_price;
+          if (result.data.dates.indexOf('2022-08-25') !== -1) {
+            rev1 = rev[result.data.dates.indexOf('2022-08-25')]?.total_price;
           }
-          if (result.data.dates.indexOf('2022-08-18') !== -1) {
-            rev2 = rev[result.data.dates.indexOf('2022-08-18')]?.total_price;
+          if (result.data.dates.indexOf('2022-08-24') !== -1) {
+            rev2 = rev[result.data.dates.indexOf('2022-08-24')]?.total_price;
           }
-
+  let revtot = rev1 + rev2;
           console.log(
             'reverse table',
             rev,
 
             rev1,
             rev2,
-            rev3
+            revtot
           );
+        
+          if (Math.floor(revtot) ==0) {
+            this.chartOptions = {
+              series: [
+                {
+                  name: 'Sales summary',
+                  data: [rev1.toFixed(0), rev2.toFixed(0)],
+                },
+              ],
+              //Math.round(value * 1.5)
+              yaxis: {
+                min: 0,
+                max: 145,
 
-          this.chartOptions = {
-            series: [
-              {
-                name: 'Sales summary',
-                data: [rev1.toFixed(0), rev2.toFixed(0)],
-              },
-            ],
-            yaxis: {
-              labels: {
-                formatter: function (value: any) {
-                  return '$' + value.toFixed(0);
+                tickAmount: 7,
+                labels: {
+                  formatter: function (value: any) {
+                    return '$' + Math.round(value);
+                  },
                 },
               },
-            },
-            chart: {
-              height: 350,
-              type: 'bar',
-            },
-            dataLabels: {
-              enabled: true,
-              enabledOnSeries: undefined,
-              formatter: function (value: any) {
-                return '$' + value.toFixed(2);
+              chart: {
+                height: 350,
+                type: 'bar',
               },
-            },
-            title: {
-              text: '',
-            },
-            xaxis: {
-              tooltip: {
+              dataLabels: {
                 enabled: true,
-                offsetY: -35,
+                enabledOnSeries: undefined,
+                formatter: function (value: any) {
+                  return '$' + value.toFixed(2);
+                },
               },
-              categories: ['Day 1', 'Day 2'],
-            },
-          };
+              title: {
+                text: '',
+              },
+              xaxis: {
+                tooltip: {
+                  enabled: true,
+                  offsetY: -35,
+                },
+                categories: ['Day 1', 'Day 2'],
+              },
+            };
+          } else {
+            this.chartOptions = {
+              series: [
+                {
+                  name: 'Sales summary',
+                  data: [rev1.toFixed(0), rev2.toFixed(0)],
+                },
+              ],
+              //Math.round(value * 1.5)
+              yaxis: {
+                tickAmount: 7,
+
+                labels: {
+                  formatter: function (value: any) {
+                    return '$' + Math.round(value);
+                  },
+                },
+              },
+              chart: {
+                height: 350,
+                type: 'bar',
+              },
+              dataLabels: {
+                enabled: true,
+                enabledOnSeries: undefined,
+                formatter: function (value: any) {
+                  return '$' + value.toFixed(2);
+                },
+              },
+              title: {
+                text: '',
+              },
+              xaxis: {
+                tooltip: {
+                  enabled: true,
+                  offsetY: -35,
+                },
+                categories: ['Day 1', 'Day 2'],
+              },
+            };
+          }
         } else {
           this.toastr.info(`Something went wrong`, 'Error');
         }

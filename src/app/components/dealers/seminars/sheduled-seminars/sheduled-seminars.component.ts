@@ -69,7 +69,7 @@ export class SheduledSeminarsComponent implements AfterViewInit {
     } else {
       daylight = 'AM';
     }
-
+val.pop();
     val =
       val.reduce((n: any, m: any) => {
         return n + ':' + m;

@@ -104,11 +104,13 @@ export class WatchedSeminarsComponent implements OnInit {
     } else {
       daylight = 'AM';
     }
-
+    val.pop();
+    
     val =
       val.reduce((n: any, m: any) => {
         return n + ':' + m;
       }) + daylight;
+    console.log(parseFloat(val))
     return val;
   }
   bookmarkSeminar(id: any, stat: any, current: any) {
