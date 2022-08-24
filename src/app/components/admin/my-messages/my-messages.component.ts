@@ -447,6 +447,7 @@ export class MyMessagesComponent implements OnInit {
         //// this.getVendorUnreadMsg()
         this.getUsersUnreadMsg()
         this.getUnreadMsgBasedOnRole()
+        this.getAllDamin()
 
         if (result.status) {
           if (result.data.length > 0) {

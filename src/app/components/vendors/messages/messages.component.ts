@@ -306,6 +306,7 @@ export class MessagesComponent implements OnInit {
         this.chatHistoryLoader = false
         this.getVendorAsync()
         this.getUnreadMsgBasedOnRole()
+        this.getAllDamin()
 
         if (result.status) {
           if (result.data.length > 0) {

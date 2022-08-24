@@ -322,6 +322,7 @@ export class MessagesComponent implements OnInit {
         this.getVendorAsync()
         this.getUnreadMsg()
         this.getUnreadMsgBasedOnRole()
+        this.getAllDamin()
 
         if (result.status) {
           if (result.data.length > 0) {
