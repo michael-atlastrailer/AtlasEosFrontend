@@ -63,6 +63,10 @@ export class MyMessagesComponent implements OnInit {
   coworkerMsgCount = 0
   dealerMsgCount = 0
   vendorMsgCount = 0
+  showRecentChatVendorUsers = false
+  userVendorRecentChat: any
+  showRecentChatDealerUsers = false
+  userDealerRecentChat: any
 
   constructor(
     private postData: HttpRequestsService,
@@ -124,12 +128,40 @@ export class MyMessagesComponent implements OnInit {
     //  this.getUsersUnreadMsg()
     //  this.getUnreadMsgBasedOnRole()
     // }, 10000)
+    this.getDealerUserRecentChatHistory()
+    this.getVendorUserRecentChatHistory()
   }
 
   startCounter() {
     setInterval(() => {
       this.getUserChatAsync()
     }, 10000)
+  }
+
+  getDealerUserRecentChatHistory() {
+    this.postData
+      .httpGetRequest('/chat/get-chat-history/' + this.userId + '/4')
+      .then((result: any) => {
+        this.showRecentChatDealerUsers = true
+        if (result.status) {
+          this.userDealerRecentChat = result.data
+        } else {
+        }
+      })
+      .catch((err) => {})
+  }
+
+  getVendorUserRecentChatHistory() {
+    this.postData
+      .httpGetRequest('/chat/get-chat-history/' + this.userId + '/3')
+      .then((result: any) => {
+        this.showRecentChatVendorUsers = true
+        if (result.status) {
+          this.userVendorRecentChat = result.data
+        } else {
+        }
+      })
+      .catch((err) => {})
   }
 
   getUnreadMsgBasedOnRole() {

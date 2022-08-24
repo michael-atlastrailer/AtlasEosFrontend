@@ -58,6 +58,8 @@ export class MessagesComponent implements OnInit {
   dealerMsgCount = 0
   vendorMsgCount = 0
   InterSetter: any
+  userVendorRecentChat: any
+  showRecentChatUsers = false
 
   constructor(
     private postData: HttpRequestsService,
@@ -115,6 +117,7 @@ export class MessagesComponent implements OnInit {
     this.getUnreadMsg()
     this.getAllDamin()
     this.getUnreadMsgBasedOnRole()
+    this.getUserRecentChatHistory()
 
     this.chatService.getTyping().subscribe((message: string) => {
       if (message != '') {
@@ -129,6 +132,19 @@ export class MessagesComponent implements OnInit {
 
   ngOnDestroy() {
     this.selectedUserData = ''
+  }
+
+  getUserRecentChatHistory() {
+    this.postData
+      .httpGetRequest('/chat/get-chat-history/' + this.userId + '/3')
+      .then((result: any) => {
+        this.showRecentChatUsers = true
+        if (result.status) {
+          this.userVendorRecentChat = result.data
+        } else {
+        }
+      })
+      .catch((err) => {})
   }
 
   resmoveSelected() {
