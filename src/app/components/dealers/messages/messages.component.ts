@@ -43,6 +43,8 @@ export class MessagesComponent implements OnInit {
   adminUserLoader = true
   incomingVendorData: any
 
+  selectedUserUniqueId = ''
+
   showDropdown = false
   showTyping = false
 
@@ -84,7 +86,7 @@ export class MessagesComponent implements OnInit {
       this.getAllDamin()
     })
 
-    this.chatService.getMessages().subscribe((message: string) => {
+    this.chatService.getMessages().subscribe((message: any) => {
       if (message != '') {
         this.startCounter()
 
@@ -98,8 +100,9 @@ export class MessagesComponent implements OnInit {
         this.getMsgAsync()
       }
 
-      this.messages.push(message)
-      console.log(this.messages)
+      if (this.selectedUserUniqueId == message.sender) {
+        this.messages.push(message)
+      }
     })
 
     this.getUnreadMsg()
@@ -366,6 +369,8 @@ export class MessagesComponent implements OnInit {
 
   selectedUser(data: any) {
     this.selectedUserData = data
+    this.selectedUserUniqueId = data.id + data.first_name
+
     this.userSelected = true
     this.chatHistoryLoader = true
     this.userHasBeenSelected = true

@@ -40,6 +40,7 @@ export class MessagesComponent implements OnInit {
   adminMsgCount = 0
   dealerMsgCount = 0
   vendorMsgCount = 0
+  selectedUserUniqueId = ''
 
   @ViewChild('chatWrapper') private chatWrapper!: ElementRef
   @ViewChild('audioTag') private audioTag!: ElementRef
@@ -60,7 +61,7 @@ export class MessagesComponent implements OnInit {
       this.getAllDamin()
     })
 
-    this.chatService.getMessages().subscribe((message: string) => {
+    this.chatService.getMessages().subscribe((message: any) => {
       if (message != '') {
         this.startCounter()
         setTimeout(() => {
@@ -72,7 +73,9 @@ export class MessagesComponent implements OnInit {
         this.getMsgAsync()
       }
 
-      this.messages.push(message)
+      if (this.selectedUserUniqueId == message.sender) {
+        this.messages.push(message)
+      }
     })
 
     this.chatService.getTyping().subscribe((message: string) => {
@@ -350,6 +353,8 @@ export class MessagesComponent implements OnInit {
 
   selectedUser(data: any) {
     this.selectedUserData = data
+    this.selectedUserUniqueId = data.id + data.first_name
+
     this.userSelected = true
     this.chatHistoryLoader = true
     this.userHasBeenSelected = true

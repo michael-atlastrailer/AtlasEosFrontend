@@ -78,7 +78,7 @@ export class MyMessagesComponent implements OnInit {
       this.getUsersUnreadMsg()
     })
 
-    this.chatService.getMessages().subscribe((message: string) => {
+    this.chatService.getMessages().subscribe((message: any) => {
       if (message != '') {
         this.startCounter()
         setTimeout(() => {
@@ -90,7 +90,9 @@ export class MyMessagesComponent implements OnInit {
         this.getMsgAsync()
       }
 
-      this.messages.push(message)
+      if (this.selectedUserUniqueId == message.sender) {
+        this.messages.push(message)
+      }
     })
 
     this.chatService.getTyping().subscribe((message: string) => {
@@ -436,7 +438,7 @@ export class MyMessagesComponent implements OnInit {
   getUserChat() {
     this.postData
       .httpGetRequest(
-        '/get-user-chat/' + this.userId + '/' + this.selectedUserData.id,
+        '/get-user-chat/' + this.selectedUserData.id + '/' + this.userId,
       )
       .then((result: any) => {
         console.log(result)
