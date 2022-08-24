@@ -20,6 +20,7 @@ import { TokenStorageService } from 'src/app/core/services/token-storage.service
 import { CommonModule, CurrencyPipe, Location } from '@angular/common'
 import Swal from 'sweetalert2'
 import { ComponentCanDeactivate } from 'src/app/core/model/can-deactivate'
+import { ProductTableHandlerService } from 'src/app/core/services/product-table-handler/product-table-handler.service'
 
 declare var $: any
 
@@ -166,6 +167,7 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
     private token: TokenStorageService,
     private currencyPipe: CurrencyPipe,
     private location: Location,
+    public productTableService: ProductTableHandlerService
   ) {
     this.route.params.subscribe((params) => {
       this.vendorId = params['vendorId']
@@ -186,6 +188,7 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
   parser(data: any) {
     return JSON.parse(data)
   }
+
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`)
@@ -2082,7 +2085,38 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
           this.getTotal()
           for (let d = 0; d < result.data.length; d++) {
             const element = result.data[d]
-            /// this.runTotalCalculation(d)
+
+            // first step init all calculation data required so as to be passed to the service and default
+            // then call the ru singular calculation whihc will perform all required operations both assorted and specials
+            // and return the updated calculation data back to this component as an object of
+            // return {
+            //   status: codeStatus,
+            //   products: this.productData,
+            //   assorted: this.assortFilter,
+            //   addedItems: this.addedItem,
+            //   allAddedItemsID: this.allAddedItemAtlasID,
+            //   currentProductAmount: this.currentProductAmt,
+            //   productTotal: this.overTotal
+            // }
+
+            // use status to detect if the code ran into an error during implementation each service function is rapped in a try catch method so status
+            // is the only defined variable to track error and your console log
+
+            // PEACE BE UNTO YOU
+            this.productTableService.initCalculationData(
+              this.tableData, this.assortFilter, this.addedItem, this.assortedItems, 0
+            ).then((status) => {
+              if(status){
+              this.productTableService.runSingleCalculations(element, d).then((data) => {
+                // console.log(data)
+                if (data.status) {
+                  this.tableData = data.products
+                  // @sixtus complete the code and complete the remaining assignation to their respective variables
+                }
+              })
+            }
+            })
+
 
             ///console.log(element.qty)
 

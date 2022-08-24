@@ -25,7 +25,7 @@
           <div>
           </div>
           <div>
-            
+
           </div>
         </div> -->
 
@@ -230,10 +230,9 @@
 
                   <span class="booking-text">
                     {{ element.booking | currency }}
-                    <span
-                      class="ticker fa fa-check normal-booking-{{ i }}"
-                      id=""
-                    ></span>
+                     <span *ngIf="productTableService.checkSpecials(element)" class="ticker fa fa-check normal-booking-{{
+                        element.position
+                      }}"></span>
 
                     <span id="u-price-{{ i }}" class="u-price-text">
                       {{ element.unit_price }}
@@ -246,12 +245,11 @@
                       [class.quantity-color]="spec.type == 'special'"
                     >
                       {{ spec.special | currency }}
-                      <span
-                        class="ticker fa fa-check special-booking-{{ i }}-{{
-                          j
-                        }}"
-                        id=""
-                      ></span>
+
+                       <span *ngIf="productTableService.checkSpecials(element, j)"
+                         class="ticker fa fa-check special-booking-{{
+                          element.position
+                        }}-{{ j }}"></span>
                     </span>
                   </span>
                 </td>
