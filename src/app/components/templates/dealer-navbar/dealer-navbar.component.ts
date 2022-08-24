@@ -57,7 +57,6 @@ export class DealerNavbarComponent implements OnInit {
     this.getUnreadReportProblem()
 
     setInterval(() => {
-      this.getUnreadMsg()
       this.getUnreadReportProblem()
     }, 10000)
 

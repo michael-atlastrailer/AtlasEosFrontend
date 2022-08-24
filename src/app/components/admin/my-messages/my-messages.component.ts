@@ -73,12 +73,16 @@ export class MyMessagesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getAllDealers()
+    ///// this.getAllDealers()
+
+    this.chatService.getNotification().subscribe((data: any) => {
+      this.getUnreadMsgBasedOnRole()
+      this.getUsersUnreadMsg()
+    })
 
     this.chatService.getMessages().subscribe((message: string) => {
       if (message != '') {
         this.startCounter()
-        this.getUnreadMsgBasedOnRole()
 
         setTimeout(() => {
           this.scrollToElement()
@@ -111,16 +115,14 @@ export class MyMessagesComponent implements OnInit {
     this.vendorCode = user.vendor_code
     this.getVendorCoworkers()
     this.chatService.openChatConnection(userId)
-    this.getVendorUnreadMsg()
-    this.getDealerUnreadMsg()
+    this.getUsersUnreadMsg()
     this.getAllDamin()
-    this.getAllVendors()
+    this.getAllUsersCompany()
     this.getUnreadMsgBasedOnRole()
-    setInterval(() => {
-      this.getVendorUnreadMsg()
-      this.getDealerUnreadMsg()
-      this.getUnreadMsgBasedOnRole()
-    }, 10000)
+    // setInterval(() => {
+    //  this.getUsersUnreadMsg()
+    //  this.getUnreadMsgBasedOnRole()
+    // }, 10000)
   }
 
   startCounter() {
@@ -144,10 +146,25 @@ export class MyMessagesComponent implements OnInit {
   }
 
   seeDate() {
-    /// console.log(new Date())
-
     let d = new Date()
     let timer = d.getTime()
+  }
+
+  getAllUsersCompany() {
+    this.postData
+      .httpGetRequest('/admin/get-all-company')
+      .then((result: any) => {
+        this.vendorLoader = false
+        if (result.status) {
+          this.allVendors = result.data.vendor
+          this.incomingVendorData = result.data.vendor
+
+          this.allDealers = result.data.dealer
+          this.incomingDealerData = result.data.dealer
+        } else {
+        }
+      })
+      .catch((err) => {})
   }
 
   trackKeyPress(event: any) {
@@ -285,6 +302,23 @@ export class MyMessagesComponent implements OnInit {
 
           this.noCoworkerFound = result.data.length > 0 ? false : true
           this.adminUserData = result.data
+        } else {
+        }
+      })
+      .catch((err) => {})
+  }
+
+  getUsersUnreadMsg() {
+    this.postData
+      .httpGetRequest('/admin/get-users-unread-msg/' + this.userId)
+      .then((result: any) => {
+        if (result.status) {
+          this.showDealerUnreadMsg =
+            result.data.dealer.length > 0 ? true : false
+          this.dealerUnreadMsg = result.data.dealer
+
+          this.showVenorUnreadMsg = result.data.vendor.length > 0 ? true : false
+          this.vendorUnreadMsg = result.data.vendor
         } else {
         }
       })
