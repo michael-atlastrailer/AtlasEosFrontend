@@ -118,6 +118,7 @@ export class DealerNavbarComponent implements OnInit {
       })
       .catch((err) => {})
   }
+
   closeOverLay() {
     const query = window.matchMedia('(max-width: 700px)')
     if (query.matches) {
