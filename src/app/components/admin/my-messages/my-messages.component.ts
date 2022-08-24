@@ -449,8 +449,11 @@ export class MyMessagesComponent implements OnInit {
         this.chatHistoryLoader = false
         this.showSelectedBtn = true
         this.getVendorAsync()
-        this.getDealerUnreadMsg()
-        this.getVendorUnreadMsg()
+        //// this.getDealerUnreadMsg()
+        //// this.getVendorUnreadMsg()
+        this.getAllUsersCompany()
+
+        this.getUnreadMsgBasedOnRole()
 
         if (result.status) {
           if (result.data.length > 0) {

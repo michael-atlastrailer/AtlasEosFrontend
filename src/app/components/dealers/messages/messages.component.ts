@@ -321,6 +321,7 @@ export class MessagesComponent implements OnInit {
         this.chatHistoryLoader = false
         this.getVendorAsync()
         this.getUnreadMsg()
+        this.getUnreadMsgBasedOnRole()
 
         if (result.status) {
           if (result.data.length > 0) {
