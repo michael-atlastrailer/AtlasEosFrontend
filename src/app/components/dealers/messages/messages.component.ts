@@ -79,6 +79,9 @@ export class MessagesComponent implements OnInit {
 
     this.chatService.getNotification().subscribe((data: any) => {
       this.getUnreadMsgBasedOnRole()
+      this.getVendorAsync()
+      this.getUnreadMsg()
+      this.getAllDamin()
     })
 
     this.chatService.getMessages().subscribe((message: string) => {
@@ -99,9 +102,6 @@ export class MessagesComponent implements OnInit {
       console.log(this.messages)
     })
 
-    this.chatService.getNotification().subscribe((data: any) => {
-      this.getVendorAsync()
-    })
     this.getUnreadMsg()
     this.getAllDamin()
     this.getUnreadMsgBasedOnRole()
@@ -115,12 +115,6 @@ export class MessagesComponent implements OnInit {
         }, 3380)
       }
     })
-
-    setInterval(() => {
-      this.getUnreadMsg()
-      this.getAllDamin()
-      this.getUnreadMsgBasedOnRole()
-    }, 10000)
   }
 
   startCounter() {

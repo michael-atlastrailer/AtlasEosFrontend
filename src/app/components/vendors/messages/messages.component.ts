@@ -53,10 +53,16 @@ export class MessagesComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.getAllDealers()
+
+    this.chatService.getNotification().subscribe((data: any) => {
+      this.getUnreadMsg()
+      this.getUnreadMsgBasedOnRole()
+      this.getAllDamin()
+    })
+
     this.chatService.getMessages().subscribe((message: string) => {
       if (message != '') {
         this.startCounter()
-        this.getUnreadMsgBasedOnRole()
         setTimeout(() => {
           this.scrollToElement()
         }, 80)
@@ -94,12 +100,6 @@ export class MessagesComponent implements OnInit {
     this.getUnreadMsg()
     this.getAllDamin()
     this.getUnreadMsgBasedOnRole()
-
-    setInterval(() => {
-      this.getUnreadMsg()
-      this.getUnreadMsgBasedOnRole()
-      this.getAllDamin()
-    }, 10000)
   }
 
   startCounter() {
@@ -217,7 +217,6 @@ export class MessagesComponent implements OnInit {
       .then((result: any) => {
         if (result.status) {
           this.showUnreadMsg = result.data.length > 0 ? true : false
-
           this.unreadMsgData = result.data
         } else {
         }
