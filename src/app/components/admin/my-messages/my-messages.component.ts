@@ -451,8 +451,7 @@ export class MyMessagesComponent implements OnInit {
         this.getVendorAsync()
         //// this.getDealerUnreadMsg()
         //// this.getVendorUnreadMsg()
-        this.getAllUsersCompany()
-
+        this.getUsersUnreadMsg()
         this.getUnreadMsgBasedOnRole()
 
         if (result.status) {

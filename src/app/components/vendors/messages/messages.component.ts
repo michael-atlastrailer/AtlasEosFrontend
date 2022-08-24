@@ -303,9 +303,9 @@ export class MessagesComponent implements OnInit {
         '/get-user-chat/' + this.userId + '/' + this.selectedUserData.id,
       )
       .then((result: any) => {
-        console.log(result)
         this.chatHistoryLoader = false
         this.getVendorAsync()
+        this.getUnreadMsgBasedOnRole()
 
         if (result.status) {
           if (result.data.length > 0) {
