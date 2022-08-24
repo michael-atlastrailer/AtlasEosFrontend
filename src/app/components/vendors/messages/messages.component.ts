@@ -128,7 +128,7 @@ export class MessagesComponent implements OnInit {
   getUserChatAsync() {
     this.postData
       .httpGetRequest(
-        '/get-user-chat/' + this.userId + '/' + this.selectedUserData.id,
+        '/get-user-chat-async/' + this.selectedUserData.id + '/' + this.userId,
       )
       .then((result: any) => {
         if (result.status) {
