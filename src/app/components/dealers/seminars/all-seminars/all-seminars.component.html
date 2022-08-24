@@ -12,18 +12,10 @@
           </h6>
         </div>
         <div class="w-100 mb-4 mt-3" style="text-align: end">
-         <a
-            class="btn btn-info mr-2 tab-btn  border-thicker"
+          <a
+            class="btn btn-info mr-2 tab-btn border-thicker"
             routerLink="/dealers/all-seminars"
             >ALL SEMINARS</a
-          ><a
-            class="btn btn-success mr-2 tab-btn"
-            routerLink="/dealers/ongoing-seminars"
-            >IN SESSION SEMINARS</a
-          ><a
-            class="btn btn-warning mr-2 tab-btn"
-            routerLink="/dealers/sheduled-seminars"
-            >SCHEDULED SEMINARS</a
           ><a
             class="btn btn-danger mr-2 tab-btn"
             routerLink="/dealers/watched-seminars"
@@ -182,7 +174,6 @@
                       matSort
                       (matSortChange)="announceSortChange($event)"
                     >
-                   
                       <ng-container matColumnDef="seminar_date">
                         <th
                           mat-header-cell
@@ -190,7 +181,7 @@
                           mat-sort-header
                           sortActionDescription="Sort by number"
                         >
-                          DATE  <i class="fa fa-sort ml-2"></i>
+                          DATE <i class="fa fa-sort ml-2"></i>
                         </th>
                         <td mat-cell *matCellDef="let element">
                           {{ element.seminar_date | date }}
@@ -201,16 +192,21 @@
                         <td
                           mat-cell
                           style="position: relative"
-                          *matCellDef="let element" class="align-items-center justify-content-center d-flex"
+                          *matCellDef="let element"
+                          class=""
                         >
-                          <span *ngIf="element.bookmark == 1" class="bookmark"
-                            ><i class="fa fa-bookmark" style="color: red"></i
-                          ></span>
-                          {{ to12Hr(element.start_time)  }} <p class="subs ml-2 mb-0 ">MST</p>
+                        
+                            {{ to12Hr(element.start_time) }}
+                            <span class="subs ml-1 mb-0">(MST)</span>
+                         
                         </td> </ng-container
                       ><ng-container matColumnDef="vendor_name">
                         <th mat-header-cell *matHeaderCellDef>Vendor Name</th>
-                        <td mat-cell *matCellDef="let element" class="notranslate">
+                        <td
+                          mat-cell
+                          *matCellDef="let element"
+                          class="notranslate"
+                        >
                           {{ element.vendor_name }}
                         </td>
                       </ng-container>
@@ -252,7 +248,10 @@
                             class="btn btn-info"
                             href="{{ element.completed_seminar_link }}"
                             target="_blank"
-                            *ngIf="element.status == 3 && element.completed_seminar_link"
+                            *ngIf="
+                              element.status == 3 &&
+                              element.completed_seminar_link
+                            "
                           >
                             <i
                               class="fa fa-play-circle-o"
@@ -260,13 +259,15 @@
                             ></i>
                             WATCH
                           </a>
-                           <a
+                          <a
                             class="btn btn-warning"
-                           disabled
-                            
-                            *ngIf="element.status == 3 && element.completed_seminar_link ==null"
+                            disabled
+                            *ngIf="
+                              element.status == 3 &&
+                              element.completed_seminar_link == null
+                            "
                           >
-                            LOADING
+                            UPLOADING
                           </a>
                           <a
                             class="btn btn-success"
@@ -282,11 +283,12 @@
                           </a>
                           <a
                             class="btn btn-success"
-                           
                             *ngIf="
                               element.status == 1 || element.status == null
                             "
-                            (click)=" bookmarkSeminar(element.id,1,element.status)"
+                            (click)="
+                              bookmarkSeminar(element.id, 1, element.status)
+                            "
                           >
                             <i class="fa fa-alert" aria-hidden="true"></i>
                             REMIND ME
@@ -307,11 +309,11 @@
                       <i>No Data Found</i>
                     </p>
                     <mat-paginator
-                      [pageSizeOptions]="[5, 10, 20]"
-                      showFirstLastButtons
-                      aria-label="Select page seminar pages"
-                    >
-                    </mat-paginator>
+                    [pageSizeOptions]="[100, 50, 200]"
+                    showFirstLastButtons
+                    aria-label="Select page seminar pages"
+                  >
+                  </mat-paginator>
                   </div>
                 </div>
               </div>

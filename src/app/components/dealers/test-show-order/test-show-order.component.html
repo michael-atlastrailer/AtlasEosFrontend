@@ -129,7 +129,7 @@
             style="background-color: #525659; border: none;"
           ></iframe>
         </div>
-        <p *ngIf="viewPromoFlyer" class="mt-3 mb-4">No Flyer Available</p>
+        <!-- <p *ngIf="viewPromoFlyer" class="mt-3 mb-4">No Flyer Available</p> -->
       </div>
     </div>
   </div>
@@ -418,8 +418,8 @@
                   data-toggle="modal"
                   class="clickable"
                   data-target="#exampleModal"
-                ><span class="new" *ngIf='element?.check_new!'></span>
-                  {{ element.atlas_id! }}
+                >
+               <div class="d-flex justify-content-center">  <span> {{ element.atlas_id! }}</span> <span class="new ml-2 mt-1 " *ngIf='element?.check_new!'></span></div>
                 </td>
               </ng-container>
               <ng-container matColumnDef="vendor">
