@@ -143,12 +143,10 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
   // @ViewChild(MatSort)
   // sort!: MatSort
 
-
   sortedData!: PeriodicElement[]
   highlightIndex = null
   setVendor = false
   currentData: any
-
   constructor(
     private getData: HttpRequestsService,
     private toastr: ToastrService,
@@ -450,7 +448,6 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
       .then((res: any) => {
         console.log(res);
         if (res.status) {
-
           this.showSubmittedDetails = true
           this.alreadyOrder = true
           console.log('already order eri', this.alreadyOrder)
@@ -848,7 +845,6 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
     if (this.searchatlasId == '###') {
       newArray = array;
     } else {
-
       this.isMod = true;
       setTimeout(() => {
         document
@@ -858,7 +854,6 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
       this.highlightIndex = array.findIndex((item: any) => {
         return item.atlas_id == this.searchatlasId!;
       });
-
     }
     return array;
   }
@@ -963,14 +958,12 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
 
             this.toastr.success(
               `${this.orderLen}  item(s) have been added to cart`,
-
               'Success',
             )
 
             this.orderTable = []
             this.getTotal()
             this.getCart()
-
             if (this.searchatlasId) {
               this.searchVendorId(this.vendorId!);
             } else {

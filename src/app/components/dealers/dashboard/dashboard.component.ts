@@ -202,27 +202,20 @@ export class DashboardComponent implements OnInit {
       .then((result: any) => {
         console.log(result);
         if (result.status) {
-          let len = result.data.orders.length;
-          let rev = result.data.orders;
+          let rev = result.data;
           let rev1, rev2, rev3: any;
           rev1 = 0;
           rev2 = 0;
           rev3 = 0;
-          let ron = result.data.dates.indexOf('2022-08-24');
-
-          console.log(
-            'res',
-            ron,
-            result.data.dates.indexOf('2022-08-24') !== -1,
-            rev[result.data.dates.indexOf('2022-08-24')]?.total_price
-          );
-          if (result.data.dates.indexOf('2022-08-25') !== -1) {
-            rev1 = rev[result.data.dates.indexOf('2022-08-25')]?.total_price;
+          for (var l = 0; l < rev.length; l++) {
+            if (rev[l].date == '2022-08-24') {
+              rev1 = rev[l].amount;
+            }
+            if (rev[l].date == '2022-08-25') {
+              rev2 = rev[l].amount;
+            }
           }
-          if (result.data.dates.indexOf('2022-08-24') !== -1) {
-            rev2 = rev[result.data.dates.indexOf('2022-08-24')]?.total_price;
-          }
-  let revtot = rev1 + rev2;
+          let revtot = rev1 + rev2;
           console.log(
             'reverse table',
             rev,
@@ -231,8 +224,8 @@ export class DashboardComponent implements OnInit {
             rev2,
             revtot
           );
-        
-          if (Math.floor(revtot) ==0) {
+
+          if (Math.floor(revtot) == 0) {
             this.chartOptions = {
               series: [
                 {
