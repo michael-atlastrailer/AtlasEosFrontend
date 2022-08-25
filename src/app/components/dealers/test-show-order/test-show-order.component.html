@@ -190,7 +190,7 @@
                 <!-- <div class="body-wrapper"> -->
                 <div
                   #dropdownSection
-                  class="dropdown-section notranslate "
+                  class="dropdown-section notranslate"
                   id="jqxScrollBar"
                 >
                   <input
@@ -198,6 +198,7 @@
                     class="dropdown-filter"
                     (keyup)="applyFilter($event)"
                     #input
+                    (click)="$event.stopPropagation()"
                   />
 
                   <div class="scrollbar-fix">
@@ -256,7 +257,7 @@
           </div>
 
           <div
-            class="table-ctn  p-3 table-responsive mt-2"
+            class="table-ctn p-3 table-responsive mt-2"
             style="background-color: white;"
           >
             <table class="table" *ngIf="loader">
@@ -418,7 +419,8 @@
                   data-toggle="modal"
                   class="clickable"
                   data-target="#exampleModal"
-                ><span class="new" *ngIf='element?.check_new!'></span>
+                >
+                  <span class="new" *ngIf="element?.check_new!"></span>
                   {{ element.atlas_id! }}
                 </td>
               </ng-container>
