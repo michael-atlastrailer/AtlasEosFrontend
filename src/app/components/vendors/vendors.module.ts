@@ -19,8 +19,10 @@ import { MatTableModule } from '@angular/material/table'
 import { MatSortModule } from '@angular/material/sort'
 import { AllReportTicketsComponent } from './all-report-tickets/all-report-tickets.component'
 import { ViewReportTicketComponent } from './view-report-ticket/view-report-ticket.component'
-import { SwitchDealerComponent } from './switch-dealer/switch-dealer.component';
+import { SwitchDealerComponent } from './switch-dealer/switch-dealer.component'
 import { ViewDealerSummaryComponent } from './view-dealer-summary/view-dealer-summary.component'
+
+import { MatMenuModule } from '@angular/material/menu'
 
 @NgModule({
   declarations: [
@@ -48,6 +50,7 @@ import { ViewDealerSummaryComponent } from './view-dealer-summary/view-dealer-su
     MatPaginatorModule,
     MatTableModule,
     MatSortModule,
+    MatMenuModule,
   ],
 })
 export class VendorsModule {}

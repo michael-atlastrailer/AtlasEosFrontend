@@ -143,10 +143,12 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
   // @ViewChild(MatSort)
   // sort!: MatSort
 
-  sortedData!: PeriodicElement[];
-  highlightIndex = null;
-  setVendor = false;
-  currentData: any;
+
+  sortedData!: PeriodicElement[]
+  highlightIndex = null
+  setVendor = false
+  currentData: any
+
   constructor(
     private getData: HttpRequestsService,
     private toastr: ToastrService,
@@ -448,14 +450,18 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
       .then((res: any) => {
         console.log(res);
         if (res.status) {
-          this.showSubmittedDetails = true;
-          this.alreadyOrder = true;
-          console.log('already order eri', this.alreadyOrder);
-          this.cartLoader = false;
-          this.itemAlreadySubmitted = res.data.item_details;
-          this.itemNewlySubmitted = res.data.item_added;
-          this.toastr.success(` item(s) has been submitted`, 'Success');
-          this.emptyTableQty();
+
+          this.showSubmittedDetails = true
+          this.alreadyOrder = true
+          console.log('already order eri', this.alreadyOrder)
+          this.cartLoader = false
+          this.itemAlreadySubmitted = res.data.item_details
+          this.itemNewlySubmitted = res.data.item_added
+          this.emptyTableQty()
+          if (res.data.item_added > 0) {
+            this.toastr.success(`item(s) has been submitted`, 'Success')
+          }
+
           /// this.orderTable = []
           /// this.getTotal()
           /// this.getCart()
@@ -842,6 +848,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
     if (this.searchatlasId == '###') {
       newArray = array;
     } else {
+
       this.isMod = true;
       setTimeout(() => {
         document
@@ -851,6 +858,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
       this.highlightIndex = array.findIndex((item: any) => {
         return item.atlas_id == this.searchatlasId!;
       });
+
     }
     return array;
   }
@@ -955,11 +963,14 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
 
             this.toastr.success(
               `${this.orderLen}  item(s) have been added to cart`,
-              'Success'
-            );
-            this.orderTable = [];
-            this.getTotal();
-            this.getCart();
+
+              'Success',
+            )
+
+            this.orderTable = []
+            this.getTotal()
+            this.getCart()
+
             if (this.searchatlasId) {
               this.searchVendorId(this.vendorId!);
             } else {

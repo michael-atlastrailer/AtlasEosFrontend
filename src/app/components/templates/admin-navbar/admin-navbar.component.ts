@@ -25,15 +25,16 @@ export class AdminNavbarComponent implements OnInit {
     this.adminData = this.tokenStorage.getUser()
     this.getUnreadMsg()
 
+    this.chatService.getNotification().subscribe((data: any) => {
+      this.getUnreadMsg()
+      // setTimeout(() => {
+      this.getUnreadMsg()
+      // }, 200)
+    })
+
     setInterval(() => {
       this.getUnreadMsg()
     }, 10000)
-
-    this.chatService.getNotification().subscribe((data: any) => {
-      setTimeout(() => {
-        this.getUnreadMsg()
-      }, 100)
-    })
   }
 
   getUnreadMsg() {
