@@ -57,8 +57,8 @@ export class DealerNavbarComponent implements OnInit {
     this.getUnreadReportProblem()
 
     setInterval(() => {
-      this.getUnreadMsg()
       this.getUnreadReportProblem()
+      this.getUnreadMsg()
     }, 10000)
 
     this.chatService.getNotification().subscribe((data: any) => {
@@ -119,6 +119,7 @@ export class DealerNavbarComponent implements OnInit {
       })
       .catch((err) => {})
   }
+
   closeOverLay() {
     const query = window.matchMedia('(max-width: 700px)')
     if (query.matches) {

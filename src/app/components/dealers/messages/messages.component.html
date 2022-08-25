@@ -26,6 +26,7 @@
                                 class="nav-link active"
                                 data-toggle="pill"
                                 href="#home"
+                                (click)="resmoveSelected()"
                               >
                                 Co-workers
                                 <span class="badge badge-primary">
@@ -38,6 +39,7 @@
                                 class="nav-link"
                                 data-toggle="pill"
                                 href="#menu1"
+                                (click)="resmoveSelected()"
                               >
                                 Vendors
                                 <span class="badge badge-primary">
@@ -51,6 +53,7 @@
                                 class="nav-link"
                                 data-toggle="pill"
                                 href="#menu3"
+                                (click)="resmoveSelected()"
                               >
                                 Atlas
                                 <span class="badge badge-primary">
@@ -109,35 +112,45 @@
                                   <input
                                     class="dummy-input"
                                     type="text"
-                                    (click)="toggleVendors()"
                                     value="Select vendor company"
                                     readonly
                                     #dummyInput
+                                    mat-button
+                                    [matMenuTriggerFor]="vendoMenu"
                                   />
 
-                                  <div
-                                    *ngIf="showDropdown"
-                                    #dropdownSection
-                                    class="dropdown-section"
+                                  <mat-menu
+                                    #vendoMenu="matMenu"
+                                    class="mat-menu"
                                   >
-                                    <input
-                                      type="text"
-                                      class="dropdown-filter"
-                                      (keyup)="applyFilter($event)"
-                                      #input
-                                    />
+                                    <div
+                                      #dropdownSection
+                                      class="dropdown-section"
+                                    >
+                                      <input
+                                        type="text"
+                                        class="dropdown-filter"
+                                        (keyup)="applyFilter($event)"
+                                        #input
+                                      />
 
-                                    <ul>
-                                      <li
-                                        *ngFor="let data of allVendors"
-                                        (click)="
-                                          getAllSelectedDealerUsers(data)
-                                        "
-                                      >
-                                        {{ data.vendor_name }}
-                                      </li>
-                                    </ul>
-                                  </div>
+                                      <ul class="vendor-ul">
+                                        <li
+                                          style="
+                                            cursor: pointer;
+                                            padding-top: 5px;
+                                            padding-bottom: 5px;
+                                          "
+                                          *ngFor="let data of allVendors"
+                                          (click)="
+                                            getAllSelectedDealerUsers(data)
+                                          "
+                                        >
+                                          {{ data.vendor_name }}
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </mat-menu>
                                 </div>
 
                                 <ul class="coworker-ul">
@@ -203,6 +216,30 @@
                                         <span class="badge badge-danger">
                                           {{ data?.notification }}
                                         </span>
+                                      </li>
+                                    </div>
+                                  </ul>
+                                </div>
+
+                                <div class="" *ngIf="showRecentChatUsers">
+                                  <h6 class="unread-msg-text">
+                                    Recent Chat Users
+                                  </h6>
+
+                                  <ul class="unread-msg-ul">
+                                    <div
+                                      *ngFor="let data of userVendorRecentChat"
+                                    >
+                                      <li
+                                        class="vendor-user-name"
+                                        *ngIf="data.id != userId"
+                                        (click)="selectedUser(data)"
+                                      >
+                                        <span
+                                          class="fa fa-address-card coworker-icon"
+                                        ></span>
+                                        {{ data?.first_name }}
+                                        {{ data?.last_name }}
                                       </li>
                                     </div>
                                   </ul>

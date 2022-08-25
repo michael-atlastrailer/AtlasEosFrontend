@@ -57,14 +57,16 @@ export class MyMessagesComponent implements OnInit {
   @ViewChild('chatWrapper') private chatWrapper!: ElementRef
   @ViewChild('dummyDealerInput') private dummyDealerInput!: ElementRef
   @ViewChild('dummyVendorInput') private dummyVendorInput!: ElementRef
-
   @ViewChild('inputVendor') private inputVendor!: ElementRef
-
   @ViewChild('inputDealer') private inputDealer!: ElementRef
 
   coworkerMsgCount = 0
   dealerMsgCount = 0
   vendorMsgCount = 0
+  showRecentChatVendorUsers = false
+  userVendorRecentChat: any
+  showRecentChatDealerUsers = false
+  userDealerRecentChat: any
 
   constructor(
     private postData: HttpRequestsService,
@@ -73,13 +75,16 @@ export class MyMessagesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getAllDealers()
+    ///// this.getAllDealers()
 
-    this.chatService.getMessages().subscribe((message: string) => {
+    this.chatService.getNotification().subscribe((data: any) => {
+      this.getUnreadMsgBasedOnRole()
+      this.getUsersUnreadMsg()
+    })
+
+    this.chatService.getMessages().subscribe((message: any) => {
       if (message != '') {
         this.startCounter()
-        this.getUnreadMsgBasedOnRole()
-
         setTimeout(() => {
           this.scrollToElement()
         }, 80)
@@ -89,7 +94,9 @@ export class MyMessagesComponent implements OnInit {
         this.getMsgAsync()
       }
 
-      this.messages.push(message)
+      if (this.selectedUserUniqueId == message.sender) {
+        this.messages.push(message)
+      }
     })
 
     this.chatService.getTyping().subscribe((message: string) => {
@@ -106,27 +113,55 @@ export class MyMessagesComponent implements OnInit {
     let user = this.tokeStore.getUser()
     this.userData = this.tokeStore.getUser()
     this.userId = user.id
-    let userId = user.id + user.first_name
-    this.uniqueUserId = userId
+
+    let userIdChat = user.id + user.first_name
+    this.uniqueUserId = user.id + user.first_name
     this.vendorCode = user.vendor_code
+
     this.getVendorCoworkers()
-    this.chatService.openChatConnection(userId)
-    this.getVendorUnreadMsg()
-    this.getDealerUnreadMsg()
+    this.chatService.openChatConnection(userIdChat)
+    this.getUsersUnreadMsg()
     this.getAllDamin()
-    this.getAllVendors()
+    this.getAllUsersCompany()
     this.getUnreadMsgBasedOnRole()
-    setInterval(() => {
-      this.getVendorUnreadMsg()
-      this.getDealerUnreadMsg()
-      this.getUnreadMsgBasedOnRole()
-    }, 10000)
+    // setInterval(() => {
+    //  this.getUsersUnreadMsg()
+    //  this.getUnreadMsgBasedOnRole()
+    // }, 10000)
+    this.getDealerUserRecentChatHistory()
+    this.getVendorUserRecentChatHistory()
   }
 
   startCounter() {
     setInterval(() => {
       this.getUserChatAsync()
     }, 10000)
+  }
+
+  getDealerUserRecentChatHistory() {
+    this.postData
+      .httpGetRequest('/chat/get-chat-history/' + this.userId + '/4')
+      .then((result: any) => {
+        this.showRecentChatDealerUsers = true
+        if (result.status) {
+          this.userDealerRecentChat = result.data
+        } else {
+        }
+      })
+      .catch((err) => {})
+  }
+
+  getVendorUserRecentChatHistory() {
+    this.postData
+      .httpGetRequest('/chat/get-chat-history/' + this.userId + '/3')
+      .then((result: any) => {
+        this.showRecentChatVendorUsers = true
+        if (result.status) {
+          this.userVendorRecentChat = result.data
+        } else {
+        }
+      })
+      .catch((err) => {})
   }
 
   getUnreadMsgBasedOnRole() {
@@ -144,13 +179,32 @@ export class MyMessagesComponent implements OnInit {
   }
 
   seeDate() {
-    /// console.log(new Date())
-
     let d = new Date()
     let timer = d.getTime()
   }
 
+  getAllUsersCompany() {
+    this.postData
+      .httpGetRequest('/admin/get-all-company')
+      .then((result: any) => {
+        this.vendorLoader = false
+        if (result.status) {
+          this.allVendors = result.data.vendor
+          this.incomingVendorData = result.data.vendor
+
+          this.allDealers = result.data.dealer
+          this.incomingDealerData = result.data.dealer
+        } else {
+        }
+      })
+      .catch((err) => {})
+  }
+
   trackKeyPress(event: any) {
+    if (event.key == 'Enter') {
+      this.sendMsg()
+      event.preventDefault()
+    }
     let data = {
       user: this.selectedUserData.id + this.selectedUserData.first_name,
       msg: this.msg,
@@ -244,10 +298,7 @@ export class MyMessagesComponent implements OnInit {
     this.toggleVendorDropDown()
     this.postData
       .httpGetRequest(
-        '/dealer/get-selected-company-vendor/' +
-          data.vendor_code +
-          '/' +
-          this.userId,
+        '/admin/get-chat-selected-vendor-users/' + data.vendor_code,
       )
       .then((result: any) => {
         this.vendorLoader = false
@@ -285,6 +336,23 @@ export class MyMessagesComponent implements OnInit {
 
           this.noCoworkerFound = result.data.length > 0 ? false : true
           this.adminUserData = result.data
+        } else {
+        }
+      })
+      .catch((err) => {})
+  }
+
+  getUsersUnreadMsg() {
+    this.postData
+      .httpGetRequest('/admin/get-users-unread-msg/' + this.userId)
+      .then((result: any) => {
+        if (result.status) {
+          this.showDealerUnreadMsg =
+            result.data.dealer.length > 0 ? true : false
+          this.dealerUnreadMsg = result.data.dealer
+
+          this.showVenorUnreadMsg = result.data.vendor.length > 0 ? true : false
+          this.vendorUnreadMsg = result.data.vendor
         } else {
         }
       })
@@ -369,6 +437,10 @@ export class MyMessagesComponent implements OnInit {
     })
   }
 
+  checkForEnter(event: any) {
+    console.log(event)
+  }
+
   sendMsg() {
     if (this.msg != '') {
       this.startCounter()
@@ -392,7 +464,7 @@ export class MyMessagesComponent implements OnInit {
   getUserChatAsync() {
     this.postData
       .httpGetRequest(
-        '/get-user-chat/' + this.userId + '/' + this.selectedUserData.id,
+        '/get-user-chat-async/' + this.selectedUserData.id + '/' + this.userId,
       )
       .then((result: any) => {
         if (result.status) {
@@ -408,15 +480,18 @@ export class MyMessagesComponent implements OnInit {
   getUserChat() {
     this.postData
       .httpGetRequest(
-        '/get-user-chat/' + this.userId + '/' + this.selectedUserData.id,
+        '/get-user-chat/' + this.selectedUserData.id + '/' + this.userId,
       )
       .then((result: any) => {
         console.log(result)
         this.chatHistoryLoader = false
         this.showSelectedBtn = true
         this.getVendorAsync()
-        this.getDealerUnreadMsg()
-        this.getVendorUnreadMsg()
+        //// this.getDealerUnreadMsg()
+        //// this.getVendorUnreadMsg()
+        this.getUsersUnreadMsg()
+        this.getUnreadMsgBasedOnRole()
+        this.getAllDamin()
 
         if (result.status) {
           if (result.data.length > 0) {
@@ -493,7 +568,7 @@ export class MyMessagesComponent implements OnInit {
   getMsgAsync() {
     this.postData
       .httpGetRequest(
-        '/get-user-chat/' + this.userId + '/' + this.selectedUserData.id,
+        '/get-user-chat-async/' + this.selectedUserData.id + '/' + this.userId,
       )
       .then((result: any) => {
         this.chatHistoryLoader = false
@@ -514,5 +589,13 @@ export class MyMessagesComponent implements OnInit {
         }
       })
       .catch((err) => {})
+  }
+
+  ngOnDestroy() {
+    this.selectedUserData = ''
+  }
+
+  resmoveSelected() {
+    this.selectedUserData = ''
   }
 }

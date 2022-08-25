@@ -40,6 +40,9 @@ export class MessagesComponent implements OnInit {
   adminMsgCount = 0
   dealerMsgCount = 0
   vendorMsgCount = 0
+  selectedUserUniqueId = ''
+  showRecentChatUsers = false
+  userDealerRecentChat: any
 
   @ViewChild('chatWrapper') private chatWrapper!: ElementRef
   @ViewChild('audioTag') private audioTag!: ElementRef
@@ -53,10 +56,16 @@ export class MessagesComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.getAllDealers()
-    this.chatService.getMessages().subscribe((message: string) => {
+
+    this.chatService.getNotification().subscribe((data: any) => {
+      this.getUnreadMsg()
+      this.getUnreadMsgBasedOnRole()
+      this.getAllDamin()
+    })
+
+    this.chatService.getMessages().subscribe((message: any) => {
       if (message != '') {
         this.startCounter()
-        this.getUnreadMsgBasedOnRole()
         setTimeout(() => {
           this.scrollToElement()
         }, 80)
@@ -66,7 +75,9 @@ export class MessagesComponent implements OnInit {
         this.getMsgAsync()
       }
 
-      this.messages.push(message)
+      if (this.selectedUserUniqueId == message.sender) {
+        this.messages.push(message)
+      }
     })
 
     this.chatService.getTyping().subscribe((message: string) => {
@@ -94,18 +105,26 @@ export class MessagesComponent implements OnInit {
     this.getUnreadMsg()
     this.getAllDamin()
     this.getUnreadMsgBasedOnRole()
-
-    setInterval(() => {
-      this.getUnreadMsg()
-      this.getUnreadMsgBasedOnRole()
-      this.getAllDamin()
-    }, 10000)
+    this.getUserRecentChatHistory()
   }
 
   startCounter() {
     setInterval(() => {
       this.getUserChatAsync()
     }, 10000)
+  }
+
+  getUserRecentChatHistory() {
+    this.postData
+      .httpGetRequest('/chat/get-chat-history/' + this.userId + '/4')
+      .then((result: any) => {
+        this.showRecentChatUsers = true
+        if (result.status) {
+          this.userDealerRecentChat = result.data
+        } else {
+        }
+      })
+      .catch((err) => {})
   }
 
   getUnreadMsgBasedOnRole() {
@@ -125,7 +144,7 @@ export class MessagesComponent implements OnInit {
   getUserChatAsync() {
     this.postData
       .httpGetRequest(
-        '/get-user-chat/' + this.userId + '/' + this.selectedUserData.id,
+        '/get-user-chat-async/' + this.selectedUserData.id + '/' + this.userId,
       )
       .then((result: any) => {
         if (result.status) {
@@ -139,6 +158,10 @@ export class MessagesComponent implements OnInit {
   }
 
   trackKeyPress(event: any) {
+    if (event.key == 'Enter') {
+      this.sendMsg()
+      event.preventDefault()
+    }
     let data = {
       user: this.selectedUserData.id + this.selectedUserData.first_name,
       msg: this.msg,
@@ -217,7 +240,6 @@ export class MessagesComponent implements OnInit {
       .then((result: any) => {
         if (result.status) {
           this.showUnreadMsg = result.data.length > 0 ? true : false
-
           this.unreadMsgData = result.data
         } else {
         }
@@ -301,12 +323,13 @@ export class MessagesComponent implements OnInit {
   getUserChat() {
     this.postData
       .httpGetRequest(
-        '/get-user-chat/' + this.userId + '/' + this.selectedUserData.id,
+        '/get-user-chat/' + this.selectedUserData.id + '/' + this.userId,
       )
       .then((result: any) => {
-        console.log(result)
         this.chatHistoryLoader = false
         this.getVendorAsync()
+        this.getUnreadMsgBasedOnRole()
+        this.getAllDamin()
 
         if (result.status) {
           if (result.data.length > 0) {
@@ -350,6 +373,8 @@ export class MessagesComponent implements OnInit {
 
   selectedUser(data: any) {
     this.selectedUserData = data
+    this.selectedUserUniqueId = data.id + data.first_name
+
     this.userSelected = true
     this.chatHistoryLoader = true
     this.userHasBeenSelected = true
@@ -383,7 +408,7 @@ export class MessagesComponent implements OnInit {
   getMsgAsync() {
     this.postData
       .httpGetRequest(
-        '/get-user-chat/' + this.userId + '/' + this.selectedUserData.id,
+        '/get-user-chat-async/' + this.selectedUserData.id + '/' + this.userId,
       )
       .then((result: any) => {
         this.chatHistoryLoader = false
@@ -404,5 +429,13 @@ export class MessagesComponent implements OnInit {
         }
       })
       .catch((err) => {})
+  }
+
+  ngOnDestroy() {
+    this.selectedUserData = ''
+  }
+
+  resmoveSelected() {
+    this.selectedUserData = ''
   }
 }
