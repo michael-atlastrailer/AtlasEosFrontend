@@ -230,7 +230,7 @@ export class DashboardComponent implements OnInit {
               series: [
                 {
                   name: 'Sales summary',
-                  data: [rev1.toFixed(0), rev2.toFixed(0)],
+                  data: [rev1, rev2],
                 },
               ],
               //Math.round(value * 1.5)
@@ -272,7 +272,7 @@ export class DashboardComponent implements OnInit {
               series: [
                 {
                   name: 'Sales summary',
-                  data: [rev1.toFixed(0), rev2.toFixed(0)],
+                  data: [rev1.toFixed(2), rev2.toFixed(2)],
                 },
               ],
               //Math.round(value * 1.5)

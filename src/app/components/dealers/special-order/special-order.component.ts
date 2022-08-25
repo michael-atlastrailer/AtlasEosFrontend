@@ -11,6 +11,7 @@ import { HttpRequestsService } from 'src/app/core/services/http-requests.service
 import { TokenStorageService } from 'src/app/core/services/token-storage.service';
 import { T } from '../show-orders/show-orders.component';
 interface Dealer {
+  cname: any;
   fname: string;
   lname: string;
   id: any;
@@ -44,6 +45,7 @@ export class SpecialOrderComponent implements OnInit {
   dealer: Dealer = {
     fname: '',
     lname: '',
+    cname: '',
     id: undefined,
   };
   tableData: PeriodicElement[] = [];
@@ -141,6 +143,7 @@ export class SpecialOrderComponent implements OnInit {
       this.vendorSelected = true;
       this.dealer.fname = this.token.getUser().first_name;
       this.dealer.lname = this.token.getUser().last_name;
+       this.dealer.cname = this.token.getUser().company_name;
       this.dealer.id = this.token.getUser().id;
       console.log('dealer data', this.ordained, this.allCategoryData);
       this.clearOrder();
@@ -344,7 +347,7 @@ export class SpecialOrderComponent implements OnInit {
             this.disableSubmit = save;
 
             this.toastr.error(
-              `item with vendor part ${id} is on the show order form and you cannot add them here `,
+              `item with vendor ${id} is on the show order form and you cannot add them here `,
               'Error',
               { timeOut: 6000 }
             );

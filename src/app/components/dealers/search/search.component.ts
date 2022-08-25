@@ -171,11 +171,13 @@ export class SearchComponent implements OnInit {
           {
             this.productNoData == true &&
               this.vendorNoData == true &&
-              this.toastr.info('This Item is not on the show',);
+              this.toastr.info('Sorry, Item not available on the show');
           }
           console.log('result', result);
         } else {
-          this.toastr.error('', `Item not on show`);
+          this.toastr.error(
+            'Sorry, Item not available on the show'
+          );
         }
       })
       .catch((err) => {
