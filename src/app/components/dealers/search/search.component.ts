@@ -171,7 +171,7 @@ export class SearchComponent implements OnInit {
           {
             this.productNoData == true &&
               this.vendorNoData == true &&
-              this.toastr.error('Item not on show', ` Error`);
+              this.toastr.info('This Item is not on the show',);
           }
           console.log('result', result);
         } else {
