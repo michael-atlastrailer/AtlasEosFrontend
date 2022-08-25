@@ -21,7 +21,7 @@
 
 .timer-table {
   border: none;
-  color: #000;
+  color: #fff;
   font-weight: 900 !important;
   text-transform: uppercase !important;
 
@@ -60,7 +60,7 @@ ul.sidemenu a {
 }
 .acc-text {
   color: red;
-  font-weight: bold;
+  font-weight: 600 !important;
   font-size: 12px;
 }
 .profile-icon {
@@ -95,11 +95,11 @@ ul.sidemenu a {
 
 .location-text {
   font-style: italic;
-  font-size: 12px;
+  font-size: 12px;font-weight: 700 !important;
 }
 
 .name-text {
-  font-weight: bold;
+  font-weight: 700 !important;
   font-size: 15px;
   text-transform: capitalize;
 }
