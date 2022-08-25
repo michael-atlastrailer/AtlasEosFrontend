@@ -198,6 +198,7 @@
                     class="dropdown-filter"
                     (keyup)="applyFilter($event)"
                     #input
+                    (click)="$event.stopPropagation()"
                   />
 
                   <div class="scrollbar-fix">
