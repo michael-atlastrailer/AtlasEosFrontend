@@ -7,14 +7,13 @@ import { ToastrService } from 'ngx-toastr'
 import { Router } from '@angular/router'
 
 
-
 @Component({
   selector: 'app-dealers',
   templateUrl: './dealers.component.html',
   styleUrls: ['./dealers.component.css'],
 })
 export class DealersComponent implements OnInit {
-  @ViewChild('audioTag') private audioTag!: ElementRef;
+  @ViewChild('audioTag') private audioTag!: ElementRef
 
   currentTimeDate = ''
 
@@ -65,6 +64,5 @@ export class DealersComponent implements OnInit {
         }
       })
       .catch((err) => {})
-
   }
 }
