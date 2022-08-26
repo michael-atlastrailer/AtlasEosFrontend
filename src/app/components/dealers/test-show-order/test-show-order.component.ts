@@ -210,6 +210,9 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
         case 'vendor':
           return compare(a.vendor_product_code, b.vendor_product_code, isAsc);
 
+        case 'vendor':
+          return compare(a.vendor_product_code, b.vendor_product_code, isAsc)
+
         default:
           return 0;
       }
