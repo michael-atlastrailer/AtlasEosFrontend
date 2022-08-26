@@ -143,7 +143,7 @@ export class SpecialOrderComponent implements OnInit {
       this.vendorSelected = true;
       this.dealer.fname = this.token.getUser().first_name;
       this.dealer.lname = this.token.getUser().last_name;
-       this.dealer.cname = this.token.getUser().company_name;
+      this.dealer.cname = this.token.getUser().company_name;
       this.dealer.id = this.token.getUser().id;
       console.log('dealer data', this.ordained, this.allCategoryData);
       this.clearOrder();
@@ -242,7 +242,10 @@ export class SpecialOrderComponent implements OnInit {
           // console.log(result);
           if (result.status) {
             this.saveLoader = false;
-            this.toastr.success(`Special order has been successfully submitted`, 'Success');
+            this.toastr.success(
+              `Special order has been successfully submitted`,
+              'Success'
+            );
             this.clearOrder();
           } else {
             this.saveLoader = false;
@@ -299,11 +302,12 @@ export class SpecialOrderComponent implements OnInit {
   checkEmptyStat(id: any, j: any, check: boolean) {
     let error = false;
     console.log('errror disable', this.disableSubmit, error);
- this.hasDuplicates(this.arr);
+    this.hasDuplicates(this.arr);
     if (this.arr?.length < 1) {
       error = true;
     } else {
       for (var i = 0; i < this.arr.length; i++) {
+        console.log(this.arr[i], this.arr[i].vendor_no);
         if (this.arr[i].quantity == '') {
           error = true;
         }
@@ -312,9 +316,14 @@ export class SpecialOrderComponent implements OnInit {
         }
         if (this.arr[i].vendor_no == '') {
           error = true;
-        } // if (this.arr[i].description == '') {
-        //   error = true;
-        // }
+        } if (this.arr[i].description == '') {
+        error = true;
+       } if (this.arr[i].vendor_no == undefined) {
+         error = true;
+       }
+       if (this.arr[i].description == undefined) {
+         error = true;
+       }
       }
     }
 
@@ -366,13 +375,12 @@ export class SpecialOrderComponent implements OnInit {
     let filteredArr = a.filter((item: any, i: any) => {
       return a.indexOf(item) !== i;
     });
-   
+
     const noDups = new Set(a.vendor_no);
- console.log('filtrted array', filteredArr,noDups);
+    console.log('filtrted array', filteredArr, noDups);
     // return a.length !== noDups.size;
   }
   checkConstraint() {
-   
     this.arrNotSpec = [];
     function toFindDuplicates(arry: any) {
       const uniqueElements = new Set(arry);
@@ -446,20 +454,14 @@ export class SpecialOrderComponent implements OnInit {
           this.fetchOrder();
           this.toastr.info(`Order has been deleted successfully`, 'Order');
         } else {
-          this.toastr.info(
-            `Something went wrong deleting special orders`,
-            ''
-          );
+          this.toastr.info(`Something went wrong deleting special orders`, '');
           this.fetchOrder();
         }
       })
       .catch((err) => {
         this.saveLoader = false;
 
-        this.toastr.info(
-          `Something went wrong deleting special orders`,
-          ''
-        );
+        this.toastr.info(`Something went wrong deleting special orders`, '');
       });
   }
   navigateFromEdit() {
