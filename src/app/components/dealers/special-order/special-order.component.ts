@@ -243,7 +243,7 @@ export class SpecialOrderComponent implements OnInit {
           if (result.status) {
             this.saveLoader = false;
             this.toastr.success(
-              `Special order has been successfully submitted`,
+              `Special order has been successfully saved`,
               'Success'
             );
             this.clearOrder();
