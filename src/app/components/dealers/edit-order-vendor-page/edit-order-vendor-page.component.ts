@@ -153,6 +153,7 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
   currentVendorName = ''
   editedInput = false
   assortedCheckerArray: any | []
+  itemNotFound = false
 
   incomingData: any
   /////// end of importation //////////
@@ -313,6 +314,7 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
         if (result.status) {
           this.tableData = result.data
           this.cartData = result.data
+          this.itemNotFound = result.data.item.length > 0 ? false : true
           if (result.data.assorted_state) {
             this.assortedType = true
             this.assortedTableItem = result.data.assorted_data
@@ -1119,8 +1121,10 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
     })
   }
 
-  async deleteQuickOrderItem(atlsId: any, index: any, tableIndex: any) {
+  async deleteQuickOrderItem(atlsId: any, index: any, tableIndex: number) {
     let confirmStatus = await this.deleteConfirmBox()
+
+    console.log(tableIndex)
 
     if (confirmStatus) {
       let uid = this.token.getUser().id.toString()
@@ -2046,6 +2050,10 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
     } else {
       return (this.orderTotal = 0)
     }
+  }
+
+  goBackToEditPage() {
+    this.router.navigate(['/dealers/edit-order'])
   }
 
   getCartByVendorId(vendorId: any) {

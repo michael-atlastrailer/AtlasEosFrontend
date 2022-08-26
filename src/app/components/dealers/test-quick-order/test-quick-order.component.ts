@@ -973,7 +973,7 @@ export class TestQuickOrderComponent implements OnInit {
             }
 
             if (res.data.submitted_status) {
-              this.toastr.success(`item has been added to cart`, 'Success')
+              this.toastr.success(`Item has been added to cart`, 'Success')
             }
 
             this.orderTable = []
