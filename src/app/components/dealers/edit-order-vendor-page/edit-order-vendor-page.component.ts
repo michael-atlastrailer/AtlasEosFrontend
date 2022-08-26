@@ -372,6 +372,7 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
     let postData = {
       uid: this.userData.id,
       dealer: this.userData.account_id,
+      type: 'edit',
       product_array: JSON.stringify(postItem),
     }
 
