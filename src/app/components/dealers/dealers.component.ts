@@ -6,7 +6,7 @@ import { TokenStorageService } from 'src/app/core/services/token-storage.service
 import { ToastrService } from 'ngx-toastr'
 import { Router } from '@angular/router'
 
-import { Router } from '@angular/router'
+
 
 @Component({
   selector: 'app-dealers',
