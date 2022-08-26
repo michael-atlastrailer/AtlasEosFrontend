@@ -7,7 +7,11 @@ import {
   ViewChildren,
 } from '@angular/core';
 
-import { ActivatedRoute } from '@angular/router';
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  NavigationStart,
+} from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
@@ -17,6 +21,8 @@ import { HttpRequestsService } from 'src/app/core/services/http-requests.service
 import { GoogleTranslateService } from 'src/app/core/services/google-translate.service';
 import { Sort } from '@angular/material/sort';
 import { TokenStorageService } from 'src/app/core/services/token-storage.service';
+import { ComponentCanDeactivate } from 'src/app/core/model/can-clear';
+import { Observable } from 'rxjs';
 declare var $: any;
 export interface Products {
   id: number;
@@ -42,7 +48,7 @@ export interface Products {
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements ComponentCanDeactivate {
   dataStatus = false;
   loader = true;
   dummyAmt = 0;
@@ -57,7 +63,7 @@ export class SearchComponent implements OnInit {
   itemsInCart: any = [];
   inCartStatus = false;
   sortedData!: Products[];
-
+  public clearSearchStatus = false;
   @ViewChildren('extend')
   extendField!: QueryList<ElementRef>;
 
@@ -87,7 +93,7 @@ export class SearchComponent implements OnInit {
   currentCartState: [] | any = [];
 
   // products!: Products[];
-
+  public pageExitStat = true;
   search!: any;
   newArrayFilter: [] | any = [];
   dealerId!: number;
@@ -114,6 +120,20 @@ export class SearchComponent implements OnInit {
       this.search = params['search'];
       this.getSearchData(this.search);
     });
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        // Handle Navigation Start
+        console.log('nav enter ');
+      }
+
+      if (event instanceof NavigationEnd) {
+        // Handle Navigation End
+        console.log('nav leave ');
+      }
+    });
+  }
+  clearSearch() {
+    return (this.clearSearchStatus = true);
   }
   ngOnInit(): void {}
 
@@ -175,9 +195,7 @@ export class SearchComponent implements OnInit {
           }
           console.log('result', result);
         } else {
-          this.toastr.error(
-            'Sorry, Item not available on the show'
-          );
+          this.toastr.error('Sorry, Item not available on the show');
         }
       })
       .catch((err) => {

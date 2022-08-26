@@ -95,13 +95,18 @@ export class OngoingSeminarsComponent implements AfterViewInit {
   to12Hr(val: any) {
     val = val.split(':');
     let daylight = 'AM';
-    if (parseInt(val[0]) > 12) {
-      val[0] = Math.abs(parseInt(val[0]) - 12);
+    if (parseInt(val[0]) >= 12) {
+      val[0] = parseInt(val[0]) % 12 || 12;
       daylight = 'PM';
+    }
+    if (parseInt(val[0]) == 0) {
+      val[0] = 12;
+      daylight = 'AM';
     } else {
       daylight = 'AM';
     }
-val.pop();
+    val[0] = parseInt(val[0]);
+    val.pop();
     val =
       val.reduce((n: any, m: any) => {
         return n + ':' + m;

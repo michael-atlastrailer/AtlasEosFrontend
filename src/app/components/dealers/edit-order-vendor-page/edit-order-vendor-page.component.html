@@ -369,7 +369,8 @@
               </button>
               <button
                 class="btn text-bold text-white bg-blue"
-                [disabled]="cartLoader"
+                [disabled]="cartLoader"(click)="goBack()"
+              
               >
                 <div>Cancel</div>
                 <!-- <div *ngIf="cartLoader">
