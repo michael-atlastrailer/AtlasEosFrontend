@@ -242,7 +242,7 @@ export class SpecialOrderComponent implements OnInit {
           // console.log(result);
           if (result.status) {
             this.saveLoader = false;
-            this.toastr.success(`Order saved`, 'Success');
+            this.toastr.success(`Special order has been successfully submitted`, 'Success');
             this.clearOrder();
           } else {
             this.saveLoader = false;
@@ -348,7 +348,7 @@ export class SpecialOrderComponent implements OnInit {
 
             this.toastr.error(
               `item with vendor ${id} is on the show order form and you cannot add them here `,
-              'Error',
+              '',
               { timeOut: 6000 }
             );
             this.arr[i].inBooking = true;
@@ -448,7 +448,7 @@ export class SpecialOrderComponent implements OnInit {
         } else {
           this.toastr.info(
             `Something went wrong deleting special orders`,
-            'Error'
+            ''
           );
           this.fetchOrder();
         }
@@ -458,7 +458,7 @@ export class SpecialOrderComponent implements OnInit {
 
         this.toastr.info(
           `Something went wrong deleting special orders`,
-          'Error'
+          ''
         );
       });
   }

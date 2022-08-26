@@ -826,7 +826,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
     this.orderSuccess = false;
 
     this.getData
-      .httpGetRequest('/dealer/get-vendors')
+      .httpGetRequest('/dealer/get-vendors-with-orders')
       .then((result: any) => {
         if (result.status) {
           this.allVendors = result.data;

@@ -33,6 +33,7 @@ import { TestQuickOrderComponent } from './test-quick-order/test-quick-order.com
 import { DeactivateGuard } from 'src/app/core/guard/deactivate.guard'
 import { PurchaseSummaryComponent } from './purchase-summary/purchase-summary.component'
 import { DealerPurchaserSummaryComponent } from './dealer-purchaser-summary/dealer-purchaser-summary.component'
+import { ExitSearchGuard } from 'src/app/core/guard/exit-search.guard'
 
 const routes: Routes = [
   {
@@ -153,6 +154,7 @@ const routes: Routes = [
       {
         path: 'search/:search',
         component: SearchComponent,
+        // canDeactivate: [ExitSearchGuard],
       },
       {
         path: 'messages',

@@ -4,6 +4,7 @@ import { HttpRequestsService } from 'src/app/core/services/http-requests.service
 import { ChatService } from 'src/app/core/services/chat.service'
 import { TokenStorageService } from 'src/app/core/services/token-storage.service'
 import { ToastrService } from 'ngx-toastr'
+import { Router } from '@angular/router'
 
 import { Router } from '@angular/router'
 
@@ -13,7 +14,7 @@ import { Router } from '@angular/router'
   styleUrls: ['./dealers.component.css'],
 })
 export class DealersComponent implements OnInit {
-  @ViewChild('audioTag') private audioTag!: ElementRef
+  @ViewChild('audioTag') private audioTag!: ElementRef;
 
   currentTimeDate = ''
 
@@ -21,6 +22,7 @@ export class DealersComponent implements OnInit {
     private chatService: ChatService,
     private tokeStore: TokenStorageService,
     private toaster: ToastrService,
+
     private router: Router,
     private postData: HttpRequestsService,
   ) {}
@@ -63,5 +65,6 @@ export class DealersComponent implements OnInit {
         }
       })
       .catch((err) => {})
+
   }
 }
