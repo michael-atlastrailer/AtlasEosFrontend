@@ -208,6 +208,9 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
         case 'atlas_id':
           return compare(a.atlas_id, b.atlas_id, isAsc)
 
+        case 'vendor':
+          return compare(a.vendor_product_code, b.vendor_product_code, isAsc)
+
         default:
           return 0
       }
