@@ -39,7 +39,9 @@
           <div class="table-ctn mt-3 p-3" style="background-color: white;">
             <div class="d-flex justify-content-between">
               <div>
-                <h5 class="vendor-name-text notranslate">{{ currentVendorName }}</h5>
+                <h5 class="vendor-name-text notranslate">
+                  {{ currentVendorName }}
+                </h5>
               </div>
               <div>
                 <span class="desc-text">
@@ -370,6 +372,7 @@
               <button
                 class="btn text-bold text-white bg-blue"
                 [disabled]="cartLoader"
+                (click)="goBackToEditPage()"
               >
                 <div>Cancel</div>
                 <!-- <div *ngIf="cartLoader">
@@ -656,6 +659,14 @@
                 class="p-4"
                 style="padding: 5px; background: rgb(223, 222, 222) !important;"
               ></td>
+            </tr>
+          </table>
+
+          <table *ngIf="itemNotFound">
+            <tr>
+              <td colspan="5" class="text-center">
+                no Item found
+              </td>
             </tr>
           </table>
 
