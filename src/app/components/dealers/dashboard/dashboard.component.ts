@@ -120,7 +120,7 @@ export class DashboardComponent implements OnInit {
         text: '',
       },
       xaxis: {
-        categories: ['Day 1', 'Day 2', 'Day 3'],
+        categories: ['Day 1', 'Day 2'],
       },
       yaxis: {
         //  categories: [

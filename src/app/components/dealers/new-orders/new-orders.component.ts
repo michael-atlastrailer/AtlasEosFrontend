@@ -87,101 +87,52 @@ export class NewOrdersComponent implements OnInit {
   viewProduct(data: any) {
     console.log(data);
     this.currentData = data;
-    this.isImageJpg(this.currentData.atlas_id);
-    this.isImagePng(this.currentData.atlas_id);
-    this.currentData.isUrlPng = true;
-    this.currentData.isUrlJpg = true;
+    this.imageCheck(this.currentData.atlas_id);
+
     //https://atlastrailer.s3.amazonaws.com/0480-23.jpg
     this.viewSet = true;
   }
   parser(data: any) {
     let ret = JSON.parse(data);
-    return ret
+    return ret;
   }
   applyFilter(filterValue: string) {
     this.dataSrc.filter = filterValue.trim().toLowerCase();
   }
-  isImageJpg(atlas_id: any) {
+
+  imageCheck(atlas_id: any) {
     let urlJpg = 'https://atlastrailer.s3.amazonaws.com/0' + atlas_id + '.jpg';
     let urlPng = 'https://atlastrailer.s3.amazonaws.com/0' + atlas_id + '.png';
-    console.log('url', urlPng, urlJpg, atlas_id);
-    let url: any;
-    this.currentData.isUrlJpg = true;
-    this.currentData.urlJpg = urlJpg;
-    // if (atlas_id == null) {
-    //   this.currentData.isUrlJpg = false;
-    // } else {
-    //   var img = new Image();
-
-    //   img.src = urlPng;
-    //   img.onerror = () => {
-    //      console.log('entered else jpg err');
-    //      this.currentData.isUrlJpg = false;
-    //    };
-    //    img.onabort = () => {
-    //      this.currentData.isUrlJpg = false;
-    //       console.log('entered else jpg abort');
-    //    };
-    //    img.onload = () => {
-    //      this.currentData.isUrlJpg = true;
-    //      console.log('entered Jpg');
-
-    //    };
-    // }
-  }
-  getJSON = (url: any, callback: any) => {
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', url, true);
-    xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
-    console.log('started', xhr.status);
-    xhr.onreadystatechange = () => {
-      let status = xhr.readyState;
-      console.log('statusxml', xhr.readyState, xhr.status);
-      if (status == 4) {
-        callback(null, xhr.response);
-      } else {
-        callback(status);
-      }
-    };
-
-    xhr.send();
-  };
-
-  isImagePng(atlas_id: any) {
-    let urlJpg = 'https://atlastrailer.s3.amazonaws.com/0' + atlas_id + '.jpg';
-    let urlPng = 'https://atlastrailer.s3.amazonaws.com/0' + atlas_id + '.png';
-    console.log('url', urlPng, urlJpg, atlas_id);
-    let url: any;
-    this.currentData.isUrlPng = false;
+    let urlJpgAlt =
+      'https://atlastrailer.s3.amazonaws.com/' + atlas_id + '.jpg';
+    let urlPngAlt =
+      'https://atlastrailer.s3.amazonaws.com/' + atlas_id + '.png';
+    this.currentData.urlPngAlt = urlPngAlt;
     this.currentData.urlPng = urlPng;
-    // if (atlas_id == null) {
-    //   this.currentData.isUrlPng = false;
-    // } else {
-    //   var img = new Image();
-    //   console.log('entered man them');
-
-    //   img.src = urlPng;
-    //   img.onerror = () => {
-    //     this.currentData.isUrlPng = false;
-    //     console.log('entered else png err');
-    //   };
-    //   img.onabort = () => {
-    //     this.currentData.isUrlPng = false;
-    //     console.log('entered else png abort');
-    //   };
-    //   img.onload = () => {
-    //     this.currentData.isUrlPng = true;
-    //     console.log('entered png');
-
-    //     this.currentData.url = urlPng;
-    //   };
-    // }
+    this.currentData.urlJpg = urlJpg;
+    this.currentData.urlJpgAlt = urlJpgAlt;
+    this.currentData.url = '';
+    this.currentData.urlStatus = false;
+    console.log(
+      'url',
+      urlPng,
+      urlJpg,
+      atlas_id,
+      urlJpgAlt,
+      urlPngAlt,
+      this.currentData.urlStatus,
+      atlas_id
+    );
   }
-  jpgErr() {
-    this.currentData.isUrlJpg = false;
+  urlNoMatch(url: any) {
+  
+    console.log('CANNOT FIND  a match', url, this.currentData?.urlStatus);
   }
-  pngErr() {
-    this.currentData.isUrlPng = false;
+
+  urlMatch(url: any) {
+    this.currentData.url = url;
+    this.currentData.urlStatus = true;
+    console.log('found a match', url, this.currentData?.urlStatus);
   }
   getAllVendors() {
     this.getData
