@@ -19,6 +19,9 @@ th {
 .profile-user {
   height: 30px;
 }
+.table-ctn{
+  overflow-x: scroll;
+}
 body {
   /* font-family: "Roboto", sans-serif; */
   /* overflow: hidden; */

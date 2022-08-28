@@ -356,7 +356,7 @@ export class SpecialOrderComponent implements OnInit {
             this.disableSubmit = save;
 
             this.toastr.error(
-              `item with vendor ${id} is on the show order form and you cannot add them here `,
+              `Item is on the show under the “Vendor” name ${id} `,
               '',
               { timeOut: 6000 }
             );
@@ -452,7 +452,7 @@ export class SpecialOrderComponent implements OnInit {
         // console.log(result);
         if (result.status) {
           this.fetchOrder();
-          this.toastr.info(`Order has been deleted successfully`, 'Order');
+          this.toastr.info(`Item has been deleted successfully`, 'Order');
         } else {
           this.toastr.info(`Something went wrong deleting special orders`, '');
           this.fetchOrder();

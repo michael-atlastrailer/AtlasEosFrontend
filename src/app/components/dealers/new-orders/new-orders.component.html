@@ -22,12 +22,50 @@
         <div class="d-flex flex-column">
           <div class="d-block text-center">
             <!-- <div class="img-viewer" [style.background-image]="'url(' + currentData?.img + ')'"></div> -->
-            <img
+            <!-- <img
               class="view-bg-img img-fluid"
               [id]="'img' + currentData?.id"
               src="
                 https://atlastrailer.s3.amazonaws.com/0480-23.jpg
               "
+            /> -->
+            <img
+              class="d-none"
+              [src]="currentData?.urlPng! | safe: 'resourceUrl'"
+              (load)="urlMatch(currentData?.urlPng)"
+              (abort)="urlNoMatch(currentData?.urlPng)"
+              (suspend)="urlNoMatch(currentData?.urlPng)"
+              (error)="urlNoMatch(currentData?.urlPng)"
+            />
+            <img
+              class="d-none"
+              [src]="currentData?.urlJpg! | safe: 'resourceUrl'"
+              (load)="urlMatch(currentData?.urlJpg)"
+              (abort)="urlNoMatch(currentData?.urlJpg)"
+              (suspend)="urlNoMatch(currentData?.urlJpg)"
+              (error)="urlNoMatch(currentData?.urlJpg)"
+            />
+            <img
+              class="d-none"
+              [src]="currentData?.urlPngAlt! | safe: 'resourceUrl'"
+              (abort)="urlNoMatch(currentData?.urlPngAlt)"
+              (suspend)="urlNoMatch(currentData?.urlPngAlt)"
+              (error)="urlNoMatch(currentData?.urlPngAlt)"
+              (load)="urlMatch(currentData?.urlPngAlt)"
+            />
+            <img
+              class="d-none"
+              [src]="currentData?.urlJpgAlt! | safe: 'resourceUrl'"
+              (abort)="urlNoMatch(currentData?.urlJpgAlt)"
+              (suspend)="urlNoMatch(currentData?.urlJpgAlt)"
+              (error)="urlNoMatch(currentData?.urlJpgAlt)"
+              (load)="urlMatch(currentData?.urlJpgAlt)"
+            />
+            <img
+              *ngIf="currentData?.urlStatus"
+              class="view-bg-img img-fluid"
+              [id]="'img' + currentData?.id"
+              [src]="currentData?.url! | safe: 'resourceUrl'"
             />
           </div>
 
@@ -162,7 +200,7 @@
                 >
                   Vendor Name
 
-                  <i class="fa fa-sort text-white"></i>
+                  <i class="fa fa-sort text-white ml-2"></i>
                 </th>
                 <td mat-cell *matCellDef="let element" class="notranslate">
                   <a
