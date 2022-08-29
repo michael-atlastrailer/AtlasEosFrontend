@@ -1,32 +1,34 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y'
-import { CurrencyPipe } from '@angular/common'
-import { Component, OnInit, ViewChild } from '@angular/core'
-import { MatPaginator } from '@angular/material/paginator'
-import { MatSort, Sort } from '@angular/material/sort'
-import { MatTableDataSource } from '@angular/material/table'
-import { ActivatedRoute, Router } from '@angular/router'
-import { ToastrService } from 'ngx-toastr'
-import { HttpRequestsService } from 'src/app/core/services/http-requests.service'
-import { TokenStorageService } from 'src/app/core/services/token-storage.service'
-import { T } from '../show-orders/show-orders.component'
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { CurrencyPipe } from '@angular/common';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort, Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { filter } from 'rxjs';
+import { HttpRequestsService } from 'src/app/core/services/http-requests.service';
+import { TokenStorageService } from 'src/app/core/services/token-storage.service';
+import { T } from '../show-orders/show-orders.component';
 interface Dealer {
-  fname: string
-  lname: string
-  id: any
+  cname: any;
+  fname: string;
+  lname: string;
+  id: any;
 }
 class Product {
-  public quantity: number | undefined
-  description: string | undefined
-  vendor_no: string | undefined
-  vendor_code: string | undefined
+  public quantity: number | undefined;
+  description: string | undefined;
+  vendor_no: string | undefined;
+  vendor_code: string | undefined;
 }
-declare var $: any
+declare var $: any;
 export interface PeriodicElement {
-  no: number
-  qty: string
-  description: string
-  vendor_name: string
-  vendor_code: string
+  no: number;
+  qty: string;
+  description: string;
+  vendor_name: string;
+  vendor_code: string;
 }
 
 @Component({
@@ -43,6 +45,7 @@ export class SpecialOrderComponent implements OnInit {
   dealer: Dealer = {
     fname: '',
     lname: '',
+    cname: '',
     id: undefined,
   };
   tableData: PeriodicElement[] = [];
@@ -140,6 +143,7 @@ export class SpecialOrderComponent implements OnInit {
       this.vendorSelected = true;
       this.dealer.fname = this.token.getUser().first_name;
       this.dealer.lname = this.token.getUser().last_name;
+      this.dealer.cname = this.token.getUser().company_name;
       this.dealer.id = this.token.getUser().id;
       console.log('dealer data', this.ordained, this.allCategoryData);
       this.clearOrder();
@@ -238,8 +242,11 @@ export class SpecialOrderComponent implements OnInit {
           // console.log(result);
           if (result.status) {
             this.saveLoader = false;
-            this.toastr.success(`Order saved`, 'Success');
-            this.arr = [];
+            this.toastr.success(
+              `Special order has been successfully saved`,
+              'Success'
+            );
+            this.clearOrder();
           } else {
             this.saveLoader = false;
 
@@ -295,11 +302,12 @@ export class SpecialOrderComponent implements OnInit {
   checkEmptyStat(id: any, j: any, check: boolean) {
     let error = false;
     console.log('errror disable', this.disableSubmit, error);
-
+    this.hasDuplicates(this.arr);
     if (this.arr?.length < 1) {
       error = true;
     } else {
       for (var i = 0; i < this.arr.length; i++) {
+        console.log(this.arr[i], this.arr[i].vendor_no);
         if (this.arr[i].quantity == '') {
           error = true;
         }
@@ -308,9 +316,14 @@ export class SpecialOrderComponent implements OnInit {
         }
         if (this.arr[i].vendor_no == '') {
           error = true;
-        } // if (this.arr[i].description == '') {
-        //   error = true;
-        // }
+        } if (this.arr[i].description == '') {
+        error = true;
+       } if (this.arr[i].vendor_no == undefined) {
+         error = true;
+       }
+       if (this.arr[i].description == undefined) {
+         error = true;
+       }
       }
     }
 
@@ -343,8 +356,8 @@ export class SpecialOrderComponent implements OnInit {
             this.disableSubmit = save;
 
             this.toastr.error(
-              `item with vendor part ${id} is on the show order form and you cannot add them here `,
-              'Error',
+              `Item is on the show under the “Vendor” name ${id} `,
+              '',
               { timeOut: 6000 }
             );
             this.arr[i].inBooking = true;
@@ -357,6 +370,15 @@ export class SpecialOrderComponent implements OnInit {
       .catch((err) => {
         // this.toastr.info(`Something went wrong`, 'Error');
       });
+  }
+  hasDuplicates(a: any) {
+    let filteredArr = a.filter((item: any, i: any) => {
+      return a.indexOf(item) !== i;
+    });
+
+    const noDups = new Set(a.vendor_no);
+    console.log('filtrted array', filteredArr, noDups);
+    // return a.length !== noDups.size;
   }
   checkConstraint() {
     this.arrNotSpec = [];
@@ -430,22 +452,16 @@ export class SpecialOrderComponent implements OnInit {
         // console.log(result);
         if (result.status) {
           this.fetchOrder();
-          this.toastr.info(`Order has been deleted successfully`, 'Order');
+          this.toastr.info(`Item has been deleted successfully`, 'Order');
         } else {
-          this.toastr.info(
-            `Something went wrong deleting special orders`,
-            'Error'
-          );
+          this.toastr.info(`Something went wrong deleting special orders`, '');
           this.fetchOrder();
         }
       })
       .catch((err) => {
         this.saveLoader = false;
 
-        this.toastr.info(
-          `Something went wrong deleting special orders`,
-          'Error'
-        );
+        this.toastr.info(`Something went wrong deleting special orders`, '');
       });
   }
   navigateFromEdit() {
@@ -454,7 +470,7 @@ export class SpecialOrderComponent implements OnInit {
   }
   clearOrder() {
     this.arr = [];
-    
+    this.arr.push(new Product());
   }
 }
 function compare(a: number | string, b: number | string, isAsc: boolean) {

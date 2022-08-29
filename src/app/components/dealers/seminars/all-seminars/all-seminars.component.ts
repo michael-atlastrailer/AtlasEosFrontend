@@ -27,7 +27,6 @@ export class AllSeminarsComponent implements AfterViewInit {
   tableView = false;
   tableData: PeriodicElement[] = [];
   displayedColumns: string[] = [
-  
     'seminar_date',
     'start_time',
     'vendor_name',
@@ -67,7 +66,7 @@ export class AllSeminarsComponent implements AfterViewInit {
     this.tableView = false;
     this.loader = true;
     this.noData = false;
-    let dealer = this.token.getUser().id
+    let dealer = this.token.getUser().id;
     this.request
       .httpGetRequest('/fetch-all-seminars/' + dealer)
       .then((result: any) => {
@@ -121,18 +120,25 @@ export class AllSeminarsComponent implements AfterViewInit {
         this.toastr.error('Try again', 'Something went wrong');
       });
   }
-  to12Hr(val:any) {
-    val = val.split(":")
-    let daylight="AM"
-    if (parseInt(val[0]) > 12) {
-      val[0] = Math.abs(parseInt(val[0]) - 12);
-     daylight="PM"
-    } else {
-        daylight = 'AM';
+  to12Hr(val: any) {
+    val = val.split(':');
+    let daylight = 'AM';
+    if (parseInt(val[0]) >= 12) {
+      val[0] = parseInt(val[0]) % 12 || 12;
+      daylight = 'PM';
     }
-    
-    val = val.reduce((n: any, m: any) => { return n + ":" + m }) +daylight
-    return val
+    if (parseInt(val[0]) == 0) {
+      val[0] = 12;
+      daylight = 'AM';
+    } else {
+      daylight = 'AM';
+    }
+    val[0] = parseInt(val[0]);
+    val.pop();
+    val =
+      val.reduce((n: any, m: any) => {
+        return n + ':' + m;
+      }) + daylight;
+    return val;
   }
-
 }

@@ -201,13 +201,11 @@
                           mat-cell
                           style="position: relative"
                           *matCellDef="let element"
-                          class="align-items-center justify-content-center d-flex"
+                         
                         >
-                          <span *ngIf="element.bookmark == 1" class="bookmark"
-                            ><i class="fa fa-bookmark" style="color: red"></i
-                          ></span>
-                          {{ to12Hr(element.start_time) }}
-                          <p class="subs ml-2 mb-0">MST</p>
+                            
+                            {{ to12Hr(element.start_time) }}
+                            <span class="subs ml-1 mb-0">(MST)</span>
                         </td> </ng-container
                       ><ng-container matColumnDef="vendor_name">
                         <th mat-header-cell *matHeaderCellDef>Vendor Name</th>

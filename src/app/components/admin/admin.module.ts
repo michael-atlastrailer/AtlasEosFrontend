@@ -53,6 +53,8 @@ import { AddShowBuckComponent } from './add-show-buck/add-show-buck.component'
 import { EditShowBuckComponent } from './edit-show-buck/edit-show-buck.component'
 import { ViewDealerSummaryComponent } from './view-dealer-summary/view-dealer-summary.component'
 import { VendorSummaryComponent } from './vendor-summary/vendor-summary.component'
+import { MatMenuModule } from '@angular/material/menu';
+import { SetStartDateComponent } from './set-start-date/set-start-date.component'
 
 @NgModule({
   declarations: [
@@ -100,6 +102,7 @@ import { VendorSummaryComponent } from './vendor-summary/vendor-summary.componen
     EditShowBuckComponent,
     ViewDealerSummaryComponent,
     VendorSummaryComponent,
+    SetStartDateComponent,
   ],
   imports: [
     CommonModule,
@@ -112,6 +115,7 @@ import { VendorSummaryComponent } from './vendor-summary/vendor-summary.componen
     MatDatepickerModule,
     MatNativeDateModule,
     MatTimepickerModule,
+    MatMenuModule,
   ],
   exports: [],
 })

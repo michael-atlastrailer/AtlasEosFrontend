@@ -102,9 +102,21 @@ export class DashboardComponent implements OnInit {
       series: [
         {
           name: 'Sales summary',
-          data: [0, 0, 0],
+          data: [0, 0],
         },
       ],
+      //Math.round(value * 1.5)
+      yaxis: {
+        min: 0,
+        max: 35000,
+
+        tickAmount: 7,
+        labels: {
+          formatter: function (value: any) {
+            return '$' + Math.round(value);
+          },
+        },
+      },
       chart: {
         height: 350,
         type: 'bar',
@@ -120,21 +132,11 @@ export class DashboardComponent implements OnInit {
         text: '',
       },
       xaxis: {
-        categories: ['Day 1', 'Day 2', 'Day 3'],
-      },
-      yaxis: {
-        //  categories: [
-        //    '0',
-        //    '5000',
-        //    '10000',
-        //    '15000',
-        //    '20000',
-        //    '25000',
-        //    '30000',
-        //    '35000',
-        //    '40000',
-        //    '45000',
-        //  ],
+        tooltip: {
+          enabled: true,
+          offsetY: -35,
+        },
+        categories: ['Day 1', 'Day 2'],
       },
     };
     this.getChart();
@@ -202,72 +204,109 @@ export class DashboardComponent implements OnInit {
       .then((result: any) => {
         console.log(result);
         if (result.status) {
-          let len = result.data.orders.length;
-          let rev = result.data.orders;
+          let rev = result.data;
           let rev1, rev2, rev3: any;
           rev1 = 0;
           rev2 = 0;
           rev3 = 0;
-          let ron = result.data.dates.indexOf('2022-08-18');
-
-          console.log(
-            'res',
-            ron,
-            result.data.dates.indexOf('2022-08-18') !== -1,
-            rev[result.data.dates.indexOf('2022-08-18')]?.total_price
-          );
-          if (result.data.dates.indexOf('2022-08-17') !== -1) {
-            rev1 = rev[result.data.dates.indexOf('2022-08-17')]?.total_price;
+          if (rev.length >= 1) {
+            rev1 =rev[0].amount
+          } if (rev.length >= 2) {
+            rev1 = rev[1].amount;
           }
-          if (result.data.dates.indexOf('2022-08-18') !== -1) {
-            rev2 = rev[result.data.dates.indexOf('2022-08-18')]?.total_price;
-          }
-
+          let revtot = rev1 + rev2;
           console.log(
             'reverse table',
             rev,
 
             rev1,
             rev2,
-            rev3
+            revtot
           );
 
-          this.chartOptions = {
-            series: [
-              {
-                name: 'Sales summary',
-                data: [rev1.toFixed(0), rev2.toFixed(0)],
-              },
-            ],
-            yaxis: {
-              labels: {
-                formatter: function (value: any) {
-                  return '$' + value.toFixed(0);
+          if (Math.floor(revtot) == 0) {
+            this.chartOptions = {
+              series: [
+                {
+                  name: 'Sales summary',
+                  data: [rev1, rev2],
+                },
+              ],
+              //Math.round(value * 1.5)
+              yaxis: {
+                min: 0,
+                max: 35000,
+
+                tickAmount: 7,
+                labels: {
+                  formatter: function (value: any) {
+                    return '$' + Math.round(value);
+                  },
                 },
               },
-            },
-            chart: {
-              height: 350,
-              type: 'bar',
-            },
-            dataLabels: {
-              enabled: true,
-              enabledOnSeries: undefined,
-              formatter: function (value: any) {
-                return '$' + value.toFixed(2);
+              chart: {
+                height: 350,
+                type: 'bar',
               },
-            },
-            title: {
-              text: '',
-            },
-            xaxis: {
-              tooltip: {
+              dataLabels: {
                 enabled: true,
-                offsetY: -35,
+                enabledOnSeries: undefined,
+                formatter: function (value: any) {
+                  return '$' + value.toFixed(2);
+                },
               },
-              categories: ['Day 1', 'Day 2'],
-            },
-          };
+              title: {
+                text: '',
+              },
+              xaxis: {
+                tooltip: {
+                  enabled: true,
+                  offsetY: -35,
+                },
+                categories: ['Day 1', 'Day 2'],
+              },
+            };
+          } else {
+            this.chartOptions = {
+              series: [
+                {
+                  name: 'Sales summary',
+                  data: [rev1.toFixed(2), rev2.toFixed(2)],
+                },
+              ],
+              //Math.round(value * 1.5)
+              yaxis: {
+                tickAmount: 7,
+
+                labels: {
+                  formatter: function (value: any) {
+                    return '$' + Math.round(value);
+                  },
+                },
+              },
+              chart: {
+                height: 350,
+                type: 'bar',
+              },
+              dataLabels: {
+                enabled: true,
+                enabledOnSeries: undefined,
+                formatter: function (value: any) {
+                  return '$' + value.toFixed(2);
+                },
+              },
+              title: {
+                text: '',
+              },
+              xaxis: {
+                tooltip: {
+                  enabled: true,
+                  offsetY: -35,
+                },
+                categories: ['Day 1', 'Day 2'],
+              },
+            };
+          }
         } else {
           this.toastr.info(`Something went wrong`, 'Error');
         }

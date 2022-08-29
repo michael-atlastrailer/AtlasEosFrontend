@@ -1,83 +1,93 @@
 <section class="overview-section">
-    <div class="container-fluid p-0">
-      <div class="row my-5 ml-4">
-        <div class="col-12">
-          <div class="form-table-ctn px-2pt-4">
-           
-  
-            <div class="card mt-3">
-              <div
-                class="card-header justify-content-start d-flex align-items-center"
-              >
-                <p>
-                  <i class="fa fa-list-ul mr-3"></i>
-                Sales Summary
-                </p>
-              </div>
-              <div class="card-body">
-                <div class="table-ctn mt-3">
-                    <div id="accordion" *ngIf="showOrder">
-                        <div class="card" *ngFor="let order of newTable">
-                          <div class="card-header btn-primary" [id]="'heading' + order.id">
-                            <h5 class="mb-0 w-100">
-                              <button class="btn btn-link w-100 text-start" data-toggle="collapse" [attr.data-target]="'#collapse' + order.id"
-                              aria-expanded="true"
-                              [attr.aria-controls]="'collapse' + order.id">
-                             {{order.full_name}}.
-                              </button>
-                            </h5>
-                          </div>
-                      
-                          <div [id]="'collapse' + order.id"
-                          class="collapse"
-                          [attr.data-target]="'heading' + order.id"
-                         >
-                            <div class="card-body p-0">
-                              <table class="order-form-table w-100 mb-4 table-striped">
-                               
-                                <tbody>
-                                  <tr><td></td><td></td></tr>
-                                  <tr *ngFor="let vendor of order.all_vendors">
-                                    
-                                    <td class="text-start notranslate">
-                                      <a routerLink="/dealers/purchase-summary/{{order.id}}/{{vendor[0]}}">{{ vendor[3] }}</a>
-                                    </td>
-                                    
-                                    <td    style="
-                                    text-align: end;">
-                                      {{ vendor[2]| currency }}
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td
-                                      
-                                      style="
-                                        text-align: end;
-                                        text-transform: uppercase;
-                                        font-weight: 700;
-                                        color: #437c17;
-                                      "
-                                    >
-                                      Total ($)
-                                    </td>
-                                    <td
-                                      style="
-                                        text-align: end;
-                                        text-transform: uppercase;
-                                        font-weight: 700;
-                                        color: #437c17;
-                                      "
-                                    >
-                                      {{ order.grandTotal | currency }}
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                          </div>
-                        </div>
-                        
+  <div class="container-fluid p-0">
+    <div class="row my-5 ml-4">
+      <div class="col-12">
+        <div class="form-table-ctn px-2pt-4">
+          <div class="card mt-3">
+            <div
+              class="card-header justify-content-start d-flex align-items-center"
+            >
+              <p>
+                <i class="fa fa-list-ul mr-3"></i>
+                Purchaser Summary
+              </p>
+            </div>
+            <div class="card-body">
+              <div class="table-ctn mt-3">
+                <div id="accordion" *ngIf="showOrder">
+                  <div class="card" *ngFor="let order of newTable">
+                    <div
+                      class="card-header btn-primary"
+                      [id]="'heading' + order.id"
+                    >
+                      <h5 class="mb-0 w-100">
+                        <button
+                          class="btn btn-link w-100 text-start notranslate"
+                          data-toggle="collapse"
+                          [attr.data-target]="'#collapse' + order.id"
+                          aria-expanded="true"
+                          [attr.aria-controls]="'collapse' + order.id"
+                        >
+                          {{ order.full_name }}.
+                        </button>
+                      </h5>
+                    </div>
+
+                    <div
+                      [id]="'collapse' + order.id"
+                      class="collapse"
+                      [attr.data-target]="'heading' + order.id"
+                    >
+                      <div class="card-body p-0">
+                        <table
+                          class="order-form-table w-100 mb-4 table-striped"
+                        >
+                          <tbody>
+                            <tr>
+                              <td></td>
+                              <td></td>
+                            </tr>
+                            <tr *ngFor="let vendor of order.all_vendors">
+                              <td class="text-start notranslate">
+                                <a
+                                  routerLink="/dealers/purchase-summary/{{
+                                    order.id
+                                  }}/{{ vendor[0] }}"
+                                  >{{ vendor[3] }}</a
+                                >
+                              </td>
+
+                              <td style="text-align: end">
+                                {{ vendor[2] | currency }}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td
+                                style="
+                                  text-align: end;
+                                  text-transform: uppercase;
+                                  font-weight: 700;
+                                  color: #437c17;
+                                "
+                              >
+                                Total ($)
+                              </td>
+                              <td
+                                style="
+                                  text-align: end;
+                                  text-transform: uppercase;
+                                  font-weight: 700;
+                                  color: #437c17;
+                                "
+                              >
+                                {{ order.grandTotal | currency }}
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -85,5 +95,5 @@
         </div>
       </div>
     </div>
-  </section>
-  
+  </div>
+</section>

@@ -415,8 +415,10 @@
 
               <span></span>
             </div>
-            <div class="d-none d-xl-block">
-              <h6 class="mb-0 name-text">{{ company }}</h6>
+            <div class="d-none d-xl-block user-det">
+              <h6 class="mb-0 name-text" style="font-weight: 600;">
+                {{ company }}
+              </h6>
               <h6 class="mb-0 acc-text text-bold">#{{ acct }}</h6>
               <h6 class="mb-1 location-text">{{ location }}</h6>
             </div>
@@ -720,21 +722,21 @@
     <!-- End responsive-navbar -->
     <!-- App-Header -->
   </div>
+
   <div
     class="container-fluid p-0 d-flex align-items-center pt-2 justify-content-between"
     style="height: 50px; background-color: #14abef;"
   >
     <div class="d-flex align-items-center">
       <p class="title-dash mb-0">DASHBOARD</p>
-
       <p
-        class="greet mb-0 ml-3"
+        class="greet mb-0 ml-3 notranslate"
         style="font-weight: 700; text-transform: capitalize;"
       >
         Welcome, {{ firstName }} {{ lastName }}
       </p>
     </div>
-    <div class="">
+    <div>
       <table
         class="table text-nowrap table-wrapper align-items-center mb-0 timer-table"
       >
@@ -747,19 +749,19 @@
                 days
               </span>
             </td> -->
-            <td>
+            <td class="notranslate">
               <span class="tbody-text-timer">
                 <span id="hours">00</span>
                 hours
               </span>
             </td>
-            <td>
+            <td class="notranslate">
               <span class="tbody-text-timer">
                 <span id="minutes">00</span>
                 minutes
               </span>
             </td>
-            <td>
+            <td class="notranslate">
               <span class="tbody-text-timer">
                 <span id="seconds">00</span>
                 seconds

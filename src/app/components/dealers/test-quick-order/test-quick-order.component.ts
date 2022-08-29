@@ -973,7 +973,7 @@ export class TestQuickOrderComponent implements OnInit {
             }
 
             if (res.data.submitted_status) {
-              this.toastr.success(`item has been add to cart`, 'Success')
+              this.toastr.success(`Item has been added to cart`, 'Success')
             }
 
             this.orderTable = []
@@ -2127,14 +2127,14 @@ export class TestQuickOrderComponent implements OnInit {
 
             this.TotalAmount += parseFloat(this.productData[h].forCal)
 
-            let data = {
-              atlasId: this.productData[h].atlas_id,
-              forCal: this.productData[h].forCal,
-              grouping: this.productData[h].grouping,
-              index: h,
-            }
+            // let data = {
+            //   atlasId: this.productData[h].atlas_id,
+            //   forCal: this.productData[h].forCal,
+            //   grouping: this.productData[h].grouping,
+            //   index: h,
+            // }
 
-            this.addedItem.push(data)
+            /// this.addedItem.push(data)
           }
 
           this.tableData = this.productData
@@ -2148,7 +2148,7 @@ export class TestQuickOrderComponent implements OnInit {
         }
       })
       .catch((err) => {
-        this.toastr.info(`Something went wrong`, 'Error')
+        this.toastr.info(`Something went wrong, test`, 'Error')
       })
   }
 
@@ -2424,7 +2424,7 @@ export class TestQuickOrderComponent implements OnInit {
             this.cartLoader = false
             this.orderSuccess = true
             this.toastr.success(
-              `Item(s) has been successfully submitted`,
+              `Item(s) have been successfully Submitted`,
               'Success',
             )
             this.fetchQuickOrderCart()

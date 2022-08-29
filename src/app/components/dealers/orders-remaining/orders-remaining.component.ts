@@ -70,10 +70,14 @@ export class OrdersRemainingComponent implements OnInit {
             this.noData = true;
           }
           this.count = result.data.count;
-          this.dataSrc = new MatTableDataSource<PeriodicElement>(
-            result.data.order_remaining
-          );
-        this.dataSrc.paginator = this.paginator;
+          let responseData = result.data.order_remaining;
+          // let responseSlice = result.data.order_remaining.slice();
+          // responseData = responseSlice.sort((a: any, b: any) => {
+          //   const isAsc = true;
+          //   return compare(a.vendor_name, b.vendor_name, isAsc);
+          // });
+          this.dataSrc = new MatTableDataSource<PeriodicElement>(responseData);
+          this.dataSrc.paginator = this.paginator;
         } else {
           this.toastr.error('Something went wrong', `${result.message}`);
           this.noData = true;
@@ -90,9 +94,16 @@ export class OrdersRemainingComponent implements OnInit {
       this.dataSrc.data = data;
       return;
     }
-
+    //  console.log(
+    //    'sort direction',
+    //    `1${sort.direction}3`,
+    //    sort.direction,
+    //    sort.active
+    //  );
+   
     this.dataSrc.data = data.sort((a: any, b: any) => {
-      const isAsc = sort.direction === 'asc';
+     
+      const isAsc = sort.direction === 'desc';
       switch (sort.active) {
         case 'index':
           return compare(a.index, b.index, isAsc);

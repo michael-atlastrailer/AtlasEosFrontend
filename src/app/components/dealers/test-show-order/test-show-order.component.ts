@@ -144,7 +144,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
   // sort!: MatSort
 
   sortedData!: PeriodicElement[]
-highlightIndex = null
+  highlightIndex = null
   setVendor = false
   currentData: any
   constructor(
@@ -207,6 +207,11 @@ highlightIndex = null
       switch (sort.active) {
         case 'atlas_id':
           return compare(a.atlas_id, b.atlas_id, isAsc)
+        case 'vendor':
+          return compare(a.vendor_product_code, b.vendor_product_code, isAsc)
+
+        case 'vendor':
+          return compare(a.vendor_product_code, b.vendor_product_code, isAsc)
 
         default:
           return 0
@@ -454,8 +459,11 @@ highlightIndex = null
           this.cartLoader = false
           this.itemAlreadySubmitted = res.data.item_details
           this.itemNewlySubmitted = res.data.item_added
-          this.toastr.success(` item(s) has been submitted`, 'Success')
           this.emptyTableQty()
+          if (res.data.item_added > 0) {
+            this.toastr.success(`item(s) has been submitted`, 'Success')
+          }
+
           /// this.orderTable = []
           /// this.getTotal()
           /// this.getCart()
@@ -535,8 +543,21 @@ highlightIndex = null
     }
   }
 
+  runnnerTotal() {
+    this.overTotal = 0
+    for (let index = 0; index < this.productData.length; index++) {
+      const element = this.productData[index]
+      this.overTotal += parseFloat(element.forCal)
+    }
+  }
+
   runTotalCalculation(index: number) {
     let currentProduct = this.productData[index]
+
+    for (let index = 0; index < this.productData.length; index++) {
+      const element = this.productData[index]
+      this.overTotal += parseFloat(element.forCal)
+    }
 
     let data = {
       atlasId: currentProduct.atlas_id,
@@ -791,7 +812,9 @@ highlightIndex = null
       }
     }
 
-    this.runTotalCalculation(index)
+    this.runnnerTotal()
+
+    //// this.runTotalCalculation(index);
 
     //// console.log(this.productData)
   }
@@ -815,7 +838,7 @@ highlightIndex = null
     this.orderSuccess = false
 
     this.getData
-      .httpGetRequest('/dealer/get-vendors')
+      .httpGetRequest('/dealer/get-vendors-with-orders')
       .then((result: any) => {
         if (result.status) {
           this.allVendors = result.data
@@ -836,10 +859,15 @@ highlightIndex = null
     if (this.searchatlasId == '###') {
       newArray = array
     } else {
-      this.isMod = true 
-       this.highlightIndex=array.findIndex((item:any) => {
-       return item.atlas_id == this.searchatlasId!
-     })
+      this.isMod = true
+      setTimeout(() => {
+        document
+          ?.querySelector('.highlighted')
+          ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 1000)
+      this.highlightIndex = array.findIndex((item: any) => {
+        return item.atlas_id == this.searchatlasId!
+      })
     }
     return array
   }
@@ -946,6 +974,7 @@ highlightIndex = null
               `${this.orderLen}  item(s) have been added to cart`,
               'Success',
             )
+
             this.orderTable = []
             this.getTotal()
             this.getCart()

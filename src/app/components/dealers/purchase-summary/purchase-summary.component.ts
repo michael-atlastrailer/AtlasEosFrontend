@@ -42,7 +42,7 @@ export class PurchaseSummaryComponent implements OnInit {
       });
   }
   checkVendorGroupTotal(array: any) {
-  
+  console.log()
     if (array.length > 0) {
       this.showOrder=true
       //seperating each dealer in array
