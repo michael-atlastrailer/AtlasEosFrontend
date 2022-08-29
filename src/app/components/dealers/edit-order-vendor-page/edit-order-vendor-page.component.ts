@@ -168,7 +168,7 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
     private token: TokenStorageService,
     private currencyPipe: CurrencyPipe,
     private location: Location,
-    public productTableService: ProductTableHandlerService
+    public productTableService: ProductTableHandlerService,
   ) {
     this.route.params.subscribe((params) => {
       this.vendorId = params['vendorId']
@@ -1378,6 +1378,34 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
   }
 
   runCalculation(index: number, qty: any) {
+    let curr = this.cartData[index]
+
+    this.productTableService
+      .initCalculationData(
+        this.tableData,
+        this.assortFilter,
+        this.addedItem,
+        this.assortedItems,
+        0,
+      )
+      .then((status) => {
+        if (status) {
+          this.productTableService
+            .runSingleCalculations(curr, index)
+            .then((data) => {
+              // console.log(data)
+              if (data.status) {
+                this.tableData = data.products
+                this.dataSrc.data = data.products
+                console.log(data, 'Testing phase')
+                // @sixtus complete the code and complete the remaining assignation to their respective variables
+              }
+            })
+        }
+      })
+  }
+
+  runCalculation2(index: number, qty: any) {
     this.editedInput = true
     if (qty !== '') {
       let curr = this.cartData[index]
@@ -2113,20 +2141,27 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
             // is the only defined variable to track error and your console log
 
             // PEACE BE UNTO YOU
-            this.productTableService.initCalculationData(
-              this.tableData, this.assortFilter, this.addedItem, this.assortedItems, 0
-            ).then((status) => {
-              if(status){
-              this.productTableService.runSingleCalculations(element, d).then((data) => {
-                // console.log(data)
-                if (data.status) {
-                  this.tableData = data.products
-                  // @sixtus complete the code and complete the remaining assignation to their respective variables
+            this.productTableService
+              .initCalculationData(
+                this.tableData,
+                this.assortFilter,
+                this.addedItem,
+                this.assortedItems,
+                0,
+              )
+              .then((status) => {
+                if (status) {
+                  this.productTableService
+                    .runSingleCalculations(element, d)
+                    .then((data) => {
+                      // console.log(data)
+                      if (data.status) {
+                        this.tableData = data.products
+                        // @sixtus complete the code and complete the remaining assignation to their respective variables
+                      }
+                    })
                 }
               })
-            }
-            })
-
 
             ///console.log(element.qty)
 
