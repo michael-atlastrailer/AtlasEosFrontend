@@ -1,0 +1,62 @@
+<section>
+  <div class="container-fluid">
+    <div class="row">
+      <!-- <div class="col-md-1 col-12"></div> -->
+
+      <div class="col-md-6 col-12">
+        <div class="card justify-content-center">
+          <div class="card-body">
+            <!-- multistep form -->
+            <form id="msform" class="pt-2">
+              <div class="shadow-sm mt-4">
+                <h2 class="title">Set Program Start Date</h2>
+                <!-- <h3 class="subtitle">Personal Details</h3> -->
+                <div class="form-row">
+                  <div class="col-md-12  mt-5">
+                    <div class="form-group">
+                      <label for="">Current Start Date</label>
+                     
+                      <input
+                     
+                       disabled
+                        [value]="startDate | date"
+                        class="input-value shadow-sm"
+                        placeholder=" start Date"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="col-md-12 mb-4 mt-5">
+                    <div class="form-group">
+                      <label for="">Start Date</label>
+                      <input
+                        type="date"
+                        #dateInput
+                        name="start_date"
+                        class="input-value shadow-sm"
+                        placeholder="set start Date"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="add-btn-wrapper mt-3">
+                  <button class="submit-btn" (click)="setDate(dateInput.value)">
+                    <span *ngIf="!loader"> Set Date </span>
+                    <div *ngIf="loader">
+                      Set Date
+                      <span class="spinner-border spinner-border-sm"></span>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

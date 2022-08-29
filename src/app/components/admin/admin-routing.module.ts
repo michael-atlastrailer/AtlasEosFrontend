@@ -35,6 +35,7 @@ import { PriceOverrideComponent } from './price-override/price-override.componen
 import { ResolveProblemComponent } from './resolve-problem/resolve-problem.component'
 import { RespondReportComponent } from './respond-report/respond-report.component'
 import { SetCountdownComponent } from './set-countdown/set-countdown.component'
+import { SetStartDateComponent } from './set-start-date/set-start-date.component'
 import { SpecialOrdersComponent } from './special-orders/special-orders.component'
 import { VeiwReportComponent } from './veiw-report/veiw-report.component'
 import { VendorNotesComponent } from './vendor-notes/vendor-notes.component'
@@ -104,6 +105,10 @@ const routes: Routes = [
       {
         path: 'all-vendors',
         component: AllVendorsComponent,
+      },
+      {
+        path: 'set-startdate',
+        component: SetStartDateComponent,
       },
       {
         path: 'add-vendor',
@@ -225,7 +230,7 @@ const routes: Routes = [
     ],
     canActivate: [AuthGuardGuard],
   },
-]
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

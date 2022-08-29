@@ -102,9 +102,21 @@ export class DashboardComponent implements OnInit {
       series: [
         {
           name: 'Sales summary',
-          data: [0, 0, 0],
+          data: [0, 0],
         },
       ],
+      //Math.round(value * 1.5)
+      yaxis: {
+        min: 0,
+        max: 145,
+
+        tickAmount: 7,
+        labels: {
+          formatter: function (value: any) {
+            return '$' + Math.round(value);
+          },
+        },
+      },
       chart: {
         height: 350,
         type: 'bar',
@@ -120,21 +132,11 @@ export class DashboardComponent implements OnInit {
         text: '',
       },
       xaxis: {
+        tooltip: {
+          enabled: true,
+          offsetY: -35,
+        },
         categories: ['Day 1', 'Day 2'],
-      },
-      yaxis: {
-        //  categories: [
-        //    '0',
-        //    '5000',
-        //    '10000',
-        //    '15000',
-        //    '20000',
-        //    '25000',
-        //    '30000',
-        //    '35000',
-        //    '40000',
-        //    '45000',
-        //  ],
       },
     };
     this.getChart();
@@ -207,13 +209,10 @@ export class DashboardComponent implements OnInit {
           rev1 = 0;
           rev2 = 0;
           rev3 = 0;
-          for (var l = 0; l < rev.length; l++) {
-            if (rev[l].date == '2022-08-24') {
-              rev1 = rev[l].amount;
-            }
-            if (rev[l].date == '2022-08-25') {
-              rev2 = rev[l].amount;
-            }
+          if (rev.length >= 1) {
+            rev1 =rev[0].amount
+          } if (rev.length >= 2) {
+            rev1 = rev[1].amount;
           }
           let revtot = rev1 + rev2;
           console.log(
