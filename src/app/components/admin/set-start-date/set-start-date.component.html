@@ -11,21 +11,22 @@
               <div class="shadow-sm mt-4">
                 <h2 class="title">Set Program Start Date</h2>
                 <!-- <h3 class="subtitle">Personal Details</h3> -->
-                <!-- <div class="form-row">
-                  <div class="col-md-12 mb-4 mt-5">
+                <div class="form-row">
+                  <div class="col-md-12  mt-5">
                     <div class="form-group">
                       <label for="">Current Start Date</label>
+                     
                       <input
-                        type="date"
-                        #dateInput
-                        name="start_date"
+                     
+                       disabled
+                        [value]="startDate | date"
                         class="input-value shadow-sm"
-                        placeholder="set start Date"
+                        placeholder=" start Date"
                         required
                       />
                     </div>
                   </div>
-                </div> -->
+                </div>
                 <div class="form-row">
                   <div class="col-md-12 mb-4 mt-5">
                     <div class="form-group">
