@@ -148,6 +148,7 @@
                     [dataSource]="dataSource"
                     class="mat-elevation w-100 table table-striped table-bordered"
                     matSort
+                    (matSortChange)="sortData($event)"
                   >
                     <!--- Note that these columns can be defined in any order.
                           The actual rendered columns are set as a property on the row definition" -->
@@ -166,12 +167,12 @@
                     </ng-container>
 
                     <ng-container matColumnDef="vendor">
-                      <th mat-header-cell *matHeaderCellDef>
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Vendor
                       </th>
                       <td mat-cell *matCellDef="let element">
                         <span class="normal-d-text">
-                          {{ element.vendor_code }}
+                          {{ element.vendor_product_code }}
                         </span>
                       </td>
                     </ng-container>
