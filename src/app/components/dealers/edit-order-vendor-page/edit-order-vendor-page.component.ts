@@ -1394,7 +1394,7 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
           this.productTableService
             .runSingleCalculations(curr, index, parseInt(qty.length ? qty : '0'))
             .then((data) => {
-              console.log(data)
+              // console.log(data)
               if (data.status) {
                 this.tableData = data.products;
                 this.dataSrc.data = data.products;
