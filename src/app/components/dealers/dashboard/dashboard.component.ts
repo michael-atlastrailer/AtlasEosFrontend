@@ -235,7 +235,7 @@ export class DashboardComponent implements OnInit {
               //Math.round(value * 1.5)
               yaxis: {
                 min: 0,
-                max: 145,
+                max: 35000,
 
                 tickAmount: 7,
                 labels: {
