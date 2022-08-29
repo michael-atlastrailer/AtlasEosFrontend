@@ -24,6 +24,8 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.userData = this.tokenStore.getUser()
 
+    console.log(this.userData.vendor_code, 'testing vendor')
+
     ///this.getPrivilegedVendors()
     if (this.userData.privileged_vendors) {
       ///this.getPrivilegedVendors()
@@ -35,6 +37,7 @@ export class DashboardComponent implements OnInit {
 
       this.getSingleDashboardAnalysisData()
       this.getSingleDashboardMostPurchaserData()
+
       ///this.selectedVendorName = this.userData.company_name
       ////this.showSelectOption = false
     }
