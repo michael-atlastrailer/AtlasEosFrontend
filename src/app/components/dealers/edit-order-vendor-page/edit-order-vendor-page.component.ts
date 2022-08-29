@@ -174,7 +174,7 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
       this.vendorId = params['vendorId']
 
       if (this.vendorId) {
-        console.log('got in', this.vendorId)
+        // console.log('got in', this.vendorId)
         this.getCartByVendorId(this.vendorId)
         this.getVendorData()
       }
@@ -184,8 +184,8 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
   @ViewChild(MatSort)
   sort!: MatSort
 
-  ngOnInit(): void {}
-  ngAfterViewInit() {}
+  ngOnInit(): void { }
+  ngAfterViewInit() { }
   parser(data: any) {
     return JSON.parse(data)
   }
@@ -290,7 +290,7 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
     let formattedAmt = this.currencyPipe.transform(total, '$')
 
     $('.order-total').html(formattedAmt)
-    console.log(total, 'our total')
+    // console.log(total, 'our total')
     /// this.overTotal = total
   }
 
@@ -303,7 +303,7 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
         } else {
         }
       })
-      .catch((err) => {})
+      .catch((err) => { })
   }
 
   getItemVendorItem(atlas: any) {
@@ -388,7 +388,7 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
         this.tableViewDisplay = []
         $('#closeModal').click()
 
-        console.log(res)
+        // console.log(res)
 
         if (res.status) {
           if (res.data.item_added > 0) {
@@ -483,7 +483,7 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
                           secondPhase.push(ele)
                         }
                         this.anotherLinePhaseM.push(e.spec_data)
-                        console.log(this.anotherLinePhaseM)
+                        // console.log(this.anotherLinePhaseM)
                       } else {
                         let price = parseFloat(e.booking)
                         let quantity = parseInt(e.quantity)
@@ -510,7 +510,7 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
 
                   this.anotherLinePhaseFilterM.map((val: any, index: any) => {
                     if (curr.grouping == val.group) {
-                      console.log(curr.grouping)
+                      // console.log(curr.grouping)
                       newTotalAss += parseInt(val.quantity)
                     }
                   })
@@ -534,9 +534,9 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
                           const eleK = k[hj]
                           $(
                             '.special-booking-m-' +
-                              eleK.pos +
-                              '-' +
-                              eleK.arrIndex,
+                            eleK.pos +
+                            '-' +
+                            eleK.arrIndex,
                           ).css('display', 'none')
 
                           // console.log('testing price', eleK);
@@ -592,16 +592,16 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
 
                             $(
                               '.special-booking-m-' +
-                                activeData.pos +
-                                '-' +
-                                activeData.arrIndex,
+                              activeData.pos +
+                              '-' +
+                              activeData.arrIndex,
                             ).css('display', 'inline-block')
 
                             $(
                               '.special-booking-m-' +
-                                preData.pos +
-                                '-' +
-                                preData.arrIndex,
+                              preData.pos +
+                              '-' +
+                              preData.arrIndex,
                             ).css('display', 'none')
                             let special = parseFloat(activeData.special)
                             let newPrice =
@@ -639,9 +639,9 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
 
                             $(
                               '.special-booking-m-' +
-                                activeData.pos +
-                                '-' +
-                                activeData.arrIndex,
+                              activeData.pos +
+                              '-' +
+                              activeData.arrIndex,
                             ).css('display', 'inline-block')
 
                             if (preData != undefined) {
@@ -655,9 +655,9 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
                               const kk = tickArrToBeRemoved[hi]
                               $(
                                 '.special-booking-m-' +
-                                  kk.pos +
-                                  '-' +
-                                  kk.arrIndex,
+                                kk.pos +
+                                '-' +
+                                kk.arrIndex,
                               ).css('display', 'none')
                             }
 
@@ -693,9 +693,9 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
 
                     $(
                       '.special-booking-m-' +
-                        index +
-                        '-' +
-                        specData[i].arrIndex,
+                      index +
+                      '-' +
+                      specData[i].arrIndex,
                     ).css('display', 'inline-block')
 
                     let g = i - 1
@@ -790,7 +790,7 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
             $('#amt-hidd-m-' + index).html(calAmt)
           }
         } else {
-          console.log('trying to find it')
+          // console.log('trying to find it')
           let quantity = parseInt(qty)
           let price = parseFloat(curr.booking)
 
@@ -886,16 +886,16 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
 
                     $(
                       '.special-booking-m-' +
-                        activeData.pos +
-                        '-' +
-                        activeData.arrIndex,
+                      activeData.pos +
+                      '-' +
+                      activeData.arrIndex,
                     ).css('display', 'inline-block')
 
                     $(
                       '.special-booking-m-' +
-                        preData.pos +
-                        '-' +
-                        preData.arrIndex,
+                      preData.pos +
+                      '-' +
+                      preData.arrIndex,
                     ).css('display', 'none')
 
                     let special = activeData.special
@@ -915,9 +915,9 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
 
                     $(
                       '.special-booking-m-' +
-                        activeData.pos +
-                        '-' +
-                        activeData.arrIndex,
+                      activeData.pos +
+                      '-' +
+                      activeData.arrIndex,
                     ).css('display', 'inline-block')
 
                     let special = activeData.special
@@ -1129,11 +1129,11 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
   async deleteQuickOrderItem(atlsId: any, index: any, tableIndex: number) {
     let confirmStatus = await this.deleteConfirmBox()
 
-    console.log(tableIndex)
+    // console.log(tableIndex)
 
     if (confirmStatus) {
       let uid = this.token.getUser().id.toString()
-      this.runCalculation(tableIndex, 0)
+      this.runCalculation(tableIndex)
 
       $('#remove-icon-' + index).css('display', 'none')
       $('#remove-loader-' + index).css('display', 'inline-block')
@@ -1257,7 +1257,7 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
               const item = this.addedItem[i]
               if (item.atlasId == currentProduct.atlasId) {
                 item.price = newPrice
-                console.log('found de atlas id', currentProduct.atlasId)
+                // console.log('found de atlas id', currentProduct.atlasId)
               } else {
               }
             }
@@ -1270,7 +1270,7 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
         //   const item = this.addedItem[i]
         //   if (item.atlasId == currentProduct.atlasId) {
         //     item.price = newPrice
-        //     console.log('found de atlas id', currentProduct.atlasId)
+        // console.log('found de atlas id', currentProduct.atlasId)
         //   } else {
         //   }
         // }
@@ -1281,7 +1281,7 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
     for (let j = 0; j < this.addedItem.length; j++) {
       const h = this.addedItem[j]
       this.orderTotal += parseFloat(h.price)
-      console.log(this.overTotal)
+      // console.log(this.overTotal)
     }
   }
 
@@ -1338,7 +1338,7 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
         }
 
         if (itemType == 'special') {
-          console.log('we are on special')
+          // console.log('we are on special')
         }
       } else {
         let currItem = this.cartData[index]
@@ -1359,7 +1359,7 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
               ele.spec_data.qty = ele.qty
               ele.spec_data.price = ele.qty != '' ? ele.price : 0
               ele.spec_data.assIndex = index
-              console.log(ele.spec_data, 'our own hellow worls')
+              // console.log(ele.spec_data, 'our own hellow worls')
               this.assortedCheckerArray.push(ele.spec_data)
             }
           }
@@ -1377,8 +1377,8 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
     //// this.allOverTotal()
   }
 
-  runCalculation(index: number, qty: any) {
-    let curr = this.cartData[index]
+  runCalculation(index: number, qty: string = '0') {
+    let curr = this.dataSrc.data[index]
 
     this.productTableService
       .initCalculationData(
@@ -1386,19 +1386,20 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
         this.assortFilter,
         this.addedItem,
         this.assortedItems,
-        0,
+        this.orderTotal
       )
       .then((status) => {
         if (status) {
+          this.orderTotal = 0;
           this.productTableService
-            .runSingleCalculations(curr, index)
+            .runSingleCalculations(curr, index, parseInt(qty.length ? qty : '0'))
             .then((data) => {
-              // console.log(data)
+              console.log(data)
               if (data.status) {
-                this.tableData = data.products
-                this.dataSrc.data = data.products
-                console.log(data, 'Testing phase')
-                // @sixtus complete the code and complete the remaining assignation to their respective variables
+                this.tableData = data.products;
+                this.dataSrc.data = data.products;
+                this.orderTotal += data.productTotal;
+                this.assortedItems = data.assorted;
               }
             })
         }
@@ -2102,78 +2103,62 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
       .then((result: any) => {
         this.loader = false
         if (result.status) {
-          let inComingData = result.data
+          let inComingData = result.data.map((item: any, index: number) => ({ ...item, position: index }))
 
-          this.incomingData = result.data
-
-          for (let index = 0; index < inComingData.length; index++) {
-            const element = inComingData[index]
-            element.position = index
-          }
-
+          this.incomingData = inComingData
           this.tableData = inComingData
           this.cartData = inComingData
           this.dataSrc = new MatTableDataSource<PeriodicElement>(inComingData)
-
-          if (inComingData.length !== 0) {
-            this.canOrder = true
-          }
+          this.canOrder = (inComingData.length !== 0)
           this.orderTable = []
-          this.allOverTotal()
-          /// this.getTotal()
-          for (let d = 0; d < result.data.length; d++) {
-            const element = result.data[d]
 
-            // first step init all calculation data required so as to be passed to the service and default
-            // then call the ru singular calculation whihc will perform all required operations both assorted and specials
-            // and return the updated calculation data back to this component as an object of
-            // return {
-            //   status: codeStatus,
-            //   products: this.productData,
-            //   assorted: this.assortFilter,
-            //   addedItems: this.addedItem,
-            //   allAddedItemsID: this.allAddedItemAtlasID,
-            //   currentProductAmount: this.currentProductAmt,
-            //   productTotal: this.overTotal
-            // }
+          // first step init all calculation data required so as to be passed to the service and default
+          // then call the ru singular calculation whihc will perform all required operations both assorted and specials
+          // and return the updated calculation data back to this component as an object of
+          // return {
+          //   status: codeStatus,
+          //   products: this.productData,
+          //   assorted: this.assortFilter,
+          //   addedItems: this.addedItem,
+          //   allAddedItemsID: this.allAddedItemAtlasID,
+          //   currentProductAmount: this.currentProductAmt,
+          //   productTotal: this.overTotal
+          // }
 
-            // use status to detect if the code ran into an error during implementation each service function is rapped in a try catch method so status
-            // is the only defined variable to track error and your console log
+          // use status to detect if the code ran into an error during implementation each service function is rapped in a try catch method so status
+          // is the only defined variable to track error and your console log
 
-            // PEACE BE UNTO YOU
-            this.productTableService
-              .initCalculationData(
-                this.tableData,
-                this.assortFilter,
-                this.addedItem,
-                this.assortedItems,
-                0,
-              )
-              .then((status) => {
-                if (status) {
-                  this.productTableService
-                    .runSingleCalculations(element, d)
-                    .then((data) => {
-                      // console.log(data)
-                      if (data.status) {
-                        this.tableData = data.products
-                        // @sixtus complete the code and complete the remaining assignation to their respective variables
-                      }
-                    })
-                }
-              })
+          // PEACE BE UNTO YOU
+          this.productTableService
+            .initCalculationData(
+              this.tableData,
+              this.assortFilter,
+              this.addedItem,
+              this.assortedItems,
+              this.orderTotal,
+            )
+            .then((status) => {
+              if (status) {
+                this.productTableService
+                  .runGeneralCalculations(this.dataSrc.data)
+                  .then((data) => {
+                    // console.log(data)
+                    if (data.status) {
+                      this.tableData = data.products;
+                      this.dataSrc.data = data.products;
+                      this.orderTotal = data.productTotal;
+                      this.assortedItems = data.assorted;
+                    }
+                  })
+              }
+            })
 
-            ///console.log(element.qty)
-
-            let data = {
-              atlasId: element.atlas_id,
-              price: element.price,
-              grouping: element.grouping,
-              index: result.data.indexOf(element),
-            }
-
-            this.addedItem.push(data)
-          }
+          this.addedItem = result.data.map((element: any) => ({
+            atlasId: element.atlas_id,
+            price: element.price,
+            grouping: element.grouping,
+            index: result.data.indexOf(element),
+          }));
 
           // this.dataSrc.sort = this.sort
           /// this.dataSrc.paginator = this.paginator
@@ -2187,7 +2172,7 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
   }
 
   async confirmBox() {
-    console.log('heheh')
+    // console.log('heheh')
     if (this.editedInput == true) {
       return await Swal.fire({
         title: 'You are about to leave this page',

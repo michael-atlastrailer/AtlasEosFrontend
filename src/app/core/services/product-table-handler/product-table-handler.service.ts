@@ -32,7 +32,7 @@ export class ProductTableHandlerService {
       this.overTotal = total;
       return true;
     } catch (e) {
-      console.log("Setting Data Error: \n", e)
+      // console.log("Setting Data Error: \n", e)
       return false;
     }
   }
@@ -42,12 +42,13 @@ export class ProductTableHandlerService {
     try {
       this.productData = products;
       products.forEach((product, index) => {
-        this.runCalculation(index, product.quantity, { key: false })
+        const setQuantity = (product.qty === "" && product.qty.length) ? 0 : parseInt(product.qty);
+        this.runCalculation(index, setQuantity, { key: false })
       });
 
       codeStatus = true;
     } catch (e) {
-      console.log("Calculation Error: \n", e)
+      // console.log("Calculation Error: \n", e)
     }
 
     return {
@@ -61,14 +62,16 @@ export class ProductTableHandlerService {
     }
   }
 
-  runSingleCalculations = async (product: any, index: number) => {
+  runSingleCalculations = async (product: any, index: number, quantity?: number) => {
     let codeStatus = false;
     try {
-      this.runCalculation(index, product.qty, { key: false })
+      const setQuantity = (quantity === undefined) ? product.qty : quantity;
+      // console.log(setQuantity, index)
+      await this.runCalculation(index, setQuantity, { key: false })
 
       codeStatus = true;
     } catch (e) {
-      console.log("Calculation Error: \n", e)
+      // console.log("Calculation Error: \n", e)
     }
 
     return {
@@ -100,7 +103,7 @@ export class ProductTableHandlerService {
     spec: string | null,
   ) => {
     // update each unique element
-    this.productData[index].qty = quantity != 0 ? quantity : ''
+    this.productData[index].qty = (quantity != 0) ? String(quantity) : ''
     this.productData[index].selected_spec = spec
     this.productData[index].forCal = amount
     this.productData[index].calPrice = amount
@@ -109,7 +112,7 @@ export class ProductTableHandlerService {
 
     this.currentProductAmt = amount
 
-    console.log(this.productData[index])
+    // console.log(this.productData[index])
     return this.productData[index]
   }
 
@@ -122,7 +125,7 @@ export class ProductTableHandlerService {
   updateOtherAssorted = (current: any) => {
     let totalQuantity = this.getTotalAssortedQuantity(current)
     this.assortFilter = this.assortFilter.map((ass: any) => {
-      console.log(ass, 'checking asses')
+      // console.log(ass, 'checking asses')
       // if (ass.qty != '' || ass.qty > 0) {
       let update_ass = ass
       let price = parseFloat(ass.booking)
@@ -197,14 +200,13 @@ export class ProductTableHandlerService {
     return check
   }
 
-  runCalculation = async (index: number, quantity: string, event: any) => {
+  runCalculation = async (index: number, qty: number, event: any) => {
     if (event.key != 'Tab') {
-
-      const qty = quantity.length ? parseInt(quantity) : 0
       let curr = this.productData[index]
       let atlasId = curr.atlas_id
       let spec = curr.spec_data
       curr.qty = qty ?? ''
+      // console.log(curr);
 
       if (qty) {
         // calculate default prices
@@ -273,76 +275,18 @@ export class ProductTableHandlerService {
     }
 
     this.runTotalCalculation(index)
-
-    //// console.log(this.productData)
   }
 
   runTotalCalculation(index: number) {
-    let currentProduct = this.productData[index]
-
-    let data = {
-      atlasId: currentProduct.atlas_id,
-      forCal: currentProduct.forCal,
-      grouping: currentProduct.grouping,
-      index: index,
-    }
-
-    if (this.addedItem.length == 0) {
-      this.addedItem.push(data)
-    } else {
-      let presentItem = false
-      for (let i = 0; i < this.addedItem.length; i++) {
-        const item = this.addedItem[i]
-        if (item.atlasId == currentProduct.atlas_id) {
-          item.forCal = currentProduct.forCal
-          presentItem = true
-        } else {
-        }
-      }
-
-      if (!presentItem) {
-        for (let g = 0; g < this.addedItem.length; g++) {
-          const t = this.addedItem[g]
-
-          if (t.grouping == currentProduct.grouping) {
-            if (t.grouping != null && currentProduct.grouping != null) {
-              t.forCal = currentProduct.forCal
-            }
-          } else {
-            for (let i = 0; i < this.addedItem.length; i++) {
-              const item = this.addedItem[i]
-              if (item.atlasId == currentProduct.atlas_id) {
-                // item.price = newPrice
-                item.forCal = currentProduct.forCal
-
-                console.log('found de atlas id', currentProduct.atlasId)
-              } else {
-              }
-            }
-          }
-          //groupings
-        }
-        console.log(data, 'entery level')
-        this.addedItem.push(data)
-      } else {
-        // for (let i = 0; i < this.addedItem.length; i++) {
-        //   const item = this.addedItem[i]
-        //   if (item.atlasId == currentProduct.atlasId) {
-        //     item.price = newPrice
-        //     console.log('found de atlas id', currentProduct.atlasId)
-        //   } else {
-        //   }
-        // }
-      }
-    }
-
+    // let currentProduct = this.productData[index]
     this.overTotal = 0
-    for (let j = 0; j < this.addedItem.length; j++) {
-      const h = this.addedItem[j]
-      this.overTotal += parseFloat(h.forCal)
-    }
 
-    console.log(this.addedItem)
+    const validProducts = this.productData.filter((product) => (product.qty != "" && product.qty.length))
+    // console.log(validProducts);
+    this.overTotal = validProducts.reduce((accumulator, object) => {
+      return accumulator + parseFloat(object.price);
+    }, 0);
+
   }
 
 
