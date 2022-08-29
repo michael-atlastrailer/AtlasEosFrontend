@@ -272,14 +272,15 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
   allOverTotal() {
     let total = 0
     this.overTotal = 0
-    for (let index = 0; index < this.tableData.length; index++) {
-      const element = this.tableData[index]
-      let price = document.getElementById('amt-hidd-' + index)?.innerText
+    for (let index = 0; index < this.cartData.length; index++) {
+      const element = this.cartData[index]
+
+      // let price = document.getElementById('amt-hidd-' + index)?.innerText
 
       ///  let price = $('#amt-hidd-' + index).html()
-      if (price != undefined) {
-        console.log(price, 'we test price')
-        total += parseFloat(price)
+      if (element.price != undefined) {
+        /// console.log(element.price, 'we test price')
+        total += parseFloat(element.price)
       }
     }
 
@@ -2087,8 +2088,8 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
             this.canOrder = true
           }
           this.orderTable = []
-          // this.allOverTotal()
-          this.getTotal()
+          this.allOverTotal()
+          /// this.getTotal()
           for (let d = 0; d < result.data.length; d++) {
             const element = result.data[d]
             /// this.runTotalCalculation(d)
