@@ -34,7 +34,7 @@ export class VendorNavbarComponent implements OnInit {
       this.getUnreadMsg()
       setTimeout(() => {
         this.getUnreadMsg()
-      }, 500)
+      }, 1000)
     })
 
     // setInterval(() => {
