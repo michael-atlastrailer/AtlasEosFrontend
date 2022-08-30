@@ -44,6 +44,7 @@
                   (input)="runCalculation(qtyInput.value, 0)"
                   style="max-width: 70px !important;"
                   #qtyInput
+                  (keypress)="omitSpecialChar($event)"
                 />
 
                 <button
@@ -325,6 +326,7 @@
                         element.atlas_id
                       )
                     "
+                    (keypress)="omitSpecialChar($event)"
                   />
                 </td>
               </ng-container>
@@ -644,6 +646,7 @@
                   #inputAmt
                   placeholder="Qty"
                   (input)="runModalTableCalculation(i, inputAmt.value, $event)"
+                  (keypress)="omitSpecialChar($event)"
                 />
               </td>
             </ng-container>

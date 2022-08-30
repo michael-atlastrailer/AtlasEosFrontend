@@ -5,7 +5,7 @@
   aria-labelledby="exampleModalLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog modal-md" style="margin-top: 80px">
+  <div class="modal-dialog modal-md" style="margin-top: 80px;">
     <div class="modal-content modal-custom-content">
       <div class="modal-header">
         <h5 class="modal-title"></h5>
@@ -29,7 +29,7 @@
             [src]="vendorBuckData!.bucks[0]!.pdf_url! | safe: 'resourceUrl'"
             width="100%"
             height="500px"
-            style="background-color: #525659; border: none"
+            style="background-color: #525659; border: none;"
           ></iframe>
         </div>
         <p *ngIf="!viewBuckFlyer" class="mt-3 mb-4">No Flyer Available</p>
@@ -44,7 +44,7 @@
   aria-labelledby="exampleModalLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog" style="margin-top: 80px">
+  <div class="modal-dialog" style="margin-top: 80px;">
     <div class="modal-content modal-custom-content">
       <div class="modal-header">
         <h5 class="modal-title"></h5>
@@ -105,7 +105,7 @@
   aria-labelledby="exampleModalLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog modal-md" style="margin-top: 80px">
+  <div class="modal-dialog modal-md" style="margin-top: 80px;">
     <div class="modal-content modal-custom-content">
       <div class="modal-header">
         <h5 class="modal-title"></h5>
@@ -131,7 +131,7 @@
             "
             width="100%"
             height="500px"
-            style="background-color: #525659; border: none"
+            style="background-color: #525659; border: none;"
           ></iframe>
         </div>
         <!-- <p *ngIf="viewPromoFlyer" class="mt-3 mb-4">No Flyer Available</p> -->
@@ -266,9 +266,8 @@
 
           <div
             class="table-ctn p-3 table-responsive mt-2"
-            style=" overflow-y: scroll;background-color: white"
+            style="overflow-y: scroll; background-color: white;"
             id="formtable"
-     
           >
             <table class="table" *ngIf="loader">
               <thead>
@@ -276,7 +275,7 @@
                   <td class="loader-td" colspan="8">
                     <div
                       class="ph-item"
-                      style="padding: 0px 0px; border: 0px; margin-bottom: 0px"
+                      style="padding: 0px 0px; border: 0px; margin-bottom: 0px;"
                     >
                       <div>
                         <div class="ph-picture"></div>
@@ -379,7 +378,7 @@
                 <th
                   mat-header-cell
                   *matHeaderCellDef
-                  style="white-space: nowrap"
+                  style="white-space: nowrap;"
                 >
                   Qty
                 </th>
@@ -394,7 +393,7 @@
                     [value]="element.qty"
                     type="number"
                     class="mx-auto"
-                    style="text-align: center"
+                    style="text-align: center;"
                     min="0"
                     #inputAmt
                     placeholder="Qty"
@@ -406,6 +405,7 @@
                         element.atlas_id
                       )
                     "
+                    (keypress)="omitSpecialChar($event)"
                   />
                   <!-- <span>{{ element.position }}</span> -->
                 </td>
@@ -425,7 +425,7 @@
                   *matCellDef="let element"
                   title="click to view product info"
                   (click)="viewProduct(element)"
-                  style="cursor: pointer"
+                  style="cursor: pointer;"
                   data-toggle="modal"
                   class="clickable"
                   data-target="#exampleModal"
@@ -444,7 +444,7 @@
                   mat-header-cell
                   *matHeaderCellDef
                   class="mx-auto"
-                  style="cursor: pointer"
+                  style="cursor: pointer;"
                   (click)="sortDataAlt()"
                 >
                   Vendor #
@@ -457,7 +457,7 @@
                   title="click to view product info"
                   class="clickable"
                   (click)="viewProduct(element)"
-                  style="cursor: pointer"
+                  style="cursor: pointer;"
                   data-toggle="modal"
                   data-target="#exampleModal"
                 >
@@ -564,7 +564,7 @@
 
                   <span
                     id="amt-hidd-{{ element.position }}"
-                    style="display: none"
+                    style="display: none;"
                   ></span>
                 </td>
               </ng-container>
@@ -595,14 +595,14 @@
               *ngIf="showSubmittedDetails"
               class="alert alert-success mt-2 mb-2 d-flex align-items-center"
             >
-              <i class="fa fa-check-circle" style="font-size: 30px"></i>
+              <i class="fa fa-check-circle" style="font-size: 30px;"></i>
               &nbsp;&nbsp;
               <div class="ml-2">
-                <h6 class="mb-1" style="font-size: 16px">Success</h6>
-                <p style="font-size: 15px">
+                <h6 class="mb-1" style="font-size: 16px;">Success</h6>
+                <p style="font-size: 15px;">
                   {{ itemNewlySubmitted }} new item(s) have been submitted
                 </p>
-                <p style="font-size: 15px" *ngIf="itemAlreadySubmitted != ''">
+                <p style="font-size: 15px;" *ngIf="itemAlreadySubmitted != ''">
                   The following item(s) have already been ordered. You can
                   adjust them in the Edit Order page:
                   {{ itemAlreadySubmitted }}
@@ -612,7 +612,7 @@
             <div
               class="w-100 justify-content-end d-flex py-3"
               *ngIf="canOrder"
-              style="border-top: 0.2px solid rgba(98, 98, 98, 0.484)"
+              style="border-top: 0.2px solid rgba(98, 98, 98, 0.484);"
             >
               <button
                 class="btn text-bold text-white btn-primary"

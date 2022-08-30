@@ -142,11 +142,11 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
   viewBuckFlyer = false
   // @ViewChild(MatSort)
   // sort!: MatSort
-  sortDir = false;
-  sortedData!: PeriodicElement[];
-  highlightIndex = null;
-  setVendor = false;
-  currentData: any;
+  sortDir = false
+  sortedData!: PeriodicElement[]
+  highlightIndex = null
+  setVendor = false
+  currentData: any
   constructor(
     private getData: HttpRequestsService,
     private toastr: ToastrService,
@@ -186,6 +186,18 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
   ngOnInit(): void {}
   ngAfterViewInit() {}
 
+  omitSpecialChar(e: any) {
+    var k
+    document.all ? (k = e.keyCode) : (k = e.which)
+    return (
+      (k > 64 && k < 91) ||
+      (k > 96 && k < 123) ||
+      k == 8 ||
+      k == 32 ||
+      (k >= 48 && k <= 57)
+    )
+  }
+
   announceSortChange(sortState: Sort) {
     console.log(sortState, 'testing')
     if (sortState.direction) {
@@ -203,7 +215,6 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
     }
 
     this.dataSrc = data.sort((a: any, b: any) => {
-
       const isAsc = sort.direction === 'asc'
 
       switch (sort.active) {
@@ -221,22 +232,26 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
     })
   }
   sortDataAlt() {
-    const data = this.dataSrc.data.slice();
+    const data = this.dataSrc.data.slice()
 
-    this.sortDir = !this.sortDir;
+    this.sortDir = !this.sortDir
 
     this.dataSrc.data = data.sort((a: any, b: any) => {
-      let item = 'vendor_product_code';
+      let item = 'vendor_product_code'
       switch (item) {
         case 'index':
-          return compare(a.index, b.index, this.sortDir);
+          return compare(a.index, b.index, this.sortDir)
         case 'vendor_product_code':
-          return compare(a.vendor_product_code, b.vendor_product_code, this.sortDir);
+          return compare(
+            a.vendor_product_code,
+            b.vendor_product_code,
+            this.sortDir,
+          )
 
         default:
-          return 0;
+          return 0
       }
-    });
+    })
   }
   ///////// Old code ///////////
 
@@ -472,15 +487,15 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
       .then((res: any) => {
         console.log(res)
         if (res.status) {
-          this.showSubmittedDetails = true;
-          this.alreadyOrder = true;
-          console.log('already order eri', this.alreadyOrder);
-          this.cartLoader = false;
-          this.itemAlreadySubmitted = res.data.item_details;
-          this.itemNewlySubmitted = res.data.item_added;
-          this.emptyTableQty();
+          this.showSubmittedDetails = true
+          this.alreadyOrder = true
+          console.log('already order eri', this.alreadyOrder)
+          this.cartLoader = false
+          this.itemAlreadySubmitted = res.data.item_details
+          this.itemNewlySubmitted = res.data.item_added
+          this.emptyTableQty()
           if (res.data.item_added > 0) {
-            this.toastr.success(`item(s) has been submitted`, 'Success');
+            this.toastr.success(`item(s) has been submitted`, 'Success')
           }
 
           /// this.orderTable = []
@@ -880,14 +895,15 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
     } else {
       this.isMod = true
       setTimeout(() => {
-       document.getElementById('formtable')
+        document
+          .getElementById('formtable')
           ?.querySelector('.highlighted')
           ?.scrollIntoView({
             behavior: 'smooth',
             block: 'center',
             inline: 'start',
-          });
-      }, 1000);
+          })
+      }, 1000)
       this.highlightIndex = array.findIndex((item: any) => {
         return item.atlas_id == this.searchatlasId!
       })
@@ -995,12 +1011,12 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
 
             this.toastr.success(
               `${this.orderLen}  item(s) have been added to cart`,
-              'Success'
-            );
+              'Success',
+            )
 
-            this.orderTable = [];
-            this.getTotal();
-            this.getCart();
+            this.orderTable = []
+            this.getTotal()
+            this.getCart()
             if (this.searchatlasId) {
               this.searchVendorId(this.vendorId!)
             } else {
