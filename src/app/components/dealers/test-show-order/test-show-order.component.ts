@@ -902,8 +902,15 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
             behavior: 'smooth',
             block: 'center',
             inline: 'start',
-          })
-      }, 1000)
+
+          });
+        $('#bastard').css('padding-top', '200px ')
+        $('#bastard').css('height', '120vh')
+      } 
+      
+        , 1000);
+    
+
       this.highlightIndex = array.findIndex((item: any) => {
         return item.atlas_id == this.searchatlasId!
       })
