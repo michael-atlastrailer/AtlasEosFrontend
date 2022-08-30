@@ -37,6 +37,7 @@
                       #vendorInput
                     >
                       <option selected value="none">select a vendor..</option>
+                        <option  value="none">All Vendor</option>
                       <option
                         *ngFor="let vendor of allCategoryData; let i = index"
                         value="{{ i }}"
@@ -52,7 +53,7 @@
                     </button>
                     <button
                       class="btn btn-primary ml-2"
-                      (click)="goToAllOrder()"
+                      (click)="goToAllOrder(vendorInput.value)"
                     >
                       <i class="fa fa-list mr-2"></i> View Orders
                     </button>

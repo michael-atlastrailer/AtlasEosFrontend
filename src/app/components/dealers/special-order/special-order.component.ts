@@ -172,11 +172,20 @@ export class SpecialOrderComponent implements OnInit {
       this._liveAnnouncer.announce('Sorting cleared');
     }
   }
-  goToAllOrder() {
+  goToAllOrder(id: any) {
     this.editOrderPage = false;
     this.allOrderPage = true;
     this.vendorSelected = false;
-    this.fetchOrder();
+
+    if (id !== 'none') {
+      id = this.allCategoryData[parseInt(id)].vendor_code;
+      console.log('venfor code', id);
+      this.fetchOrderByVendorId(id);
+    } else {
+      {
+        this.fetchOrder();
+      }
+    }
   }
   enterValue(type: any, value: any, i: any) {
     console.log('array enter value', value);
@@ -298,6 +307,43 @@ export class SpecialOrderComponent implements OnInit {
         );
       });
   }
+  fetchOrderByVendorId(id: any) {
+    let user = this.token.getUser().account_id;
+    let empty: any = [];
+    this.getData
+      .httpGetRequest('/special-orders/' + user)
+      .then((result: any) => {
+        // console.log(result);
+        if (result.status) {
+      let filteredRes = result.data.filter((item: any) => {
+        return item.vendor_code == id;
+      });
+      console.log('filtereed', filteredRes);
+      this.dataSrc = new MatTableDataSource<PeriodicElement>(filteredRes);
+          this.dataSrc.paginator = this.paginator;
+        } else {
+          // this.toastr.info(
+          //   `Something went wrong fetching special orders`,
+          //   'Error'
+          // );
+          let filteredRes = result.data.filter((item: any) => {
+            return item.vendor_code == id;
+          });
+          console.log('filtereed',filteredRes)
+          this.dataSrc = new MatTableDataSource<PeriodicElement>(filteredRes);
+          this.dataSrc.paginator = this.paginator;
+          this.dataSrc.sort = this.sort;
+        }
+      })
+      .catch((err) => {
+        this.saveLoader = false;
+
+        this.toastr.info(
+          `Something went wrong fetching special orders`,
+          'Error'
+        );
+      });
+  }
 
   checkEmptyStat(id: any, j: any, check: boolean) {
     let error = false;
@@ -316,14 +362,16 @@ export class SpecialOrderComponent implements OnInit {
         }
         if (this.arr[i].vendor_no == '') {
           error = true;
-        } if (this.arr[i].description == '') {
-        error = true;
-       } if (this.arr[i].vendor_no == undefined) {
-         error = true;
-       }
-       if (this.arr[i].description == undefined) {
-         error = true;
-       }
+        }
+        if (this.arr[i].description == '') {
+          error = true;
+        }
+        if (this.arr[i].vendor_no == undefined) {
+          error = true;
+        }
+        if (this.arr[i].description == undefined) {
+          error = true;
+        }
       }
     }
 
