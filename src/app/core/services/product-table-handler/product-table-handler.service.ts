@@ -142,8 +142,10 @@ export class ProductTableHandlerService {
       })
 
       let curQty = ass.qty == 0 ? '' : ass.qty
+      // const curQty = (ass.qty === "" || !ass.qty.length) ? '' : parseInt(ass.qty);
 
-      if (curQty != '') {
+
+      if (curQty) {
         update_ass = this.assignSalesValue(
           ass.position,
           curQty,
@@ -155,7 +157,7 @@ export class ProductTableHandlerService {
 
       // update record in assortFilter
       // }
-      return update_ass
+      if (typeof update_ass == 'object') return update_ass
     })
   }
 
@@ -169,7 +171,8 @@ export class ProductTableHandlerService {
     let totalQuantity = this.assortFilter.reduce(
       (accumulate: number, af: any) => {
         // const newQuantity = (current.grouping === af.grouping) ? parseInt(af.qty) : 0;
-        const newQuantity = current.grouping ? parseInt(af.qty) : 0
+        const setQty = (af.qty === "" || !af.qty.length) ? 0 : parseInt(af.qty);
+        const newQuantity = current.grouping ? setQty : 0
 
         return accumulate + newQuantity
       },
@@ -234,6 +237,7 @@ export class ProductTableHandlerService {
               // get total quantity of assorted
 
               let totalQuantity = this.getTotalAssortedQuantity(curr)
+              console.log(this.assortFilter, totalQuantity)
               // console.log(totalQuantity, this.assortFilter);
               if (totalQuantity >= cond) {
                 price = curAmt
@@ -267,6 +271,7 @@ export class ProductTableHandlerService {
       } else {
         // update product sale value
         curr = this.assignSalesValue(index, 0, 0, 0, null)
+        // console.log(curr)
         // remove current data from assorted products
         const assortIds = this.assortFilter.map((ass: any) => ass.atlas_id)
         // run update on all assorted product sale value
