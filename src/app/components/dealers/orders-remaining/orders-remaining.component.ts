@@ -29,6 +29,7 @@ export class OrdersRemainingComponent implements OnInit {
   paginator!: MatPaginator;
   @ViewChild(MatSort)
   sort!: MatSort;
+  sortDir =false
   constructor(
     private request: HttpRequestsService,
     private http: HttpClient,
@@ -94,21 +95,38 @@ export class OrdersRemainingComponent implements OnInit {
       this.dataSrc.data = data;
       return;
     }
-    //  console.log(
-    //    'sort direction',
-    //    `1${sort.direction}3`,
-    //    sort.direction,
-    //    sort.active
-    //  );
-   
+    console.log(
+      'sort direction'
+      //  `1${sort.direction}3`,
+      //  sort.direction,
+      //  sort.active
+    );
+
     this.dataSrc.data = data.sort((a: any, b: any) => {
-     
-      const isAsc = sort.direction === 'desc';
+      const isAsc = sort.direction !== 'desc';
       switch (sort.active) {
         case 'index':
           return compare(a.index, b.index, isAsc);
         case 'vendor_name':
           return compare(a.vendor_name, b.vendor_name, isAsc);
+
+        default:
+          return 0;
+      }
+    });
+  }
+  sortDataAlt() {
+    const data = this.dataSrc.data.slice();
+   
+    this.sortDir = !this.sortDir;
+
+    this.dataSrc.data = data.sort((a: any, b: any) => {
+      let item ='vendor_name'
+      switch (item) {
+        case 'index':
+          return compare(a.index, b.index, this.sortDir);
+        case 'vendor_name':
+          return compare(a.vendor_name, b.vendor_name, this.sortDir);
 
         default:
           return 0;
