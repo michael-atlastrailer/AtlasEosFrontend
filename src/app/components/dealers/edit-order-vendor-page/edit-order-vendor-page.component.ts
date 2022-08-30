@@ -195,6 +195,18 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
     }
   }
 
+  omitSpecialChar(e: any) {
+    var k
+    document.all ? (k = e.keyCode) : (k = e.which)
+    return (
+      (k > 64 && k < 91) ||
+      (k > 96 && k < 123) ||
+      k == 8 ||
+      k == 32 ||
+      (k >= 48 && k <= 57)
+    )
+  }
+
   atlasIdFilter(event: any) {
     const filterValue = (event.target as HTMLInputElement).value
     if (this.incomingData) {

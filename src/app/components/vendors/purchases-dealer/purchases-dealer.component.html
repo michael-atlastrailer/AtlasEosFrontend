@@ -143,6 +143,7 @@
                   <table
                     *ngIf="tableView"
                     class="table table-striped table-bordered text-nowrap table-wrapper2 mb-0 purchaser-table"
+                    id="export-purchaser"
                   >
                     <thead>
                       <tr>
@@ -206,7 +207,10 @@
                 <hr />
                 <div class="d-flex justify-content-end btn-section">
                   <div>
-                    <button class="download-btn">
+                    <button
+                      class="download-btn"
+                      (click)="downloadPurchasersExcel()"
+                    >
                       <span class="fa fa-download"></span>
                       Download as Excel
                     </button>

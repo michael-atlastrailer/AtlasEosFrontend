@@ -168,6 +168,7 @@
                     #cartQuanity
                     class="table-input"
                     (keyup)="runCalculation(i, cartQuanity.value)"
+                    (keypress)="omitSpecialChar($event)"
                   />
                 </td>
               </ng-container>
