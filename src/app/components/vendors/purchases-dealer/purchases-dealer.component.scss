@@ -10,6 +10,11 @@
   height: 50px !important;
 }
 
+.dealer-linker {
+  color: blueviolet;
+  text-decoration: underline;
+}
+
 .filter-wrapper {
   gap: 20px;
 
@@ -36,7 +41,7 @@
     button {
       border: 0px;
       border-radius: 4px;
-      background-color: #4a0013;
+      background-color: #1d7471;
       color: #ffffff;
       font-size: 14px;
       height: 38.5px;

@@ -16,6 +16,7 @@ export class VendorNavbarComponent implements OnInit {
   adminData: any
   vendorName = ''
   unreadMsgCount = 0
+  vendorCode = ''
   constructor(
     private tokenStorage: TokenStorageService,
     private router: Router,
@@ -27,16 +28,20 @@ export class VendorNavbarComponent implements OnInit {
     console.log(query)
     this.vendorData = this.tokenStorage.getUser()
     this.vendorName = this.vendorData.company_name
+    this.vendorCode = this.vendorData.vendor_code
 
     this.getUnreadMsg()
 
     this.chatService.getNotification().subscribe((data: any) => {
       this.getUnreadMsg()
+      setTimeout(() => {
+        this.getUnreadMsg()
+      }, 1000)
     })
 
-    setInterval(() => {
-      this.getUnreadMsg()
-    }, 1000)
+    // setInterval(() => {
+    //   this.getUnreadMsg()
+    // }, 1000)
   }
 
   getUnreadMsg() {

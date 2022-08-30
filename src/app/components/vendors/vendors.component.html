@@ -6,14 +6,91 @@
     <app-vendor-navbar></app-vendor-navbar>
 
     <div class="app-content">
-      <div class="d-flex w-100 nav-layer-title">
-        <div>
-          <h6 class="title-text">Dashboard</h6>
-        </div>
-        <div>
-          <h6 class="text-alert">The Show has not yet started</h6>
+      <div class="nav-layer-title">
+        <div
+          class="container-fluid p-0 d-flex align-items-center justify-content-between"
+          style="height: 50px;"
+        >
+          <div class="d-flex align-items-center">
+            <p class="title-dash mb-0">DASHBOARD</p>
+            <p
+              class="greet mb-0 ml-3 notranslate"
+              style="font-weight: 700; text-transform: capitalize;"
+            >
+              Welcome, {{ fullName }}
+            </p>
+          </div>
+          <div>
+            <table
+              class="table text-nowrap table-wrapper table-borderless align-items-center mb-0 timer-table"
+            >
+              <tbody>
+                <tr>
+                  <td><span class="timer-title">EVENT ENDS IN:</span></td>
+
+                  <td class="notranslate">
+                    <span class="tbody-text-timer">
+                      <span id="hours">00</span>
+                      hours
+                    </span>
+                  </td>
+                  <td class="notranslate">
+                    <span class="tbody-text-timer">
+                      <span id="minutes">00</span>
+                      minutes
+                    </span>
+                  </td>
+                  <td class="notranslate">
+                    <span class="tbody-text-timer">
+                      <span id="seconds">00</span>
+                      seconds
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
+
+      <!-- 
+      <div class="d-flex justify-content-between w-100 nav-layer-title">
+        <div>
+          <h6 class="title-text">Welcome, {{ fullName }}</h6>
+        </div>
+        <div>
+          <table class="table text-nowrap table-wrapper mb-0 timer-table">
+            <tbody>
+              <tr>
+                <td><span class="timer-title">EVENT ENDS IN:</span></td>
+
+                <td class="notranslate">
+                  <span class="tbody-text-timer">
+                    <span id="hours">00</span>
+                    hours
+                  </span>
+                </td>
+                <td class="notranslate">
+                  <span class="tbody-text-timer">
+                    <span id="minutes">00</span>
+                    minutes
+                  </span>
+                </td>
+                <td class="notranslate">
+                  <span class="tbody-text-timer">
+                    <span id="seconds">00</span>
+                    seconds
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+
+ -->
+
       <div class="side-app dealer-side2">
         <router-outlet></router-outlet>
       </div>

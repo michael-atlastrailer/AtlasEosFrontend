@@ -5,6 +5,21 @@
   z-index: 1;
   position: fixed;
   top: 64px;
+  width: 85%;
+}
+
+.nav-layer-title2 {
+  background-color: #1d7471;
+  color: #ffffff;
+  padding: 10px;
+  z-index: 1;
+  margin-top: -104px;
+}
+
+.tbody-text-timer,
+.timer-title {
+  color: #ffffff;
+  font-weight: 600;
 }
 
 .text-alert {
