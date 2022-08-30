@@ -452,7 +452,7 @@ export class SpecialOrderComponent implements OnInit {
         // console.log(result);
         if (result.status) {
           this.fetchOrder();
-          this.toastr.info(`Item has been deleted successfully`, 'Order');
+          this.toastr.info(`Item has been removed successfully`, 'Order');
         } else {
           this.toastr.info(`Something went wrong deleting special orders`, '');
           this.fetchOrder();
