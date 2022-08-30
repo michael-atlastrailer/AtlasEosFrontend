@@ -142,11 +142,11 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
   viewBuckFlyer = false
   // @ViewChild(MatSort)
   // sort!: MatSort
-
-  sortedData!: PeriodicElement[]
-  highlightIndex = null
-  setVendor = false
-  currentData: any
+  sortDir = false;
+  sortedData!: PeriodicElement[];
+  highlightIndex = null;
+  setVendor = false;
+  currentData: any;
   constructor(
     private getData: HttpRequestsService,
     private toastr: ToastrService,
@@ -203,7 +203,9 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
     }
 
     this.dataSrc = data.sort((a: any, b: any) => {
+
       const isAsc = sort.direction === 'asc'
+
       switch (sort.active) {
         case 'atlas_id':
           return compare(a.atlas_id, b.atlas_id, isAsc)
@@ -218,7 +220,24 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
       }
     })
   }
+  sortDataAlt() {
+    const data = this.dataSrc.data.slice();
 
+    this.sortDir = !this.sortDir;
+
+    this.dataSrc.data = data.sort((a: any, b: any) => {
+      let item = 'vendor_product_code';
+      switch (item) {
+        case 'index':
+          return compare(a.index, b.index, this.sortDir);
+        case 'vendor_product_code':
+          return compare(a.vendor_product_code, b.vendor_product_code, this.sortDir);
+
+        default:
+          return 0;
+      }
+    });
+  }
   ///////// Old code ///////////
 
   emptyTableQty() {
@@ -453,15 +472,15 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
       .then((res: any) => {
         console.log(res)
         if (res.status) {
-          this.showSubmittedDetails = true
-          this.alreadyOrder = true
-          console.log('already order eri', this.alreadyOrder)
-          this.cartLoader = false
-          this.itemAlreadySubmitted = res.data.item_details
-          this.itemNewlySubmitted = res.data.item_added
-          this.emptyTableQty()
+          this.showSubmittedDetails = true;
+          this.alreadyOrder = true;
+          console.log('already order eri', this.alreadyOrder);
+          this.cartLoader = false;
+          this.itemAlreadySubmitted = res.data.item_details;
+          this.itemNewlySubmitted = res.data.item_added;
+          this.emptyTableQty();
           if (res.data.item_added > 0) {
-            this.toastr.success(`item(s) has been submitted`, 'Success')
+            this.toastr.success(`item(s) has been submitted`, 'Success');
           }
 
           /// this.orderTable = []
@@ -863,8 +882,10 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
       setTimeout(() => {
         document
           ?.querySelector('.highlighted')
-          ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      }, 1000)
+
+          ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 2000);
+
       this.highlightIndex = array.findIndex((item: any) => {
         return item.atlas_id == this.searchatlasId!
       })
@@ -972,12 +993,12 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
 
             this.toastr.success(
               `${this.orderLen}  item(s) have been added to cart`,
-              'Success',
-            )
+              'Success'
+            );
 
-            this.orderTable = []
-            this.getTotal()
-            this.getCart()
+            this.orderTable = [];
+            this.getTotal();
+            this.getCart();
             if (this.searchatlasId) {
               this.searchVendorId(this.vendorId!)
             } else {
