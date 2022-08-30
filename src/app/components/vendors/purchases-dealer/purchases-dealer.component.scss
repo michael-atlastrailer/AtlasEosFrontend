@@ -10,11 +10,6 @@
   height: 50px !important;
 }
 
-.dealer-linker {
-  color: blueviolet;
-  text-decoration: underline;
-}
-
 .filter-wrapper {
   gap: 20px;
 
@@ -218,11 +213,16 @@
       th {
         font-weight: 600;
         text-align: center;
+        text-transform: capitalize;
       }
     }
   }
 
   tbody {
+    .dealer-linker {
+      color: blueviolet !important;
+      text-decoration: underline !important;
+    }
     tr {
       .shift-center {
         text-align: center;

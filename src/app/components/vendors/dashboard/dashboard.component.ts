@@ -30,13 +30,20 @@ export class DashboardComponent implements OnInit {
     if (this.userData.privileged_vendors) {
       ///this.getPrivilegedVendors()
       ///this.showSelectOption = true
-      this.getDashboardAnalysisData()
-      this.getDashboardMostPurchaserData()
+      const priVendor = this.userData.privileged_vendors.split(',')
+      console.log(priVendor, 'checking users')
+      if (priVendor.length > 0) {
+        let word = priVendor[1]
+        console.log(priVendor, 'checking users')
+
+        this.getDashboardAnalysisData()
+        this.getDashboardMostPurchaserData()
+      } else {
+        this.getSingleDashboardAnalysisData()
+        this.getSingleDashboardMostPurchaserData()
+      }
     } else {
       this.selectedVendorCode = this.userData.vendor_code
-
-      this.getSingleDashboardAnalysisData()
-      this.getSingleDashboardMostPurchaserData()
 
       ///this.selectedVendorName = this.userData.company_name
       ////this.showSelectOption = false
