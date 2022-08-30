@@ -866,10 +866,14 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
     } else {
       this.isMod = true;
       setTimeout(() => {
-        document
+       document.getElementById('formtable')
           ?.querySelector('.highlighted')
-          ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }, 2000);
+          ?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+            inline: 'start',
+          });
+      }, 1000);
       this.highlightIndex = array.findIndex((item: any) => {
         return item.atlas_id == this.searchatlasId!;
       });
