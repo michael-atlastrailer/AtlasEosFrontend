@@ -30,6 +30,8 @@ export class VendorOrderComponent implements OnInit {
   privilageStatus = false
   showSelectOption = true
 
+  productData: any
+
   displayedColumns: string[] = [
     'atlas_id',
     'vendor',
@@ -64,6 +66,30 @@ export class VendorOrderComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  sortData(sort: Sort) {
+    const data = this.productData.slice()
+    if (!sort.active || sort.direction === '') {
+      this.dataSource = data
+      return
+    }
+
+    this.dataSource = data.sort((a: any, b: any) => {
+      const isAsc = sort.direction === 'asc'
+      switch (sort.active) {
+        case 'atlas_id':
+          return compare(a.atlas_id, b.atlas_id, isAsc)
+        case 'vendor':
+          return compare(a.vendor_product_code, b.vendor_product_code, isAsc)
+
+        case 'vendor':
+          return compare(a.vendor_product_code, b.vendor_product_code, isAsc)
+
+        default:
+          return 0
+      }
+    })
+  }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value
@@ -126,6 +152,7 @@ export class VendorOrderComponent implements OnInit {
 
             this.tableView = true
             this.incomingData = result.data
+            this.productData = result.data
             this.dataSource = new MatTableDataSource<vendorProducts>(
               result.data,
             )
@@ -190,4 +217,8 @@ export class VendorOrderComponent implements OnInit {
       })
       .catch((err) => {})
   }
+}
+
+function compare(a: number | string, b: number | string, isAsc: boolean) {
+  return (a < b ? -1 : 1) * (isAsc ? 1 : -1)
 }

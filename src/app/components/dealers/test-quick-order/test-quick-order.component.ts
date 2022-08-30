@@ -2127,14 +2127,14 @@ export class TestQuickOrderComponent implements OnInit {
 
             this.TotalAmount += parseFloat(this.productData[h].forCal)
 
-            let data = {
-              atlasId: this.productData[h].atlas_id,
-              forCal: this.productData[h].forCal,
-              grouping: this.productData[h].grouping,
-              index: h,
-            }
+            // let data = {
+            //   atlasId: this.productData[h].atlas_id,
+            //   forCal: this.productData[h].forCal,
+            //   grouping: this.productData[h].grouping,
+            //   index: h,
+            // }
 
-            this.addedItem.push(data)
+            /// this.addedItem.push(data)
           }
 
           this.tableData = this.productData
@@ -2148,7 +2148,7 @@ export class TestQuickOrderComponent implements OnInit {
         }
       })
       .catch((err) => {
-        this.toastr.info(`Something went wrong`, 'Error')
+        this.toastr.info(`Something went wrong, test`, 'Error')
       })
   }
 
