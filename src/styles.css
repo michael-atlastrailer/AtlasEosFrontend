@@ -58,7 +58,7 @@ html {
   background-color: #378805 !important;
 }
 .dealer-side {
-  margin-top: 70px;
+  padding-top: 70px !important;
 }
 .clickable{
   color: #00547a;
@@ -80,11 +80,11 @@ html {
 }
 @media screen and (max-width: 1200px) {
   .dealer-side {
-    margin-top: 60px;
+    padding-top: 60px !important;
   }
 
   .dealer-side2 {
-    margin-top: 0px;
+    padding-top: 0px !important;
   }
 
   .sm-dealer-hidden-navbar {
@@ -105,7 +105,7 @@ html {
 
 @media screen and (max-width: 765px) {
   .dealer-side {
-    margin-top: 100px;
+    padding-top: 100px !important;
   }
 }
 /* 

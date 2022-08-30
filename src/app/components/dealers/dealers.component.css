@@ -1,5 +1,6 @@
 .audio-tag {
   visibility: hidden;
+  /* position: static; */
 }
 
 input[type="number"]::-webkit-inner-spin-button,
