@@ -33,15 +33,22 @@ export class OrderSummaryComponent implements OnInit {
 
     let d = new Date()
     let month = d.getMonth() + 1
-    let comDate = d.getDate() + '-' + month + '-' + d.getFullYear()
+    let mnth = month < 10 ? `0${month}` : month
+
+    let dateT = d.getDate()
+    let dd = dateT < 10 ? `0${dateT}` : dateT
+
+    let comDate = dd + '-' + mnth + '-' + d.getFullYear()
 
     let hrs = d.getHours()
+    let hours = hrs < 10 ? `0${hrs}` : hrs
+
     let mins = d.getMinutes()
     let minutes = mins < 10 ? `0${mins}` : mins
     let sec = d.getSeconds()
     let ampm = hrs >= 12 ? 'pm' : 'am'
 
-    let comTime = hrs + ':' + minutes + ':' + sec + ' ' + ampm
+    let comTime = hours + ':' + minutes + ':' + sec + ' ' + ampm
 
     this.currenDateTime = comDate + ' ' + comTime
   }
