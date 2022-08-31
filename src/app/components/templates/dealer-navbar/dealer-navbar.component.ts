@@ -131,7 +131,16 @@ export class DealerNavbarComponent implements OnInit {
       })
       .catch((err) => {});
   }
-
+  refresher() {
+    let initUrl = this.router.url
+    let currentUrl = this.router.url.split('/')[2]
+  
+    console.log(currentUrl, 'current utl', currentUrl == 'show-orders');
+    if (currentUrl == "show-orders") {
+      // this.router.navigate([ `/dealers/show-orders/`]);
+      window.location.reload()
+    }
+}
   closeOverLay() {
     const query = window.matchMedia('(max-width: 700px)');
     if (query.matches) {

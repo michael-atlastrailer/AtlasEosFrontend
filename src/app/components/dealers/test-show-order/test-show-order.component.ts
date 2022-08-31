@@ -158,6 +158,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
     private chatServer: ChatService,
   ) {
     this.getAllVendors()
+   
     this.route.params.subscribe((params) => {
       this.vendorId = params['vendorId']
       this.searchatlasId = params['atlasId']
