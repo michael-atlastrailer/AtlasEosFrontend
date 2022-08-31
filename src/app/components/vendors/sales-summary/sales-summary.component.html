@@ -54,6 +54,17 @@
                   </span>
                 </h6>
 
+                <div class="d-flex justify-content-end search-wrapper">
+                  <div>
+                    <input
+                      type="text"
+                      placeholder="search.........."
+                      (keyup)="applyFilter($event)"
+                      #input
+                    />
+                  </div>
+                </div>
+
                 <div class="table-responsive mb-3">
                   <table class="table" *ngIf="loader">
                     <thead>
@@ -133,6 +144,7 @@
                   </table>
 
                   <table
+                    id="export-sales-summary"
                     *ngIf="tableView"
                     class="table table-striped table-bordered text-nowrap table-wrapper2 align-items-center mb-0"
                   >
@@ -149,7 +161,7 @@
                     </thead>
 
                     <tbody>
-                      <tr *ngFor="let data of incomingData; let i = index">
+                      <tr *ngFor="let data of dataSource; let i = index">
                         <td>
                           {{ data.qty }}
                         </td>
@@ -191,58 +203,34 @@
 
                 <div class="d-flex justify-content-end btn-section">
                   <div>
-                    <button class="download-btn">
+                    <a
+                      *ngIf="printVendorCode"
+                      class="btn download-btn"
+                      target="_blank"
+                      [href]="
+                        'https://atlas-eos-app-hvw34.ondigitalocean.app/generate-pdf/' +
+                        printVendorCode +
+                        '/' +
+                        getLocal('lang')
+                      "
+                    >
+                      <span class="fa fa-print"></span>
+                      Print/Review
+                    </a>
+                    <!-- <button class="download-btn">
                       <span class="fa fa-print"></span>
 
                       Print/Review
-                    </button>
+                    </button> -->
                   </div>
                   <div>
-                    <button class="download-btn">
+                    <button class="download-btn" (click)="exportToExcel()">
                       <span class="fa fa-download"></span>
 
                       Download as Excel
                     </button>
                   </div>
                 </div>
-
-                <!--                 
-
-                <div class="d-flex flex-column indicator-wrapper">
-                  <div class="d-flex">
-                    <div>
-                      <div class="indicator-color"></div>
-                    </div>
-                    <div>
-                      <h6>Quantity Break Items</h6>
-                    </div>
-                  </div>
-                  <div class="d-flex">
-                    <div>
-                      <div class="indicator-color"></div>
-                    </div>
-                    <div>
-                      <h6>Assorted Items</h6>
-                    </div>
-                  </div>
-                  <div class="d-flex">
-                    <div>
-                      <div class="indicator-color"></div>
-                    </div>
-                    <div>
-                      <h6>Regular Show Priced Items</h6>
-                    </div>
-                  </div>
-                  <div class="d-flex">
-                    <div>
-                      <div class="indicator-color"></div>
-                    </div>
-                    <div>
-                      <h6>New Items</h6>
-                    </div>
-                  </div>
-                </div>
- -->
               </div>
             </div>
           </div>

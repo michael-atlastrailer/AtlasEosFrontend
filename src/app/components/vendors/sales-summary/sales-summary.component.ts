@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core'
 import { TokenStorageService } from 'src/app/core/services/token-storage.service'
 import { HttpRequestsService } from 'src/app/core/services/http-requests.service'
 
+declare var $: any
+
 @Component({
   selector: 'app-sales-summary',
   templateUrl: './sales-summary.component.html',
@@ -23,6 +25,9 @@ export class SalesSummaryComponent implements OnInit {
   totalAmount: number = 0
   showSelectOption = true
 
+  printVendorCode = ''
+
+  dataSource: any
   constructor(
     private tokenData: TokenStorageService,
     private httpServer: HttpRequestsService,
@@ -35,6 +40,7 @@ export class SalesSummaryComponent implements OnInit {
       this.showSelectOption = true
     } else {
       this.selectedVendorCode = this.userData.vendor_code
+      this.printVendorCode = this.selectedVendorCode
       this.getSingleVendorSummary()
       //console.log('no vendor')
       this.selectedVendorName = this.userData.company_name
@@ -43,6 +49,50 @@ export class SalesSummaryComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value
+    this.incomingData.atlas_id = filterValue.trim().toLowerCase()
+    this.dataSource = this.filterArray('*' + filterValue)
+  }
+
+  filterArray(expression: string) {
+    var regex = this.convertWildcardStringToRegExp(expression)
+    //console.log('RegExp: ' + regex);
+    return this.incomingData.filter(function (item: any) {
+      return regex.test(item.atlas_id)
+    })
+  }
+
+  escapeRegExp(str: string) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  }
+
+  convertWildcardStringToRegExp(expression: string) {
+    var terms = expression.split('*')
+
+    var trailingWildcard = false
+
+    var expr = ''
+    for (var i = 0; i < terms.length; i++) {
+      if (terms[i]) {
+        if (i > 0 && terms[i - 1]) {
+          expr += '.*'
+        }
+        trailingWildcard = false
+        expr += this.escapeRegExp(terms[i])
+      } else {
+        trailingWildcard = true
+        expr += '.*'
+      }
+    }
+
+    if (!trailingWildcard) {
+      expr += '.*'
+    }
+
+    return new RegExp('^' + expr + '$', 'i')
+  }
 
   getSingleVendorSummary() {
     if (this.selectedVendorCode) {
@@ -63,6 +113,7 @@ export class SalesSummaryComponent implements OnInit {
 
             this.tableView = true
             this.incomingData = result.data
+            this.dataSource = result.data
             this.noDataFound = result.data.length > 0 ? false : true
             if (result.data.length > 0) {
               for (let index = 0; index < result.data.length; index++) {
@@ -90,12 +141,13 @@ export class SalesSummaryComponent implements OnInit {
         .then((result: any) => {
           this.tableView = true
           this.loader = false
-          console.log(result)
           if (result.status) {
             this.totalAmount = 0
 
             this.tableView = true
             this.incomingData = result.data
+            this.dataSource = result.data
+
             this.noDataFound = result.data.length > 0 ? false : true
             if (result.data.length > 0) {
               for (let index = 0; index < result.data.length; index++) {
@@ -112,6 +164,7 @@ export class SalesSummaryComponent implements OnInit {
 
   selectedVendor(data: any) {
     this.selectedVendorCode = data
+    this.printVendorCode = data
     for (let i = 0; i < this.privilegedVendors.length; i++) {
       const element = this.privilegedVendors[i]
       if (element.vendor_code == data) {
@@ -136,5 +189,20 @@ export class SalesSummaryComponent implements OnInit {
         }
       })
       .catch((err) => {})
+  }
+
+  exportToExcel() {
+    let javaDate = new Date()
+    let currDate = javaDate.getDate()
+    $('#export-sales-summary').table2excel({
+      exclude: '.noExl',
+      name: `${currDate}-sales-summary`,
+      filename: `${currDate}-sales-summary`,
+      fileext: '.xlsx',
+    })
+  }
+
+  getLocal(e: any) {
+    return localStorage.getItem(e)
   }
 }
