@@ -101,6 +101,8 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
   groupsArray: any | [] = []
   cartData: any | [] = []
 
+  assortedIds: [] | any = []
+
   assortedItemsM: [] | any = []
   currentStateM: [] | any = []
   assortFilterM: [] | any = []
@@ -1385,7 +1387,7 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
         this.tableData,
         this.assortFilter,
         this.addedItem,
-        this.assortedItems,
+        this.assortedIds,
         this.orderTotal
       )
       .then((status) => {
@@ -1394,12 +1396,13 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
           this.productTableService
             .runSingleCalculations(curr, index, parseInt(qty.length ? qty : '0'))
             .then((data) => {
-              // console.log(data)
+              console.log(data)
               if (data.status) {
                 this.tableData = data.products;
                 this.dataSrc.data = data.products;
                 this.orderTotal += data.productTotal;
-                this.assortedItems = data.assorted;
+                this.assortFilter = data.assorted;
+                this.assortedIds = data.allAddedItemsID
               }
             })
         }
@@ -2134,7 +2137,7 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
               this.tableData,
               this.assortFilter,
               this.addedItem,
-              this.assortedItems,
+              this.assortedIds,
               this.orderTotal,
             )
             .then((status) => {
@@ -2147,7 +2150,8 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
                       this.tableData = data.products;
                       this.dataSrc.data = data.products;
                       this.orderTotal = data.productTotal;
-                      this.assortedItems = data.assorted;
+                      this.assortFilter = data.assorted;
+                      this.assortedIds = data.allAddedItemsID
                     }
                   })
               }

@@ -42,13 +42,13 @@ export class ProductTableHandlerService {
     try {
       this.productData = products;
       products.forEach((product, index) => {
-        const setQuantity = (product.qty === "" && product.qty.length) ? 0 : parseInt(product.qty);
+        const setQuantity = (product.qty === "" || !product.qty.length) ? 0 : parseInt(product.qty);
         this.runCalculation(index, setQuantity, { key: false })
       });
 
       codeStatus = true;
     } catch (e) {
-      // console.log("Calculation Error: \n", e)
+      console.log("Calculation Error: \n", e)
     }
 
     return {
@@ -103,7 +103,7 @@ export class ProductTableHandlerService {
     spec: string | null,
   ) => {
     // update each unique element
-    this.productData[index].qty = (quantity != 0) ? String(quantity) : ''
+    this.productData[index].qty = (quantity !== 0) ? String(quantity) : ''
     this.productData[index].selected_spec = spec
     this.productData[index].forCal = amount
     this.productData[index].calPrice = amount
@@ -141,7 +141,7 @@ export class ProductTableHandlerService {
         }
       })
 
-      let curQty = ass.qty == 0 ? '' : ass.qty
+      let curQty = (ass.qty === 0) ? '' : ass.qty
       // const curQty = (ass.qty === "" || !ass.qty.length) ? '' : parseInt(ass.qty);
 
 
@@ -157,7 +157,7 @@ export class ProductTableHandlerService {
 
       // update record in assortFilter
       // }
-      if (typeof update_ass == 'object') return update_ass
+      if (typeof update_ass === 'object') return update_ass
     })
   }
 
@@ -173,7 +173,7 @@ export class ProductTableHandlerService {
         // const newQuantity = (current.grouping === af.grouping) ? parseInt(af.qty) : 0;
         const setQty = (af.qty === "" || !af.qty.length) ? 0 : parseInt(af.qty);
         const newQuantity = current.grouping ? setQty : 0
-
+        // console.log(af, accumulate, newQuantity )
         return accumulate + newQuantity
       },
       0,
@@ -215,7 +215,7 @@ export class ProductTableHandlerService {
         // calculate default prices
         let price = parseFloat(curr.booking)
         let calAmt = qty * price
-        let selected_spec = `${index}`
+        let selected_spec = curr.selected_spec ?? `${index}`
 
         if (!this.allAddedItemAtlasID.includes(atlasId))
           this.allAddedItemAtlasID.push(atlasId)
@@ -232,12 +232,13 @@ export class ProductTableHandlerService {
               const assortIds = this.assortFilter.map(
                 (ass: any) => ass.atlas_id,
               )
-              if (!assortIds.includes(curr.atlas_id))
+              if (!assortIds.includes(curr.atlas_id)) {
+                curr.qty = String(qty)
                 this.assortFilter.push(curr)
-              // get total quantity of assorted
+                // get total quantity of assorted
+              }
 
               let totalQuantity = this.getTotalAssortedQuantity(curr)
-              console.log(this.assortFilter, totalQuantity)
               // console.log(totalQuantity, this.assortFilter);
               if (totalQuantity >= cond) {
                 price = curAmt
@@ -245,8 +246,11 @@ export class ProductTableHandlerService {
                 selected_spec = `${index}-${af_index}`
 
                 // run update on all assorted product sale value
-                this.updateOtherAssorted(curr)
               }
+              console.log(this.assortFilter, totalQuantity, cond, selected_spec)
+
+              this.updateOtherAssorted(curr)
+
             } else if (sp.type === 'special') {
               ///////// Special Price ////////
               if (qty >= cond) {
