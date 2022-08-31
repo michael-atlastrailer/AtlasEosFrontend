@@ -12,6 +12,7 @@ import { SpecialOrdersComponent } from './special-orders/special-orders.componen
 import { SwitchDealerComponent } from './switch-dealer/switch-dealer.component'
 import { VendorOrderComponent } from './vendor-order/vendor-order.component'
 import { VendorsComponent } from './vendors.component'
+import { ViewDealerPurchasersSummaryComponent } from './view-dealer-purchasers-summary/view-dealer-purchasers-summary.component'
 import { ViewDealerSummaryComponent } from './view-dealer-summary/view-dealer-summary.component'
 import { ViewReportTicketComponent } from './view-report-ticket/view-report-ticket.component'
 
@@ -75,8 +76,12 @@ const routes: Routes = [
         component: SwitchDealerComponent,
       },
       {
-        path: 'view-dealer-summary/:user/:dealer/:vendor',
+        path: 'view-dealer-summary/:dealer/:vendor',
         component: ViewDealerSummaryComponent,
+      },
+      {
+        path: 'view-dealer-purchasers-summary/:user/:dealer/:vendor',
+        component: ViewDealerPurchasersSummaryComponent,
       },
     ],
   },

@@ -78,7 +78,7 @@ export class VendorOrderComponent implements OnInit {
       const isAsc = sort.direction === 'asc'
       switch (sort.active) {
         case 'atlas_id':
-          return compare(a.atlas_id, b.atlas_id, isAsc)
+          return compare(a.id, b.id, isAsc)
         case 'vendor':
           return compare(a.vendor_product_code, b.vendor_product_code, isAsc)
 

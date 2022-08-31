@@ -22,7 +22,8 @@ import { ViewReportTicketComponent } from './view-report-ticket/view-report-tick
 import { SwitchDealerComponent } from './switch-dealer/switch-dealer.component'
 import { ViewDealerSummaryComponent } from './view-dealer-summary/view-dealer-summary.component'
 
-import { MatMenuModule } from '@angular/material/menu'
+import { MatMenuModule } from '@angular/material/menu';
+import { ViewDealerPurchasersSummaryComponent } from './view-dealer-purchasers-summary/view-dealer-purchasers-summary.component'
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { MatMenuModule } from '@angular/material/menu'
     ViewReportTicketComponent,
     SwitchDealerComponent,
     ViewDealerSummaryComponent,
+    ViewDealerPurchasersSummaryComponent,
   ],
   imports: [
     CommonModule,

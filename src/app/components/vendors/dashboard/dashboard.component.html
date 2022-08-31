@@ -140,20 +140,32 @@
                   >
                     <thead>
                       <tr>
+                        <th class="thead-custom">Vendor #</th>
                         <th class="thead-custom">Account #</th>
+
                         <th class="thead-custom">Dealer Name</th>
                         <th class="thead-custom">Show Total($)</th>
-                        <th class="thead-custom">Trend</th>
+                        <!-- <th class="thead-custom">Trend</th> -->
                       </tr>
                     </thead>
                     <tbody>
                       <tr *ngFor="let data of mostPurchasers">
                         <td>
+                          <span class="tbody-text">{{ data.vendor }}</span>
+                        </td>
+                        <td>
                           <span class="tbody-text">{{ data.dealer }}</span>
                         </td>
                         <td>
                           <span class="tbody-text">
-                            {{ data.dealer_name }}
+                            <a
+                              class="dealer-linker"
+                              routerLink="/vendors/view-dealer-summary/{{
+                                data.dealer
+                              }}/{{ data.vendor }}"
+                            >
+                              {{ data.dealer_name }}
+                            </a>
                           </span>
                         </td>
                         <td>
@@ -161,12 +173,12 @@
                             {{ data.sales | number }}
                           </span>
                         </td>
-                        <td>
+                        <!-- <td>
                           <span class="tbody-text trend-text">
                             5.4%
                           </span>
                           <span class="fa fa-arrow-up trend-icon"></span>
-                        </td>
+                        </td> -->
                       </tr>
                     </tbody>
                   </table>
