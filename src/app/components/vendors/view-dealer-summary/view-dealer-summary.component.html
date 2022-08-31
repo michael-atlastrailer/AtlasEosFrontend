@@ -132,7 +132,7 @@
 
                         <th class="thead-custom">Description</th>
 
-                        <th class="thead-custom">Specail Price ($)</th>
+                        <th class="thead-custom">Special Price ($)</th>
 
                         <th class="thead-custom">Total ($)</th>
                       </tr>
@@ -146,8 +146,12 @@
                         </td>
                         <td class="text-center">{{ data.desc }}</td>
 
-                        <td class="text-right">{{ data.special | number }}</td>
-                        <td class="text-right">{{ data.total | number }}</td>
+                        <td class="text-right">
+                          {{ data.special | number: '1.2-2' }}
+                        </td>
+                        <td class="text-right">
+                          {{ data.total | number: '1.2-2' }}
+                        </td>
                       </tr>
                       <tr class="last-col">
                         <td colspan="5" class="text-right">
