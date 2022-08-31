@@ -18,11 +18,11 @@ export interface vendorProducts {
 }
 
 @Component({
-  selector: 'app-view-dealer-summary',
-  templateUrl: './view-dealer-summary.component.html',
-  styleUrls: ['./view-dealer-summary.component.scss'],
+  selector: 'app-view-dealer-purchasers-summary',
+  templateUrl: './view-dealer-purchasers-summary.component.html',
+  styleUrls: ['./view-dealer-purchasers-summary.component.scss'],
 })
-export class ViewDealerSummaryComponent implements OnInit {
+export class ViewDealerPurchasersSummaryComponent implements OnInit {
   tableView = false
   loader = true
   userData: any

@@ -26,28 +26,8 @@ export class DashboardComponent implements OnInit {
 
     console.log(this.userData.vendor_code, 'testing vendor')
 
-    ///this.getPrivilegedVendors()
-    if (this.userData.privileged_vendors) {
-      ///this.getPrivilegedVendors()
-      ///this.showSelectOption = true
-      const priVendor = this.userData.privileged_vendors.split(',')
-      console.log(priVendor, 'checking users')
-      if (priVendor.length > 0) {
-        let word = priVendor[1]
-        console.log(priVendor, 'checking users')
-
-        this.getDashboardAnalysisData()
-        this.getDashboardMostPurchaserData()
-      } else {
-        this.getSingleDashboardAnalysisData()
-        this.getSingleDashboardMostPurchaserData()
-      }
-    } else {
-      this.selectedVendorCode = this.userData.vendor_code
-
-      ///this.selectedVendorName = this.userData.company_name
-      ////this.showSelectOption = false
-    }
+    this.getDashboardAnalysisData()
+    this.getDashboardMostPurchaserData()
   }
 
   getSingleDashboardMostPurchaserData() {
@@ -89,8 +69,7 @@ export class DashboardComponent implements OnInit {
   getDashboardMostPurchaserData() {
     this.getData
       .httpGetRequest(
-        '/vendor/vendor-single-dashboard-most-purchaser/' +
-          this.userData.vendor_code,
+        '/vendor/vendor-dashboard-most-purchaser/' + this.userData.id,
       )
       .then((result: any) => {
         this.tableView = true
@@ -107,12 +86,7 @@ export class DashboardComponent implements OnInit {
 
   getDashboardAnalysisData() {
     this.getData
-      .httpGetRequest(
-        '/vendor/vendor-dashboard-analysis/' +
-          this.userData.vendor_code +
-          '/' +
-          this.userData.id,
-      )
+      .httpGetRequest('/vendor/vendor-dashboard-analysis/' + this.userData.id)
       .then((result: any) => {
         if (result.status) {
           this.totalSales = result.data.total_sales

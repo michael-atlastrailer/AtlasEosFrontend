@@ -75,7 +75,7 @@ const routes: Routes = [
         component: SwitchDealerComponent,
       },
       {
-        path: 'view-dealer-summary/:user/:dealer/:vendor',
+        path: 'view-dealer-summary/:dealer/:vendor',
         component: ViewDealerSummaryComponent,
       },
     ],

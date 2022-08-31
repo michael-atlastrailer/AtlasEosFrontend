@@ -1,0 +1,289 @@
+.loader-td {
+  padding: 0px !important;
+}
+
+.ph-item {
+  padding: 0px !important;
+}
+
+.ph-picture {
+  height: 50px !important;
+}
+
+.filter-wrapper {
+  gap: 20px;
+
+  .input-wrapper {
+    width: 30%;
+    label {
+      font-size: 1rem;
+      font-weight: 800;
+      color: gray;
+    }
+
+    .form-control:focus {
+      border: 1px solid #555 !important;
+      box-shadow: none;
+    }
+
+    input[type='email']:focus {
+      border: 1px solid #555 !important;
+    }
+  }
+
+  .btn-wrapper {
+    width: 20%;
+    button {
+      border: 0px;
+      border-radius: 4px;
+      background-color: #4a0013;
+      color: #ffffff;
+      font-size: 14px;
+      height: 38.5px;
+      line-height: 1.7;
+      padding: 6px 24px 6px 24px;
+
+      * {
+        color: #ffffff;
+      }
+    }
+  }
+}
+
+.btn-wrapper2 {
+  text-align: end;
+  text-align: right;
+  button {
+    border: 0px;
+    border-radius: 4px;
+    color: #ffffff;
+    width: 40%;
+    background-color: #4a0013;
+    padding: 8px;
+  }
+}
+
+.search-wrapper {
+  margin-bottom: 10px;
+  div {
+    input {
+      border-radius: 4px;
+      border: 1px solid cyan;
+      padding: 8px;
+    }
+  }
+}
+
+.indicator-wrapper {
+  div:nth-child(1) {
+    gap: 10px;
+
+    h6 {
+      font-size: 13px;
+      color: #555;
+    }
+
+    .indicator-color {
+      height: 15px;
+      width: 15px;
+      background-color: red;
+    }
+  }
+
+  div:nth-child(2) {
+    gap: 10px;
+
+    h6 {
+      font-size: 13px;
+      color: #555;
+    }
+
+    .indicator-color {
+      height: 15px;
+      width: 15px;
+      background-color: green;
+    }
+  }
+
+  div:nth-child(3) {
+    gap: 10px;
+
+    h6 {
+      font-size: 13px;
+      color: #555;
+    }
+
+    .indicator-color {
+      height: 15px;
+      width: 15px;
+      background-color: black;
+    }
+  }
+
+  div:nth-child(4) {
+    gap: 10px;
+
+    h6 {
+      font-size: 13px;
+      color: #555;
+    }
+
+    .indicator-color {
+      height: 15px;
+      width: 15px;
+      background-color: blue;
+    }
+  }
+}
+
+.selected-title-name {
+  font-size: 20px;
+  font-weight: 500;
+  background-color: #f6f6f6;
+  border-bottom: 1px solid #dadada;
+  padding: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.card-link {
+  font-size: 20px;
+  font-weight: 400;
+  color: black;
+  padding-left: 10px;
+}
+
+.table-wrapper2 {
+  thead {
+    background-color: #1d7471;
+  }
+
+  thead th {
+    color: #ffffff !important;
+    padding: 10px;
+    border-radius: 5px;
+  }
+}
+
+.select-wrapper {
+  width: 300px;
+
+  select {
+    width: 300px !important;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: #555;
+    font-size: 14px;
+    outline: 0;
+    height: 38.5px;
+    line-height: 1.7;
+    padding: 6px 24px 6px 12px;
+  }
+}
+
+.download-btn {
+  background-color: #555;
+  padding: 5px;
+  border-radius: 4px;
+  border: 0px;
+  color: #ffffff;
+  font-size: 13px;
+}
+
+.btn-section {
+  gap: 10px;
+}
+
+.summary-table {
+  thead {
+    .top-table {
+      td {
+        font-weight: 600;
+        color: #ffffff;
+        padding: 0px !important;
+      }
+    }
+
+    tr {
+      background-color: #06504d;
+
+      th {
+        font-weight: 600;
+        text-align: center;
+      }
+    }
+  }
+
+  tbody {
+    .last-col {
+      td {
+        font-size: 15px;
+        color: red;
+        font-weight: 600;
+      }
+    }
+
+    tr {
+      .shift-center {
+        text-align: center;
+      }
+
+      a {
+        color: #4a0013;
+      }
+    }
+  }
+}
+
+.grand-section {
+  display: flex;
+  width: 100%;
+  border: 1px solid #dee2e6;
+  background-color: rgba(0, 0, 0, 0.05);
+  margin-top: 20px;
+  div {
+    h6 {
+      font-weight: 600;
+      font-size: 15px;
+      padding: 10px;
+    }
+  }
+  div:nth-child(1) {
+    width: 80%;
+    text-align: right;
+    padding-right: 20px;
+    border-right: 1px solid #dee2e6;
+  }
+
+  div:nth-child(2) {
+    width: 20%;
+    text-align: right;
+    padding-right: 20px;
+  }
+}
+
+.vendor-note-text {
+  width: 100%;
+  height: 250px;
+  resize: none;
+  font-size: 14px;
+}
+
+.btn-section {
+  text-align: center;
+  margin-top: 20px;
+  button {
+    border: 0px;
+    border-radius: 4px;
+    padding: 4px 15px;
+    color: #ffffff;
+    background-color: #06504d;
+    font-size: 13px;
+  }
+}
+
+#exampleModalLabel {
+  font-size: 15px;
+}
