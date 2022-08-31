@@ -79,6 +79,8 @@ export class ViewDealerPurchasersSummaryComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
+      this.user = params['user']
+
       this.dealer = params['dealer']
       this.vendor = params['vendor']
 
@@ -210,7 +212,12 @@ export class ViewDealerPurchasersSummaryComponent implements OnInit {
   getDealerSummaryData() {
     this.httpServer
       .httpGetRequest(
-        '/vendor/view-dealer-summary/' + this.dealer + '/' + this.vendor,
+        '/vendor/view-dealer-purchaser-summary/' +
+          this.user +
+          '/' +
+          this.dealer +
+          '/' +
+          this.vendor,
       )
       .then((result: any) => {
         this.tableView = true
