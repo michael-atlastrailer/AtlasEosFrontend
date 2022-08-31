@@ -5,8 +5,7 @@ import { MatPaginator } from '@angular/material/paginator'
 import { MatTableDataSource } from '@angular/material/table'
 import { MatSort, Sort } from '@angular/material/sort'
 
-declare var $: any;
-
+declare var $: any
 
 @Component({
   selector: 'app-purchases-dealer',
@@ -49,19 +48,20 @@ export class PurchasesDealerComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  downloadPurchasersExcel(){
-    let javaDate = new Date();
-    let currDate = javaDate.getDate();
-    $("#export-purchaser").table2excel({
-      exclude: ".noExl",
+  downloadPurchasersExcel() {
+    let javaDate = new Date()
+    let currDate = javaDate.getDate()
+    $('#export-purchaser').table2excel({
+      exclude: '.noExl',
       name: `${currDate}-purchasers-dealer`,
       filename: `${currDate}-purchasers-dealer`,
-      fileext: ".xlsx",
-    });
+      fileext: '.xlsx',
+    })
   }
 
   getSingleVendorPurchasers() {
     // this.selectedState = true
+    this.TotalForVendorAmount = 0
     this.tableView = false
     this.loader = true
     this.httpServer

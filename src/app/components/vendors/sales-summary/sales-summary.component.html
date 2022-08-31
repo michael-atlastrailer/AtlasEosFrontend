@@ -49,7 +49,9 @@
 
                 <h6 class="selected-title-name">
                   <span class="selected-name">{{ selectedVendorName }}</span>
-                  Total: $ {{ totalAmount | number }}
+                  <span class="total-text">
+                    Total: $ {{ totalAmount | number: '1.2-2' }}
+                  </span>
                 </h6>
 
                 <div class="table-responsive mb-3">
@@ -161,13 +163,13 @@
                           {{ data.description }}
                         </td>
                         <td>
-                          {{ data.regular | number }}
+                          {{ data.regular | number: '1.2-2' }}
                         </td>
                         <td>
-                          {{ data.booking | number }}
+                          {{ data.booking | number: '1.2-2' }}
                         </td>
                         <td class="total-col">
-                          {{ data.total | number }}
+                          {{ data.total | number: '1.2-2' }}
                         </td>
                       </tr>
 

@@ -151,7 +151,6 @@
                         <th class="thead-custom">Account #</th>
                         <th class="thead-custom">Dealer Name</th>
                         <th class="thead-custom">Contact Person</th>
-
                         <th class="thead-custom">Total ($)</th>
                       </tr>
                     </thead>
@@ -174,11 +173,11 @@
                             {{ data.dealer_name }}
                           </a>
                         </td>
-                        <td class="">
+                        <td class="shift-center">
                           {{ data.purchaser_name }}
                         </td>
                         <td class="total-col">
-                          {{ data.amount | number }}
+                          {{ data.amount | number: '1.2-2' }}
                         </td>
                       </tr>
                       <tr *ngIf="selectedState">
