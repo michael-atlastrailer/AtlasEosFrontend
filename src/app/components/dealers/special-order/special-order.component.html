@@ -30,7 +30,7 @@
                       class="search-input form-control"
                       style="max-width: 170px !important"
                     /> -->
-                    <select
+                    <!-- <select
                       class="search-input form-control px-3"
                       style="display: block"
                       placeholder="Select Vendor.."
@@ -44,16 +44,61 @@
                       >
                         {{ vendor.vendor_name }}
                       </option>
-                    </select>
+                    </select> -->
+
+                    <div class="select-wrapper">
+                      <input
+                        class="dummy-input"
+                        type="text"
+                        (click)="toggleVendors()"
+                        value="Select vendor "
+                        readonly
+                        #vendorInput
+                        mat-button
+                        [matMenuTriggerFor]="menu"
+                      />
+                    </div>
+
+                    <mat-menu #menu="matMenu" class="mat-menu">
+                      <!-- <div class="body-wrapper"> -->
+                      <div
+                        #dropdownSection
+                        class="dropdown-section notranslate px-0 pb-0"
+                        id="jqxScrollBar"
+                      >
+                        <span class="px-2 d-block">
+                          <input
+                            type="text"
+                            class="dropdown-filter"
+                            (keyup)="applyFilterAlt($event)"
+                            #input
+                            (click)="$event.stopPropagation()"
+                          />
+                        </span>
+
+                        <div class="scrollbar-fix ml-2 mr-1">
+                     
+                          <li
+                            class="p-3"
+                            *ngFor="let data of allCategoryData; let i = index"
+                            (click)="getAllSelectedDealerUsers(data)"
+                          >
+                            {{ data?.vendor_name }}
+                          </li>
+                        </div>
+                      </div>
+                      <!-- </div> -->
+                    </mat-menu>
+
                     <button
-                      class="btn btn-primary ml-3"
-                      (click)="selectVendor(vendorInput.value)"
+                      class="btn btn-primary ml-3 mt-2" style="height: 42px;"
+                      (click)="selectVendor()"
                     >
                       <i class="fa fa-search mr-2"></i> Search
                     </button>
                     <button
-                      class="btn btn-primary ml-2"
-                      (click)="goToAllOrder(vendorInput.value)"
+                      class="btn btn-primary ml-2 mt-2"
+                      (click)="goToAllOrder()"  style="height: 42px;"
                     >
                       <i class="fa fa-list mr-2"></i> View Orders
                     </button>
@@ -65,35 +110,34 @@
           <div class="card" *ngIf="!vendorSelected">
             <div class="card-header">Order List</div>
             <div class="card-body mt-3">
-               <div class="w-100 d-flex justify-content-end">
-              <mat-form-field>
-                <input
-                  matInput
-                  (keyup)="applyFilter(input.value)"
-                  type="text"
-                  placeholder="search.."
-                  class="table-search form-control"
-                  style="height: 23px"
-                  #input
-                />
-              </mat-form-field>
-            </div>
+              <div class="w-100 d-flex justify-content-end">
+                <mat-form-field>
+                  <input
+                    matInput
+                    (keyup)="applyFilter(input.value)"
+                    type="text"
+                    placeholder="search.."
+                    class="table-search form-control"
+                    style="height: 23px"
+                    #input
+                  />
+                </mat-form-field>
+              </div>
               <div class="table-ctn mt-3">
                 <table
                   class="seperate-table w-100 mat-elevation table-striped"
                   mat-table
                   [dataSource]="dataSrc"
-                   matSort
-               (matSortChange)="sortData($event)"
+                  matSort
+                  (matSortChange)="sortData($event)"
                 >
                   <ng-container matColumnDef="id">
                     <th
                       mat-header-cell
                       *matHeaderCellDef
                       style="white-space: nowrap"
-
                     >
-                      S/No 
+                      S/No
                     </th>
                     <td mat-cell *matCellDef="let element; let i = index">
                       {{ i + 1 }}
@@ -105,7 +149,7 @@
                       *matHeaderCellDef
                       mat-sort-header="quantity"
                     >
-                      Qty  <i class="fa fa-sort ml-2"></i>
+                      Qty <i class="fa fa-sort ml-2"></i>
                     </th>
                     <td mat-cell *matCellDef="let element">
                       {{ element.quantity }}
@@ -126,7 +170,7 @@
                       *matHeaderCellDef
                       mat-sort-header="vendor_no"
                     >
-                      Vendor Parts #  <i class="fa fa-sort ml-2"></i>
+                      Vendor Parts # <i class="fa fa-sort ml-2"></i>
                     </th>
                     <td mat-cell *matCellDef="let element">
                       {{ element.vendor_no }}
@@ -137,7 +181,7 @@
                       *matHeaderCellDef
                       mat-sort-header="vendor_name"
                     >
-                      Vendor Name  <i class="fa fa-sort ml-2"></i>
+                      Vendor Name <i class="fa fa-sort ml-2"></i>
                     </th>
                     <td mat-cell *matCellDef="let element" class="notranslate">
                       {{ element.vendor_name }}
@@ -196,11 +240,11 @@
                   <i>No Data Found</i>
                 </p>
                 <mat-paginator
-              [pageSizeOptions]="[100, 200, 50, 500, 1000]"
-              showFirstLastButtons
-              aria-label="Select page seminar pages"
-            >
-            </mat-paginator>
+                  [pageSizeOptions]="[100, 200, 50, 500, 1000]"
+                  showFirstLastButtons
+                  aria-label="Select page seminar pages"
+                >
+                </mat-paginator>
               </div>
             </div>
           </div>
@@ -215,7 +259,7 @@
                 <div class="mx-auto box p-2">
                   <p class="title-banner mb-1">Dealer Name</p>
                   <p class="caption-banner">
-                    {{ dealer.cname }} 
+                    {{ dealer.cname }}
                   </p>
                 </div>
               </div>
@@ -302,10 +346,10 @@
                     *ngIf="arrNotSpec.length > 0"
                     style="text-align: center; color: red"
                   >
-                    Cannot submit, Item(s) {{ arrNotSpec.join() }} are already in
-                    the show order form
+                    Cannot submit, Item(s) {{ arrNotSpec.join() }} are already
+                    in the show order form
                   </p>
-                   <!-- <p
+                  <!-- <p
                     class="title-banner text-end mt-1"
                     *ngIf="duplicateArr.length > 0"
                     style="text-align: center; color: red"
