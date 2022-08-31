@@ -162,9 +162,13 @@
 
       <div class="d-flex w-100 justify-content-end">
         <div class="navbar-inner-section-bell">
-          <div class="bell-wrapper">
+          <div class="bell-wrapper" mat-button [matMenuTriggerFor]="menu">
             <span class="fa fas fa-bell"></span>
           </div>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item>Menu Item 1</button>
+            <button mat-menu-item>Menu Item 2</button>
+          </mat-menu>
         </div>
         <div class="navbar-inner-section">
           <div

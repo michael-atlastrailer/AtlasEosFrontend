@@ -252,7 +252,7 @@
 
     <div
       id="google_translate_element"
-      style="margin-top: 25px; z-index: 9999; margin-right: 160px;"
+      style="margin-top: 35px; z-index: 9999; margin-right: 160px;"
     ></div>
 
     <script
@@ -261,15 +261,18 @@
     ></script>
 
     <script type="text/javascript">
-   
+      let module = window.localStorage.getItem('module')
+
+      if (module && module != '4') {
+        document.getElementsByClassName('skiptranslate ').style.display = 'none'
+      }
+
       function googleTranslateElementInit() {
         new google.translate.TranslateElement(
           { pageLanguage: 'en' },
           'google_translate_element',
         )
-        
       }
-     
     </script>
 
     <script type="text/javascript">
