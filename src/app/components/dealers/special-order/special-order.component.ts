@@ -1,6 +1,6 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { CurrencyPipe } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -81,7 +81,11 @@ export class SpecialOrderComponent implements OnInit {
   isSpecial = false;
   arrNotSpec: any = [];
   cannotSubmit = false;
-
+  showDropdown = false;
+  @ViewChild('vendorInput') dummyInput!: ElementRef;
+  vendorCode = '';
+  allObj = { vendor_name: 'All Vendors', vendor_code: 'none' };
+  incomingVendorData: any;
   constructor(
     private getData: HttpRequestsService,
     private toastr: ToastrService,
@@ -97,7 +101,7 @@ export class SpecialOrderComponent implements OnInit {
   @ViewChild(MatSort)
   sort!: MatSort;
   ngOnInit(): void {}
-  applyFilter(filterValue: string) {
+  applyFilter(filterValue: any) {
     this.dataSrc.filter = filterValue.trim().toLowerCase();
   }
   sortData(sort: Sort) {
@@ -128,7 +132,10 @@ export class SpecialOrderComponent implements OnInit {
       .then((result: any) => {
         // console.log(result);
         if (result.status) {
-          this.allCategoryData = result.data;
+          
+          this.incomingVendorData = result.data;
+          this.incomingVendorData.unshift(this.allObj);
+          this.allCategoryData=this.incomingVendorData
         } else {
           this.toastr.info(`Something went wrong`, 'Error');
         }
@@ -137,10 +144,13 @@ export class SpecialOrderComponent implements OnInit {
         this.toastr.info(`Something went wrong`, 'Error');
       });
   }
-  selectVendor(id: any) {
-    if (id !== 'none') {
-      this.ordained = this.allCategoryData[id];
-      this.vendorSelected = true;
+  selectVendor() {
+    console.log("slected search",this.vendorCode)
+    if (this.vendorCode !== 'none') {
+      this.ordained = this.allCategoryData.filter((item:any) => {
+        return item.vendor_code == this.vendorCode
+      }); this.ordained =this.ordained[0]
+        this.vendorSelected = true;
       this.dealer.fname = this.token.getUser().first_name;
       this.dealer.lname = this.token.getUser().last_name;
       this.dealer.cname = this.token.getUser().company_name;
@@ -172,15 +182,15 @@ export class SpecialOrderComponent implements OnInit {
       this._liveAnnouncer.announce('Sorting cleared');
     }
   }
-  goToAllOrder(id: any) {
+  goToAllOrder() {
     this.editOrderPage = false;
     this.allOrderPage = true;
     this.vendorSelected = false;
 
-    if (id !== 'none') {
-      id = this.allCategoryData[parseInt(id)].vendor_code;
-      console.log('venfor code', id);
-      this.fetchOrderByVendorId(id);
+    if (this.vendorCode !== 'none') {
+    
+      console.log('venfor code', this.vendorCode);
+      this.fetchOrderByVendorId(this.vendorCode);
     } else {
       {
         this.fetchOrder();
@@ -315,11 +325,11 @@ export class SpecialOrderComponent implements OnInit {
       .then((result: any) => {
         // console.log(result);
         if (result.status) {
-      let filteredRes = result.data.filter((item: any) => {
-        return item.vendor_code == id;
-      });
-      console.log('filtereed', filteredRes);
-      this.dataSrc = new MatTableDataSource<PeriodicElement>(filteredRes);
+          let filteredRes = result.data.filter((item: any) => {
+            return item.vendor_code == id;
+          });
+          console.log('filtereed', filteredRes);
+          this.dataSrc = new MatTableDataSource<PeriodicElement>(filteredRes);
           this.dataSrc.paginator = this.paginator;
         } else {
           // this.toastr.info(
@@ -329,7 +339,7 @@ export class SpecialOrderComponent implements OnInit {
           let filteredRes = result.data.filter((item: any) => {
             return item.vendor_code == id;
           });
-          console.log('filtereed',filteredRes)
+          console.log('filtereed', filteredRes);
           this.dataSrc = new MatTableDataSource<PeriodicElement>(filteredRes);
           this.dataSrc.paginator = this.paginator;
           this.dataSrc.sort = this.sort;
@@ -404,7 +414,7 @@ export class SpecialOrderComponent implements OnInit {
             this.disableSubmit = save;
 
             this.toastr.error(
-              `Item is on the show under the “Vendor” name ${id} `,
+              `Item is on the show please other on the show order form `,
               '',
               { timeOut: 6000 }
             );
@@ -519,6 +529,66 @@ export class SpecialOrderComponent implements OnInit {
   clearOrder() {
     this.arr = [];
     this.arr.push(new Product());
+  }
+  // dropdown
+  applyFilterAlt(event: any) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.incomingVendorData.vendor_name = filterValue.trim().toLowerCase();
+    this.allCategoryData = this.filterArray('*' + filterValue);
+  }
+  filterArray(expression: string) {
+    var regex = this.convertWildcardStringToRegExp(expression);
+    return this.incomingVendorData.filter(function (item: any) {
+      return regex.test(item.vendor_name);
+    });
+  }
+  escapeRegExp(str: string) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  convertWildcardStringToRegExp(expression: string) {
+    var terms = expression.split('*');
+
+    var trailingWildcard = false;
+
+    var expr = '';
+    for (var i = 0; i < terms.length; i++) {
+      if (terms[i]) {
+        if (i > 0 && terms[i - 1]) {
+          expr += '.*';
+        }
+        trailingWildcard = false;
+        expr += this.escapeRegExp(terms[i]);
+      } else {
+        trailingWildcard = true;
+        expr += '.*';
+      }
+    }
+
+    if (!trailingWildcard) {
+      expr += '.*';
+    }
+
+    return new RegExp('^' + expr + '$', 'i');
+  }
+  toggleVendors() {
+    if (this.showDropdown) {
+      this.showDropdown = false;
+    } else {
+      this.showDropdown = true;
+    }
+  }
+
+  getAllSelectedDealerUsers(data: any) {
+    if (this.showDropdown) {
+      this.showDropdown = false;
+    } else {
+      this.showDropdown = true;
+    }
+
+    this.dummyInput.nativeElement.value = data.vendor_name;
+    this.vendorCode = data.vendor_code;
+    console.log('vendor sele', data);
   }
 }
 function compare(a: number | string, b: number | string, isAsc: boolean) {
