@@ -261,15 +261,6 @@
     ></script>
 
     <script type="text/javascript">
-      let module = window.localStorage.getItem('module')
-
-      setInterval(() => {
-        if (module && module != '4') {
-          document.getElementsByClassName('skiptranslate ').style.display =
-            'none'
-        }
-      }, 10000)
-
       function googleTranslateElementInit() {
         new google.translate.TranslateElement(
           { pageLanguage: 'en' },
@@ -365,4 +356,15 @@
 <script type="text/javascript"
   src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
  -->
+
+  <script>
+    let module = window.localStorage.getItem('module')
+
+    setInterval(() => {
+      if (module && module != '4') {
+        $('.skiptranslate').hide()
+        // document.getElementsByClassName('skiptranslate').style.display = 'none'
+      }
+    }, 10000)
+  </script>
 </html>
