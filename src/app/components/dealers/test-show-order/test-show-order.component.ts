@@ -905,8 +905,8 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
             inline: 'start',
 
           });
-        $('#bastard').css('padding-top', '200px ')
-        $('#bastard').css('height', '120vh')
+        // $('#bastard').css('padding-top', '100px ')
+        // $('#bastard').css('height', '120%')
       } 
       
         , 1000);
