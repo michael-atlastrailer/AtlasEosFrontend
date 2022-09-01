@@ -29,6 +29,7 @@ export class PurchasesDealerComponent implements OnInit {
   TotalForVendorAmount: number = 0
   showSelectOption = true
   vendor = ''
+  hiddenSelectedVendor = ''
 
   constructor(
     private tokenData: TokenStorageService,
@@ -114,6 +115,10 @@ export class PurchasesDealerComponent implements OnInit {
 
   getVendorPurchasers() {
     if (this.selectedVendorCode != '') {
+      this.selectedVendorName = this.hiddenSelectedVendor
+
+      this.TotalForVendorAmount = 0
+
       this.selectedState = true
 
       this.tableView = false
@@ -151,7 +156,7 @@ export class PurchasesDealerComponent implements OnInit {
     for (let i = 0; i < this.privilegedVendors.length; i++) {
       const element = this.privilegedVendors[i]
       if (element.vendor_code == data) {
-        this.selectedVendorName = element.vendor_name
+        this.hiddenSelectedVendor = element.vendor_name
       }
     }
   }

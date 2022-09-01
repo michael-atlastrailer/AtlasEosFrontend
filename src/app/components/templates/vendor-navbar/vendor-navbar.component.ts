@@ -30,8 +30,8 @@ export class VendorNavbarComponent implements OnInit {
     const query = window.matchMedia('(max-width: 700px)')
     console.log(query)
     this.vendorData = this.tokenStorage.getUser()
-    this.vendorName = this.vendorData.company_name
-    this.vendorCode = this.vendorData.vendor_code
+    // this.vendorName = this.vendorData.full_name
+    this.vendorCode = this.vendorData.full_name
     this.userId = this.vendorData.id
 
     this.getUnreadMsg()

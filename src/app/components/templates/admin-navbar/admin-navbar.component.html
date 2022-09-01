@@ -414,10 +414,11 @@
 
       <div class="d-flex w-100 justify-content-end">
         <div class="navbar-inner-section-bell">
+          <span class="badge badge-primary notify-con">
+            {{ unreadReplyCounter }}
+          </span>
+
           <div class="bell-wrapper" mat-button [matMenuTriggerFor]="menu">
-            <span class="badge badge-primary notify-con">
-              {{ unreadReplyCounter }}
-            </span>
             <span class="fa fas fa-bell"></span>
           </div>
 
