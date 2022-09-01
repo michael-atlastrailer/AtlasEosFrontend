@@ -186,8 +186,8 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
   @ViewChild(MatSort)
   sort!: MatSort
 
-  ngOnInit(): void { }
-  ngAfterViewInit() { }
+  ngOnInit(): void {}
+  ngAfterViewInit() {}
   parser(data: any) {
     return JSON.parse(data)
   }
@@ -317,7 +317,7 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
         } else {
         }
       })
-      .catch((err) => { })
+      .catch((err) => {})
   }
 
   getItemVendorItem(atlas: any) {
@@ -388,6 +388,7 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
     }
 
     let postData = {
+      vendor: this.vendorId,
       uid: this.userData.id,
       dealer: this.userData.account_id,
       type: 'edit',
@@ -405,9 +406,9 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
         // console.log(res)
 
         if (res.status) {
-          if (res.data.item_added > 0) {
-            this.getCartByVendorId(this.vendorId)
-          }
+          // if (res.data.item_added > 0) {
+          this.getCartByVendorId(this.vendorId)
+          // }
 
           //  this.newlyAdded = res.data.newly_added
           //  this.existingInQuickOrder = res.data.existing_already_in_quick_order
@@ -548,9 +549,9 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
                           const eleK = k[hj]
                           $(
                             '.special-booking-m-' +
-                            eleK.pos +
-                            '-' +
-                            eleK.arrIndex,
+                              eleK.pos +
+                              '-' +
+                              eleK.arrIndex,
                           ).css('display', 'none')
 
                           // console.log('testing price', eleK);
@@ -606,16 +607,16 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
 
                             $(
                               '.special-booking-m-' +
-                              activeData.pos +
-                              '-' +
-                              activeData.arrIndex,
+                                activeData.pos +
+                                '-' +
+                                activeData.arrIndex,
                             ).css('display', 'inline-block')
 
                             $(
                               '.special-booking-m-' +
-                              preData.pos +
-                              '-' +
-                              preData.arrIndex,
+                                preData.pos +
+                                '-' +
+                                preData.arrIndex,
                             ).css('display', 'none')
                             let special = parseFloat(activeData.special)
                             let newPrice =
@@ -653,9 +654,9 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
 
                             $(
                               '.special-booking-m-' +
-                              activeData.pos +
-                              '-' +
-                              activeData.arrIndex,
+                                activeData.pos +
+                                '-' +
+                                activeData.arrIndex,
                             ).css('display', 'inline-block')
 
                             if (preData != undefined) {
@@ -669,9 +670,9 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
                               const kk = tickArrToBeRemoved[hi]
                               $(
                                 '.special-booking-m-' +
-                                kk.pos +
-                                '-' +
-                                kk.arrIndex,
+                                  kk.pos +
+                                  '-' +
+                                  kk.arrIndex,
                               ).css('display', 'none')
                             }
 
@@ -707,9 +708,9 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
 
                     $(
                       '.special-booking-m-' +
-                      index +
-                      '-' +
-                      specData[i].arrIndex,
+                        index +
+                        '-' +
+                        specData[i].arrIndex,
                     ).css('display', 'inline-block')
 
                     let g = i - 1
@@ -900,16 +901,16 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
 
                     $(
                       '.special-booking-m-' +
-                      activeData.pos +
-                      '-' +
-                      activeData.arrIndex,
+                        activeData.pos +
+                        '-' +
+                        activeData.arrIndex,
                     ).css('display', 'inline-block')
 
                     $(
                       '.special-booking-m-' +
-                      preData.pos +
-                      '-' +
-                      preData.arrIndex,
+                        preData.pos +
+                        '-' +
+                        preData.arrIndex,
                     ).css('display', 'none')
 
                     let special = activeData.special
@@ -929,9 +930,9 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
 
                     $(
                       '.special-booking-m-' +
-                      activeData.pos +
-                      '-' +
-                      activeData.arrIndex,
+                        activeData.pos +
+                        '-' +
+                        activeData.arrIndex,
                     ).css('display', 'inline-block')
 
                     let special = activeData.special
@@ -1200,24 +1201,28 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
           $('#remove-loader-' + index).css('display', 'none')
 
           if (result.status) {
-            this.tableData = result.data
-            this.cartData = result.data
-            this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data)
+            this.incomingData = []
+
+            this.getCartByVendorId(this.vendorId)
+
+            // this.tableData = result.data
+            // this.cartData = result.data
+            // this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data)
 
             //// this.getTotal()
             /// this.runTotalCalculation(index)
-            for (let d = 0; d < result.data.length; d++) {
-              const element = result.data[d]
+            // for (let d = 0; d < result.data.length; d++) {
+            //   const element = result.data[d]
 
-              let data = {
-                atlasId: element.atlas_id,
-                price: element.price,
-                grouping: element.grouping,
-                index: result.data.indexOf(element),
-              }
+            //   let data = {
+            //     atlasId: element.atlas_id,
+            //     price: element.price,
+            //     grouping: element.grouping,
+            //     index: result.data.indexOf(element),
+            //   }
 
-              this.addedItem.push(data)
-            }
+            //   this.addedItem.push(data)
+            // }
           } else {
             this.toastr.error('Something went wrong', 'Try again')
           }
@@ -1400,20 +1405,24 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
         this.assortFilter,
         this.addedItem,
         this.assortedIds,
-        this.orderTotal
+        this.orderTotal,
       )
       .then((status) => {
         if (status) {
-          this.orderTotal = 0;
+          this.orderTotal = 0
           this.productTableService
-            .runSingleCalculations(curr, index, parseInt(qty.length ? qty : '0'))
+            .runSingleCalculations(
+              curr,
+              index,
+              parseInt(qty.length ? qty : '0'),
+            )
             .then((data) => {
               console.log(data)
               if (data.status) {
-                this.tableData = data.products;
-                this.dataSrc.data = data.products;
-                this.orderTotal += data.productTotal;
-                this.assortFilter = data.assorted;
+                this.tableData = data.products
+                this.dataSrc.data = data.products
+                this.orderTotal += data.productTotal
+                this.assortFilter = data.assorted
                 this.assortedIds = data.allAddedItemsID
               }
             })
@@ -2118,13 +2127,16 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
       .then((result: any) => {
         this.loader = false
         if (result.status) {
-          let inComingData = result.data.map((item: any, index: number) => ({ ...item, position: index }))
+          let inComingData = result.data.map((item: any, index: number) => ({
+            ...item,
+            position: index,
+          }))
 
           this.incomingData = inComingData
           this.tableData = inComingData
           this.cartData = inComingData
           this.dataSrc = new MatTableDataSource<PeriodicElement>(inComingData)
-          this.canOrder = (inComingData.length !== 0)
+          this.canOrder = inComingData.length !== 0
           this.orderTable = []
 
           // first step init all calculation data required so as to be passed to the service and default
@@ -2159,10 +2171,10 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
                   .then((data) => {
                     // console.log(data)
                     if (data.status) {
-                      this.tableData = data.products;
-                      this.dataSrc.data = data.products;
-                      this.orderTotal = data.productTotal;
-                      this.assortFilter = data.assorted;
+                      this.tableData = data.products
+                      this.dataSrc.data = data.products
+                      this.orderTotal = data.productTotal
+                      this.assortFilter = data.assorted
                       this.assortedIds = data.allAddedItemsID
                     }
                   })
@@ -2174,7 +2186,7 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
             price: element.price,
             grouping: element.grouping,
             index: result.data.indexOf(element),
-          }));
+          }))
 
           // this.dataSrc.sort = this.sort
           /// this.dataSrc.paginator = this.paginator
