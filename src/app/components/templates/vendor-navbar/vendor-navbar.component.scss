@@ -2,6 +2,14 @@
   width: 50%;
 }
 
+.notify-count {
+  position: absolute;
+  top: 4px;
+  border-radius: 40%;
+  padding: 5px;
+  right: 346px;
+}
+
 .app-sidebar {
   background-color: #1d7471 !important;
 
@@ -122,6 +130,7 @@
   .bell-wrapper {
     display: flex;
 
+    cursor: pointer;
     justify-content: center;
     // margin-left: auto;
     height: 40px;

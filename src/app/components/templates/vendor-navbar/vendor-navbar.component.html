@@ -162,9 +162,18 @@
 
       <div class="d-flex w-100 justify-content-end">
         <div class="navbar-inner-section-bell">
-          <div class="bell-wrapper">
+          <span class="badge badge-secondary notify-count">
+            {{ bellCounter }}
+          </span>
+
+          <div class="bell-wrapper" mat-button [matMenuTriggerFor]="menu">
             <span class="fa fas fa-bell"></span>
           </div>
+          <mat-menu #menu="matMenu">
+            <a routerLink="" *ngFor="let item of notifyData">
+              {{ item.vendor_name }}
+            </a>
+          </mat-menu>
         </div>
         <div class="navbar-inner-section">
           <div
