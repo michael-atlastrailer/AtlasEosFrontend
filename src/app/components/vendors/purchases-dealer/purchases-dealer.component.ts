@@ -4,6 +4,7 @@ import { HttpRequestsService } from 'src/app/core/services/http-requests.service
 import { MatPaginator } from '@angular/material/paginator'
 import { MatTableDataSource } from '@angular/material/table'
 import { MatSort, Sort } from '@angular/material/sort'
+import { ActivatedRoute } from '@angular/router'
 
 declare var $: any
 
@@ -27,10 +28,12 @@ export class PurchasesDealerComponent implements OnInit {
   noDataFound = false
   TotalForVendorAmount: number = 0
   showSelectOption = true
+  vendor = ''
 
   constructor(
     private tokenData: TokenStorageService,
     private httpServer: HttpRequestsService,
+    private route: ActivatedRoute,
   ) {
     this.userData = tokenData.getUser()
     ///this.getPrivilegedVendors()
@@ -46,7 +49,29 @@ export class PurchasesDealerComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.route.params.subscribe((params) => {
+      this.vendor = params['vendor']
+
+      ///this.selectedVendor(this.vendor)
+      this.selectedVendorCode = this.vendor
+      this.changeBellNotificationStatus()
+
+      this.getVendorPurchasers()
+    })
+  }
+
+  changeBellNotificationStatus() {
+    this.httpServer
+      .httpGetRequest(
+        '/vendor/change-bell-notify-status/' +
+          this.userData.id +
+          '/' +
+          this.selectedVendorCode,
+      )
+      .then((result: any) => {})
+      .catch((err) => {})
+  }
 
   downloadPurchasersExcel() {
     let javaDate = new Date()
@@ -71,7 +96,6 @@ export class PurchasesDealerComponent implements OnInit {
       .then((result: any) => {
         this.tableView = true
         this.loader = false
-        console.log(result)
         if (result.status) {
           this.tableView = true
           this.incomingData = result.data

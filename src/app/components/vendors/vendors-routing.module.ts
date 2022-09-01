@@ -40,6 +40,10 @@ const routes: Routes = [
         component: PurchasesDealerComponent,
       },
       {
+        path: 'purchases-by-dealer/:vendor',
+        component: PurchasesDealerComponent,
+      },
+      {
         path: 'sales-summary',
         component: SalesSummaryComponent,
       },

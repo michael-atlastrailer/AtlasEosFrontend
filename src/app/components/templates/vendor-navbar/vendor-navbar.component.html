@@ -170,9 +170,14 @@
             <span class="fa fas fa-bell"></span>
           </div>
           <mat-menu #menu="matMenu">
-            <a routerLink="" *ngFor="let item of notifyData">
-              {{ item.vendor_name }}
-            </a>
+            <div class="list-item-notify">
+              <a
+                routerLink="/vendors/purchases-by-dealer/{{ item.vendor }}"
+                *ngFor="let item of notifyData"
+              >
+                {{ item.vendor_name }}
+              </a>
+            </div>
           </mat-menu>
         </div>
         <div class="navbar-inner-section">

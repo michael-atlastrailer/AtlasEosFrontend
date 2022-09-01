@@ -2,6 +2,14 @@
   width: 50%;
 }
 
+.list-item-notify {
+  padding-left: 10px;
+  padding-right: 10px;
+  a {
+    font-size: 13px;
+  }
+}
+
 .notify-count {
   position: absolute;
   top: 4px;

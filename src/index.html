@@ -263,9 +263,12 @@
     <script type="text/javascript">
       let module = window.localStorage.getItem('module')
 
-      if (module && module != '4') {
-        document.getElementsByClassName('skiptranslate ').style.display = 'none'
-      }
+      setInterval(() => {
+        if (module && module != '4') {
+          document.getElementsByClassName('skiptranslate ').style.display =
+            'none'
+        }
+      }, 10000)
 
       function googleTranslateElementInit() {
         new google.translate.TranslateElement(
