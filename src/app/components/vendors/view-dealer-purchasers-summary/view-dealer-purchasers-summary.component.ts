@@ -18,11 +18,11 @@ export interface vendorProducts {
 }
 
 @Component({
-  selector: 'app-view-dealer-summary',
-  templateUrl: './view-dealer-summary.component.html',
-  styleUrls: ['./view-dealer-summary.component.scss'],
+  selector: 'app-view-dealer-purchasers-summary',
+  templateUrl: './view-dealer-purchasers-summary.component.html',
+  styleUrls: ['./view-dealer-purchasers-summary.component.scss'],
 })
-export class ViewDealerSummaryComponent implements OnInit {
+export class ViewDealerPurchasersSummaryComponent implements OnInit {
   tableView = false
   loader = true
   userData: any
@@ -79,6 +79,8 @@ export class ViewDealerSummaryComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
+      this.user = params['user']
+
       this.dealer = params['dealer']
       this.vendor = params['vendor']
 
@@ -210,7 +212,12 @@ export class ViewDealerSummaryComponent implements OnInit {
   getDealerSummaryData() {
     this.httpServer
       .httpGetRequest(
-        '/vendor/view-dealer-summary/' + this.dealer + '/' + this.vendor,
+        '/vendor/view-dealer-purchaser-summary/' +
+          this.user +
+          '/' +
+          this.dealer +
+          '/' +
+          this.vendor,
       )
       .then((result: any) => {
         this.tableView = true

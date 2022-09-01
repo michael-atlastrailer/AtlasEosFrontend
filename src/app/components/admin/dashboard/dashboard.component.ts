@@ -389,15 +389,15 @@ export class DashboardComponent implements OnInit {
 
       if (endIntilaTime < curTimer) {
         this.stopCountdownTimer()
-        $('#days').html('0' + '<span> Days</span>')
-        $('#hours').html('00' + '<span> Hours</span>')
-        $('#minutes').html('00' + '<span> Minutes</span>')
-        $('#seconds').html('00' + '<span> Seconds</span>')
+        $('#days').html('0')
+        $('#hours').html('00')
+        $('#minutes').html('00')
+        $('#seconds').html('00')
       } else {
-        $('#days').html(days + '<span> Days</span>')
-        $('#hours').html(hours + '<span> Hours</span>')
-        $('#minutes').html(minutes + '<span> Minutes</span>')
-        $('#seconds').html(seconds + '<span> Seconds</span>')
+        $('#days').html(days)
+        $('#hours').html(hours)
+        $('#minutes').html(minutes)
+        $('#seconds').html(seconds)
       }
     }, 1000)
   }

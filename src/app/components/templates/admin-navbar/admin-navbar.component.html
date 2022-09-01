@@ -285,9 +285,13 @@
               >
                 Set Program Count Down
               </a>
-            </li> <li>
-              <a routerLink="/admin/set-startdate" routerLinkActive="active-link">
-               Set Program Start Date
+            </li>
+            <li>
+              <a
+                routerLink="/admin/set-startdate"
+                routerLinkActive="active-link"
+              >
+                Set Program Start Date
               </a>
             </li>
             <li>
@@ -410,9 +414,23 @@
 
       <div class="d-flex w-100 justify-content-end">
         <div class="navbar-inner-section-bell">
-          <div class="bell-wrapper">
+          <div class="bell-wrapper" mat-button [matMenuTriggerFor]="menu">
+            <span class="badge badge-primary notify-con">
+              {{ unreadReplyCounter }}
+            </span>
             <span class="fa fas fa-bell"></span>
           </div>
+
+          <mat-menu #menu="matMenu">
+            <div class="list-item-notify">
+              <a
+                routerLink="/admin/view-report/{{ item.code }}"
+                *ngFor="let item of notifyData"
+              >
+                {{ item.name }}
+              </a>
+            </div>
+          </mat-menu>
         </div>
         <div class="navbar-inner-section">
           <div

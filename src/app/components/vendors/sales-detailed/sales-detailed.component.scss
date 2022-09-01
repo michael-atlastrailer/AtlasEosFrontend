@@ -154,6 +154,12 @@
 .table-wrapper2 {
   thead {
     background-color: #1d7471;
+
+    .thead-custom {
+      text-align: center;
+      font-weight: 600;
+      text-transform: capitalize;
+    }
   }
 
   thead th {

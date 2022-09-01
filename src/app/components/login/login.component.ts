@@ -203,6 +203,8 @@ export class LoginComponent implements OnInit {
     this.userId = userData.id
     this.chatServer.openChatConnection(userData.id + userData.first_name)
 
+    window.localStorage.setItem('module', role)
+
     switch (role) {
       case '1':
         this.router.navigate(['/admin/dashboard'])
