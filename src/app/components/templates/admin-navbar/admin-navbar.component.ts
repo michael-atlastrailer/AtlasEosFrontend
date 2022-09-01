@@ -14,6 +14,8 @@ export class AdminNavbarComponent implements OnInit {
   @ViewChild('overlay') overlay!: ElementRef
   adminData: any
   unreadMsgCount = 0
+  unreadReplyCounter = 0
+  notifyData: any
   constructor(
     private tokenStorage: TokenStorageService,
     private router: Router,
@@ -24,6 +26,7 @@ export class AdminNavbarComponent implements OnInit {
     const query = window.matchMedia('(max-width: 700px)')
     this.adminData = this.tokenStorage.getUser()
     this.getUnreadMsg()
+    this.getUnreadReport()
 
     this.chatService.getNotification().subscribe((data: any) => {
       this.getUnreadMsg()
@@ -34,7 +37,20 @@ export class AdminNavbarComponent implements OnInit {
 
     setInterval(() => {
       this.getUnreadMsg()
+      this.getUnreadReport()
     }, 10000)
+  }
+
+  getUnreadReport() {
+    this.getData
+      .httpGetRequest('/admin/get-unread-report')
+      .then((result: any) => {
+        if (result.status) {
+          this.unreadReplyCounter = result.data.count
+          this.notifyData = result.data.dealer
+        }
+      })
+      .catch((err) => {})
   }
 
   getUnreadMsg() {
