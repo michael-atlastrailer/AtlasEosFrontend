@@ -342,9 +342,9 @@ export class DealerNavbarComponent implements OnInit {
         $('#seconds').html('00' + '<span> </span>');
       } else {
         $('#days').html(days + '<span> </span>');
-        $('#hours').html(hours + '<span> </span>');
-        $('#minutes').html(minutes + '<span> </span>');
-        $('#seconds').html(seconds + '<span> </span>');
+        $('#hours').html(hours );
+        $('#minutes').html(minutes);
+        $('#seconds').html(seconds );
       }
     }, 1000);
   }

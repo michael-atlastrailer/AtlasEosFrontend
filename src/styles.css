@@ -58,7 +58,12 @@ html {
   background-color: #378805 !important;
 }
 .dealer-side {
-  padding-top: 70px !important;
+  margin-top: 130px !important;
+  
+ 
+}
+.overview-section:first-child{
+  margin-top: 0px !important;
 }
 .clickable{
   color: #00547a;
@@ -80,11 +85,11 @@ html {
 }
 @media screen and (max-width: 1200px) {
   .dealer-side {
-    padding-top: 60px !important;
+    margin-top: 100px !important;
   }
 
   .dealer-side2 {
-    padding-top: 0px !important;
+    margin-top: 0px !important;
   }
 
   .sm-dealer-hidden-navbar {
@@ -105,7 +110,7 @@ html {
 
 @media screen and (max-width: 765px) {
   .dealer-side {
-    padding-top: 100px !important;
+    margin-top: 120px !important;
   }
 }
 /* 
