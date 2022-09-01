@@ -209,17 +209,16 @@ export class ProductTableHandlerService {
       let atlasId = curr.atlas_id
       let spec = curr.spec_data
       curr.qty = qty ?? ''
-      // console.log(curr);
 
       if (qty) {
         // calculate default prices
         let price = parseFloat(curr.booking)
         let calAmt = qty * price
-        let selected_spec = curr.selected_spec ?? `${index}`
+        let selected_spec = `${index}`
 
-        if (!this.allAddedItemAtlasID.includes(atlasId))
+        if (!this.allAddedItemAtlasID.includes(atlasId)){
           this.allAddedItemAtlasID.push(atlasId)
-
+        }
         // console.log(curr);
         if (spec && spec.length) {
           // search through offers
@@ -239,15 +238,15 @@ export class ProductTableHandlerService {
               }
 
               let totalQuantity = this.getTotalAssortedQuantity(curr)
-              // console.log(totalQuantity, this.assortFilter);
+              // console.log(totalQuantity, cond);
               if (totalQuantity >= cond) {
                 price = curAmt
                 calAmt = qty * price
                 selected_spec = `${index}-${af_index}`
 
                 // run update on all assorted product sale value
+                this.updateOtherAssorted(curr)
               }
-              console.log(this.assortFilter, totalQuantity, cond, selected_spec)
 
               this.updateOtherAssorted(curr)
 
@@ -276,10 +275,15 @@ export class ProductTableHandlerService {
         // update product sale value
         curr = this.assignSalesValue(index, 0, 0, 0, null)
         // console.log(curr)
-        // remove current data from assorted products
         const assortIds = this.assortFilter.map((ass: any) => ass.atlas_id)
         // run update on all assorted product sale value
-        if (assortIds.includes(curr.atlas_id)) this.updateOtherAssorted(curr)
+        if (assortIds.includes(curr.atlas_id)) {
+          // remove current data from assorted products
+          this.assortFilter = this.assortFilter.filter((ass) => (ass.atlas_id !== curr.atlas_id));
+          // update all other assorted products
+          this.updateOtherAssorted(curr)
+
+        }
       }
     }
 
