@@ -480,6 +480,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
       uid: this.userData.id,
       dealer: this.userData.account_id,
       product_array: JSON.stringify(postItem),
+      vendor: this.vendorCode,
     }
 
     this.getData
