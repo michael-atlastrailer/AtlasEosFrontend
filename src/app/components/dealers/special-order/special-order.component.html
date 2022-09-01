@@ -199,12 +199,12 @@
                     <th mat-header-cell *matHeaderCellDef>Action</th>
 
                     <td
-                      class="p-3"
+                      class="p-2"
                       mat-cell
                       *matCellDef="let element; let i = index"
                     >
                       <button
-                        class="btn btn-warning mr-2"
+                        class="btn btn-warning mr-2 p-2"
                         style="color: #fff"
                         title="edit"
                         (click)="
@@ -217,15 +217,15 @@
                           )
                         "
                       >
-                        <i class="fa fa-edit"></i>
+                        <i class="fa fa-edit" style="font-size:14px ;"></i>
                       </button>
                       <button
-                        class="btn btn-danger"
+                        class="btn btn-danger p-2"
                         style="color: #fff"
                         title="edit"
                         (click)="deleteSavedOrder(element.id)"
                       >
-                        <i class="fa fa-trash"></i>
+                        <i class="fa fa-trash" style="font-size:14px ;"></i>
                       </button>
                     </td>
                   </ng-container>

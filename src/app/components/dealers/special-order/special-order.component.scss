@@ -29,7 +29,7 @@
 .order-form-table {
   td,
   th {
-    text-align: center;
+    text-align: center !important;
     border: 0.1px solid rgb(187, 185, 185);
   }
   th {
@@ -50,6 +50,8 @@
   tbody {
     td {
       padding: 8px;
+      text-align: center !important;
+      
       input {
         background-color: #fff;
         min-width: 60px;
@@ -144,6 +146,7 @@ input[type="number"]::placeholder {
     padding: 8px;
     text-transform: capitalize;
     font-size: 16px;
+    text-align: center !important;
     input {
       background-color: #fff;
       width: 60px;
