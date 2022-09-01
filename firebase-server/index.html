@@ -216,20 +216,23 @@
             }
     </style>
 
-    <div id="google_translate_element" style="margin-top: 25px; z-index: 9999; margin-right: 160px;"></div>
+    <div id="google_translate_element" style="margin-top: 35px; z-index: 9999; margin-right: 160px;"></div>
 
     <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
     <script type="text/javascript">
-   
+      let module = window.localStorage.getItem('module')
+
+      if (module && module != '4') {
+        document.getElementsByClassName('skiptranslate ').style.display = 'none'
+      }
+
       function googleTranslateElementInit() {
         new google.translate.TranslateElement(
           { pageLanguage: 'en' },
           'google_translate_element',
         )
-        
       }
-     
     </script>
 
     <script type="text/javascript">
@@ -273,7 +276,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
     <app-root></app-root>
-  <script src="runtime.fe7395072dfcf93d.js" type="module"></script><script src="polyfills.0523bb909db44227.js" type="module"></script><script src="scripts.eabcf25e747e91bd.js" defer></script><script src="main.55a8a307fa868266.js" type="module"></script>
+  <script src="runtime.672a177fe9931bb8.js" type="module"></script><script src="polyfills.0523bb909db44227.js" type="module"></script><script src="scripts.eabcf25e747e91bd.js" defer></script><script src="main.25cadb9b5be834aa.js" type="module"></script>
 
   
 
