@@ -53,12 +53,10 @@ export class PurchasesDealerComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.vendor = params['vendor']
-
-      ///this.selectedVendor(this.vendor)
       this.selectedVendorCode = this.vendor
       this.changeBellNotificationStatus()
-
-      if (this.vendor != '') {
+      console.log(this.vendor, 'tesing my vendor code')
+      if (this.vendor != undefined) {
         this.getVendorPurchasers()
       }
     })

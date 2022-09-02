@@ -29,7 +29,9 @@
               </div>
               <div>
                 <h6 class="overview-title">Total Sales</h6>
-                <h5 class="overview-value">{{ totalSales | number }}</h5>
+                <h5 class="overview-value">
+                  {{ totalSales | number: '1.2-2' }}
+                </h5>
               </div>
             </div>
           </div>
