@@ -158,7 +158,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
     private chatServer: ChatService,
   ) {
     this.getAllVendors()
-   
+
     this.route.params.subscribe((params) => {
       this.vendorId = params['vendorId']
       this.searchatlasId = params['atlasId']
@@ -171,6 +171,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
         this.searchVendorId(this.vendorId!)
         this.setVendor = true
         this.selectVendor = this.vendorId
+        this.vendorCode = this.vendorId
       }
     })
 
@@ -896,22 +897,22 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
       newArray = array
     } else {
       this.isMod = true
-      setTimeout(() => {
-        document
-          .getElementById('formtable')
-          ?.querySelector('.highlighted')
-          ?.scrollIntoView({
-            behavior: 'smooth',
-            block: 'center',
-            inline: 'start',
+      setTimeout(
+        () => {
+          document
+            .getElementById('formtable')
+            ?.querySelector('.highlighted')
+            ?.scrollIntoView({
+              behavior: 'smooth',
+              block: 'center',
+              inline: 'start',
+            })
+          $('#bastard').css('padding-top', '220px ')
+          // $('#bastard').css('height', '120%')
+        },
 
-          });
-        $('#bastard').css('padding-top', '220px ')
-        // $('#bastard').css('height', '120%')
-      } 
-      
-        , 1000);
-    
+        1000,
+      )
 
       this.highlightIndex = array.findIndex((item: any) => {
         return item.atlas_id == this.searchatlasId!
@@ -1051,9 +1052,8 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
   }
 
   async confirmBox() {
-    if (this.overTotal > 0) { 
-
-      $('#bastard').css('padding-top', '0px ');
+    if (this.overTotal > 0) {
+      $('#bastard').css('padding-top', '0px ')
       return await Swal.fire({
         title: 'You are about to leave this page',
         text: 'Any items not added to your cart will be lost',
