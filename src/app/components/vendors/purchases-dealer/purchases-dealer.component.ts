@@ -58,7 +58,9 @@ export class PurchasesDealerComponent implements OnInit {
       this.selectedVendorCode = this.vendor
       this.changeBellNotificationStatus()
 
-      this.getVendorPurchasers()
+      if (this.vendor != '') {
+        this.getVendorPurchasers()
+      }
     })
   }
 
