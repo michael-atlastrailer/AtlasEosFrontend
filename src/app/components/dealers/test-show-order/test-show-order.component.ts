@@ -906,8 +906,8 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
             inline: 'start',
 
           });
-        $('#bastard').css('padding-top', '200px ')
-        $('#bastard').css('height', '120vh')
+        $('#bastard').css('padding-top', '220px ')
+        // $('#bastard').css('height', '120%')
       } 
       
         , 1000);
@@ -1051,7 +1051,9 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
   }
 
   async confirmBox() {
-    if (this.overTotal > 0) {
+    if (this.overTotal > 0) { 
+
+      $('#bastard').css('padding-top', '0px ');
       return await Swal.fire({
         title: 'You are about to leave this page',
         text: 'Any items not added to your cart will be lost',

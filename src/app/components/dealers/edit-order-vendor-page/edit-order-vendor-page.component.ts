@@ -1123,6 +1123,7 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
   }
 
   async deleteConfirmBox() {
+     $('#bastard').css('padding-top', '0px ');
     return await Swal.fire({
       title: 'You Are About To Remove This Item From Your Order',
       text: '',
@@ -2201,7 +2202,7 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
 
   async confirmBox() {
     // console.log('heheh')
-    if (this.editedInput == true) {
+    if (this.editedInput == true) { $('#bastard').css('padding-top', '0px ');
       return await Swal.fire({
         title: 'You are about to leave this page',
         text: 'Any items not added to your cart will be lost',
