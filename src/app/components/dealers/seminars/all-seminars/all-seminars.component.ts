@@ -123,6 +123,7 @@ export class AllSeminarsComponent implements AfterViewInit {
   to12Hr(val: any) {
     val = val.split(':');
     let daylight = 'AM';
+    console.log('paseint', parseInt(val[0]));
     if (parseInt(val[0]) >= 12) {
       val[0] = parseInt(val[0]) % 12 || 12;
       daylight = 'PM';
@@ -131,7 +132,7 @@ export class AllSeminarsComponent implements AfterViewInit {
       val[0] = 12;
       daylight = 'AM';
     } else {
-      daylight = 'PM';
+      daylight = 'AM';
     }
     val[0] = parseInt(val[0]);
     val.pop();

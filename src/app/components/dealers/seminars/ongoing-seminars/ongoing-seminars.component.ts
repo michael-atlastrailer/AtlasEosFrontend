@@ -103,7 +103,7 @@ export class OngoingSeminarsComponent implements AfterViewInit {
       val[0] = 12;
       daylight = 'AM';
     } else {
-      daylight = 'PM';
+      daylight = 'AM';
     }
     val[0] = parseInt(val[0]);
     val.pop();
