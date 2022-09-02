@@ -63,16 +63,20 @@ export class SheduledSeminarsComponent implements AfterViewInit {
   to12Hr(val: any) {
     val = val.split(':');
     let daylight = 'AM';
-    if (parseInt(val[0]) >= 12) {
+    let valal = parseInt(val[0]);
+    if (valal >= 12) {
       val[0] = parseInt(val[0]) % 12 || 12;
       daylight = 'PM';
     }
-    if (parseInt(val[0]) == 0) {
+    if (valal == 0) {
       val[0] = 12;
       daylight = 'AM';
-    } else {
-      daylight = 'PM';
     }
+    if (valal < 12) {
+      console.log('valal am', valal, val[0]);
+      daylight = 'AM';
+    }
+    console.log('paseint am', valal, valal >= 12, daylight);
     val[0] = parseInt(val[0]);
     val.pop();
     val =
