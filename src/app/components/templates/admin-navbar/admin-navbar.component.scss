@@ -146,6 +146,8 @@
 
 .header {
   height: 64px !important;
+  // position: fixed;
+  // z-index: 1;
 }
 
 .side-header {
@@ -156,14 +158,23 @@
   padding-left: 10px;
   padding-right: 10px;
   padding-top: 10px;
+  padding-bottom: 20px;
+  overflow: auto;
+  z-index: 99999;
+  position: relative;
+  background-color: #ffffff;
+  // left: 197px;
+  top: 12px;
+  width: 100%;
   a {
     font-size: 13px;
     display: block;
+    text-align: start;
   }
 }
 
 .navbar-inner-section-bell {
-  width: 25%;
+  width: 13%;
   text-align: end;
 
   .notify-con {

@@ -16,6 +16,7 @@ export class AdminNavbarComponent implements OnInit {
   unreadMsgCount = 0
   unreadReplyCounter = 0
   notifyData: any
+  menuStatus = false
 
   @ViewChild('bellNotify') bellNotify!: ElementRef
 
@@ -54,13 +55,15 @@ export class AdminNavbarComponent implements OnInit {
     this.router.navigate(['/admin/resolve-problem'])
   }
 
-  showMenu(event: any) {
-    console.log(event, 'eventer')
-    this.bellNotify.nativeElement.click()
+  showMenu() {
+    /// this.bellNotify.nativeElement.click()
+    this.menuStatus = true
   }
 
   hideMenu() {
-    this.bellNotify.nativeElement.click()
+    this.menuStatus = false
+
+    /// this.bellNotify.nativeElement.click()
   }
 
   getUnreadReport() {
