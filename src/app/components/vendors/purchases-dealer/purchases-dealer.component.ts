@@ -55,7 +55,6 @@ export class PurchasesDealerComponent implements OnInit {
       this.vendor = params['vendor']
       this.selectedVendorCode = this.vendor
       this.changeBellNotificationStatus()
-      console.log(this.vendor, 'tesing my vendor code')
       if (this.vendor != undefined) {
         this.getVendorPurchasers()
       }
