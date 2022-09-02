@@ -413,11 +413,7 @@
       </a>
 
       <div class="d-flex w-100 justify-content-end">
-        <div
-          class="navbar-inner-section-bell"
-          (mouseover)="isOpened = true"
-          (mouseleave)="isOpened = false"
-        >
+        <div class="navbar-inner-section-bell" (mouseover)="showMenu()">
           <span class="badge badge-primary notify-con">
             {{ unreadReplyCounter }}
           </span>
@@ -431,7 +427,7 @@
             <span class="fa fas fa-bell"></span>
           </div>
 
-          <mat-menu #menu="matMenu" *ngIf="isOpened">
+          <mat-menu #menu="matMenu">
             <div class="list-item-notify">
               <a
                 class="notify-list"
