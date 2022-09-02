@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr'
 import { HttpRequestsService } from 'src/app/core/services/http-requests.service'
 import Swal from 'sweetalert2'
 
+declare var $:any
 export interface PeriodicElement {
   vendor_code: any
   vendor_name: string
@@ -67,6 +68,7 @@ export class EditOrderComponent implements OnInit {
     }
   }
   async deleteVendorOrderConfirmBox() {
+     $('#bastard').css('padding-top', '0px ');
     return await Swal.fire({
       title: 'Are You Sure You Want To Delete  Order(s) from this Vendor ?',
       text: '',
