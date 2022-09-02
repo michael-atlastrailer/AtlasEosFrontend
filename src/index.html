@@ -360,7 +360,37 @@
   <script>
     let module = window.localStorage.getItem('module')
 
+    /* let module = window.localStorage.getItem('module') */
+
     setInterval(() => {
+      if (module) {
+        switch (module) {
+          case '1':
+            $('.skiptranslate').hide()
+            console.log('hello')
+            break
+
+          case '2':
+            $('.skiptranslate').hide()
+            break
+
+          case '3':
+            $('.skiptranslate').hide()
+            break
+
+          case '4':
+            $('.skiptranslate').show()
+            break
+
+          default:
+            $('.skiptranslate').hide()
+
+            break
+        }
+      }
+    }, 1000)
+
+    /* setInterval(() => {
       if (module && module == 1) {
         $('.skiptranslate').hide()
       }
@@ -368,6 +398,6 @@
         $('.skiptranslate').hide()
         // document.getElementsByClassName('skiptranslate').style.display = 'none'
       }
-    }, 1000)
+    }, 1000) */
   </script>
 </html>

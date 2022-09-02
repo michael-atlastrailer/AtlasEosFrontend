@@ -13,12 +13,28 @@
   let module = window.localStorage.getItem('module')
 
   setInterval(() => {
-    if (module && module == 1) {
-      $('.skiptranslate').hide()
-    }
-    if (module && module != '4') {
-      $('.skiptranslate').hide()
-      // document.getElementsByClassName('skiptranslate').style.display = 'none'
+    if (module) {
+      switch (module) {
+        case '1':
+          $('.skiptranslate').hide()
+          console.log('hello')
+          break
+
+        case '2':
+          $('.skiptranslate').hide()
+          break
+
+        case '3':
+          $('.skiptranslate').hide()
+          break
+
+        case '4':
+          $('.skiptranslate').show()
+          break
+
+        default:
+          break
+      }
     }
   }, 1000)
 </script>
