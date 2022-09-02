@@ -413,18 +413,24 @@
       </a>
 
       <div class="d-flex w-100 justify-content-end">
-        <div class="navbar-inner-section-bell">
+        <div class="navbar-inner-section-bell" (mouseover)="showMenu()">
           <span class="badge badge-primary notify-con">
             {{ unreadReplyCounter }}
           </span>
 
-          <div class="bell-wrapper" mat-button [matMenuTriggerFor]="menu">
+          <div
+            class="bell-wrapper"
+            #bellNotify
+            mat-button
+            [matMenuTriggerFor]="menu"
+          >
             <span class="fa fas fa-bell"></span>
           </div>
 
           <mat-menu #menu="matMenu">
             <div class="list-item-notify">
               <a
+                class="notify-list"
                 routerLink="/admin/view-report/{{ item.code }}"
                 *ngFor="let item of notifyData"
               >

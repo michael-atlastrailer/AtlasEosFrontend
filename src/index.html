@@ -361,6 +361,9 @@
     let module = window.localStorage.getItem('module')
 
     setInterval(() => {
+      if (module && module == 1) {
+        $('.skiptranslate').hide()
+      }
       if (module && module != '4') {
         $('.skiptranslate').hide()
         // document.getElementsByClassName('skiptranslate').style.display = 'none'
