@@ -16,6 +16,9 @@ export class AdminNavbarComponent implements OnInit {
   unreadMsgCount = 0
   unreadReplyCounter = 0
   notifyData: any
+
+  @ViewChild('bellNotify') bellNotify!: ElementRef
+
   constructor(
     private tokenStorage: TokenStorageService,
     private router: Router,
@@ -39,6 +42,14 @@ export class AdminNavbarComponent implements OnInit {
       this.getUnreadMsg()
       this.getUnreadReport()
     }, 10000)
+  }
+
+  showMenu() {
+    this.bellNotify.nativeElement.click()
+  }
+
+  hideMenu() {
+    this.bellNotify.nativeElement.click()
   }
 
   getUnreadReport() {
