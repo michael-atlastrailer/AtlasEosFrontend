@@ -44,7 +44,18 @@ export class AdminNavbarComponent implements OnInit {
     }, 10000)
   }
 
-  showMenu() {
+  menuOpened() {
+    console.log('we testing i first')
+  }
+
+  menuClosed() {}
+
+  goToReportProblem() {
+    this.router.navigate(['/admin/resolve-problem'])
+  }
+
+  showMenu(event: any) {
+    console.log(event, 'eventer')
     this.bellNotify.nativeElement.click()
   }
 
