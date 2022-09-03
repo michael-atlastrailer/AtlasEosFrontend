@@ -17,6 +17,11 @@
   margin-right: -46px;
 }
 
+.active-linker {
+  background-color: #194241 !important;
+  color: #ffffff !important;
+}
+
 .app-sidebar {
   background-color: #1d7471 !important;
 
@@ -34,8 +39,14 @@
   float: left;
   height: auto;
 }
+
+.side-menu__item:hover {
+  background-color: #194241 !important;
+  color: #ffffff !important;
+}
+
 .active-link {
-  background-color: #21262d;
+  background-color: #194241;
 }
 .scrollable {
   overflow-y: scroll;
@@ -184,7 +195,7 @@
 }
 
 #nav-collapse:hover {
-  background-color: #21262d;
+  background-color: #194241;
   color: #ffffff;
 
   * {

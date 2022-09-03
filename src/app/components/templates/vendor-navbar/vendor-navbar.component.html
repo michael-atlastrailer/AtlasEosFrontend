@@ -44,6 +44,7 @@
         class="side-menu__item"
         routerLink="/vendors/purchases-by-dealer"
         routerLinkActive="active-link"
+        [ngClass]="activeColor ? 'active-linker' : ''"
       >
         <span class="fa fa-history navbar-icons"></span>
         <span class="side-menu__label">Purchases By Dealer</span>

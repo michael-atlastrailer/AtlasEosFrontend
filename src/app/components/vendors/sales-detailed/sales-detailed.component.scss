@@ -175,6 +175,7 @@
 
 .enter-by {
   width: 30%;
+  text-transform: uppercase;
 }
 
 .test-qty {
@@ -212,4 +213,17 @@
 .total-color {
   color: red;
   font-weight: 700;
+}
+
+.download-btn {
+  background-color: #555;
+  padding: 5px;
+  border-radius: 4px;
+  border: 0px;
+  color: #ffffff;
+  font-size: 13px;
+}
+
+#export-sales-detailed {
+  visibility: collapse;
 }

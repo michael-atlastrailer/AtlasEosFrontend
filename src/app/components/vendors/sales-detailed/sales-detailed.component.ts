@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core'
 import { TokenStorageService } from 'src/app/core/services/token-storage.service'
 import { HttpRequestsService } from 'src/app/core/services/http-requests.service'
 
+declare var $: any
+
 @Component({
   selector: 'app-sales-detailed',
   templateUrl: './sales-detailed.component.html',
@@ -22,6 +24,7 @@ export class SalesDetailedComponent implements OnInit {
   noDataFound = false
   totalAmount: number = 0
   showSelectOption = true
+  showDownload = false
 
   constructor(
     private tokenData: TokenStorageService,
@@ -43,8 +46,21 @@ export class SalesDetailedComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  exportToExcel() {
+    let javaDate = new Date()
+    let currDate = javaDate.getDate()
+    $('#export-sales-detailed').table2excel({
+      exclude: '.noExl',
+      name: `${currDate}-export-sales-detailed`,
+      filename: `${currDate}-export-sales-detailed`,
+      fileext: '.xlsx',
+    })
+  }
+
   getSingleVendorSalesDetailed() {
     if (this.selectedVendorCode) {
+      this.showDownload = true
+
       this.selectedState = true
 
       this.tableView = false
@@ -56,7 +72,6 @@ export class SalesDetailedComponent implements OnInit {
         .then((result: any) => {
           this.tableView = true
           this.loader = false
-          console.log(result)
           if (result.status) {
             this.tableView = true
             this.incomingData = result.data.res
@@ -76,6 +91,8 @@ export class SalesDetailedComponent implements OnInit {
 
   getSalesSummary() {
     if (this.selectedVendorCode) {
+      this.showDownload = true
+
       this.selectedState = true
 
       this.tableView = false
@@ -87,7 +104,6 @@ export class SalesDetailedComponent implements OnInit {
         .then((result: any) => {
           this.tableView = true
           this.loader = false
-          console.log(result)
           if (result.status) {
             this.tableView = true
             this.incomingData = result.data.res
