@@ -39,19 +39,31 @@ export class PurchasesDealerComponent implements OnInit {
     this.userData = tokenData.getUser()
     ///this.getPrivilegedVendors()
 
-    let privilegeVenArray = this.userData.privileged_vendors.split(',')
-
-    console.log(privilegeVenArray.length, 'Checking it out')
-
-    if (privilegeVenArray.length > 0) {
-      this.getPrivilegedVendors()
-      this.showSelectOption = true
+    if (this.userData.privileged_vendors != null) {
+      let privilegeVenArray = this.userData.privileged_vendors.split(',')
+      console.log(privilegeVenArray.length, 'Checking it out')
+      if (privilegeVenArray.length > 0) {
+        this.getPrivilegedVendors()
+        this.showSelectOption = true
+      }
     } else {
       this.selectedVendorName = this.userData.company_name
       this.showSelectOption = false
       this.selectedVendorCode = this.userData.vendor_code
       this.getSingleVendorPurchasers()
     }
+
+    // let privilegeVenArray = this.userData.privileged_vendors.split(',')
+    // console.log(privilegeVenArray.length, 'Checking it out')
+    // if (privilegeVenArray.length > 0) {
+    //   this.getPrivilegedVendors()
+    //   this.showSelectOption = true
+    // } else {
+    //   this.selectedVendorName = this.userData.company_name
+    //   this.showSelectOption = false
+    //   this.selectedVendorCode = this.userData.vendor_code
+    //   this.getSingleVendorPurchasers()
+    // }
 
     // if (this.userData.privileged_vendors) {
 
