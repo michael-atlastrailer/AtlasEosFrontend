@@ -28,10 +28,10 @@ export class DashboardComponent implements OnInit {
       .then((result: any) => {
         console.log(result);
         if (result.status) {
-          this.totalDealers = result.data.total_dealers;
-          this.totalLogged = result.data.total_logged_in;
-          this.totalNotLogged = result.data.total_not_logged_in;
-          this.purchaseTotal = result.data.total_sales;
+          this.totalDealers = result.data.total_dealers!;
+          this.totalLogged = result.data.total_loggedin!;
+          this.totalNotLogged = result.data.total_not_loggedin!;
+          this.purchaseTotal = result.data.total_purchase!;
           console.log(
             'res dashboard',
             result.data,

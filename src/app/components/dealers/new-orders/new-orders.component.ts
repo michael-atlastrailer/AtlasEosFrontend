@@ -50,6 +50,7 @@ export class NewOrdersComponent implements OnInit {
   dataSrc = new MatTableDataSource<PeriodicElement>();
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
+  sortDir = false;
   constructor(
     private getData: HttpRequestsService,
     private toastr: ToastrService
@@ -125,7 +126,6 @@ export class NewOrdersComponent implements OnInit {
     );
   }
   urlNoMatch(url: any) {
-  
     console.log('CANNOT FIND  a match', url, this.currentData?.urlStatus);
   }
 
@@ -203,6 +203,28 @@ export class NewOrdersComponent implements OnInit {
           this.toastr.info(`Something went wrong`, 'Error');
         });
     }
+  }
+  sortDataAlt() {
+    const data = this.dataSrc.data.slice();
+
+    this.sortDir = !this.sortDir;
+
+    this.dataSrc.data = data.sort((a: any, b: any) => {
+      let item = 'vendor_name';
+      switch (item) {
+        case 'index':
+          return compare(a.index, b.index, this.sortDir);
+        case 'vendor_name':
+          return compare(
+            a.vendor_name,
+            b.vendor_name,
+            this.sortDir
+          );
+
+        default:
+          return 0;
+      }
+    });
   }
 }
 function compare(a: number | string, b: number | string, isAsc: boolean) {
