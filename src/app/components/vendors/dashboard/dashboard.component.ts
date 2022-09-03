@@ -92,6 +92,7 @@ export class DashboardComponent implements OnInit {
 
     console.log(this.userData.vendor_code, 'testing vendor')
 
+    this.getChartData()
     this.getDashboardAnalysisData()
     this.getDashboardMostPurchaserData()
   }
@@ -157,6 +158,20 @@ export class DashboardComponent implements OnInit {
         if (result.status) {
           this.totalSales = result.data.total_sales
           this.orderReceived = result.data.total_orders
+        } else {
+        }
+      })
+      .catch((err) => {
+        this.loader = false
+      })
+  }
+
+  getChartData() {
+    this.getData
+      .httpGetRequest('/fetch-all-vendor-orders-per-day/' + this.userData.id)
+      .then((result: any) => {
+        console.log(result)
+        if (result.status) {
         } else {
         }
       })
