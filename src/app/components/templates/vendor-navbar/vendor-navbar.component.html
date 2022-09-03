@@ -161,7 +161,31 @@
         <span class="fa fa-align-left header-top-sidebar-icons"></span>
       </a>
 
-      <div class="d-flex w-100 justify-content-end">
+      <div class="d-flex w-100 justify-content-end" style="position: fixed;">
+        <!-- <div
+          class="navbar-inner-section-bell"
+          (mouseenter)="showMenu()"
+          (mouseleave)="hideMenu()"
+        >
+          <span class="badge badge-primary notify-con">
+            {{ bellCounter }}
+          </span>
+
+          <div class="bell-wrapper">
+            <span class="fa fas fa-bell"></span>
+          </div>
+
+          <div class="list-item-notify" *ngIf="menuStatus">
+            <a
+              class="notify-list"
+              routerLink="/admin/view-report/{{ item.code }}"
+              *ngFor="let item of notifyData"
+            >
+              {{ item.name }}
+            </a>
+          </div>
+        </div> -->
+
         <div
           class="navbar-inner-section-bell"
           (mouseenter)="showMenu()"
@@ -187,6 +211,7 @@
             </div>
           </mat-menu>
         </div>
+
         <div class="navbar-inner-section">
           <div
             class="nav-wrapper"

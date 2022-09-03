@@ -26,6 +26,7 @@ export class VendorNavbarComponent implements OnInit {
   notifyData: any
   bellCounter = 0
   activeColor = false
+  menuStatus = false
   constructor(
     private tokenStorage: TokenStorageService,
     private router: Router,
@@ -82,10 +83,16 @@ export class VendorNavbarComponent implements OnInit {
     }, 10000)
   }
 
-  showMenu() {}
+  showMenu() {
+    /// this.bellNotify.nativeElement.click()
+    this.menuStatus = true
+  }
 
-  hideMenu() {}
+  hideMenu() {
+    this.menuStatus = false
 
+    /// this.bellNotify.nativeElement.click()
+  }
   getVendorOrderBellNotify() {
     this.getData
       .httpGetRequest('/vendor/get-vendor-order-bell-count/' + this.userId)
