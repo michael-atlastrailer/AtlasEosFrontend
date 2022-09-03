@@ -27,6 +27,7 @@ export class VendorNavbarComponent implements OnInit {
   bellCounter = 0
   activeColor = false
   menuStatus = false
+  noNewOrderNotify = false
   constructor(
     private tokenStorage: TokenStorageService,
     private router: Router,
@@ -83,6 +84,10 @@ export class VendorNavbarComponent implements OnInit {
     }, 10000)
   }
 
+  goToPurchasers() {
+    this.router.navigate(['/vendors/purchases-by-dealer'])
+  }
+
   showMenu() {
     /// this.bellNotify.nativeElement.click()
     this.menuStatus = true
@@ -100,6 +105,7 @@ export class VendorNavbarComponent implements OnInit {
         if (result.status) {
           this.notifyData = result.data.notify
           this.bellCounter = result.data.count
+          this.noNewOrderNotify = this.bellCounter == 0 ? true : false
         }
       })
       .catch((err) => {})

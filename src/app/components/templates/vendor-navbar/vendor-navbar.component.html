@@ -162,10 +162,11 @@
       </a>
 
       <div class="d-flex w-100 justify-content-end" style="position: fixed;">
-        <!-- <div
+        <div
           class="navbar-inner-section-bell"
           (mouseenter)="showMenu()"
           (mouseleave)="hideMenu()"
+          (click)="goToPurchasers()"
         >
           <span class="badge badge-primary notify-con">
             {{ bellCounter }}
@@ -178,14 +179,23 @@
           <div class="list-item-notify" *ngIf="menuStatus">
             <a
               class="notify-list"
-              routerLink="/admin/view-report/{{ item.code }}"
+              routerLink="/vendors/view-dealer-summary/{{ item.dealer }}/{{
+                item.vendor
+              }}"
               *ngFor="let item of notifyData"
             >
-              {{ item.name }}
+              {{ item.vendor_name }}
             </a>
+            <span
+              *ngIf="noNewOrderNotify"
+              style="display: block; text-align: center; font-size: 12px;"
+            >
+              No New Order
+            </span>
           </div>
-        </div> -->
+        </div>
 
+        <!-- 
         <div
           class="navbar-inner-section-bell"
           (mouseenter)="showMenu()"
@@ -210,7 +220,8 @@
               </a>
             </div>
           </mat-menu>
-        </div>
+        </div> 
+      -->
 
         <div class="navbar-inner-section">
           <div
