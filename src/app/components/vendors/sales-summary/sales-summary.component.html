@@ -49,8 +49,21 @@
 
                 <h6 class="selected-title-name">
                   <span class="selected-name">{{ selectedVendorName }}</span>
-                  Total: $ {{ totalAmount | number }}
+                  <span class="total-text">
+                    Total: $ {{ totalAmount | number: '1.2-2' }}
+                  </span>
                 </h6>
+
+                <div class="d-flex justify-content-end search-wrapper">
+                  <div>
+                    <input
+                      type="text"
+                      placeholder="search.........."
+                      (keyup)="applyFilter($event)"
+                      #input
+                    />
+                  </div>
+                </div>
 
                 <div class="table-responsive mb-3">
                   <table class="table" *ngIf="loader">
@@ -130,7 +143,105 @@
                     </tbody>
                   </table>
 
-                  <table
+                  <div class="table-data-section">
+                    <table
+                      mat-table
+                      [dataSource]="dataSource"
+                      class="mat-elevation w-100 table table-striped table-bordered"
+                      matSort
+                      (matSortChange)="sortData($event)"
+                    >
+                      <!--- Note that these columns can be defined in any order.
+                        The actual rendered columns are set as a property on the row definition" -->
+
+                      <!-- Position Column -->
+
+                      <ng-container matColumnDef="qty">
+                        <th mat-header-cell *matHeaderCellDef>
+                          Qty
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                          <span class="normal-d-text">
+                            {{ element.qty }}
+                          </span>
+                        </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="atlas_id">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                          Atlas #
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                          <span class="normal-d-text">
+                            {{ element.atlas_id }}
+                          </span>
+                        </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="vendor">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                          Vendor #
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                          <span class="normal-d-text">
+                            {{ element.vendor }}
+                          </span>
+                        </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="description">
+                        <th mat-header-cell *matHeaderCellDef>Description</th>
+                        <td mat-cell *matCellDef="let element">
+                          <span class="desc-text">
+                            {{ element.description }}
+                          </span>
+                        </td>
+                      </ng-container>
+
+                      <!-- Name Column -->
+                      <ng-container matColumnDef="regular">
+                        <th mat-header-cell *matHeaderCellDef>Regular ($)</th>
+                        <td mat-cell *matCellDef="let element">
+                          <span class="booking-text">
+                            {{ element.regular | currency }}
+                          </span>
+                        </td>
+                      </ng-container>
+
+                      <!-- Weight Column -->
+                      <ng-container matColumnDef="show">
+                        <th mat-header-cell *matHeaderCellDef>Special ($)</th>
+                        <td mat-cell *matCellDef="let element">
+                          <!-- {{ element.booking }} -->
+
+                          <span class="booking-text">
+                            {{ element.booking | currency }}
+                          </span>
+                        </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="total">
+                        <th mat-header-cell *matHeaderCellDef>Total ($)</th>
+                        <td mat-cell *matCellDef="let element">
+                          <span class="booking-text">
+                            {{ element.total | currency }}
+                          </span>
+                        </td>
+                      </ng-container>
+
+                      <tr
+                        mat-header-row
+                        *matHeaderRowDef="displayedColumns"
+                      ></tr>
+                      <tr
+                        mat-row
+                        *matRowDef="let row; columns: displayedColumns"
+                      ></tr>
+                    </table>
+                  </div>
+
+                  <!-- <table
+                    id="export-sales-summary"
                     *ngIf="tableView"
                     class="table table-striped table-bordered text-nowrap table-wrapper2 align-items-center mb-0"
                   >
@@ -147,7 +258,7 @@
                     </thead>
 
                     <tbody>
-                      <tr *ngFor="let data of incomingData; let i = index">
+                      <tr *ngFor="let data of dataSource; let i = index">
                         <td>
                           {{ data.qty }}
                         </td>
@@ -161,13 +272,13 @@
                           {{ data.description }}
                         </td>
                         <td>
-                          {{ data.regular | number }}
+                          {{ data.regular | number: '1.2-2' }}
                         </td>
                         <td>
-                          {{ data.booking | number }}
+                          {{ data.booking | number: '1.2-2' }}
                         </td>
                         <td class="total-col">
-                          {{ data.total }}
+                          {{ data.total | number: '1.2-2' }}
                         </td>
                       </tr>
 
@@ -182,65 +293,44 @@
                         <td colspan="7" class="text-center">No order found</td>
                       </tr>
                     </tbody>
-                  </table>
+                  </table> -->
                 </div>
 
                 <hr />
 
                 <div class="d-flex justify-content-end btn-section">
                   <div>
-                    <button class="download-btn">
+                    <a
+                      *ngIf="printVendorCode"
+                      class="btn download-btn"
+                      target="_blank"
+                      [href]="
+                        'https://atlas-eos-app-hvw34.ondigitalocean.app/generate-vendor-sales-summary-pdf/' +
+                        printVendorCode +
+                        '/' +
+                        getLocal('lang') +
+                        '/' +
+                        currenDateTime
+                      "
+                    >
+                      <span class="fa fa-print"></span>
+                      Print/Review
+                    </a>
+
+                    <!-- <button class="download-btn">
                       <span class="fa fa-print"></span>
 
                       Print/Review
-                    </button>
+                    </button> -->
                   </div>
                   <div>
-                    <button class="download-btn">
+                    <button class="download-btn" (click)="exportToExcel()">
                       <span class="fa fa-download"></span>
 
                       Download as Excel
                     </button>
                   </div>
                 </div>
-
-                <!--                 
-
-                <div class="d-flex flex-column indicator-wrapper">
-                  <div class="d-flex">
-                    <div>
-                      <div class="indicator-color"></div>
-                    </div>
-                    <div>
-                      <h6>Quantity Break Items</h6>
-                    </div>
-                  </div>
-                  <div class="d-flex">
-                    <div>
-                      <div class="indicator-color"></div>
-                    </div>
-                    <div>
-                      <h6>Assorted Items</h6>
-                    </div>
-                  </div>
-                  <div class="d-flex">
-                    <div>
-                      <div class="indicator-color"></div>
-                    </div>
-                    <div>
-                      <h6>Regular Show Priced Items</h6>
-                    </div>
-                  </div>
-                  <div class="d-flex">
-                    <div>
-                      <div class="indicator-color"></div>
-                    </div>
-                    <div>
-                      <h6>New Items</h6>
-                    </div>
-                  </div>
-                </div>
- -->
               </div>
             </div>
           </div>

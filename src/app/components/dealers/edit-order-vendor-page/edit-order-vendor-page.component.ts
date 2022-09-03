@@ -20,6 +20,7 @@ import { TokenStorageService } from 'src/app/core/services/token-storage.service
 import { CommonModule, CurrencyPipe, Location } from '@angular/common'
 import Swal from 'sweetalert2'
 import { ComponentCanDeactivate } from 'src/app/core/model/can-deactivate'
+import { ProductTableHandlerService } from 'src/app/core/services/product-table-handler/product-table-handler.service'
 
 declare var $: any
 
@@ -100,6 +101,8 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
   groupsArray: any | [] = []
   cartData: any | [] = []
 
+  assortedIds: [] | any = []
+
   assortedItemsM: [] | any = []
   currentStateM: [] | any = []
   assortFilterM: [] | any = []
@@ -152,6 +155,10 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
   assortedTableItem: any
   currentVendorName = ''
   editedInput = false
+  assortedCheckerArray: any | []
+  itemNotFound = false
+
+  incomingData: any
   /////// end of importation //////////
 
   constructor(
@@ -163,12 +170,13 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
     private token: TokenStorageService,
     private currencyPipe: CurrencyPipe,
     private location: Location,
+    public productTableService: ProductTableHandlerService,
   ) {
     this.route.params.subscribe((params) => {
       this.vendorId = params['vendorId']
 
       if (this.vendorId) {
-        console.log('got in', this.vendorId)
+        // console.log('got in', this.vendorId)
         this.getCartByVendorId(this.vendorId)
         this.getVendorData()
       }
@@ -183,12 +191,70 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
   parser(data: any) {
     return JSON.parse(data)
   }
+
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`)
     } else {
       this._liveAnnouncer.announce('Sorting cleared')
     }
+  }
+
+  omitSpecialChar(e: any) {
+    var k
+    document.all ? (k = e.keyCode) : (k = e.which)
+    return (
+      (k > 64 && k < 91) ||
+      (k > 96 && k < 123) ||
+      k == 8 ||
+      k == 32 ||
+      (k >= 48 && k <= 57)
+    )
+  }
+
+  atlasIdFilter(event: any) {
+    const filterValue = (event.target as HTMLInputElement).value
+    if (this.incomingData) {
+      this.incomingData.atlas_id = filterValue.trim().toLowerCase()
+      this.dataSrc = this.atlasFilterValue('*' + filterValue)
+    }
+  }
+
+  atlasFilterValue(expression: string) {
+    var regex = this.convertWildcardStringToRegExp(expression)
+    return this.incomingData.filter(function (item: any) {
+      return regex.test(item.atlas_id)
+    })
+  }
+
+  escapeRegExp(str: string) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  }
+
+  convertWildcardStringToRegExp(expression: string) {
+    var terms = expression.split('*')
+
+    var trailingWildcard = false
+
+    var expr = ''
+    for (var i = 0; i < terms.length; i++) {
+      if (terms[i]) {
+        if (i > 0 && terms[i - 1]) {
+          expr += '.*'
+        }
+        trailingWildcard = false
+        expr += this.escapeRegExp(terms[i])
+      } else {
+        trailingWildcard = true
+        expr += '.*'
+      }
+    }
+
+    if (!trailingWildcard) {
+      expr += '.*'
+    }
+
+    return new RegExp('^' + expr + '$', 'i')
   }
 
   goBack() {
@@ -223,21 +289,22 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
   allOverTotal() {
     let total = 0
     this.overTotal = 0
-    for (let index = 0; index < this.tableData.length; index++) {
-      const element = this.tableData[index]
-      let price = document.getElementById('amt-hidd-' + index)?.innerText
+    for (let index = 0; index < this.cartData.length; index++) {
+      const element = this.cartData[index]
+
+      // let price = document.getElementById('amt-hidd-' + index)?.innerText
 
       ///  let price = $('#amt-hidd-' + index).html()
-      if (price != undefined) {
-        console.log(price, 'we test price')
-        total += parseFloat(price)
+      if (element.price != undefined) {
+        /// console.log(element.price, 'we test price')
+        total += parseFloat(element.price)
       }
     }
 
     let formattedAmt = this.currencyPipe.transform(total, '$')
 
     $('.order-total').html(formattedAmt)
-    console.log(total, 'our total')
+    // console.log(total, 'our total')
     /// this.overTotal = total
   }
 
@@ -265,6 +332,7 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
         if (result.status) {
           this.tableData = result.data
           this.cartData = result.data
+          this.itemNotFound = result.data.item.length > 0 ? false : true
           if (result.data.assorted_state) {
             this.assortedType = true
             this.assortedTableItem = result.data.assorted_data
@@ -320,8 +388,10 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
     }
 
     let postData = {
+      vendor: this.vendorId,
       uid: this.userData.id,
       dealer: this.userData.account_id,
+      type: 'edit',
       product_array: JSON.stringify(postItem),
     }
 
@@ -333,12 +403,12 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
         this.tableViewDisplay = []
         $('#closeModal').click()
 
-        console.log(res)
+        // console.log(res)
 
         if (res.status) {
-          if (res.data.item_added > 0) {
-            this.getCartByVendorId(this.vendorId)
-          }
+          // if (res.data.item_added > 0) {
+          this.getCartByVendorId(this.vendorId)
+          // }
 
           //  this.newlyAdded = res.data.newly_added
           //  this.existingInQuickOrder = res.data.existing_already_in_quick_order
@@ -428,7 +498,7 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
                           secondPhase.push(ele)
                         }
                         this.anotherLinePhaseM.push(e.spec_data)
-                        console.log(this.anotherLinePhaseM)
+                        // console.log(this.anotherLinePhaseM)
                       } else {
                         let price = parseFloat(e.booking)
                         let quantity = parseInt(e.quantity)
@@ -455,7 +525,7 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
 
                   this.anotherLinePhaseFilterM.map((val: any, index: any) => {
                     if (curr.grouping == val.group) {
-                      console.log(curr.grouping)
+                      // console.log(curr.grouping)
                       newTotalAss += parseInt(val.quantity)
                     }
                   })
@@ -735,7 +805,7 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
             $('#amt-hidd-m-' + index).html(calAmt)
           }
         } else {
-          console.log('trying to find it')
+          // console.log('trying to find it')
           let quantity = parseInt(qty)
           let price = parseFloat(curr.booking)
 
@@ -1025,23 +1095,22 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
       .then((result: any) => {
         this.saveBtnLoader = false
         if (result.status) {
-          this.tableData = result.data
-          this.cartData = result.data
-          this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data)
-          for (let d = 0; d < result.data.length; d++) {
-            const element = result.data[d]
+          //  this.tableData = result.data
+          // this.cartData = result.data
+          // this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data)
+          // for (let d = 0; d < result.data.length; d++) {
+          //   const element = result.data[d]
 
-            let data = {
-              atlasId: element.atlas_id,
-              price: element.price,
-              grouping: element.grouping,
-              index: result.data.indexOf(element),
-            }
+          //   let data = {
+          //     atlasId: element.atlas_id,
+          //     price: element.price,
+          //     grouping: element.grouping,
+          //     index: result.data.indexOf(element),
+          //   }
 
-            this.addedItem.push(data)
-
-            this.toastr.success('Item saved successfully', 'Success')
-          }
+          //   this.addedItem.push(data)
+          // }
+          this.toastr.success('Item saved successfully', 'Success')
         } else {
           this.toastr.error('Something went wrong', 'Try again')
         }
@@ -1054,6 +1123,7 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
   }
 
   async deleteConfirmBox() {
+     $('#bastard').css('padding-top', '0px ');
     return await Swal.fire({
       title: 'You Are About To Remove This Item From Your Order',
       text: '',
@@ -1072,12 +1142,14 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
     })
   }
 
-  async deleteQuickOrderItem(atlsId: any, index: any, tableIndex: any) {
+  async deleteQuickOrderItem(atlsId: any, index: any, tableIndex: number) {
     let confirmStatus = await this.deleteConfirmBox()
+
+    // console.log(tableIndex)
 
     if (confirmStatus) {
       let uid = this.token.getUser().id.toString()
-      this.runCalculation(tableIndex, 0)
+      this.runCalculation(tableIndex)
 
       $('#remove-icon-' + index).css('display', 'none')
       $('#remove-loader-' + index).css('display', 'inline-block')
@@ -1130,24 +1202,28 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
           $('#remove-loader-' + index).css('display', 'none')
 
           if (result.status) {
-            this.tableData = result.data
-            this.cartData = result.data
-            this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data)
+            this.incomingData = []
+
+            this.getCartByVendorId(this.vendorId)
+
+            // this.tableData = result.data
+            // this.cartData = result.data
+            // this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data)
 
             //// this.getTotal()
             /// this.runTotalCalculation(index)
-            for (let d = 0; d < result.data.length; d++) {
-              const element = result.data[d]
+            // for (let d = 0; d < result.data.length; d++) {
+            //   const element = result.data[d]
 
-              let data = {
-                atlasId: element.atlas_id,
-                price: element.price,
-                grouping: element.grouping,
-                index: result.data.indexOf(element),
-              }
+            //   let data = {
+            //     atlasId: element.atlas_id,
+            //     price: element.price,
+            //     grouping: element.grouping,
+            //     index: result.data.indexOf(element),
+            //   }
 
-              this.addedItem.push(data)
-            }
+            //   this.addedItem.push(data)
+            // }
           } else {
             this.toastr.error('Something went wrong', 'Try again')
           }
@@ -1201,7 +1277,7 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
               const item = this.addedItem[i]
               if (item.atlasId == currentProduct.atlasId) {
                 item.price = newPrice
-                console.log('found de atlas id', currentProduct.atlasId)
+                // console.log('found de atlas id', currentProduct.atlasId)
               } else {
               }
             }
@@ -1214,7 +1290,7 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
         //   const item = this.addedItem[i]
         //   if (item.atlasId == currentProduct.atlasId) {
         //     item.price = newPrice
-        //     console.log('found de atlas id', currentProduct.atlasId)
+        // console.log('found de atlas id', currentProduct.atlasId)
         //   } else {
         //   }
         // }
@@ -1225,11 +1301,137 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
     for (let j = 0; j < this.addedItem.length; j++) {
       const h = this.addedItem[j]
       this.orderTotal += parseFloat(h.price)
-      console.log(this.overTotal)
+      // console.log(this.overTotal)
     }
   }
 
-  runCalculation(index: number, qty: any) {
+  runAssortedCalculation(totalQty: number) {
+    for (let index = 0; index < this.assortedCheckerArray.length; index++) {
+      const pis = this.assortedCheckerArray[index]
+      for (let jIndex = 0; jIndex < pis.length; jIndex++) {
+        const parker = pis[jIndex]
+        let qty = pis.qty
+        let booking = parker.booking
+        let price = parseInt(qty) * parseFloat(booking)
+        this.cartData[pis.assIndex].price = price
+        this.cartData[pis.assIndex].qty = qty
+
+        if (totalQty >= parseInt(parker.cond)) {
+          let qty = pis.qty
+          let special = parker.special
+          let price = parseInt(qty) * parseFloat(special)
+          this.cartData[pis.assIndex].price = price
+          this.cartData[pis.assIndex].qty = qty
+        } else {
+        }
+      }
+    }
+
+    this.assortedCheckerArray = []
+  }
+
+  calculationChecker(index: number, qty: any) {
+    this.editedInput = true
+    let curr = this.cartData[index]
+    this.cartData[index].qty = qty
+    let spec = curr.spec_data
+    let curAtlasId = curr.atlas_id
+    let grouping = curr.grouping
+    if (qty != '') {
+      if (spec != null && spec.length > 0) {
+        let itemType = spec[0].type
+        if (itemType == 'assorted') {
+          let totalQty = 0
+          for (let index = 0; index < this.cartData.length; index++) {
+            const ele = this.cartData[index]
+            if (grouping == ele.grouping) {
+              totalQty += parseInt(ele.qty)
+              ele.spec_data.position = ele.position
+              ele.spec_data.qty = ele.qty
+              ele.spec_data.price = ele.price
+              ele.spec_data.assIndex = index
+              this.assortedCheckerArray.push(ele.spec_data)
+            }
+          }
+
+          this.runAssortedCalculation(totalQty)
+        }
+
+        if (itemType == 'special') {
+          // console.log('we are on special')
+        }
+      } else {
+        let currItem = this.cartData[index]
+        let bookingPrice = parseFloat(currItem.booking)
+        let price = parseInt(qty) * bookingPrice
+        currItem.price = price
+      }
+    } else {
+      if (spec != null && spec.length > 0) {
+        let itemType = spec[0].type
+        if (itemType == 'assorted') {
+          let totalQty = 0
+          for (let index = 0; index < this.cartData.length; index++) {
+            const ele = this.cartData[index]
+            if (grouping == ele.grouping) {
+              totalQty += ele.qty != '' ? parseInt(ele.qty) : 0
+              ele.spec_data.position = ele.position
+              ele.spec_data.qty = ele.qty
+              ele.spec_data.price = ele.qty != '' ? ele.price : 0
+              ele.spec_data.assIndex = index
+              // console.log(ele.spec_data, 'our own hellow worls')
+              this.assortedCheckerArray.push(ele.spec_data)
+            }
+          }
+
+          // this.runAssortedCalculation(totalQty)
+        }
+      } else {
+        let currItem = this.cartData[index]
+        let bookingPrice = parseFloat(currItem.booking)
+        let price = 0 * bookingPrice
+        currItem.price = price
+      }
+    }
+
+    //// this.allOverTotal()
+  }
+
+  runCalculation(index: number, qty: string = '0') {
+    let curr = this.dataSrc.data[index]
+
+    this.productTableService
+      .initCalculationData(
+        this.tableData,
+        this.assortFilter,
+        this.addedItem,
+        this.assortedIds,
+        this.orderTotal,
+      )
+      .then((status) => {
+        if (status) {
+          this.orderTotal = 0
+          this.productTableService
+            .runSingleCalculations(
+              curr,
+              index,
+              parseInt(qty.length ? qty : '0'),
+            )
+            .then((data) => {
+              console.log(data)
+              if (data.status) {
+                this.tableData = data.products
+                this.dataSrc.data = data.products
+                this.orderTotal += data.productTotal
+                this.assortFilter = data.assorted
+                this.assortedIds = data.allAddedItemsID
+              }
+            })
+        }
+      })
+  }
+
+  runCalculation2(index: number, qty: any) {
     this.editedInput = true
     if (qty !== '') {
       let curr = this.cartData[index]
@@ -1909,6 +2111,10 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
     }
   }
 
+  goBackToEditPage() {
+    this.router.navigate(['/dealers/edit-order'])
+  }
+
   getCartByVendorId(vendorId: any) {
     this.canOrder = false
     this.isMod = false
@@ -1922,30 +2128,66 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
       .then((result: any) => {
         this.loader = false
         if (result.status) {
-          console.log('search vendor res', result.data)
-          this.tableData = result.data
-          this.cartData = result.data
-          this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data)
+          let inComingData = result.data.map((item: any, index: number) => ({
+            ...item,
+            position: index,
+          }))
 
-          if (result.data.length !== 0) {
-            this.canOrder = true
-          }
+          this.incomingData = inComingData
+          this.tableData = inComingData
+          this.cartData = inComingData
+          this.dataSrc = new MatTableDataSource<PeriodicElement>(inComingData)
+          this.canOrder = inComingData.length !== 0
           this.orderTable = []
-          // this.allOverTotal()
-          this.getTotal()
-          for (let d = 0; d < result.data.length; d++) {
-            const element = result.data[d]
-            /// this.runTotalCalculation(d)
 
-            let data = {
-              atlasId: element.atlas_id,
-              price: element.price,
-              grouping: element.grouping,
-              index: result.data.indexOf(element),
-            }
+          // first step init all calculation data required so as to be passed to the service and default
+          // then call the ru singular calculation whihc will perform all required operations both assorted and specials
+          // and return the updated calculation data back to this component as an object of
+          // return {
+          //   status: codeStatus,
+          //   products: this.productData,
+          //   assorted: this.assortFilter,
+          //   addedItems: this.addedItem,
+          //   allAddedItemsID: this.allAddedItemAtlasID,
+          //   currentProductAmount: this.currentProductAmt,
+          //   productTotal: this.overTotal
+          // }
 
-            this.addedItem.push(data)
-          }
+          // use status to detect if the code ran into an error during implementation each service function is rapped in a try catch method so status
+          // is the only defined variable to track error and your console log
+
+          // PEACE BE UNTO YOU
+          this.productTableService
+            .initCalculationData(
+              this.tableData,
+              this.assortFilter,
+              this.addedItem,
+              this.assortedIds,
+              this.orderTotal,
+            )
+            .then((status) => {
+              if (status) {
+                this.productTableService
+                  .runGeneralCalculations(this.dataSrc.data)
+                  .then((data) => {
+                    // console.log(data)
+                    if (data.status) {
+                      this.tableData = data.products
+                      this.dataSrc.data = data.products
+                      this.orderTotal = data.productTotal
+                      this.assortFilter = data.assorted
+                      this.assortedIds = data.allAddedItemsID
+                    }
+                  })
+              }
+            })
+
+          this.addedItem = result.data.map((element: any) => ({
+            atlasId: element.atlas_id,
+            price: element.price,
+            grouping: element.grouping,
+            index: result.data.indexOf(element),
+          }))
 
           // this.dataSrc.sort = this.sort
           /// this.dataSrc.paginator = this.paginator
@@ -1959,8 +2201,8 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
   }
 
   async confirmBox() {
-    console.log('heheh')
-    if (this.editedInput == true) {
+    // console.log('heheh')
+    if (this.editedInput == true) { $('#bastard').css('padding-top', '0px ');
       return await Swal.fire({
         title: 'You are about to leave this page',
         text: 'Any items not added to your cart will be lost',

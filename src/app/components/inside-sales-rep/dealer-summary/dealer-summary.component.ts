@@ -1,18 +1,23 @@
-import { Component, OnInit, ViewChild } from '@angular/core'
-import { HttpRequestsService } from 'src/app/core/services/http-requests.service'
-import { ToastrService } from 'ngx-toastr'
-import { TokenStorageService } from 'src/app/core/services/token-storage.service'
-import { MatTableDataSource } from '@angular/material/table'
-import { MatPaginator } from '@angular/material/paginator'
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { TokenizeResult } from '@angular/compiler/src/ml_parser/lexer';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
-export interface Products {
-  atlas_id: string
-  vendor_code: string
-  vendor_name: string
-  description: string
-  booking: string
-  status: string
-  created_date: string
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort, Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { HttpRequestsService } from 'src/app/core/services/http-requests.service';
+import { TokenStorageService } from 'src/app/core/services/token-storage.service';
+
+import Swal from 'sweetalert2';
+
+declare var $: any;
+
+export interface PeriodicElement {
+  account: string;
+  dealer_name: string;
+  show_total: string;
 }
 
 @Component({
@@ -21,156 +26,145 @@ export interface Products {
   styleUrls: ['./dealer-summary.component.scss'],
 })
 export class DealerSummaryComponent implements OnInit {
-  tableView = true
-  loader = false
-  allVendors: any
-  selectedVendorName = ''
-  selectedVendorCode = ''
-  vendorProductData: any
-  noItemFound = false
-  incomingData: any
-  displayedColumns: string[] = [
-    'atlas_id',
-    'vendor_code',
-    'description',
-    'regular',
-    'booking',
-  ]
+  tableView = false;
+  loader = true;
+  allVendor: any;
+  loaderData = [9, 8, 6];
+  incomingData: any;
 
-  dataSource = new MatTableDataSource<Products>()
-  @ViewChild(MatPaginator) paginator!: MatPaginator
+  displayedColumns: string[] = [
+    'account_id',
+    'full_name',
+    'total_price',
+    'last_login',
+  ];
+
+  dataSource = new MatTableDataSource<PeriodicElement>();
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator
+    this.dataSource.paginator = this.paginator;
+  }
+
+  ngOnInit(): void {
+    this.getDealerUsers();
+  }
+
+  pageSizes = [3, 5, 7];
+  sortData(sort: Sort) {
+    const data = this.dataSource.data.slice();
+    if (!sort.active || sort.direction === '') {
+      this.dataSource.data = data;
+      return;
+    }
+
+    this.dataSource.data = data.sort((a: any, b: any) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'account_id':
+          return compare(a.account_id, b.account_id, isAsc);
+        case 'total_price':
+          return compare(a.total_price, b.total_price, isAsc);
+        case 'full_name':
+          return compare(a.full_name, b.full_name, isAsc);
+
+        default:
+          return 0;
+      }
+    });
   }
 
   constructor(
-    private httpService: HttpRequestsService,
+    private postData: HttpRequestsService,
+    private token: TokenStorageService,
     private toastr: ToastrService,
-    private tokenStore: TokenStorageService,
+    private _liveAnnouncer: LiveAnnouncer
   ) {}
+  @ViewChild(MatSort)
+  sort!: MatSort;
+  announceSortChange(sortState: Sort) {
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
+  }
+  async removeVendor(index: any) {
+    let confirmStatus = await this.confirmBox();
 
-  ngOnInit(): void {
-    this.getAllVendors()
+    if (confirmStatus) {
+      $('#remove-icon-' + index).css('display', 'none');
+      $('#remove-loader-' + index).css('display', 'inline-block');
+
+      this.postData
+        .httpGetRequest('/deactivate-dealer-user/' + index)
+        .then((result: any) => {
+          $('#remove-icon-' + index).css('display', 'inline-block');
+          $('#remove-loader-' + index).css('display', 'none');
+
+          if (result.status) {
+            this.toastr.success('Successful', result.message);
+            this.getDealerUsers();
+          } else {
+            this.toastr.error('Something went wrong', 'Try again');
+          }
+        })
+        .catch((err) => {
+          this.toastr.error('Something went wrong', 'Try again');
+        });
+    } else {
+    }
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value
-    this.incomingData.atlas_id = filterValue.trim().toLowerCase()
-    this.dataSource = this.filterArray('*' + filterValue)
-  }
-
-  filterArray(expression: string) {
-    var regex = this.convertWildcardStringToRegExp(expression)
-    //console.log('RegExp: ' + regex);
-    return this.incomingData.filter(function (item: any) {
-      return regex.test(item.atlas_id)
-    })
-  }
-
-  escapeRegExp(str: string) {
-    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-  }
-
-  convertWildcardStringToRegExp(expression: string) {
-    var terms = expression.split('*')
-
-    var trailingWildcard = false
-
-    var expr = ''
-    for (var i = 0; i < terms.length; i++) {
-      if (terms[i]) {
-        if (i > 0 && terms[i - 1]) {
-          expr += '.*'
-        }
-        trailingWildcard = false
-        expr += this.escapeRegExp(terms[i])
+  async confirmBox() {
+    return await Swal.fire({
+      title: 'You Are About To Remove This Vendor User',
+      text: '',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'Cancel',
+    }).then((result) => {
+      if (result.value) {
+        return true;
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        return false;
       } else {
-        trailingWildcard = true
-        expr += '.*'
+        return false;
       }
-    }
-
-    if (!trailingWildcard) {
-      expr += '.*'
-    }
-
-    return new RegExp('^' + expr + '$', 'i')
+    });
   }
-
-  getProductByVendorId() {
-    this.loader = true
-    this.tableView = false
-
-    this.httpService
-      .httpGetRequest('/admin/get-vendor-products/' + this.selectedVendorCode)
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+  getDealerUsers() {
+    let id = this.token.getUser().id;
+    this.postData
+      .httpGetRequest('/branch/get-dealer-order-summary/' + id)
       .then((result: any) => {
-        this.loader = false
-        this.tableView = true
-        if (result.status) {
-          this.vendorProductData = result.data
-          this.noItemFound = result.data.length < 0 ? true : false
-          this.incomingData = result.data
-          this.dataSource = new MatTableDataSource<Products>(result.data)
-
-          this.dataSource.paginator = this.paginator
-        } else {
-          this.toastr.info(`Something went wrong`, 'Error')
-        }
-      })
-      .catch((err) => {
-        this.toastr.info(`Something went wrong`, 'Error')
-      })
-  }
-
-  vendorSelected(data: any) {
-    // this.selectedVendorName = data
-    this.selectedVendorCode = data
-    for (let i = 0; i < this.allVendors.length; i++) {
-      const element = this.allVendors[i]
-      if (element.vendor_code == data) {
-        this.selectedVendorName = element.vendor_name
-      }
-    }
-  }
-
-  // vendorSelected(data: any) {
-  //   this.selectedVendorCode = data.vendor_code
-  //   this.selectedVendorName = data.vendor_name
-  // }
-
-  getAllVendors() {
-    this.httpService
-      .httpGetRequest('/admin/get-all-vendors')
-      .then((result: any) => {
-        this.loader = false
-        this.tableView = true
+        console.log(result);
 
         if (result.status) {
-          this.allVendors = result.data
+          this.allVendor = result.data;
+          // this.dataSource = result.data
+          this.loader = false;
+          this.tableView = true;
+          this.incomingData = result.data;
+          console.log('incoming data,re', result.data);
+          this.dataSource = new MatTableDataSource<PeriodicElement>(
+            result.data
+          );
+          this.dataSource.sort = this.sort;
+          this.dataSource.paginator = this.paginator;
         } else {
           // this.toastr.error(result.message, 'Try again')
         }
       })
       .catch((err) => {
         // this.toastr.error('Try again', 'Something went wrong')
-      })
+      });
   }
-
-  getDealerCart() {
-    this.httpService
-      .httpGetRequest('/admin/get-price-override/')
-      .then((result: any) => {
-        this.loader = false
-        this.tableView = true
-
-        if (result.status) {
-        } else {
-          // this.toastr.error(result.message, 'Try again')
-        }
-      })
-      .catch((err) => {
-        // this.toastr.error('Try again', 'Something went wrong')
-      })
-  }
+}
+function compare(a: number | string, b: number | string, isAsc: boolean) {
+  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }

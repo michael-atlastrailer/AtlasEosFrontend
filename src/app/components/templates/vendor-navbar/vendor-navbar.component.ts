@@ -16,6 +16,10 @@ export class VendorNavbarComponent implements OnInit {
   adminData: any
   vendorName = ''
   unreadMsgCount = 0
+  vendorCode = ''
+  userId = ''
+  notifyData: any
+  bellCounter = 0
   constructor(
     private tokenStorage: TokenStorageService,
     private router: Router,
@@ -26,19 +30,37 @@ export class VendorNavbarComponent implements OnInit {
     const query = window.matchMedia('(max-width: 700px)')
     console.log(query)
     this.vendorData = this.tokenStorage.getUser()
-    this.vendorName = this.vendorData.company_name
+    // this.vendorName = this.vendorData.full_name
+    this.vendorCode = this.vendorData.full_name
+    this.userId = this.vendorData.id
 
     this.getUnreadMsg()
 
-    setInterval(() => {
-      this.getUnreadMsg()
-    }, 10000)
-
     this.chatService.getNotification().subscribe((data: any) => {
+      this.getUnreadMsg()
       setTimeout(() => {
         this.getUnreadMsg()
-      }, 100)
+      }, 1000)
     })
+
+    this.getVendorOrderBellNotify()
+
+    setInterval(() => {
+      // this.getUnreadMsg()
+      this.getVendorOrderBellNotify()
+    }, 10000)
+  }
+
+  getVendorOrderBellNotify() {
+    this.getData
+      .httpGetRequest('/vendor/get-vendor-order-bell-count/' + this.userId)
+      .then((result: any) => {
+        if (result.status) {
+          this.notifyData = result.data.notify
+          this.bellCounter = result.data.count
+        }
+      })
+      .catch((err) => {})
   }
 
   getUnreadMsg() {

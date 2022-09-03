@@ -10,6 +10,12 @@
   height: 50px !important;
 }
 
+::ng-deep {
+  .mat-paginator-page-size {
+    display: none !important;
+  }
+}
+
 .filter-wrapper {
   gap: 10px;
   margin-bottom: 20px;
@@ -19,7 +25,7 @@
     button {
       border: 0px;
       border-radius: 4px;
-      background-color: #4a0013;
+      background-color: #1d7471;
       color: #ffffff;
       font-size: 14px;
       height: 38.5px;
@@ -177,13 +183,14 @@
       * {
         color: #ffffff;
         text-align: center;
-        font-size: 14px !important;
+        font-size: 16px !important;
+        text-transform: capitalize !important;
       }
     }
 
     table tbody {
       * {
-        font-size: 14px !important;
+        font-size: 16px !important;
         // padding: 5px !important;
       }
 
@@ -199,7 +206,16 @@
   font-weight: bold;
   padding-top: 5px;
   text-align: center;
+  font-size: 20px;
 }
+
+.normal-d-text {
+  display: block;
+  padding-top: 5px;
+  text-align: center;
+  font-size: 20px;
+}
+
 .special-text {
   display: block;
   text-transform: uppercase;

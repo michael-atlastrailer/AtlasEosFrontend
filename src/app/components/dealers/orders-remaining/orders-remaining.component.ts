@@ -24,9 +24,12 @@ export class OrdersRemainingComponent implements OnInit {
   displayedColumns: string[] = ['id', 'vendor_name'];
   noData = false;
   dataSrc = new MatTableDataSource<PeriodicElement>();
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  @ViewChild(MatPaginator)
+  paginator!: MatPaginator;
   @ViewChild(MatSort)
   sort!: MatSort;
+  sortDir =false
   constructor(
     private request: HttpRequestsService,
     private http: HttpClient,
@@ -39,6 +42,9 @@ export class OrdersRemainingComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  ngAfterViewInit() {
+    this.dataSrc.paginator = this.paginator;
+  }
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
@@ -65,11 +71,14 @@ export class OrdersRemainingComponent implements OnInit {
             this.noData = true;
           }
           this.count = result.data.count;
-          this.dataSrc = new MatTableDataSource<PeriodicElement>(
-            result.data.order_remaining
-          );
+          let responseData = result.data.order_remaining;
+          // let responseSlice = result.data.order_remaining.slice();
+          // responseData = responseSlice.sort((a: any, b: any) => {
+          //   const isAsc = true;
+          //   return compare(a.vendor_name, b.vendor_name, isAsc);
+          // });
+          this.dataSrc = new MatTableDataSource<PeriodicElement>(responseData);
           this.dataSrc.paginator = this.paginator;
-          this.dataSrc.sort = this.sort;
         } else {
           this.toastr.error('Something went wrong', `${result.message}`);
           this.noData = true;
@@ -80,4 +89,51 @@ export class OrdersRemainingComponent implements OnInit {
         this.noData = true;
       });
   }
+  sortData(sort: Sort) {
+    const data = this.dataSrc.data.slice();
+    if (!sort.active || sort.direction === '') {
+      this.dataSrc.data = data;
+      return;
+    }
+    console.log(
+      'sort direction'
+      //  `1${sort.direction}3`,
+      //  sort.direction,
+      //  sort.active
+    );
+
+    this.dataSrc.data = data.sort((a: any, b: any) => {
+      const isAsc = sort.direction !== 'desc';
+      switch (sort.active) {
+        case 'index':
+          return compare(a.index, b.index, isAsc);
+        case 'vendor_name':
+          return compare(a.vendor_name, b.vendor_name, isAsc);
+
+        default:
+          return 0;
+      }
+    });
+  }
+  sortDataAlt() {
+    const data = this.dataSrc.data.slice();
+   
+    this.sortDir = !this.sortDir;
+
+    this.dataSrc.data = data.sort((a: any, b: any) => {
+      let item ='vendor_name'
+      switch (item) {
+        case 'index':
+          return compare(a.index, b.index, this.sortDir);
+        case 'vendor_name':
+          return compare(a.vendor_name, b.vendor_name, this.sortDir);
+
+        default:
+          return 0;
+      }
+    });
+  }
+}
+function compare(a: number | string, b: number | string, isAsc: boolean) {
+  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }

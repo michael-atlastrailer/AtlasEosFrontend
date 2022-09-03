@@ -19,7 +19,8 @@
 }
 .btn{
   color: #fff!important;
-}.subs{
+}
+.subs{
   margin-left: 10px;}
 .recent-btn {
   background-color: darkblue;
@@ -28,9 +29,15 @@
   border: 0px;
   color: #ffffff;
 }
+.btn{
+  transition: .3s ease;
+  :hover{
+    opacity: .5 !important;
+  }
+}
 
 .tbody-text {
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 600;
 }
 .card-header {
@@ -39,7 +46,7 @@
 
 .card-title {
   font-weight: bold;
-  font-size: 14px;
+  font-size: 16px;
 }
 .dashboard-link {
   cursor: pointer;
@@ -52,14 +59,18 @@
   float: right;
   background-color: darkblue;
   color: #ffffff;
-  font-size: 14px;
+  font-size: 16px;
   border: 0px;
   border-radius: 5px;
   padding: 3px 6px;
 }
 .tab-btn {
   color: #fff !important;
-  font-size: 14px !important;
+  font-size: 16px !important;
+  transition: .3s ease;
+  :hover{
+    // filter: contrast(50%);
+  }
 }
 
 .attending-seminar-wrapper:hover {
@@ -85,18 +96,18 @@
   transition: 0.2s linear;
   margin-bottom: 15px;
   p {
-    font-size: 12px;
+    font-size: 16px;
     font-weight: 600;
     margin-bottom: 0px;
   }
   h6 {
     font-weight: 500;
-    font-size: 12px;
+    font-size: 16px;
     margin-bottom: 5px;
   }
   h5 {
     font-weight: 800;
-    font-size: 14px;
+    font-size: 16px;
     margin-bottom: 5px;
   }
 }
@@ -106,16 +117,18 @@
 }
 .border-thicker {
   border: 2px solid #5371AD !important;
-}button{
+}
+
+button{
   color: #fff !important;
 }
 .order-form-table {
   td,
   th {
+    text-align: center;
     border: 0.1px solid #fff;
   }
-  th {    text-align: center;
-
+  th {
     background-color: #054e6e;
     color: #fff;
     font-size: 16px;
@@ -125,14 +138,14 @@
   }
 
   td {
+  
     padding: 8px;
     text-transform: uppercase;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 500;
     text-align: center;
   }
 }
-
 .red-text {
   color: #fb5454 !important;
   font-weight: 600;

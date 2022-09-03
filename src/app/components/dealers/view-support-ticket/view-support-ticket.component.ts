@@ -32,6 +32,7 @@ export class ViewSupportTicketComponent implements OnInit {
       this.ticket = params['ticket']
       this.getReportReplies()
       this.getCreatedReport()
+      this.updateReportStatus()
     })
 
     this.userData = this.token.getUser()
@@ -85,6 +86,24 @@ export class ViewSupportTicketComponent implements OnInit {
         this.reportTitleStatus = true
         if (result.status) {
           this.reportTitleData = result.data
+          //this.reportStatus = true
+        } else {
+          //this.reportStatus = false
+          //this.toastr.info(`Something went wrong`, 'Error')
+        }
+      })
+      .catch((err) => {
+        // this.reportStatus = false
+        // this.reportLoader = false
+        /// this.toastr.info(`Something went wrong`, 'Error')
+      })
+  }
+
+  updateReportStatus() {
+    this.getData
+      .httpGetRequest('/dealer/update-report-ticket/' + this.ticket)
+      .then((result: any) => {
+        if (result.status) {
           //this.reportStatus = true
         } else {
           //this.reportStatus = false

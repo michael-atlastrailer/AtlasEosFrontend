@@ -29,7 +29,9 @@
               </div>
               <div>
                 <h6 class="overview-title">Total Sales</h6>
-                <h5 class="overview-value">{{ totalSales | number }}</h5>
+                <h5 class="overview-value">
+                  {{ totalSales | number: '1.2-2' }}
+                </h5>
               </div>
             </div>
           </div>
@@ -47,7 +49,7 @@
           <div class="card">
             <div class="card-header">
               <a class="card-link" data-toggle="collapse" href="#collapseSeven">
-                MOST PURCHASES BY DEALER
+                MOST RECENT PURCHASES
               </a>
             </div>
             <div
@@ -140,33 +142,45 @@
                   >
                     <thead>
                       <tr>
+                        <th class="thead-custom">Vendor #</th>
                         <th class="thead-custom">Account #</th>
+
                         <th class="thead-custom">Dealer Name</th>
                         <th class="thead-custom">Show Total($)</th>
-                        <th class="thead-custom">Trend</th>
+                        <!-- <th class="thead-custom">Trend</th> -->
                       </tr>
                     </thead>
                     <tbody>
                       <tr *ngFor="let data of mostPurchasers">
                         <td>
+                          <span class="tbody-text">{{ data.vendor }}</span>
+                        </td>
+                        <td>
                           <span class="tbody-text">{{ data.dealer }}</span>
                         </td>
                         <td>
                           <span class="tbody-text">
-                            {{ data.dealer_name }}
+                            <a
+                              class="dealer-linker"
+                              routerLink="/vendors/view-dealer-summary/{{
+                                data.dealer
+                              }}/{{ data.vendor }}"
+                            >
+                              {{ data.dealer_name }}
+                            </a>
                           </span>
                         </td>
                         <td>
                           <span class="tbody-text sales-text">
-                            {{ data.sales | number }}
+                            {{ data.sales | number: '1.2-2' }}
                           </span>
                         </td>
-                        <td>
+                        <!-- <td>
                           <span class="tbody-text trend-text">
                             5.4%
                           </span>
                           <span class="fa fa-arrow-up trend-icon"></span>
-                        </td>
+                        </td> -->
                       </tr>
                     </tbody>
                   </table>
@@ -190,7 +204,19 @@
               class="collapse show"
               data-parent="#accordion4"
             >
-              <div class="card-body mx-2"></div>
+              <div class="card-body mx-2">
+                <div>
+                  <apx-chart
+                    [series]="chartOptions?.series!"
+                    [chart]="chartOptions?.chart!"
+                    [xaxis]="chartOptions?.xaxis!"
+                    [yaxis]="chartOptions?.yaxis!"
+                    [title]="chartOptions?.title!"
+                    [dataLabels]="chartOptions?.dataLabels!"
+                    [plotOptions]="chartOptions?.plotOptions!"
+                  ></apx-chart>
+                </div>
+              </div>
             </div>
           </div>
         </div>

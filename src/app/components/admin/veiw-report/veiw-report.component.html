@@ -70,6 +70,18 @@
                           {{ currentReportData.created_at | date: 'medium' }}
                         </span>
                       </div>
+
+                      <div>
+                        <a
+                          *ngIf="currentReportData.file_url != null"
+                          href="{{ currentReportData.file_url }}"
+                          target="_blank"
+                          class="view-download-btn"
+                        >
+                          <span class="fa fa-download"></span>
+                          Download Attachment
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>

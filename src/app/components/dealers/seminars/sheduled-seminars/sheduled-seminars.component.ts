@@ -25,7 +25,6 @@ export class SheduledSeminarsComponent implements AfterViewInit {
   tableView = false;
   tableData: PeriodicElement[] = [];
   displayedColumns: string[] = [
-   
     'seminar_date',
     'start_time',
     'vendor_name',
@@ -38,19 +37,20 @@ export class SheduledSeminarsComponent implements AfterViewInit {
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
 
-  ngAfterViewInit() {
-  }
+  ngAfterViewInit() {}
   constructor(
     private request: HttpRequestsService,
     private http: HttpClient,
     private toastr: ToastrService,
     private _liveAnnouncer: LiveAnnouncer,
     private token: TokenStorageService
-  ) {  this.FetchAllSeminars();
-  setInterval(() => {
+  ) {
     this.FetchAllSeminars();
-    console.log('repeat feftch');
-  }, 40000);}
+    setInterval(() => {
+      this.FetchAllSeminars();
+      console.log('repeat feftch');
+    }, 40000);
+  }
   @ViewChild(MatSort)
   sort!: MatSort;
   announceSortChange(sortState: Sort) {
@@ -59,6 +59,31 @@ export class SheduledSeminarsComponent implements AfterViewInit {
     } else {
       this._liveAnnouncer.announce('Sorting cleared');
     }
+  }
+  to12Hr(val: any) {
+    val = val.split(':');
+    let daylight = 'AM';
+    let valal = parseInt(val[0]);
+    if (valal >= 12) {
+      val[0] = parseInt(val[0]) % 12 || 12;
+      daylight = 'PM';
+    }
+    if (valal == 0) {
+      val[0] = 12;
+      daylight = 'AM';
+    }
+    if (valal < 12) {
+      console.log('valal am', valal, val[0]);
+      daylight = 'AM';
+    }
+    console.log('paseint am', valal, valal >= 12, daylight);
+    val[0] = parseInt(val[0]);
+    val.pop();
+    val =
+      val.reduce((n: any, m: any) => {
+        return n + ':' + m;
+      }) + daylight;
+    return val;
   }
   FetchAllSeminars() {
     this.tableView = false;
@@ -103,13 +128,15 @@ export class SheduledSeminarsComponent implements AfterViewInit {
       .then((result: any) => {
         console.log(result);
 
-        if (result.status) {          this.FetchAllSeminars();
+        if (result.status) {
+          this.FetchAllSeminars();
 
           console.log('data result', this.tableData, result.data.length);
-this.toastr.success(
-  'Seminar has been set to reminder, you will be reminded 15mins to the start of the seminar',
-  `Success`
-);        } else {
+          this.toastr.success(
+            'Seminar has been set to reminder, you will be reminded 15mins to the start of the seminar',
+            `Success`
+          );
+        } else {
           this.toastr.error('Something went wrong', `Error`);
         }
       })

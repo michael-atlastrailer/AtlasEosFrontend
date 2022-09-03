@@ -2,6 +2,12 @@
   width: auto;
 }
 
+::ng-deep {
+  .mat-paginator-page-size {
+    display: none !important;
+  }
+}
+
 /* Track */
 // ::-webkit-scrollbar-track {
 //   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
@@ -20,7 +26,77 @@
 .mat-menu {
   border: 1px solid #009ae0;
 }
+.scrollbar-fix::-webkit-scrollbar {
+  width: 20px;
+}
 
+.scrollbar-fix::-webkit-scrollbar-button {
+  display: block !important;
+
+  // background-repeat: no-repeat;
+  // height: 7px;
+  // background-size: 50%;
+  // background-position: center;
+}
+.scrollbar-fix::-webkit-scrollbar-thumb {
+  background-color: rgb(191, 186, 186);
+}
+.scrollbar-fix::-webkit-scrollbar-track {
+  background-color: #ECEDF0;
+}
+.scrollbar-fix::-webkit-scrollbar-button:vertical:start:decrement {
+  background-size: 50%;
+  background-position: center;
+  height: 20px;
+  background-repeat: no-repeat;
+  background-image: url("../../../../assets/triangleup.svg");
+}
+
+.scrollbar-fix::-webkit-scrollbar-button:vertical:start:decrement {
+  display: block;
+  background-color: #ECEDF0;
+}
+.scrollbar-fix::-webkit-scrollbar-button:vertical:start:increment {
+  display: none;
+  height: 0px;
+}
+.scrollbar-fix::-webkit-scrollbar-button:vertical:end:decrement {
+  display: none;
+  height: 0px;
+}
+.scrollbar-fix::-webkit-scrollbar-button:vertical:end:increment {
+  display: block;
+  background-color: #ECEDF0;
+}
+
+.scrollbar-fix::-webkit-scrollbar-button:vertical:end:increment {
+  background-size: 50%;
+  height: 20px;
+  width: 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  transform: rotate(180deg) !important;
+  background-image: url("../../../../assets/triangle.svg");
+}
+
+.new {
+  background-size: contain !important;
+  background: url("../../../../assets/new-icon.png");
+  background-repeat: no-repeat;
+  height: 20px;
+  width: 30px;
+  display: block;
+}
+.new-indicator {
+  background-size: contain !important;
+  background: url("../../../../assets/new-icon.png");
+  background-repeat: no-repeat;
+  height: 20px;
+  width: 30px;
+  // display: block;
+
+  padding: 2px 3px;
+}
 .dropdown-section {
   background-color: #ffffff;
   // box-shadow: 1px 4px 2px rgb(219, 208, 208);
@@ -73,10 +149,12 @@
   margin-top: 10px;
   cursor: pointer;
 }
-
+::ng-deep .mat-sort-header-arrow{
+  opacity: 0 !important;
+}
 .form-wrapper {
   .select-wrapper {
-    width: 300px;
+    width: 280px;
 
     margin-bottom: 10px;
     div {
@@ -251,7 +329,10 @@
     background-color: #0470a2 !important;
   }
 }
-
+.view-bg-img {
+  width: 300px;
+  height: auto;
+}
 .bg-transparent {
   border: 0.5px solid #797878 !important;
   background-color: transparent !important;
@@ -281,16 +362,16 @@ table {
     width: 90px !important;
   }
 }
-input[type='number']::-webkit-inner-spin-button,
-input[type='number']::-webkit-outer-spin-button {
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none !important;
   margin: 0 !important;
 }
 
-input[type='number'] {
+input[type="number"] {
   -moz-appearance: textfield !important;
 }
-input[type='number']::placeholder {
+input[type="number"]::placeholder {
   text-align: center;
 }
 .short-note-con {
@@ -314,7 +395,7 @@ input[type='number']::placeholder {
   display: inline-block;
   padding-left: 10px;
 }
-input[type='number'] {
+input[type="number"] {
   -moz-appearance: textfield;
 }
 .view-special-text {
@@ -355,9 +436,9 @@ input[type='number'] {
   font-weight: bold;
 }
 
-.ticker {
-  display: none;
-}
+// .ticker {
+//   display: none;
+// }
 
 .u-price-text {
   display: none;
@@ -365,4 +446,10 @@ input[type='number'] {
 
 .total-text {
   font-weight: bold;
+}
+
+.table-search {
+  margin-bottom: 10px;
+  border-radius: 5px;
+  padding: 5px;
 }

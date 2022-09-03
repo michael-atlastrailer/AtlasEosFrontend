@@ -18,23 +18,31 @@
     margin-left: 300px;
   }
 }
+.user-det h6{
+  color: #000 !important;
+}
+
 .timer-table {
   border: none;
   color: #fff;
-  font-weight: 600;
+  font-weight: 900 !important;
+  text-transform: uppercase !important;
+
   background-color: transparent !important;
-tbody{background-color: transparent !important;}
+  tbody {
+    background-color: transparent !important;
+  }
   tr {
     border: none;
     background-color: transparent !important;
   }
   td {
-    font-size: 14px;
+    font-size: 16px;
     padding: 7px;
     box-shadow: none;
     background-color: transparent !important;
-
-    text-transform: capitalize;
+font-weight: 900 !important;
+  text-transform: uppercase !important;
     border: none !important;
   }
 }
@@ -55,7 +63,7 @@ ul.sidemenu a {
 }
 .acc-text {
   color: red;
-  font-weight: bold;
+  font-weight: 600 !important;
   font-size: 12px;
 }
 .profile-icon {
@@ -90,11 +98,11 @@ ul.sidemenu a {
 
 .location-text {
   font-style: italic;
-  font-size: 12px;
+  font-size: 12px;font-weight: 700 !important;
 }
 
 .name-text {
-  font-weight: bold;
+  font-weight: 700 !important;
   font-size: 15px;
   text-transform: capitalize;
 }
@@ -286,4 +294,12 @@ a:hover {
   text-align: center;
   left: 25px;
   top: 5px;
+}
+
+.notify-con {
+  position: absolute;
+  top: -8px;
+  left: 23px;
+  border-radius: 40%;
+  padding: 5px;
 }

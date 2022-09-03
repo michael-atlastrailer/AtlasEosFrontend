@@ -288,6 +288,14 @@
             </li>
             <li>
               <a
+                routerLink="/admin/set-startdate"
+                routerLinkActive="active-link"
+              >
+                Set Program Start Date
+              </a>
+            </li>
+            <li>
+              <a
                 routerLink="/admin/add-promtional-flyer"
                 routerLinkActive="active-link"
               >
@@ -404,10 +412,28 @@
         <span class="fa fa-align-left header-top-sidebar-icons"></span>
       </a>
 
-      <div class="d-flex w-100 justify-content-end">
-        <div class="navbar-inner-section-bell">
-          <div class="bell-wrapper">
+      <div class="d-flex w-100 justify-content-end" style="position: fixed;">
+        <div
+          class="navbar-inner-section-bell"
+          (mouseenter)="showMenu()"
+          (mouseleave)="hideMenu()"
+        >
+          <span class="badge badge-primary notify-con">
+            {{ unreadReplyCounter }}
+          </span>
+
+          <div class="bell-wrapper" (click)="goToReportProblem()">
             <span class="fa fas fa-bell"></span>
+          </div>
+
+          <div class="list-item-notify" *ngIf="menuStatus">
+            <a
+              class="notify-list"
+              routerLink="/admin/view-report/{{ item.code }}"
+              *ngFor="let item of notifyData"
+            >
+              {{ item.name }}
+            </a>
           </div>
         </div>
         <div class="navbar-inner-section">
@@ -542,6 +568,15 @@
         <!-- SIDE-MENU -->
       </div>
     </div>
+
+    <!-- <div class="d-flex w-100 nav-layer-title">
+      <div>
+        <h6 class="title-text">Dashboard</h6>
+      </div>
+      <div>
+        <h6 class="text-alert">The Show has not yet started</h6>
+      </div>
+    </div> -->
   </div>
 
   <!-- <div class="d-flex w-100 nav-layer-title">

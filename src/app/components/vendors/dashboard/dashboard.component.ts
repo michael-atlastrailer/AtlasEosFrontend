@@ -1,6 +1,28 @@
 import { Component, OnInit } from '@angular/core'
 import { HttpRequestsService } from 'src/app/core/services/http-requests.service'
 import { TokenStorageService } from 'src/app/core/services/token-storage.service'
+import {
+  ChartComponent,
+  ApexAxisChartSeries,
+  ApexChart,
+  ApexXAxis,
+  ApexTitleSubtitle,
+  ApexDataLabels,
+  ApexFill,
+  ApexPlotOptions,
+  ApexYAxis,
+} from 'ng-apexcharts'
+
+export type ChartOptions = {
+  series: ApexAxisChartSeries
+  chart: ApexChart
+  xaxis: ApexXAxis
+  dataLabels: ApexDataLabels
+  plotOptions: ApexPlotOptions
+  fill: ApexFill
+  title: ApexTitleSubtitle
+  yaxis: ApexYAxis
+}
 
 @Component({
   selector: 'app-dashboard',
@@ -16,28 +38,62 @@ export class DashboardComponent implements OnInit {
   userData: any
   orderReceived = 0
   selectedVendorCode = ''
+  public chartOptions: Partial<ChartOptions>
+
   constructor(
     private getData: HttpRequestsService,
     private tokenStore: TokenStorageService,
-  ) {}
+  ) {
+    this.chartOptions = {
+      series: [
+        {
+          name: 'Sales summary',
+          data: [0, 0],
+        },
+      ],
+      //Math.round(value * 1.5)
+      yaxis: {
+        min: 0,
+        max: 35000,
+
+        tickAmount: 7,
+        labels: {
+          formatter: function (value: any) {
+            return '$' + Math.round(value)
+          },
+        },
+      },
+      chart: {
+        height: 350,
+        type: 'bar',
+      },
+      dataLabels: {
+        enabled: true,
+        enabledOnSeries: undefined,
+        formatter: function (value: any) {
+          return '$' + value.toFixed(2)
+        },
+      },
+      title: {
+        text: '',
+      },
+      xaxis: {
+        tooltip: {
+          enabled: true,
+          offsetY: -35,
+        },
+        categories: ['Day 1', 'Day 2'],
+      },
+    }
+  }
 
   ngOnInit(): void {
     this.userData = this.tokenStore.getUser()
 
-    ///this.getPrivilegedVendors()
-    if (this.userData.privileged_vendors) {
-      ///this.getPrivilegedVendors()
-      ///this.showSelectOption = true
-      this.getDashboardAnalysisData()
-      this.getDashboardMostPurchaserData()
-    } else {
-      this.selectedVendorCode = this.userData.vendor_code
+    console.log(this.userData.vendor_code, 'testing vendor')
 
-      this.getSingleDashboardAnalysisData()
-      this.getSingleDashboardMostPurchaserData()
-      ///this.selectedVendorName = this.userData.company_name
-      ////this.showSelectOption = false
-    }
+    this.getDashboardAnalysisData()
+    this.getDashboardMostPurchaserData()
   }
 
   getSingleDashboardMostPurchaserData() {
@@ -79,8 +135,7 @@ export class DashboardComponent implements OnInit {
   getDashboardMostPurchaserData() {
     this.getData
       .httpGetRequest(
-        '/vendor/vendor-single-dashboard-most-purchaser/' +
-          this.userData.vendor_code,
+        '/vendor/vendor-dashboard-most-purchaser/' + this.userData.id,
       )
       .then((result: any) => {
         this.tableView = true
@@ -97,12 +152,7 @@ export class DashboardComponent implements OnInit {
 
   getDashboardAnalysisData() {
     this.getData
-      .httpGetRequest(
-        '/vendor/vendor-dashboard-analysis/' +
-          this.userData.vendor_code +
-          '/' +
-          this.userData.id,
-      )
+      .httpGetRequest('/vendor/vendor-dashboard-analysis/' + this.userData.id)
       .then((result: any) => {
         if (result.status) {
           this.totalSales = result.data.total_sales

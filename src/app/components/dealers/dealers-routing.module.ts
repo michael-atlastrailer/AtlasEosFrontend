@@ -32,6 +32,8 @@ import { WatchedSeminarsComponent } from './seminars/watched-seminars/watched-se
 import { TestQuickOrderComponent } from './test-quick-order/test-quick-order.component'
 import { DeactivateGuard } from 'src/app/core/guard/deactivate.guard'
 import { PurchaseSummaryComponent } from './purchase-summary/purchase-summary.component'
+import { DealerPurchaserSummaryComponent } from './dealer-purchaser-summary/dealer-purchaser-summary.component'
+import { ExitSearchGuard } from 'src/app/core/guard/exit-search.guard'
 
 const routes: Routes = [
   {
@@ -79,6 +81,10 @@ const routes: Routes = [
       {
         path: 'purchase-summary',
         component: PurchaseSummaryComponent,
+      },
+      {
+        path: 'purchase-summary/:uid/:vendorId',
+        component: DealerPurchaserSummaryComponent,
       },
       {
         path: 'show-orders/:vendorId/:atlasId',
@@ -148,6 +154,7 @@ const routes: Routes = [
       {
         path: 'search/:search',
         component: SearchComponent,
+        // canDeactivate: [ExitSearchGuard],
       },
       {
         path: 'messages',
@@ -165,7 +172,7 @@ const routes: Routes = [
     ],
     canActivate: [AuthGuardGuard],
   },
-]
+];
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],

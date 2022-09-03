@@ -4,6 +4,9 @@ import { HttpRequestsService } from 'src/app/core/services/http-requests.service
 import { MatPaginator } from '@angular/material/paginator'
 import { MatTableDataSource } from '@angular/material/table'
 import { MatSort, Sort } from '@angular/material/sort'
+import { ActivatedRoute } from '@angular/router'
+
+declare var $: any
 
 @Component({
   selector: 'app-purchases-dealer',
@@ -25,29 +28,79 @@ export class PurchasesDealerComponent implements OnInit {
   noDataFound = false
   TotalForVendorAmount: number = 0
   showSelectOption = true
+  vendor = ''
+  hiddenSelectedVendor = ''
 
   constructor(
     private tokenData: TokenStorageService,
     private httpServer: HttpRequestsService,
+    private route: ActivatedRoute,
   ) {
     this.userData = tokenData.getUser()
     ///this.getPrivilegedVendors()
-    if (this.userData.privileged_vendors) {
+
+    let privilegeVenArray = this.userData.privileged_vendors.split(',')
+
+    console.log(privilegeVenArray.length, 'Checking it out')
+
+    if (privilegeVenArray.length > 0) {
       this.getPrivilegedVendors()
       this.showSelectOption = true
     } else {
-      this.selectedVendorCode = this.userData.vendor_code
-      this.getSingleVendorPurchasers()
-      //console.log('no vendor')
       this.selectedVendorName = this.userData.company_name
       this.showSelectOption = false
+      this.selectedVendorCode = this.userData.vendor_code
+      this.getSingleVendorPurchasers()
     }
+
+    // if (this.userData.privileged_vendors) {
+
+    // } else {
+    //   this.selectedVendorCode = this.userData.vendor_code
+    //   this.getSingleVendorPurchasers()
+    //   //console.log('no vendor')
+
+    // }
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.route.params.subscribe((params) => {
+      this.vendor = params['vendor']
+      this.selectedVendorCode = this.vendor
+      this.changeBellNotificationStatus()
+
+      if (this.vendor != undefined) {
+        this.getVendorPurchasers()
+      }
+    })
+  }
+
+  changeBellNotificationStatus() {
+    this.httpServer
+      .httpGetRequest(
+        '/vendor/change-bell-notify-status/' +
+          this.userData.id +
+          '/' +
+          this.selectedVendorCode,
+      )
+      .then((result: any) => {})
+      .catch((err) => {})
+  }
+
+  downloadPurchasersExcel() {
+    let javaDate = new Date()
+    let currDate = javaDate.getDate()
+    $('#export-purchaser').table2excel({
+      exclude: '.noExl',
+      name: `${currDate}-purchasers-dealer`,
+      filename: `${currDate}-purchasers-dealer`,
+      fileext: '.xlsx',
+    })
+  }
 
   getSingleVendorPurchasers() {
     // this.selectedState = true
+    this.TotalForVendorAmount = 0
     this.tableView = false
     this.loader = true
     this.httpServer
@@ -57,7 +110,6 @@ export class PurchasesDealerComponent implements OnInit {
       .then((result: any) => {
         this.tableView = true
         this.loader = false
-        console.log(result)
         if (result.status) {
           this.tableView = true
           this.incomingData = result.data
@@ -76,6 +128,10 @@ export class PurchasesDealerComponent implements OnInit {
 
   getVendorPurchasers() {
     if (this.selectedVendorCode != '') {
+      this.selectedVendorName = this.hiddenSelectedVendor
+
+      this.TotalForVendorAmount = 0
+
       this.selectedState = true
 
       this.tableView = false
@@ -113,7 +169,7 @@ export class PurchasesDealerComponent implements OnInit {
     for (let i = 0; i < this.privilegedVendors.length; i++) {
       const element = this.privilegedVendors[i]
       if (element.vendor_code == data) {
-        this.selectedVendorName = element.vendor_name
+        this.hiddenSelectedVendor = element.vendor_name
       }
     }
   }

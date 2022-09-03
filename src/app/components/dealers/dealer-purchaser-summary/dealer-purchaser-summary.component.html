@@ -1,0 +1,250 @@
+<section class="overview-section">
+  <div class="container-fluid p-0">
+    <div class="row my-5 ml-4">
+      <div class="col-12">
+        <div class="form-table-ctn px-2pt-4">
+          <div class="card">
+            <div class="card-header">Order Summary</div>
+            <div class="card-body">
+              <div class="header-search-ctn">
+                <form
+                  action=""
+                  class="d-flex align-items-center justify-content-between"
+                >
+                  <div class="input-group">
+                    <select
+                      class="search-input form-control px-3"
+                      style="display: block"
+                      placeholder="Select Vendor.."
+                      #vendorInput
+                      (change)="getProducts(vendorInput?.value!)"
+                    >
+                      <option
+                        [selected]="i == id"
+                        class="category-text"
+                        value="{{ i }}"
+                        *ngFor="let vendor of vendors; let i = index"
+                      >
+                        {{ vendor.vendor_name }}
+                      </option>
+                    </select>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">Order List</div>
+            <div class="card-body">
+              <table class="table" *ngIf="loader">
+                <thead>
+                  <tr>
+                    <td class="loader-td" colspan="8">
+                      <div
+                        class="ph-item"
+                        style="
+                          padding: 0px 0px;
+                          border: 0px;
+                          margin-bottom: 0px;
+                        "
+                      >
+                        <div>
+                          <div class="ph-picture"></div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="loader-td">
+                      <div
+                        class="ph-item"
+                        style="
+                          padding: 10px 10px;
+                          border: 0px;
+                          margin-bottom: 0px;
+                        "
+                      >
+                        <div>
+                          <div class="ph-row pt-2">
+                            <div class="ph-col-12 p-1 rounded"></div>
+                            <div class="ph-col-12 p-1 rounded"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+
+                    <td class="loader-td">
+                      <div
+                        class="ph-item"
+                        style="
+                          padding: 10px 10px;
+                          border: 0px;
+                          margin-bottom: 0px;
+                        "
+                      >
+                        <div>
+                          <div class="ph-row pt-2">
+                            <div class="ph-col-12 p-1 rounded"></div>
+                            <div class="ph-col-12 p-1 rounded"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="loader-td">
+                      <div
+                        class="ph-item"
+                        style="
+                          padding: 10px 10px;
+                          border: 0px;
+                          margin-bottom: 0px;
+                        "
+                      >
+                        <div>
+                          <div class="ph-row pt-2">
+                            <div class="ph-col-12 p-1 rounded"></div>
+                            <div class="ph-col-12 p-1 rounded"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="loader-td">
+                      <div
+                        class="ph-item"
+                        style="
+                          padding: 10px 10px;
+                          border: 0px;
+                          margin-bottom: 0px;
+                        "
+                      >
+                        <div>
+                          <div class="ph-row pt-2">
+                            <div class="ph-col-12 p-1 rounded"></div>
+                            <div class="ph-col-12 p-1 rounded"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+
+                    <td class="loader-td">
+                      <div
+                        class="ph-item"
+                        style="
+                          padding: 10px 10px;
+                          border: 0px;
+                          margin-bottom: 0px;
+                        "
+                      >
+                        <div>
+                          <div class="ph-row pt-2">
+                            <div class="ph-col-12 p-1 rounded"></div>
+                            <div class="ph-col-12 p-1 rounded"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="loader-td">
+                      <div
+                        class="ph-item"
+                        style="
+                          padding: 10px 10px;
+                          border: 0px;
+                          margin-bottom: 0px;
+                        "
+                      >
+                        <div>
+                          <div class="ph-row pt-2">
+                            <div class="ph-col-12 p-1 rounded"></div>
+                            <div class="ph-col-12 p-1 rounded"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="table-view" *ngIf="!loader">
+                <div class="table-ctn mt-3" *ngIf="!selectDefault">
+                  <h5 class="text-center notranslate"  style="font-weight:700 ;">{{ vendors[id].vendor_name }}</h5>
+                  <table class="order-form-table w-100 mb-4 table-striped">
+                    <thead>
+                      <th>Qty</th>
+                      <th>Atlas #</th>
+
+                      <th>Vendor #</th>
+                      <th>Description</th>
+                      <th>Special Price ($)</th>
+                      <th>Total ($)</th>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let product of tableData">
+                        <td class="text-center">{{ product.qty }}</td>
+                        <td class="text-center">{{ product.atlas_id }}</td>
+                        <td class="text-center">
+                          {{ product.vendor_product_code }}
+                        </td>
+                        <td class="text-center">
+                          <p class="text-center">
+                            {{ product.description }}
+                          </p>
+                        </td>
+
+                        <td class="text-center">
+                          {{ product.unit_price | currency }}
+                        </td>
+                        <td class="text-center">
+                          {{ product.price | currency }}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td
+                          colspan="5"
+                          style="
+                            text-align: end;
+                            text-transform: uppercase;
+                            font-weight: 700;
+                            color: #437c17;
+                          "
+                        >
+                          <span>Total for </span><span class="notranslate ml-2">{{ vendors[id].vendor_name }}</span>
+                        </td>
+                        <td
+                          style="
+                            text-align: end;
+                            text-transform: uppercase;
+                            font-weight: 700;
+                            color: #437c17;
+                          "
+                        >
+                          {{ orderTotal | currency }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <div
+                    class="w-100 d-flex justify-content-end mt-4"
+                    *ngIf="selectDefault"
+                  >
+                    <a
+                      class="btn btn-primary"
+                      target="_blank"
+                      [href]="
+                        'https://atlas-eos-backend-app-k4s5v.ondigitalocean.app/generate-pdf/' +
+                        uid
+                      "
+                      ><i class="fa fa-print mr-2"></i> Print/Review</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -19,6 +19,9 @@ th {
 .profile-user {
   height: 30px;
 }
+.table-ctn{
+  overflow-x: scroll;
+}
 body {
   /* font-family: "Roboto", sans-serif; */
   /* overflow: hidden; */
@@ -55,9 +58,23 @@ html {
   background-color: #378805 !important;
 }
 .dealer-side {
-  margin-top: 70px;
+  margin-top: 130px !important;
+  
+ 
+}
+.overview-section:first-child{
+  margin-top: 0px !important;
+}
+.clickable{
+  color: #00547a;
+  transition: .2s ease;
+  cursor: pointer;
+  
 }
 
+.clickable:hover{
+    text-decoration: underline !important;
+  }
 .admin-side {
   margin-top: 53px;
 }
@@ -68,11 +85,11 @@ html {
 }
 @media screen and (max-width: 1200px) {
   .dealer-side {
-    margin-top: 60px;
+    margin-top: 100px !important;
   }
 
   .dealer-side2 {
-    margin-top: 0px;
+    margin-top: 0px !important;
   }
 
   .sm-dealer-hidden-navbar {
@@ -93,7 +110,7 @@ html {
 
 @media screen and (max-width: 765px) {
   .dealer-side {
-    margin-top: 100px;
+    margin-top: 120px !important;
   }
 }
 /* 

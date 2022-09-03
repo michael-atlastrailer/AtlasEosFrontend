@@ -26,6 +26,7 @@
                                 class="nav-link active"
                                 data-toggle="pill"
                                 href="#coworkers"
+                                (click)="resmoveSelected()"
                               >
                                 Co-workers
                                 <span class="badge badge-danger">
@@ -38,6 +39,7 @@
                                 class="nav-link"
                                 data-toggle="pill"
                                 href="#dealers"
+                                (click)="resmoveSelected()"
                               >
                                 Dealers
                                 <span class="badge badge-danger">
@@ -50,6 +52,7 @@
                                 class="nav-link"
                                 data-toggle="pill"
                                 href="#vendors"
+                                (click)="resmoveSelected()"
                               >
                                 Vendors
                                 <span class="badge badge-danger">
@@ -204,6 +207,30 @@
                                     </div>
                                   </ul>
                                 </div>
+
+                                <div class="" *ngIf="showRecentChatDealerUsers">
+                                  <h6 class="unread-msg-text">
+                                    Recent Chat Users
+                                  </h6>
+
+                                  <ul class="unread-msg-ul">
+                                    <div
+                                      *ngFor="let data of userDealerRecentChat"
+                                    >
+                                      <li
+                                        class="vendor-user-name"
+                                        *ngIf="data.id != userId"
+                                        (click)="selectedUser(data)"
+                                      >
+                                        <span
+                                          class="fa fa-address-card coworker-icon"
+                                        ></span>
+                                        {{ data?.first_name }}
+                                        {{ data?.last_name }}
+                                      </li>
+                                    </div>
+                                  </ul>
+                                </div>
                               </div>
 
                               <div class="tab-pane container" id="vendors">
@@ -301,6 +328,30 @@
                                         <span class="badge badge-danger">
                                           {{ data?.notification }}
                                         </span>
+                                      </li>
+                                    </div>
+                                  </ul>
+                                </div>
+
+                                <div class="" *ngIf="showRecentChatVendorUsers">
+                                  <h6 class="unread-msg-text">
+                                    Recent Chat Users
+                                  </h6>
+
+                                  <ul class="unread-msg-ul">
+                                    <div
+                                      *ngFor="let data of userVendorRecentChat"
+                                    >
+                                      <li
+                                        class="vendor-user-name"
+                                        *ngIf="data.id != userId"
+                                        (click)="selectedUser(data)"
+                                      >
+                                        <span
+                                          class="fa fa-address-card coworker-icon"
+                                        ></span>
+                                        {{ data?.first_name }}
+                                        {{ data?.last_name }}
                                       </li>
                                     </div>
                                   </ul>

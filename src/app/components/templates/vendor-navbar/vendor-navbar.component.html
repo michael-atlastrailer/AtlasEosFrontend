@@ -95,7 +95,7 @@
       </a>
     </li>
 
-    <li class="slide" (click)="closeOverLay()">
+    <!-- <li class="slide" (click)="closeOverLay()">
       <a
         class="side-menu__item"
         routerLink="/vendors/report-problem"
@@ -104,7 +104,7 @@
         <span class="fa fas fa-bell navbar-icons"></span>
         <span class="side-menu__label">Report a Problem</span>
       </a>
-    </li>
+    </li> -->
 
     <!-- <li class="slide" (click)="closeOverLay()">
       <a
@@ -162,9 +162,24 @@
 
       <div class="d-flex w-100 justify-content-end">
         <div class="navbar-inner-section-bell">
-          <div class="bell-wrapper">
+          <span class="badge badge-secondary notify-count">
+            {{ bellCounter }}
+          </span>
+
+          <div class="bell-wrapper" mat-button [matMenuTriggerFor]="menu">
             <span class="fa fas fa-bell"></span>
           </div>
+          <mat-menu #menu="matMenu">
+            <div class="list-item-notify">
+              <a
+                class="dealership-list"
+                routerLink="/vendors/purchases-by-dealer/{{ item.vendor }}"
+                *ngFor="let item of notifyData"
+              >
+                {{ item.vendor_name }}
+              </a>
+            </div>
+          </mat-menu>
         </div>
         <div class="navbar-inner-section">
           <div
@@ -172,8 +187,12 @@
             data-toggle="collapse"
             data-target="#nav-collapse"
           >
-            <h6 class="nav-text-title">{{ vendorName }}</h6>
-            <h6 class="nav-text-title">Vendor</h6>
+            <h6 class="nav-text-title" style="font-weight: 600;">
+              {{ vendorName }}
+            </h6>
+            <h6 class="nav-text-title" style="font-weight: 600;">
+              Vendor: {{ vendorCode }}
+            </h6>
             <h6 class="nav-sub-text-title">User ID: {{ vendorData?.email }}</h6>
           </div>
 

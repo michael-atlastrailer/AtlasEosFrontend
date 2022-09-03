@@ -14,12 +14,12 @@
                   <div class="input-group">
                     <select
                       class="search-input form-control px-3"
-                      style="display: block"
+                      style="display: block;"
                       placeholder="Select Vendor.."
                       #vendorId
                     >
                       <option value="all" selected>Select a Vendor..</option>
-                      <option value="all" selected>All</option>
+                      <option value="all" selected>All vendors</option>
                       <option
                         class="category-text"
                         value="{{ vendor.vendor_code }}"
@@ -32,7 +32,8 @@
                       class="btn btn-primary ml-3"
                       (click)="getCartByVendorId(vendorId.value)"
                     >
-                      <i class="fa fa-search mr-2"></i> Go
+                      <i class="fa fa-search mr-2"></i>
+                      Go
                     </button>
                   </div>
                 </form>
@@ -175,7 +176,12 @@
               <div class="table-view" *ngIf="!loader">
                 <div class="table-ctn mt-3" *ngIf="selectDefault">
                   <div class="div" *ngFor="let order of newTable">
-                    <h5 class="text-center">{{ order[1][0].vendor_name }}</h5>
+                    <h5
+                      class="text-center notranslate"
+                      style="font-weight: 700;"
+                    >
+                      {{ order[1][0].vendor_name }}
+                    </h5>
                     <table class="order-form-table w-100 mb-4 table-striped">
                       <thead>
                         <th>Qty</th>
@@ -188,15 +194,31 @@
                       </thead>
                       <tbody>
                         <tr *ngFor="let product of order[1]">
-                          <td class="text-center">{{ product.qty }}</td>
+                          <td class="text-center notranslate">{{ product.qty }}</td>
                           <td class="text-center">{{ product.atlas_id }}</td>
                           <td class="text-center">
                             {{ product.product_vendor_product_code }}
                           </td>
-                          <td class="text-center">
-                            <p class="text-center">
-                              {{ product.product_description }}
-                            </p>
+                          <td class="short-note-con text-center">
+                            <span class="desc-text d-block">
+                              {{ product.product_description! }}
+                            </span>
+                            <span
+                              *ngFor="
+                                let spec of product?.product_spec_data!;
+                                let l = index
+                              "
+                            >
+                              <span
+                                [class.assorted-color]="spec.type == 'assorted'"
+                              ></span>
+                              <span
+                                [class.assorted-color]="spec.type == 'assorted'"
+                                [class.quantity-color]="spec.type == 'special'"
+                              >
+                                {{ spec.desc }}
+                              </span>
+                            </span>
                           </td>
 
                           <td class="text-center">
@@ -216,7 +238,10 @@
                               color: #437c17;
                             "
                           >
-                            Total for {{ order[1][0].vendor_name }}
+                            <span>Total for</span>
+                            <span class="notranslate ml-2">
+                              {{ order[1][0].vendor_name }}
+                            </span>
                           </td>
                           <td
                             style="
@@ -267,13 +292,28 @@
                     class="w-100 d-flex justify-content-end mt-4"
                     *ngIf="selectDefault"
                   >
-                    <a *ngIf="account_id" class="btn btn-primary" target="_blank" href="https://atlas-eos-backend-app-k4s5v.ondigitalocean.app/generate-pdf/{{account_id}}"
-                      ><i class="fa fa-print mr-2"></i> Print/Review</a
+                    <a
+                      *ngIf="account_id"
+                      class="btn btn-primary"
+                      target="_blank"
+                      [href]="
+                        'https://atlas-eos-app-hvw34.ondigitalocean.app/generate-pdf/' +
+                        account_id +
+                        '/' +
+                        getLocal('lang') +
+                        '/' +
+                        currenDateTime
+                      "
                     >
+                      <i class="fa fa-print mr-2"></i>
+                      Print/Review
+                    </a>
                   </div>
                 </div>
                 <div class="table-ctn mt-3" *ngIf="!selectDefault">
-                  <h5 class="text-center">{{ orderTable[0].vendor_name }}</h5>
+                  <h5 class="text-center notranslate">
+                    {{ orderTable[0].vendor_name }}
+                  </h5>
                   <table class="order-form-table w-100 mb-4 table-striped">
                     <thead>
                       <th>Qty</th>
@@ -286,7 +326,7 @@
                     </thead>
                     <tbody>
                       <tr *ngFor="let product of orderTable">
-                        <td class="text-center">{{ product.qty }}</td>
+                        <td class="text-center notranslate">{{ product.qty }}</td>
                         <td class="text-center">{{ product.atlas_id }}</td>
                         <td class="text-center">
                           {{ product.product_vendor_product_code }}
@@ -314,7 +354,10 @@
                             color: #437c17;
                           "
                         >
-                          Total for {{ orderTable[0]?.vendor_name }}
+                          Total for
+                          <span class="notranslate">
+                            {{ orderTable[0]?.vendor_name }}
+                          </span>
                         </td>
                         <td
                           style="

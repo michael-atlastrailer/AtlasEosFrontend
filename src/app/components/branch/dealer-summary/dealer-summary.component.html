@@ -18,16 +18,21 @@
             >
               <div class="card-body">
                 <div class="filter-section">
-                 
-                  <div class="input-wrapper"><label for=""> <h6 class="filter-title mr-3">Dealer Account</h6></label>
-                   <mat-form-field>
-                      <input matInput (keyup)="applyFilter(input.value)" type="text"
-                    
-                      class="table-search form-control" style="height: 23px;"
-                      #input>
+                  <div class="input-wrapper">
+                    <label for="">
+                      <h6 class="filter-title mr-3">Dealer Account</h6></label
+                    >
+                    <mat-form-field>
+                      <input
+                        matInput
+                        (keyup)="applyFilter(input.value)"
+                        type="text"
+                        class="table-search form-control"
+                        style="height: 23px"
+                        #input
+                      />
                     </mat-form-field>
                   </div>
-                 
                 </div>
 
                 <div class="table-responsive">
@@ -115,6 +120,8 @@
                   <table
                     mat-table
                     [dataSource]="dataSource"
+                    matSort
+                    (matSortChange)="sortData(sort)"
                     class="mat-elevation w-100 table table-striped table-bordered"
                   >
                     <!--- Note that these columns can be defined in any order.
@@ -122,24 +129,67 @@
 
                     <!-- Position Column -->
 
-                    <ng-container matColumnDef="account">
-                      <th mat-header-cell *matHeaderCellDef>Account #</th>
+                    <ng-container matColumnDef="account_id">
+                      <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        mat-sort-header="account_id"
+                      >
+                        Account # <i class="fa fa-sort ml-2"></i>
+                      </th>
                       <td mat-cell *matCellDef="let element">
-                        {{ element.account_id }}
+                        <a
+                          routerLink="/branch/detail-dealer-summary/{{
+                            element.account_id
+                          }}"
+                          class="clickable"
+                          >{{ element.account_id }}</a
+                        >
                       </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="dealer_name">
-                      <th mat-header-cell *matHeaderCellDef>Dealer Name</th>
+                    <ng-container
+                      matColumnDef="full_name"
+                      mat-sort-header="full_name"
+                    >
+                      <th mat-header-cell *matHeaderCellDef>
+                        Dealer Name <i class="fa fa-sort ml-2"></i>
+                      </th>
                       <td mat-cell *matCellDef="let element">
-                        {{ element.full_name }}
+                        <a
+                          routerLink="/branch/detail-dealer-summary/{{
+                            element.account_id
+                          }}"
+                          class="clickable"
+                          >{{ element.full_name }}</a
+                        >
                       </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="show_total">
-                      <th mat-header-cell *matHeaderCellDef>Show Total</th>
+                    <ng-container matColumnDef="total_price">
+                      <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        mat-sort-header="total_price"
+                      >
+                        Show Total <i class="fa fa-sort ml-2"></i>
+                      </th>
                       <td mat-cell *matCellDef="let element">
                         {{ element.total_price | currency }}
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="last_login">
+                      <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        mat-sort-header="last_login"
+                      >
+                        Last Login
+                      </th>
+                      <td mat-cell *matCellDef="let element">
+                        <span *ngIf="element.last_login">
+                          {{ element.last_login | date: "medium" }}</span
+                        ><span *ngIf="!element.last_login"> Null</span>
                       </td>
                     </ng-container>
 
@@ -153,9 +203,9 @@
 
                 <mat-paginator
                   #paginator
-                  [pageSizeOptions]="[20, 60, 80]"
+                  [pageSizeOptions]="[100, 50, 200, 500]"
                   showFirstLastButtons
-                  pageSize="20"
+                  pageSize="100"
                 ></mat-paginator>
               </div>
             </div>

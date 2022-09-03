@@ -73,6 +73,7 @@ a {
   font-size: .9rem;
   font-weight: 600;
   color: #000;
+  word-break: break-all;
   text-decoration: none !important;
 }
 .blue-title {
@@ -90,7 +91,7 @@ a {
 }
 .section-header {
   color: #ffffff;
-  background-color: #a8a8a8;
+  background-color: #323639;
   font-size: 15px;
   padding: 10px;
   border-radius: 5px;

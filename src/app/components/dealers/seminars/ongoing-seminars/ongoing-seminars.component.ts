@@ -27,7 +27,6 @@ export class OngoingSeminarsComponent implements AfterViewInit {
   tableView = false;
   tableData: PeriodicElement[] = [];
   displayedColumns: string[] = [
- 
     'seminar_date',
     'start_time',
     'vendor_name',
@@ -92,6 +91,31 @@ export class OngoingSeminarsComponent implements AfterViewInit {
         this.toastr.error('Try again', 'Something went wrong');
         this.noData = true;
       });
+  }
+  to12Hr(val: any) {
+    val = val.split(':');
+    let daylight = 'AM';
+    let valal = parseInt(val[0]);
+    if (valal >= 12) {
+      val[0] = parseInt(val[0]) % 12 || 12;
+      daylight = 'PM';
+    }
+    if (valal == 0) {
+      val[0] = 12;
+      daylight = 'AM';
+    }
+    if (valal < 12) {
+      console.log('valal am', valal, val[0]);
+      daylight = 'AM';
+    }
+    console.log('paseint am', valal, valal >= 12, daylight);
+    val[0] = parseInt(val[0]);
+    val.pop();
+    val =
+      val.reduce((n: any, m: any) => {
+        return n + ':' + m;
+      }) + daylight;
+    return val;
   }
   bookmarkSeminar(id: any, stat: any, current: any) {
     let dealer = this.token.getUser().id;

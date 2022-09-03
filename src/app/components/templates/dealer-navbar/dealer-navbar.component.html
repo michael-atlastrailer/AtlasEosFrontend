@@ -3,7 +3,7 @@
 <aside class="app-sidebar scrollable">
   <div
     class="side-header d-flex align-items-center"
-    style="height: 80px; width: 290px"
+    style="height: 80px; width: 290px;"
   >
     <a class="header-brand1" href="/login">
       <img
@@ -18,7 +18,7 @@
       <a
         aria-label="Hide Sidebar"
         class="ms-5"
-        style="color: white; height: 30px; width: 30px"
+        style="color: white; height: 30px; width: 30px;"
         data-toggle="sidebar"
         href="#"
         (click)="toggleSideNav()"
@@ -52,7 +52,7 @@
       <a
         class="side-menu__item"
         routerLink="/dealers/show-orders"
-        routerLinkActive="active-item"
+        routerLinkActive="active-item" (click)="refresher()"
       >
         <span class="fa fa-wpforms navbar-icons"></span>
         <span class="side-menu__label">Show Order Forms</span>
@@ -139,7 +139,7 @@
           </a>
         </li>
       </ng-container>
-       <ng-container>
+      <ng-container>
         <li class="slide" (click)="closeOverLay()">
           <a
             class="side-menu__item"
@@ -147,7 +147,7 @@
             routerLinkActive="active-item"
           >
             <span class="fa fa-list navbar-icons"></span>
-            <span class="side-menu__label">Purchaser   Summary</span>
+            <span class="side-menu__label">Purchaser Summary</span>
           </a>
         </li>
       </ng-container>
@@ -298,7 +298,7 @@
 <div class="app-header header d-block pt-0">
   <div
     class="container-fluid p-0 d-flex align-items-center w-100"
-    style="height: 80px"
+    style="height: 80px;"
   >
     <div class="d-flex over-layer-header w-100">
       <a class="header-brand d-md-none">
@@ -359,7 +359,10 @@
         </button> -->
 
         <div class="dropdown d-none d-md-flex notifications">
-          <a class="nav-link icon mb-2 bell-icon" routerLink="/dealer/cart">
+          <a class="nav-link icon mb-2 bell-icon" routerLink="/dealers/tickets">
+            <span class="badge badge-primary notify-con">
+              {{ unreadReplyCounter }}
+            </span>
             <i class="fa fa-bell text-secondary"></i>
           </a>
         </div>
@@ -418,8 +421,10 @@
 
               <span></span>
             </div>
-            <div class="d-none d-xl-block">
-              <h6 class="mb-0 name-text">{{ company }}</h6>
+            <div class="d-none d-xl-block user-det">
+              <h6 class="mb-0 name-text" style="font-weight: 600;">
+                {{ company }}
+              </h6>
               <h6 class="mb-0 acc-text text-bold">#{{ acct }}</h6>
               <h6 class="mb-1 location-text">{{ location }}</h6>
             </div>
@@ -428,7 +433,11 @@
             <!-- <a class="dropdown-item" href="#">
               <i class="dropdown-icon mdi mdi-account-outline"></i> My Profile
             </a> -->
-            <a class="dropdown-item" (click)="logout()" style="cursor: pointer">
+            <a
+              class="dropdown-item"
+              (click)="logout()"
+              style="cursor: pointer;"
+            >
               <i class="dropdown-icon mdi mdi-logout-variant"></i>
               Sign out
             </a>
@@ -719,36 +728,50 @@
     <!-- End responsive-navbar -->
     <!-- App-Header -->
   </div>
+
   <div
     class="container-fluid p-0 d-flex align-items-center pt-2 justify-content-between"
-    style="height: 50px; background-color: #14abef"
+    style="height: 50px; background-color: #14abef;"
   >
-    <div class="d-flex align-items-center"><p class="title-dash mb-0">DASHBOARD</p>
-
-    <p
-      class="greet mb-0 ml-3"
-      style="font-weight: 700; text-transform: capitalize"
-    >
-      Welcome {{ firstName }} {{ lastName }}
-    </p></div>
-    <div class="">
+    <div class="d-flex align-items-center">
+      <p class="title-dash mb-0">DASHBOARD</p>
+      <p
+        class="greet mb-0 ml-3 notranslate"
+        style="font-weight: 700; text-transform: capitalize;"
+      >
+        Welcome, {{ firstName }} {{ lastName }}
+      </p>
+    </div>
+    <div>
       <table
         class="table text-nowrap table-wrapper align-items-center mb-0 timer-table"
       >
         <tbody>
           <tr>
             <td><span class="timer-title">EVENT ENDS IN:</span></td>
-            <td>
-              <span class="tbody-text-timer" ><span id="days">0</span> days</span>
+            <!-- <td>
+              <span class="tbody-text-timer">
+                <span id="days">0</span>
+                days
+              </span>
+            </td> -->
+            <td class="notranslate">
+              <span class="tbody-text-timer">
+                <span id="hours">00</span>
+            <span class="ml-2">hours</span>
+              </span>
             </td>
-            <td>
-              <span class="tbody-text-timer"><span  id="hours"> 00</span> hours </span>
+            <td class="notranslate">
+              <span class="tbody-text-timer">
+                <span id="minutes">00</span>
+                <span class="ml-2">minutes</span>
+              </span>
             </td>
-            <td>
-              <span class="tbody-text-timer" ><span id="minutes"> 00</span> minutes </span>
-            </td>
-            <td>
-              <span class="tbody-text-timer" ><span id="seconds"> 00 </span>seconds </span>
+            <td class="notranslate">
+              <span class="tbody-text-timer">
+                <span id="seconds">00</span>
+                 <span class="ml-2">seconds</span>
+              </span>
             </td>
           </tr>
         </tbody>

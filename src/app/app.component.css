@@ -2,4 +2,6 @@
 .audio-tag {
     visibility: hidden;
   }
-  
+  .opac-0{
+    opacity: 0;
+  }

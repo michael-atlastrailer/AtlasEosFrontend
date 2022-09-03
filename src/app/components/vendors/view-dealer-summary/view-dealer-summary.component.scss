@@ -198,6 +198,9 @@
 
 .summary-table {
   thead {
+    .thead-custom {
+      text-transform: capitalize !important;
+    }
     .top-table {
       td {
         font-weight: 600;

@@ -36,7 +36,7 @@
     button {
       border: 0px;
       border-radius: 4px;
-      background-color: #4a0013;
+      background-color: #1d7471;
       color: #ffffff;
       font-size: 14px;
       height: 38.5px;
@@ -213,11 +213,16 @@
       th {
         font-weight: 600;
         text-align: center;
+        text-transform: capitalize;
       }
     }
   }
 
   tbody {
+    .dealer-linker {
+      color: blueviolet !important;
+      text-decoration: underline !important;
+    }
     tr {
       .shift-center {
         text-align: center;

@@ -73,11 +73,12 @@ export class ViewDealerSummaryComponent implements OnInit {
     private toastr: ToastrService,
   ) {
     this.userData = tokenData.getUser()
+
+    this.user = this.userData.id
   }
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
-      this.user = params['user']
       this.dealer = params['dealer']
       this.vendor = params['vendor']
 
@@ -209,12 +210,7 @@ export class ViewDealerSummaryComponent implements OnInit {
   getDealerSummaryData() {
     this.httpServer
       .httpGetRequest(
-        '/vendor/view-dealer-summary/' +
-          this.user +
-          '/' +
-          this.dealer +
-          '/' +
-          this.vendor,
+        '/vendor/view-dealer-summary/' + this.dealer + '/' + this.vendor,
       )
       .then((result: any) => {
         this.tableView = true

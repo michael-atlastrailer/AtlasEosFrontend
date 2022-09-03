@@ -85,7 +85,8 @@
 * {
   scrollbar-width: thin;
   scrollbar-color: transparent;
-  overflow: hidden;
+
+
 }
 
 /* Works on Chrome, Edge, and Safari */
@@ -162,6 +163,8 @@
 }
 
 .navbar-inner-section {
+  margin-right: 20px;
+ 
   width: 25%;
 }
 
@@ -181,6 +184,7 @@
   width: 100%;
   padding-top: 5px;
   padding-bottom: 5px;
+  z-index: 2 !important;
   padding-left: 10px;
   padding-right: 10px;
   border-top: 1px solid rgb(0, 255, 145);

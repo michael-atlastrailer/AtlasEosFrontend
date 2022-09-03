@@ -45,6 +45,9 @@ import { TestQuickOrderComponent } from './test-quick-order/test-quick-order.com
 import { DeactivateGuard } from 'src/app/core/guard/deactivate.guard'
 
 import { MatMenuModule } from '@angular/material/menu'
+import { DealerPurchaserSummaryComponent } from './dealer-purchaser-summary/dealer-purchaser-summary.component'
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatInputModule } from '@angular/material/input'
 
 @NgModule({
   declarations: [
@@ -79,12 +82,15 @@ import { MatMenuModule } from '@angular/material/menu'
     WatchedSeminarsComponent,
 
     TestQuickOrderComponent,
+    DealerPurchaserSummaryComponent,
   ],
   imports: [
     CommonModule,
     DealersRoutingModule,
     FormsModule,
     NgApexchartsModule,
+    MatFormFieldModule,
+    MatInputModule,
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,

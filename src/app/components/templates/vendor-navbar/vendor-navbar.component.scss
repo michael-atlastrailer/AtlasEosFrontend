@@ -2,6 +2,21 @@
   width: 50%;
 }
 
+.list-item-notify {
+  padding-left: 10px;
+  padding-right: 10px;
+  a {
+    font-size: 13px;
+  }
+}
+
+.notify-count {
+  top: 4px;
+  border-radius: 40%;
+  padding: 5px;
+  margin-right: -46px;
+}
+
 .app-sidebar {
   background-color: #1d7471 !important;
 
@@ -118,14 +133,16 @@
 
 .navbar-inner-section-bell {
   width: 25%;
+  text-align: right;
 
   .bell-wrapper {
     display: flex;
 
+    cursor: pointer;
     justify-content: center;
     // margin-left: auto;
-    height: 30px;
-    width: 30px;
+    height: 40px;
+    width: 40px;
     padding: 10px;
     box-shadow: 2px 2px 2px gray;
     border-radius: 50%;
@@ -181,14 +198,18 @@
 
 .nav-sub-text-title {
   font-weight: 700;
-  color: gray;
+  color: black;
   font-size: 13px;
 }
 
-.nav-text-title {
-  font-size: 10px;
+.dealership-list {
+  display: block;
+  padding: 6px 5px;
+}
 
-  font-weight: 400;
+.nav-text-title {
+  font-size: 13px;
+  font-weight: 700;
   margin-bottom: 0px;
 }
 

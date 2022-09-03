@@ -14,6 +14,12 @@ export class AdminNavbarComponent implements OnInit {
   @ViewChild('overlay') overlay!: ElementRef
   adminData: any
   unreadMsgCount = 0
+  unreadReplyCounter = 0
+  notifyData: any
+  menuStatus = false
+
+  @ViewChild('bellNotify') bellNotify!: ElementRef
+
   constructor(
     private tokenStorage: TokenStorageService,
     private router: Router,
@@ -24,16 +30,52 @@ export class AdminNavbarComponent implements OnInit {
     const query = window.matchMedia('(max-width: 700px)')
     this.adminData = this.tokenStorage.getUser()
     this.getUnreadMsg()
+    this.getUnreadReport()
+
+    this.chatService.getNotification().subscribe((data: any) => {
+      this.getUnreadMsg()
+      // setTimeout(() => {
+      this.getUnreadMsg()
+      // }, 200)
+    })
 
     setInterval(() => {
       this.getUnreadMsg()
+      this.getUnreadReport()
     }, 10000)
+  }
 
-    this.chatService.getNotification().subscribe((data: any) => {
-      setTimeout(() => {
-        this.getUnreadMsg()
-      }, 100)
-    })
+  menuOpened() {
+    console.log('we testing i first')
+  }
+
+  menuClosed() {}
+
+  goToReportProblem() {
+    this.router.navigate(['/admin/resolve-problem'])
+  }
+
+  showMenu() {
+    /// this.bellNotify.nativeElement.click()
+    this.menuStatus = true
+  }
+
+  hideMenu() {
+    this.menuStatus = false
+
+    /// this.bellNotify.nativeElement.click()
+  }
+
+  getUnreadReport() {
+    this.getData
+      .httpGetRequest('/admin/get-unread-report')
+      .then((result: any) => {
+        if (result.status) {
+          this.unreadReplyCounter = result.data.count
+          this.notifyData = result.data.dealer
+        }
+      })
+      .catch((err) => {})
   }
 
   getUnreadMsg() {

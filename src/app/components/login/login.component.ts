@@ -1,8 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+
 import { Router } from '@angular/router'
 import { TokenStorageService } from 'src/app/core/services/token-storage.service'
 import { HttpRequestsService } from 'src/app/core/services/http-requests.service'
+
 import { Login } from 'src/app/core/model/login'
 import { ToastrService } from 'ngx-toastr'
 
@@ -65,7 +67,9 @@ export class LoginComponent implements OnInit {
 
   switchLang() {}
 
-  login = new Login('', '')
+  login = new Login('', '', '')
+
+  currentTimeDate = ''
 
   showPassword() {
     if (this.passwordState) {
@@ -84,6 +88,23 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.browserName = this.detectBrowserName()
     this.fullBrowserData()
+
+    // let di = new Date()
+    // let d2 = di.getDate()
+    // let t1 = di.getTime()
+
+    // console.log(d2 + ' ' + t1)
+
+    var today = new Date()
+    var date =
+      today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
+    var time =
+      today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
+    var dateTime = date + ' ' + time
+
+    this.currentTimeDate = dateTime
+
+    //console.log(dateTime)
   }
 
   callLogger() {
@@ -151,6 +172,9 @@ export class LoginComponent implements OnInit {
   loginDealer() {
     this.loginText = false
     this.loginLoader = true
+
+    this.login.timer = this.currentTimeDate
+
     this.postData
       .httpPostRequest('/login', this.login)
       .then((result: any) => {
@@ -165,7 +189,7 @@ export class LoginComponent implements OnInit {
           // this.ordercheckservice.orderChecker()
           this.redirectUrl()
         } else {
-          this.toastr.error('Something went wrong', `Network Error`)
+          this.toastr.error(`${result.message}`, `Info`)
         }
       })
       .catch((err) => {
@@ -179,30 +203,43 @@ export class LoginComponent implements OnInit {
     this.userId = userData.id
     this.chatServer.openChatConnection(userData.id + userData.first_name)
 
+    window.localStorage.setItem('module', role)
+
     switch (role) {
       case '1':
-        this.router.navigate(['/admin/dashboard'])
+        // this.router.navigate(['/admin/dashboard'])
+        window.location.href = '/admin/dashboard'
         break
 
       case '2':
-        this.router.navigate(['/branch/dashboard'])
+        // this.router.navigate(['/branch/dashboard'])
+        window.location.href = '/branch/dashboard'
+
         break
 
       case '3':
-        this.router.navigate(['/vendors/dashboard'])
+        // this.router.navigate(['/vendors/dashboard'])
+        window.location.href = '/vendors/dashboard'
+
         break
 
       case '4':
         // this.toastr.info('Thank you for your Order', `Booking is now closed`)
-        this.router.navigate(['/dealers/dashboard'])
+        window.location.href = '/dealers/dashboard'
+
+        // this.router.navigate(['/dealers/dashboard'])
         break
       case '5':
         // this.toastr.info('Thank you for your Order', `Booking is now closed`)
-        this.router.navigate(['/inside-sales/dashboard'])
+        window.location.href = '/inside-sales/dashboard'
+
+        // this.router.navigate(['/inside-sales/dashboard'])
         break
       case '6':
         // this.toastr.info('Thank you for your Order', `Booking is now closed`)
-        this.router.navigate(['/outside-sales/dashboard'])
+        window.location.href = '/outside-sales/dashboard'
+
+        // this.router.navigate(['/outside-sales/dashboard'])
         break
 
       default:

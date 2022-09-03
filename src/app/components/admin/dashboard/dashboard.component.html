@@ -350,7 +350,9 @@
                               data.account_id
                             }}"
                           >
-                            {{ data.dealer.dealer_name }}
+                            {{
+                              data.dealer != null ? data.dealer.dealer_name : ''
+                            }}
                           </a>
                         </td>
                         <td>
@@ -589,21 +591,37 @@
                   <tbody>
                     <tr>
                       <td>
-                        <span class="tbody-text-timer" id="days">0 days</span>
+                        <span class="tbody-text-timer" id="days">0</span>
+
+                        <span class="tbody-text-timer">
+                          days
+                        </span>
                       </td>
                       <td>
                         <span class="tbody-text-timer" id="hours">
-                          00 hours
+                          00
+                        </span>
+
+                        <span class="tbody-text-timer">
+                          hours
                         </span>
                       </td>
                       <td>
                         <span class="tbody-text-timer" id="minutes">
-                          00 minutes
+                          00
+                        </span>
+
+                        <span class="tbody-text-timer">
+                          minutes
                         </span>
                       </td>
                       <td>
                         <span class="tbody-text-timer" id="seconds">
-                          00 seconds
+                          00
+                        </span>
+
+                        <span class="tbody-text-timer">
+                          seconds
                         </span>
                       </td>
                     </tr>

@@ -79,6 +79,7 @@ export class EditDealerUsersComponent implements OnInit {
             vendor: [''],
             privilegeDealer: [this.vendorUserData.privileged_dealers],
             privilegeVendor: [this.vendorUserData.privileged_vendors],
+            location: [this.vendorUserData.location],
 
             superVendor: ['0'],
           })
@@ -105,6 +106,8 @@ export class EditDealerUsersComponent implements OnInit {
       vendor: [''],
       privilegeDealer: [''],
       privilegeVendor: [''],
+      location: [''],
+
       superVendor: ['0'],
     })
   }
@@ -139,7 +142,7 @@ export class EditDealerUsersComponent implements OnInit {
         this.btnLoader = false
 
         if (result.status == true) {
-          this.toastr.success('Successful', result.message)
+          this.toastr.success('Successful', 'user edit was successfull')
           this.getVendorUserData(this.userId)
         } else {
           this.toastr.error('Server Error', 'Try again')
