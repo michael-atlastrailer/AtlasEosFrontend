@@ -162,7 +162,11 @@
       </a>
 
       <div class="d-flex w-100 justify-content-end">
-        <div class="navbar-inner-section-bell">
+        <div
+          class="navbar-inner-section-bell"
+          (mouseenter)="showMenu()"
+          (mouseleave)="hideMenu()"
+        >
           <span class="badge badge-secondary notify-count">
             {{ bellCounter }}
           </span>
@@ -170,6 +174,7 @@
           <div class="bell-wrapper" mat-button [matMenuTriggerFor]="menu">
             <span class="fa fas fa-bell"></span>
           </div>
+
           <mat-menu #menu="matMenu">
             <div class="list-item-notify">
               <a

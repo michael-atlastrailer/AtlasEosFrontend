@@ -82,6 +82,10 @@ export class VendorNavbarComponent implements OnInit {
     }, 10000)
   }
 
+  showMenu() {}
+
+  hideMenu() {}
+
   getVendorOrderBellNotify() {
     this.getData
       .httpGetRequest('/vendor/get-vendor-order-bell-count/' + this.userId)
