@@ -319,6 +319,7 @@ export class DashboardComponent implements OnInit {
         this.toastr.info(`Something went wrong`, 'Error')
       })
   }
+
   getDashboardData() {
     let accntId = this.token.getUser().account_id
     this.getData

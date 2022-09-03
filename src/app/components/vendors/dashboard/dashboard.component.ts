@@ -82,7 +82,7 @@ export class DashboardComponent implements OnInit {
           enabled: true,
           offsetY: -35,
         },
-        categories: ['Day 1', 'Day 2'],
+        categories: ['Day 1', 'Day 2', 'Day 3'],
       },
     }
   }
@@ -172,6 +172,58 @@ export class DashboardComponent implements OnInit {
       .then((result: any) => {
         console.log(result)
         if (result.status) {
+          let chartData: any = []
+          let chartDate: any = []
+
+          let resData = result.data
+
+          resData.map((item: any) => {
+            chartData.push(item.amount)
+            chartDate.push(item.date)
+          })
+
+          this.chartOptions = {
+            series: [
+              {
+                name: 'Sales summary',
+                data: chartData,
+              },
+            ],
+            //Math.round(value * 1.5)
+            yaxis: {
+              tickAmount: 7,
+
+              labels: {
+                // formatter: function (value: any) {
+                //   return '$' + Math.round(value)
+                // },
+              },
+            },
+            chart: {
+              height: 350,
+              type: 'bar',
+            },
+            dataLabels: {
+              enabled: true,
+              enabledOnSeries: undefined,
+              // formatter: function (value: any) {
+              //   return '$' + value.toFixed(2)
+              // },
+            },
+            title: {
+              text: '',
+            },
+            xaxis: {
+              tooltip: {
+                enabled: true,
+                offsetY: -35,
+              },
+              categories: ['Day 1', 'Day 2', 'Day 3'],
+            },
+          }
+
+          console.log(chartData, 'our cahrt data')
+          console.log(chartDate, 'ourt chart dtae')
         } else {
         }
       })
