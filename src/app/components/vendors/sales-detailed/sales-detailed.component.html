@@ -125,6 +125,73 @@
                     </tbody>
                   </table>
 
+                  <table
+                    class="table table-striped table-bordered"
+                    id="export-sales-detailed"
+                  >
+                    <thead>
+                      <tr>
+                        <th class="thead-custom num-col">Atlas #</th>
+                        <th class="thead-custom num-col">Vendor #</th>
+                        <th class="thead-custom letter-col">Description</th>
+                        <th class="thead-custom num-col test-qty">Qty</th>
+                        <th class="thead-custom letter-col dealership">
+                          Dealership
+                        </th>
+                        <th class="thead-custom num-col deal">Dealer</th>
+                        <th class="thead-custom letter-col enter-by">
+                          Entered By
+                        </th>
+                        <th class="thead-custom enter-total">Total ($)</th>
+                      </tr>
+                    </thead>
+
+                    <tbody
+                      *ngFor="let data of incomingData; let i = index"
+                      class="w-100"
+                    >
+                      <tr>
+                        <td>{{ data.atlas_id }}</td>
+                        <td>{{ data.vendor }}</td>
+                        <td>{{ data.description }}</td>
+
+                        <td colspan="5" class="">
+                          <table class="table">
+                            <tr
+                              *ngFor="
+                                let innerData of data.extra_data;
+                                let i = index
+                              "
+                            >
+                              <td class="test-qty">
+                                {{ innerData.qty }}
+                              </td>
+                              <td class="dealership notranslate">
+                                {{ innerData.dealer_name }}
+                              </td>
+                              <td class="deal">
+                                {{ innerData.account_id }}
+                              </td>
+                              <td class="enter-by notranslate">
+                                {{ innerData.user }}
+                              </td>
+
+                              <td class="enter-total">
+                                {{ innerData.item_total | number: '1.2-2' }}
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+
+                      <tr *ngIf="noDataFound">
+                        <td colspan="7" class="text-center">
+                          No order found
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
                   <div
                     *ngFor="let data of incomingData; let i = index"
                     class="w-100"
@@ -208,6 +275,16 @@
                         </tr>
                       </tbody>
                     </table>
+                  </div>
+
+                  <div class="d-flex justify-content-end" *ngIf="showDownload">
+                    <div>
+                      <button class="download-btn" (click)="exportToExcel()">
+                        <span class="fa fa-download"></span>
+
+                        Download Excel
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
