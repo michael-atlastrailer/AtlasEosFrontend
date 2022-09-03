@@ -38,16 +38,29 @@ export class PurchasesDealerComponent implements OnInit {
   ) {
     this.userData = tokenData.getUser()
     ///this.getPrivilegedVendors()
-    if (this.userData.privileged_vendors) {
+
+    let privilegeVenArray = this.userData.privileged_vendors.split(',')
+
+    console.log(privilegeVenArray.length, 'Checking it out')
+
+    if (privilegeVenArray.length > 0) {
       this.getPrivilegedVendors()
       this.showSelectOption = true
     } else {
-      this.selectedVendorCode = this.userData.vendor_code
-      this.getSingleVendorPurchasers()
-      //console.log('no vendor')
       this.selectedVendorName = this.userData.company_name
       this.showSelectOption = false
+      this.selectedVendorCode = this.userData.vendor_code
+      this.getSingleVendorPurchasers()
     }
+
+    // if (this.userData.privileged_vendors) {
+
+    // } else {
+    //   this.selectedVendorCode = this.userData.vendor_code
+    //   this.getSingleVendorPurchasers()
+    //   //console.log('no vendor')
+
+    // }
   }
 
   ngOnInit(): void {
@@ -55,6 +68,7 @@ export class PurchasesDealerComponent implements OnInit {
       this.vendor = params['vendor']
       this.selectedVendorCode = this.vendor
       this.changeBellNotificationStatus()
+
       if (this.vendor != undefined) {
         this.getVendorPurchasers()
       }
