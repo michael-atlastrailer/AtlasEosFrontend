@@ -117,9 +117,19 @@
                     <thead>
                       <tr class="top-table">
                         <td colspan="6">
-                          <span>Vendor: {{ vendorData.vendor_name }}</span>
+                          <span>
+                            Vendor:
+                            <span class="notranslate">
+                              {{ vendorData.vendor_name }}
+                            </span>
+                          </span>
                           <br />
-                          <span>DealerShip: {{ dealerData.company_name }}</span>
+                          <span>
+                            DealerShip:
+                            <span class="notranslate">
+                              {{ dealerData.company_name }}
+                            </span>
+                          </span>
                           -
                           {{ dealerData.account_id }}
                         </td>
@@ -155,8 +165,13 @@
                       </tr>
                       <tr class="last-col">
                         <td colspan="5" class="text-right">
-                          TOTAL FOR {{ vendorData.vendor_name }}
-                          {{ dealerData.company_name }}
+                          TOTAL FOR
+                          <span class="notranslate">
+                            {{ vendorData.vendor_name }}
+                          </span>
+                          <span class="notranslate">
+                            {{ dealerData.company_name }}
+                          </span>
                         </td>
                         <td class="text-right">{{ totalPrice | currency }}</td>
                       </tr>
@@ -274,7 +289,7 @@
                     <tbody>
                       <tr *ngFor="let data of vendorNoteData">
                         <td>{{ data.note }}</td>
-                        <td>{{ data.rep_name }}</td>
+                        <td class="notranslate">{{ data.rep_name }}</td>
                       </tr>
                       <tr *ngIf="noVendorNote">
                         <td colspan="2" class="text-center">No vendor note</td>
@@ -381,7 +396,7 @@
                     <tbody>
                       <tr *ngFor="let data of atlasNoteData">
                         <td>{{ data.note }}</td>
-                        <td>{{ data.rep_name }}</td>
+                        <td class="notranslate">{{ data.rep_name }}</td>
                       </tr>
                       <tr *ngIf="noAtlasNote">
                         <td colspan="2" class="text-center">No atlas note</td>
