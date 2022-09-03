@@ -62,7 +62,7 @@ selectedId:any
     })
   }
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    
   }
 
   getVendors() {

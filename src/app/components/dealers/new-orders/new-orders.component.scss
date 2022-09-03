@@ -296,10 +296,11 @@ input[type="number"] {
   height: 20px;
   width: 30px;
   display: block;
- 
 }
-.table-search{
-  
+::ng-deep .mat-sort-header-arrow {
+  opacity: 0 !important;
+}
+.table-search {
 }
 
 .loader-td {
