@@ -216,7 +216,7 @@
             }
     </style>
 
-    <div id="google_translate_element" style="margin-top: 25px; z-index: 9999; margin-right: 160px;"></div>
+    <div id="google_translate_element" style=""></div>
 
     <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
@@ -270,7 +270,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
     <app-root></app-root>
-  <script src="runtime.04b01dd3bbded51e.js" type="module"></script><script src="polyfills.0523bb909db44227.js" type="module"></script><script src="scripts.eabcf25e747e91bd.js" defer></script><script src="main.c4ee1b93d41b82d9.js" type="module"></script>
+  <script src="runtime.af4d795a9035d32d.js" type="module"></script><script src="polyfills.0523bb909db44227.js" type="module"></script><script src="scripts.eabcf25e747e91bd.js" defer></script><script src="main.c4ee1b93d41b82d9.js" type="module"></script>
 
   
 
@@ -326,24 +326,60 @@
       if (module) {
         switch (module) {
           case '1':
-            $('.skiptranslate').hide()
-            console.log('hello')
+            /* $('.skiptranslate').hide() */
+            $('.skiptranslate').css({
+              'margin-top': '-10px',
+              'margin-right': '150px',
+            })
+
+            $('#google_translate_element').css({
+              'margin-top': '25px',
+              'z-index': '9999',
+              'margin-right': '250px',
+            })
+            /* margin-top: 25px; z-index: 9999; margin-right: 250px; */
+
             break
 
           case '2':
-            $('.skiptranslate').hide()
+            /* $('.skiptranslate').hide() */
+            $('#google_translate_element').css({
+              'margin-top': '25px',
+              'z-index': '9999',
+              'margin-right': '250px',
+            })
             break
 
           case '3':
-            $('.skiptranslate').hide()
+            /* $('.skiptranslate').hide() */
+            /* $('.skiptranslate').css({
+              'margin-top': '20px',
+              'margin-right': '85px',
+            }) */
+            $('#google_translate_element').css({
+              'margin-top': '25px',
+              'z-index': '9999',
+              'margin-right': '250px',
+            })
+
             break
 
           case '4':
-            $('.skiptranslate').show()
+            /* $('.skiptranslate').show() */
+            $('#google_translate_element').css({
+              'margin-top': '25px',
+              'z-index': '9999',
+              'margin-right': '250px',
+            })
             break
 
           default:
-            $('.skiptranslate').hide()
+            $('#google_translate_element').css({
+              'margin-top': '25px',
+              'z-index': '9999',
+              'margin-right': '250px',
+            })
+            /* $('.skiptranslate').hide() */
 
             break
         }
