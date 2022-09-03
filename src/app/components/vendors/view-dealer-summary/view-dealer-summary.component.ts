@@ -81,11 +81,24 @@ export class ViewDealerSummaryComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.dealer = params['dealer']
       this.vendor = params['vendor']
+      this.selectedVendorCode = this.vendor
 
       this.getDealerSummaryData()
       this.getVendorNotes()
       this.getAtlasNotes()
     })
+  }
+
+  changeBellNotificationStatus() {
+    this.httpServer
+      .httpGetRequest(
+        '/vendor/change-bell-notify-status/' +
+          this.userData.id +
+          '/' +
+          this.selectedVendorCode,
+      )
+      .then((result: any) => {})
+      .catch((err) => {})
   }
 
   exportAtlasNote() {

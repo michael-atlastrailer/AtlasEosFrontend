@@ -177,15 +177,22 @@
           </div>
 
           <div class="list-item-notify" *ngIf="menuStatus">
-            <a
-              class="notify-list"
-              routerLink="/vendors/view-dealer-summary/{{ item.dealer }}/{{
-                item.vendor
-              }}"
-              *ngFor="let item of notifyData"
-            >
-              {{ item.vendor_name }}
-            </a>
+            <li *ngFor="let item of notifyData">
+              <a
+                class="notify-list"
+                href="/vendors/view-dealer-summary/{{ item.dealer }}/{{
+                  item.vendor
+                }}"
+              >
+                {{ item.vendor_name }}
+              </a>
+            </li>
+
+            <!--                  
+            routerLink="/vendors/view-dealer-summary/{{ item.dealer }}/{{
+              item.vendor
+            }}" -->
+
             <span
               *ngIf="noNewOrderNotify"
               style="display: block; text-align: center; font-size: 12px;"
