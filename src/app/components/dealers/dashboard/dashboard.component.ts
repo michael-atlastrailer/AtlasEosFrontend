@@ -4,9 +4,9 @@ import {
   DoCheck,
   ElementRef,
   ViewChildren,
-} from '@angular/core';
-import { ViewChild } from '@angular/core';
-import { CommonModule, CurrencyPipe } from '@angular/common';
+} from '@angular/core'
+import { ViewChild } from '@angular/core'
+import { CommonModule, CurrencyPipe } from '@angular/common'
 
 import {
   ChartComponent,
@@ -18,86 +18,88 @@ import {
   ApexFill,
   ApexPlotOptions,
   ApexYAxis,
-} from 'ng-apexcharts';
-import { HttpRequestsService } from 'src/app/core/services/http-requests.service';
-import { TokenStorageService } from 'src/app/core/services/token-storage.service';
-import { ToastrService } from 'ngx-toastr';
+} from 'ng-apexcharts'
+import { HttpRequestsService } from 'src/app/core/services/http-requests.service'
+import { TokenStorageService } from 'src/app/core/services/token-storage.service'
+import { ToastrService } from 'ngx-toastr'
+
 export type ChartOptions = {
-  series: ApexAxisChartSeries;
-  chart: ApexChart;
-  xaxis: ApexXAxis;
-  dataLabels: ApexDataLabels;
-  plotOptions: ApexPlotOptions;
-  fill: ApexFill;
-  title: ApexTitleSubtitle;
-  yaxis: ApexYAxis;
-};
-declare var $: any;
+  series: ApexAxisChartSeries
+  chart: ApexChart
+  xaxis: ApexXAxis
+  dataLabels: ApexDataLabels
+  plotOptions: ApexPlotOptions
+  fill: ApexFill
+  title: ApexTitleSubtitle
+  yaxis: ApexYAxis
+}
+
+declare var $: any
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-  promotionalLoader = true;
-  promotionalData = false;
-  promotionalStatus = false;
-  promotionalAds: any;
-  allCategoryData: any;
+  promotionalLoader = true
+  promotionalData = false
+  promotionalStatus = false
+  promotionalAds: any
+  allCategoryData: any
 
-  public chartOptions: Partial<ChartOptions>;
-  countDownDate = new Date('June 25, 2022 15:37:25').getTime();
-  count: any = 34;
+  public chartOptions: Partial<ChartOptions>
+  countDownDate = new Date('June 25, 2022 15:37:25').getTime()
+  count: any = 34
   countDownElement = <HTMLInputElement>(
     document.getElementById('calc_table_amount')
-  );
+  )
   pdfSrc =
-    'https://atlasbookingprogram.com/assets/2022%20Booking%20Program%20Terms%20&%20Conditions.pdf';
-  timeSeconds = 59;
-  timeDays = 0;
-  timeHours: number = 24;
-  timeMinutes: number = 59;
-  interval: any;
+    'https://atlasbookingprogram.com/assets/2022%20Booking%20Program%20Terms%20&%20Conditions.pdf'
+  timeSeconds = 59
+  timeDays = 0
+  timeHours: number = 24
+  timeMinutes: number = 59
+  interval: any
 
-  checkerInterval: any;
-  startCounterChecker: any;
-  countDownTimer: any;
+  checkerInterval: any
+  startCounterChecker: any
+  countDownTimer: any
 
-  countDownData: any;
+  countDownData: any
 
-  initalDays: number = 0;
-  initalHours: number = 0;
-  initalMinutes: number = 0;
-  initalSeconds: number = 0;
+  initalDays: number = 0
+  initalHours: number = 0
+  initalMinutes: number = 0
+  initalSeconds: number = 0
 
-  showSecondsExtrazero = false;
+  showSecondsExtrazero = false
 
-  testStartTimer!: number;
-  testStopTimer!: number;
-  testTimeLeft!: number;
-  starterTimerTimestamp!: number;
-  endTimer = '';
-  endTimerStamp!: number;
-  initalEndTime: any;
-  initalStartTime: any;
-  init = true;
-  netComplete = 0;
-  showTotal = 0;
-  orderRemaining = 0;
-  newProduct = 0;
-  defaultFlyer = 'top';
+  testStartTimer!: number
+  testStopTimer!: number
+  testTimeLeft!: number
+  starterTimerTimestamp!: number
+  endTimer = ''
+  endTimerStamp!: number
+  initalEndTime: any
+  initalStartTime: any
+  init = true
+  netComplete = 0
+  showTotal = 0
+  orderRemaining = 0
+  newProduct = 0
+  defaultFlyer = 'top'
   pdfDefault = {
     pdf_url: 'https://atlasdoc.urge2k.com/XtraAir.pdf',
     description: 'Atlas',
-  };
+  }
   constructor(
     private getData: HttpRequestsService,
     private token: TokenStorageService,
     private toastr: ToastrService,
-    private currencyPipe: CurrencyPipe
+    private currencyPipe: CurrencyPipe,
   ) {
-    this.getAllVendors();
-    this.getDashboardData();
+    this.getAllVendors()
+    this.getDashboardData()
     this.chartOptions = {
       series: [
         {
@@ -113,7 +115,7 @@ export class DashboardComponent implements OnInit {
         tickAmount: 7,
         labels: {
           formatter: function (value: any) {
-            return '$' + Math.round(value);
+            return '$' + Math.round(value)
           },
         },
       },
@@ -125,7 +127,7 @@ export class DashboardComponent implements OnInit {
         enabled: true,
         enabledOnSeries: undefined,
         formatter: function (value: any) {
-          return '$' + value.toFixed(2);
+          return '$' + value.toFixed(2)
         },
       },
       title: {
@@ -138,8 +140,8 @@ export class DashboardComponent implements OnInit {
         },
         categories: ['Day 1', 'Day 2'],
       },
-    };
-    this.getChart();
+    }
+    this.getChart()
   }
   ngOnInit(): void {}
 
@@ -147,82 +149,84 @@ export class DashboardComponent implements OnInit {
     this.getData
       .httpGetRequest('/promotional_fliers/vendors')
       .then((result: any) => {
-        console.log(result);
+        console.log(result)
         if (result.status) {
-          this.allCategoryData = result.data;
-          console.log('albendor', result.data);
+          this.allCategoryData = result.data
+          console.log('albendor', result.data)
 
-          this.fetchFlyer(this.defaultFlyer);
+          this.fetchFlyer(this.defaultFlyer)
         } else {
         }
       })
-      .catch((err) => {});
+      .catch((err) => {})
   }
   fetchFlyer(data: any) {
-    this.init = false;
+    this.init = false
 
-    console.log('chosen one', data);
-    this.promotionalLoader = true;
-    this.promotionalData = false;
-    this.promotionalStatus = false;
+    console.log('chosen one', data)
+    this.promotionalLoader = true
+    this.promotionalData = false
+    this.promotionalStatus = false
 
-    console.log(data, 'id');
+    console.log(data, 'id')
     if (data == 'top') {
-      console.log(data, 'id', this.pdfDefault, this.promotionalAds);
-      this.promotionalAds = this.pdfDefault;
+      console.log(data, 'id', this.pdfDefault, this.promotionalAds)
+      this.promotionalAds = this.pdfDefault
 
-      console.log(data, 'id', this.pdfDefault, this.promotionalAds);
-      this.promotionalData = true;
+      console.log(data, 'id', this.pdfDefault, this.promotionalAds)
+      this.promotionalData = true
     } else {
-      console.log(data, 'id');
+      console.log(data, 'id')
 
       this.getData
         .httpGetRequest('/show-promotional-flier-by-vendor-id/' + data)
         .then((result: any) => {
-          console.log(result, 'promotion');
+          console.log(result, 'promotion')
 
-          this.promotionalLoader = false;
+          this.promotionalLoader = false
           if (result.status) {
             // this.promotionalData = result.data.length > 0 ? true : false;
             // this.promotionalStatus = result.data.length <= 0 ? true : false;
 
-            this.promotionalAds = result.data[0];
-            this.promotionalData = true;
+            this.promotionalAds = result.data[0]
+            this.promotionalData = true
           } else {
           }
         })
         .catch((err) => {
-          this.promotionalLoader = false;
-          this.promotionalData = true;
-        });
+          this.promotionalLoader = false
+          this.promotionalData = true
+        })
     }
   }
+
   getChart() {
-    let id = this.token.getUser().account_id;
+    let id = this.token.getUser().account_id
     this.getData
       .httpGetRequest('/fetch-all-orders-per-day/' + id)
       .then((result: any) => {
-        console.log(result);
+        console.log(result)
         if (result.status) {
-          let rev = result.data;
-          let rev1, rev2, rev3: any;
-          rev1 = 0;
-          rev2 = 0;
-          rev3 = 0;
+          let rev = result.data
+          let rev1, rev2, rev3: any
+          rev1 = 0
+          rev2 = 0
+          rev3 = 0
           if (rev.length >= 1) {
-            rev1 =rev[0].amount
-          } if (rev.length >= 2) {
-            rev1 = rev[1].amount;
+            rev1 = rev[0].amount
           }
-          let revtot = rev1 + rev2;
+          if (rev.length >= 2) {
+            rev1 = rev[1].amount
+          }
+          let revtot = rev1 + rev2
           console.log(
             'reverse table',
             rev,
 
             rev1,
             rev2,
-            revtot
-          );
+            revtot,
+          )
 
           if (Math.floor(revtot) == 0) {
             this.chartOptions = {
@@ -240,7 +244,7 @@ export class DashboardComponent implements OnInit {
                 tickAmount: 7,
                 labels: {
                   formatter: function (value: any) {
-                    return '$' + Math.round(value);
+                    return '$' + Math.round(value)
                   },
                 },
               },
@@ -252,7 +256,7 @@ export class DashboardComponent implements OnInit {
                 enabled: true,
                 enabledOnSeries: undefined,
                 formatter: function (value: any) {
-                  return '$' + value.toFixed(2);
+                  return '$' + value.toFixed(2)
                 },
               },
               title: {
@@ -265,7 +269,7 @@ export class DashboardComponent implements OnInit {
                 },
                 categories: ['Day 1', 'Day 2'],
               },
-            };
+            }
           } else {
             this.chartOptions = {
               series: [
@@ -280,7 +284,7 @@ export class DashboardComponent implements OnInit {
 
                 labels: {
                   formatter: function (value: any) {
-                    return '$' + Math.round(value);
+                    return '$' + Math.round(value)
                   },
                 },
               },
@@ -292,7 +296,7 @@ export class DashboardComponent implements OnInit {
                 enabled: true,
                 enabledOnSeries: undefined,
                 formatter: function (value: any) {
-                  return '$' + value.toFixed(2);
+                  return '$' + value.toFixed(2)
                 },
               },
               title: {
@@ -305,30 +309,30 @@ export class DashboardComponent implements OnInit {
                 },
                 categories: ['Day 1', 'Day 2'],
               },
-            };
+            }
           }
         } else {
-          this.toastr.info(`Something went wrong`, 'Error');
+          this.toastr.info(`Something went wrong`, 'Error')
         }
       })
       .catch((err) => {
-        this.toastr.info(`Something went wrong`, 'Error');
-      });
+        this.toastr.info(`Something went wrong`, 'Error')
+      })
   }
   getDashboardData() {
-    let accntId = this.token.getUser().account_id;
+    let accntId = this.token.getUser().account_id
     this.getData
       .httpGetRequest('/dealer-dashboard/' + accntId)
       .then((result: any) => {
-        console.log(result);
+        console.log(result)
         if (result.status) {
-          this.showTotal = result.data.show_total;
-          this.newProduct = result.data.new_products;
-          this.orderRemaining = result.data.order_remaining;
-          this.netComplete = result.data.completed_orders;
+          this.showTotal = result.data.show_total
+          this.newProduct = result.data.new_products
+          this.orderRemaining = result.data.order_remaining
+          this.netComplete = result.data.completed_orders
         } else {
         }
       })
-      .catch((err) => {});
+      .catch((err) => {})
   }
 }

@@ -47,7 +47,7 @@
           <div class="card">
             <div class="card-header">
               <a class="card-link" data-toggle="collapse" href="#collapseSeven">
-                MOST PURCHASES BY DEALER
+                MOST RECENT PURCHASES
               </a>
             </div>
             <div
@@ -202,7 +202,19 @@
               class="collapse show"
               data-parent="#accordion4"
             >
-              <div class="card-body mx-2"></div>
+              <div class="card-body mx-2">
+                <div>
+                  <apx-chart
+                    [series]="chartOptions?.series!"
+                    [chart]="chartOptions?.chart!"
+                    [xaxis]="chartOptions?.xaxis!"
+                    [yaxis]="chartOptions?.yaxis!"
+                    [title]="chartOptions?.title!"
+                    [dataLabels]="chartOptions?.dataLabels!"
+                    [plotOptions]="chartOptions?.plotOptions!"
+                  ></apx-chart>
+                </div>
+              </div>
             </div>
           </div>
         </div>

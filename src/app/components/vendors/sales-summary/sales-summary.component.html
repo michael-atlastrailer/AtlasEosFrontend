@@ -143,7 +143,104 @@
                     </tbody>
                   </table>
 
-                  <table
+                  <div class="table-data-section">
+                    <table
+                      mat-table
+                      [dataSource]="dataSource"
+                      class="mat-elevation w-100 table table-striped table-bordered"
+                      matSort
+                      (matSortChange)="sortData($event)"
+                    >
+                      <!--- Note that these columns can be defined in any order.
+                        The actual rendered columns are set as a property on the row definition" -->
+
+                      <!-- Position Column -->
+
+                      <ng-container matColumnDef="qty">
+                        <th mat-header-cell *matHeaderCellDef>
+                          Qty
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                          <span class="normal-d-text">
+                            {{ element.qty }}
+                          </span>
+                        </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="atlas_id">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                          Atlas #
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                          <span class="normal-d-text">
+                            {{ element.atlas_id }}
+                          </span>
+                        </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="vendor">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                          Vendor #
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                          <span class="normal-d-text">
+                            {{ element.vendor }}
+                          </span>
+                        </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="description">
+                        <th mat-header-cell *matHeaderCellDef>Description</th>
+                        <td mat-cell *matCellDef="let element">
+                          <span class="desc-text">
+                            {{ element.description }}
+                          </span>
+                        </td>
+                      </ng-container>
+
+                      <!-- Name Column -->
+                      <ng-container matColumnDef="regular">
+                        <th mat-header-cell *matHeaderCellDef>Regular ($)</th>
+                        <td mat-cell *matCellDef="let element">
+                          <span class="booking-text">
+                            {{ element.regular | currency }}
+                          </span>
+                        </td>
+                      </ng-container>
+
+                      <!-- Weight Column -->
+                      <ng-container matColumnDef="show">
+                        <th mat-header-cell *matHeaderCellDef>Special ($)</th>
+                        <td mat-cell *matCellDef="let element">
+                          <!-- {{ element.booking }} -->
+
+                          <span class="booking-text">
+                            {{ element.booking | currency }}
+                          </span>
+                        </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="total">
+                        <th mat-header-cell *matHeaderCellDef>Total ($)</th>
+                        <td mat-cell *matCellDef="let element">
+                          <span class="booking-text">
+                            {{ element.total | currency }}
+                          </span>
+                        </td>
+                      </ng-container>
+
+                      <tr
+                        mat-header-row
+                        *matHeaderRowDef="displayedColumns"
+                      ></tr>
+                      <tr
+                        mat-row
+                        *matRowDef="let row; columns: displayedColumns"
+                      ></tr>
+                    </table>
+                  </div>
+
+                  <!-- <table
                     id="export-sales-summary"
                     *ngIf="tableView"
                     class="table table-striped table-bordered text-nowrap table-wrapper2 align-items-center mb-0"
@@ -196,7 +293,7 @@
                         <td colspan="7" class="text-center">No order found</td>
                       </tr>
                     </tbody>
-                  </table>
+                  </table> -->
                 </div>
 
                 <hr />

@@ -1,6 +1,21 @@
 import { Component, OnInit, ViewChild } from '@angular/core'
 import { TokenStorageService } from 'src/app/core/services/token-storage.service'
 import { HttpRequestsService } from 'src/app/core/services/http-requests.service'
+import { MatPaginator } from '@angular/material/paginator'
+import { MatTableDataSource } from '@angular/material/table'
+import { MatSort, Sort } from '@angular/material/sort'
+
+export interface vendorProducts {
+  pro_id: string
+  qty: string
+  atlas_id: string
+  vendor: string
+  description: string
+  regular: string
+  booking: string
+  total: string
+  temp: string
+}
 
 declare var $: any
 
@@ -28,7 +43,21 @@ export class SalesSummaryComponent implements OnInit {
   printVendorCode = ''
   currenDateTime = ''
 
-  dataSource: any
+  // dataSource: any
+  productData: any
+
+  displayedColumns: string[] = [
+    'qty',
+    'atlas_id',
+    'vendor',
+    'description',
+    'regular',
+    'show',
+    'total',
+  ]
+
+  dataSource = new MatTableDataSource<vendorProducts>()
+
   constructor(
     private tokenData: TokenStorageService,
     private httpServer: HttpRequestsService,
@@ -64,6 +93,27 @@ export class SalesSummaryComponent implements OnInit {
     let ampm = hrs >= 12 ? 'pm' : 'am'
     let comTime = hours + ':' + minutes + ':' + sec + ' ' + ampm
     this.currenDateTime = comDate + ' ' + comTime
+  }
+
+  sortData(sort: Sort) {
+    const data = this.productData.slice()
+    if (!sort.active || sort.direction === '') {
+      this.dataSource = data
+      return
+    }
+
+    this.dataSource = data.sort((a: any, b: any) => {
+      const isAsc = sort.direction === 'asc'
+      switch (sort.active) {
+        case 'atlas_id':
+          return compare(a.id, b.id, isAsc)
+        case 'vendor':
+          return compare(a.vendor, b.vendor, isAsc)
+
+        default:
+          return 0
+      }
+    })
   }
 
   applyFilter(event: Event) {
@@ -127,10 +177,18 @@ export class SalesSummaryComponent implements OnInit {
           if (result.status) {
             this.totalAmount = 0
 
+            this.productData = result.data
             this.tableView = true
             this.incomingData = result.data
-            this.dataSource = result.data
+            // this.dataSource = result.data
             this.noDataFound = result.data.length > 0 ? false : true
+
+            this.dataSource = new MatTableDataSource<vendorProducts>(
+              result.data,
+            )
+
+            // this.dataSource.paginator = this.paginator
+
             if (result.data.length > 0) {
               for (let index = 0; index < result.data.length; index++) {
                 const each = result.data[index]
@@ -163,6 +221,13 @@ export class SalesSummaryComponent implements OnInit {
             this.tableView = true
             this.incomingData = result.data
             this.dataSource = result.data
+
+            this.productData = result.data
+            this.noDataFound = result.data.length > 0 ? false : true
+
+            this.dataSource = new MatTableDataSource<vendorProducts>(
+              result.data,
+            )
 
             this.noDataFound = result.data.length > 0 ? false : true
             if (result.data.length > 0) {
@@ -221,4 +286,8 @@ export class SalesSummaryComponent implements OnInit {
   getLocal(e: any) {
     return localStorage.getItem(e)
   }
+}
+
+function compare(a: number | string, b: number | string, isAsc: boolean) {
+  return (a < b ? -1 : 1) * (isAsc ? 1 : -1)
 }

@@ -24,6 +24,8 @@ import { ViewDealerSummaryComponent } from './view-dealer-summary/view-dealer-su
 
 import { MatMenuModule } from '@angular/material/menu';
 import { ViewDealerPurchasersSummaryComponent } from './view-dealer-purchasers-summary/view-dealer-purchasers-summary.component'
+import { NgApexchartsModule } from 'ng-apexcharts'
+
 
 @NgModule({
   declarations: [
@@ -53,6 +55,7 @@ import { ViewDealerPurchasersSummaryComponent } from './view-dealer-purchasers-s
     MatTableModule,
     MatSortModule,
     MatMenuModule,
+    NgApexchartsModule
   ],
 })
 export class VendorsModule {}
