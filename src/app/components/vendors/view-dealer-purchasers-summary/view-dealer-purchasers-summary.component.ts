@@ -228,7 +228,6 @@ export class ViewDealerPurchasersSummaryComponent implements OnInit {
           this.vendorData = result.data.vendor
           this.noTableData = result.data.summary.length > 0 ? false : true
           this.vendorDataLoader = true
-          console.log(result.data)
           if (this.summaryData.length > 0) {
             for (let i = 0; i < this.summaryData.length; i++) {
               const element = this.summaryData[i]

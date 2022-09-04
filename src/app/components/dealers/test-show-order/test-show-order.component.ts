@@ -233,6 +233,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
       }
     })
   }
+
   sortDataAlt() {
     const data = this.dataSrc.data.slice()
 
@@ -687,7 +688,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
 
     this.currentProductAmt = amount
 
-    console.log(this.productData[index])
+    console.log(this.productData)
     return this.productData[index]
   }
 
