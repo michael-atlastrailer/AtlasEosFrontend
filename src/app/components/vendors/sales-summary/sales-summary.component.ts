@@ -95,6 +95,15 @@ export class SalesSummaryComponent implements OnInit {
     this.currenDateTime = comDate + ' ' + comTime
   }
 
+  exportToExcel() {
+    $('#export-table').table2excel({
+      exclude: '.noExl',
+      name: 'sales-summary',
+      filename: 'sales-summary',
+      fileext: '.xlsx',
+    })
+  }
+
   sortData(sort: Sort) {
     const data = this.productData.slice()
     if (!sort.active || sort.direction === '') {
@@ -272,16 +281,16 @@ export class SalesSummaryComponent implements OnInit {
       .catch((err) => {})
   }
 
-  exportToExcel() {
-    let javaDate = new Date()
-    let currDate = javaDate.getDate()
-    $('#export-sales-summary').table2excel({
-      exclude: '.noExl',
-      name: `${currDate}-sales-summary`,
-      filename: `${currDate}-sales-summary`,
-      fileext: '.xlsx',
-    })
-  }
+  // exportToExcel() {
+  //   let javaDate = new Date()
+  //   let currDate = javaDate.getDate()
+  //   $('#export-sales-summary').table2excel({
+  //     exclude: '.noExl',
+  //     name: `${currDate}-sales-summary`,
+  //     filename: `${currDate}-sales-summary`,
+  //     fileext: '.xlsx',
+  //   })
+  // }
 
   getLocal(e: any) {
     return localStorage.getItem(e)

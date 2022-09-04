@@ -148,6 +148,7 @@
 
                   <div class="table-data-section">
                     <table
+                      id="export-table"
                       mat-table
                       [dataSource]="dataSource"
                       class="mat-elevation w-100 table table-striped table-bordered"
@@ -206,7 +207,7 @@
                         <th mat-header-cell *matHeaderCellDef>Regular ($)</th>
                         <td mat-cell *matCellDef="let element">
                           <span class="booking-text">
-                            {{ element.regular | currency }}
+                            {{ element.regular }}
                           </span>
                         </td>
                       </ng-container>
@@ -218,7 +219,7 @@
                           <!-- {{ element.booking }} -->
 
                           <span class="booking-text">
-                            {{ element.booking | currency }}
+                            {{ element.booking }}
                           </span>
                         </td>
                       </ng-container>
@@ -227,7 +228,7 @@
                         <th mat-header-cell *matHeaderCellDef>Total ($)</th>
                         <td mat-cell *matCellDef="let element">
                           <span class="booking-text">
-                            {{ element.total | currency }}
+                            {{ element.total | number }}
                           </span>
                         </td>
                       </ng-container>

@@ -55,6 +55,8 @@ export class ViewDealerPurchasersSummaryComponent implements OnInit {
   atlasDataLoader = false
   atlasAddLoader = false
 
+  currenDateTime = ''
+
   @ViewChild('closeVendorNoteModal') closeVendorNoteModal!: ElementRef
   @ViewChild('closeAtlasNoteModal') closeAtlasNoteModal!: ElementRef
 
@@ -80,13 +82,36 @@ export class ViewDealerPurchasersSummaryComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.user = params['user']
-
       this.dealer = params['dealer']
       this.vendor = params['vendor']
 
       this.getDealerSummaryData()
       this.getVendorNotes()
       this.getAtlasNotes()
+    })
+
+    let d = new Date()
+    let month = d.getMonth() + 1
+    let mnth = month < 10 ? `0${month}` : month
+    let dateT = d.getDate()
+    let dd = dateT < 10 ? `0${dateT}` : dateT
+    let comDate = dd + '-' + mnth + '-' + d.getFullYear()
+    let hrs = d.getHours()
+    let hours = hrs < 10 ? `0${hrs}` : hrs
+    let mins = d.getMinutes()
+    let minutes = mins < 10 ? `0${mins}` : mins
+    let sec = d.getSeconds()
+    let ampm = hrs >= 12 ? 'pm' : 'am'
+    let comTime = hours + ':' + minutes + ':' + sec + ' ' + ampm
+    this.currenDateTime = comDate + ' ' + comTime
+  }
+
+  exportOrderExcel() {
+    $('#order-table-export').table2excel({
+      exclude: '.noExl',
+      name: 'order-table-export',
+      filename: 'order-table-export',
+      fileext: '.xlsx',
     })
   }
 
@@ -97,6 +122,10 @@ export class ViewDealerPurchasersSummaryComponent implements OnInit {
       filename: 'atlas-note',
       fileext: '.xlsx',
     })
+  }
+
+  getLocal(e: any) {
+    return localStorage.getItem(e)
   }
 
   exportVendorNote() {

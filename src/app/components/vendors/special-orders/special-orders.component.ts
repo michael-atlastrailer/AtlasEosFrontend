@@ -6,6 +6,8 @@ import { MatTableDataSource } from '@angular/material/table'
 import { MatSort, Sort } from '@angular/material/sort'
 import { ActivatedRoute } from '@angular/router'
 
+declare var $: any
+
 @Component({
   selector: 'app-special-orders',
   templateUrl: './special-orders.component.html',
@@ -43,6 +45,15 @@ export class SpecialOrdersComponent implements OnInit {
       this.getVendorSpecialOrders()
       // this.getSingleVendorPurchasers()
     }
+  }
+
+  exportVendorNote() {
+    $('#export-table').table2excel({
+      exclude: '.noExl',
+      name: 'special-order',
+      filename: 'special-order',
+      fileext: '.xlsx',
+    })
   }
 
   selectedVendor(data: any) {
