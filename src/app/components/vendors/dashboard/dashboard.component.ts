@@ -186,6 +186,9 @@ export class DashboardComponent implements OnInit {
             index++
           })
 
+          if (chartData.length < 2) {
+            chartData[1] = 0
+          }
           if (chartData.length > 0) {
             this.chartOptions = {
               series: [
