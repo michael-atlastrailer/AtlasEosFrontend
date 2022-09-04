@@ -83,6 +83,7 @@ export class ViewDealerSummaryComponent implements OnInit {
       this.vendor = params['vendor']
       this.selectedVendorCode = this.vendor
 
+      this.changeBellNotificationStatus()
       this.getDealerSummaryData()
       this.getVendorNotes()
       this.getAtlasNotes()
