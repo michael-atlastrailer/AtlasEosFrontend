@@ -21,3 +21,8 @@ input[type="number"]::placeholder{
   border:5px solid brown !important;
 
 }
+
+
+.app-content{
+  padding-bottom: 150px;
+}
