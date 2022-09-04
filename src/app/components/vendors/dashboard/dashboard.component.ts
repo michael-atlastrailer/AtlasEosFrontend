@@ -82,15 +82,13 @@ export class DashboardComponent implements OnInit {
           enabled: true,
           offsetY: -35,
         },
-        categories: ['Day 1', 'Day 2', 'Day 3'],
+        categories: ['Day 1', 'Day 2'],
       },
     }
   }
 
   ngOnInit(): void {
     this.userData = this.tokenStore.getUser()
-
-    console.log(this.userData.vendor_code, 'testing vendor')
 
     this.getChartData()
     this.getDashboardAnalysisData()
@@ -177,53 +175,58 @@ export class DashboardComponent implements OnInit {
 
           let resData = result.data
 
+          let index = 0
+
           resData.map((item: any) => {
-            chartData.push(item.amount)
-            chartDate.push(item.date)
+            if (index <= 2) {
+              chartData.push(item.amount)
+              chartDate.push(item.date)
+            }
+
+            index++
           })
 
-          this.chartOptions = {
-            series: [
-              {
-                name: 'Sales summary',
-                data: chartData,
-              },
-            ],
-            //Math.round(value * 1.5)
-            yaxis: {
-              tickAmount: 7,
+          if (chartData.length > 0) {
+            this.chartOptions = {
+              series: [
+                {
+                  name: 'Sales summary',
+                  data: chartData,
+                },
+              ],
+              //Math.round(value * 1.5)
+              yaxis: {
+                tickAmount: 7,
 
-              labels: {
+                labels: {
+                  // formatter: function (value: any) {
+                  //   return '$' + Math.round(value)
+                  // },
+                },
+              },
+              chart: {
+                height: 350,
+                type: 'bar',
+              },
+              dataLabels: {
+                enabled: true,
+                enabledOnSeries: undefined,
                 // formatter: function (value: any) {
-                //   return '$' + Math.round(value)
+                //   return '$' + value.toFixed(2)
                 // },
               },
-            },
-            chart: {
-              height: 350,
-              type: 'bar',
-            },
-            dataLabels: {
-              enabled: true,
-              enabledOnSeries: undefined,
-              // formatter: function (value: any) {
-              //   return '$' + value.toFixed(2)
-              // },
-            },
-            title: {
-              text: '',
-            },
-            xaxis: {
-              tooltip: {
-                enabled: true,
-                offsetY: -35,
+              title: {
+                text: '',
               },
-              categories: ['Day 1', 'Day 2', 'Day 3'],
-            },
+              xaxis: {
+                tooltip: {
+                  enabled: true,
+                  offsetY: -35,
+                },
+                categories: ['Day 1', 'Day 2'],
+              },
+            }
           }
-
-          console.log(chartData, 'our cahrt data')
-          console.log(chartDate, 'ourt chart dtae')
         } else {
         }
       })
