@@ -37,11 +37,8 @@ export class PurchasesDealerComponent implements OnInit {
     private route: ActivatedRoute,
   ) {
     this.userData = tokenData.getUser()
-    ///this.getPrivilegedVendors()
-
     if (this.userData.privileged_vendors != null) {
       let privilegeVenArray = this.userData.privileged_vendors.split(',')
-      console.log(privilegeVenArray.length, 'Checking it out')
       if (privilegeVenArray.length > 0) {
         this.getPrivilegedVendors()
         this.showSelectOption = true
