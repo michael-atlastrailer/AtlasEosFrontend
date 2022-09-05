@@ -98,11 +98,15 @@ export class SalesSummaryComponent implements OnInit {
   }
 
   sortDataAlt() {
-    const data = this.dataSource.data.slice()
+    //// const data = this.dataSource.data.slice()
+
+    const data = this.productData.slice()
+
+    console.log(data)
 
     this.sortDir = !this.sortDir
 
-    this.dataSource.data = data.sort((a: any, b: any) => {
+    this.dataSource = data.sort((a: any, b: any) => {
       let item = 'vendor_product_code'
       switch (item) {
         case 'index':
@@ -250,8 +254,7 @@ export class SalesSummaryComponent implements OnInit {
 
             this.tableView = true
             this.incomingData = result.data
-            this.dataSource = result.data
-
+            // this.dataSource = result.data
             this.productData = result.data
             this.noDataFound = result.data.length > 0 ? false : true
 
