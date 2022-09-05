@@ -56,6 +56,8 @@ export class SalesSummaryComponent implements OnInit {
     'total',
   ]
 
+  sortDir = false
+
   dataSource = new MatTableDataSource<vendorProducts>()
 
   constructor(
@@ -93,6 +95,25 @@ export class SalesSummaryComponent implements OnInit {
     let ampm = hrs >= 12 ? 'pm' : 'am'
     let comTime = hours + ':' + minutes + ':' + sec + ' ' + ampm
     this.currenDateTime = comDate + ' ' + comTime
+  }
+
+  sortDataAlt() {
+    const data = this.dataSource.data.slice()
+
+    this.sortDir = !this.sortDir
+
+    this.dataSource.data = data.sort((a: any, b: any) => {
+      let item = 'vendor_product_code'
+      switch (item) {
+        case 'index':
+          return compare(a.index, b.index, this.sortDir)
+        case 'vendor_product_code':
+          return compare(a.vendor, b.vendor, this.sortDir)
+
+        default:
+          return 0
+      }
+    })
   }
 
   exportToExcel() {
