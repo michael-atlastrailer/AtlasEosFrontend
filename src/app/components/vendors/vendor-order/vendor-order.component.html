@@ -155,7 +155,12 @@
 
                     <!-- Position Column -->
                     <ng-container matColumnDef="atlas_id">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        (click)="sortById()"
+                        style="cursor: pointer;"
+                      >
                         Atlas
                         <i class="fa fa-sort ml-2"></i>
                       </th>

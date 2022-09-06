@@ -91,6 +91,25 @@ export class VendorOrderComponent implements OnInit {
     })
   }
 
+  sortById() {
+    //// const data = this.dataSource.data.slice()
+    const data = this.productData.slice()
+    this.sortDir = !this.sortDir
+
+    this.dataSource = data.sort((a: any, b: any) => {
+      let item = 'id'
+      switch (item) {
+        case 'index':
+          return compare(a.index, b.index, this.sortDir)
+        case 'id':
+          return compare(a.id, b.id, this.sortDir)
+
+        default:
+          return 0
+      }
+    })
+  }
+
   sortData(sort: Sort) {
     const data = this.productData.slice()
     if (!sort.active || sort.direction === '') {
@@ -99,7 +118,10 @@ export class VendorOrderComponent implements OnInit {
     }
 
     this.dataSource = data.sort((a: any, b: any) => {
-      const isAsc = sort.direction === 'asc'
+      // const isAsc = sort.direction === 'asc'
+
+      const isAsc = !true
+
       switch (sort.active) {
         case 'atlas_id':
           return compare(a.id, b.id, isAsc)
