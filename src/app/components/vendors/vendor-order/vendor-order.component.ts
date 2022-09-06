@@ -30,6 +30,7 @@ export class VendorOrderComponent implements OnInit {
   privilageStatus = false
   showSelectOption = true
 
+  sortDir = false
   productData: any
 
   displayedColumns: string[] = [
@@ -67,6 +68,29 @@ export class VendorOrderComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  sortDataAlt() {
+    //// const data = this.dataSource.data.slice()
+    const data = this.productData.slice()
+    this.sortDir = !this.sortDir
+
+    this.dataSource = data.sort((a: any, b: any) => {
+      let item = 'vendor_product_code'
+      switch (item) {
+        case 'index':
+          return compare(a.index, b.index, this.sortDir)
+        case 'vendor_product_code':
+          return compare(
+            a.vendor_product_code,
+            b.vendor_product_code,
+            this.sortDir,
+          )
+
+        default:
+          return 0
+      }
+    })
+  }
+
   sortData(sort: Sort) {
     const data = this.productData.slice()
     if (!sort.active || sort.direction === '') {
@@ -79,9 +103,6 @@ export class VendorOrderComponent implements OnInit {
       switch (sort.active) {
         case 'atlas_id':
           return compare(a.id, b.id, isAsc)
-        case 'vendor':
-          return compare(a.vendor_product_code, b.vendor_product_code, isAsc)
-
         case 'vendor':
           return compare(a.vendor_product_code, b.vendor_product_code, isAsc)
 
@@ -146,10 +167,7 @@ export class VendorOrderComponent implements OnInit {
         .then((result: any) => {
           this.tableView = true
           this.loader = false
-          console.log(result)
           if (result.status) {
-            // this.vendorProductData = result.data
-
             this.tableView = true
             this.incomingData = result.data
             this.productData = result.data
@@ -186,9 +204,10 @@ export class VendorOrderComponent implements OnInit {
       .then((result: any) => {
         this.loader = false
         this.tableView = true
-        console.log(result)
         if (result.status) {
           this.incomingData = result.data
+          this.productData = result.data
+
           this.dataSource = new MatTableDataSource<vendorProducts>(result.data)
 
           this.dataSource.paginator = this.paginator

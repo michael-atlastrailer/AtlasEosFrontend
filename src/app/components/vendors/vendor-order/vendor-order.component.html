@@ -154,10 +154,10 @@
                           The actual rendered columns are set as a property on the row definition" -->
 
                     <!-- Position Column -->
-
                     <ng-container matColumnDef="atlas_id">
                       <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atlas
+                        <i class="fa fa-sort ml-2"></i>
                       </th>
                       <td mat-cell *matCellDef="let element">
                         <span class="normal-d-text">
@@ -167,8 +167,14 @@
                     </ng-container>
 
                     <ng-container matColumnDef="vendor">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        (click)="sortDataAlt()"
+                        style="cursor: pointer;"
+                      >
                         Vendor
+                        <i class="fa fa-sort ml-2"></i>
                       </th>
                       <td mat-cell *matCellDef="let element">
                         <span class="normal-d-text">
@@ -247,7 +253,6 @@
                 ></mat-paginator>
 
                 <!-- 
-
                 <div class="d-flex flex-column indicator-wrapper">
                   <div class="d-flex">
                     <div>
