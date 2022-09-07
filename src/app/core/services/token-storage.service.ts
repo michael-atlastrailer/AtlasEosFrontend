@@ -29,20 +29,30 @@ export class TokenStorageService {
     window.localStorage.removeItem('dealershipName')
 
     window.localStorage.setItem('user', JSON.stringify(userData))
-    window.location.reload()
+    // window.location.reload()
+    // window.location.href = '/dealers/dashboard'
+
+    setTimeout(() => {
+      window.location.href = '/dealers/dashboard'
+    }, 1000)
   }
 
   switchDealerToDealer(data: any) {
     if (window.localStorage.getItem('switchType')) {
-      let incomingCode = data.account_id
+      let incomingCode = data.dealer_code
       let incomingName = data.dealer_name
 
       let userData = this.getUser()
       userData.account_id = incomingCode
+      userData.dealer_code = incomingCode
+
       userData.company_name = incomingName
       userData.dealer_name = incomingName
       window.localStorage.setItem('user', JSON.stringify(userData))
-      window.location.reload()
+      // window.location.reload()
+      setTimeout(() => {
+        window.location.href = '/dealers/dashboard'
+      }, 1000)
     } else {
       console.log('no switch type has happened')
       // window.localStorage.setItem('default', JSON.stringify(data))
@@ -57,11 +67,16 @@ export class TokenStorageService {
 
       let userData = this.getUser()
       userData.account_id = incomingCode
+      userData.dealer_code = incomingCode
+
       userData.company_name = incomingName
       userData.dealer_name = incomingName
 
       window.localStorage.setItem('user', JSON.stringify(userData))
-      window.location.reload()
+      // window.location.reload()
+      setTimeout(() => {
+        window.location.href = '/dealers/dashboard'
+      }, 1000)
     }
   }
 

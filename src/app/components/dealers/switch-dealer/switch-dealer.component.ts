@@ -85,6 +85,7 @@ export class SwitchDealerComponent implements OnInit {
   switchToDefault() {
     this.tokenStore.switchBackToDefault()
     this.defaultBtn = false
+    this.toastr.success('Dealer Switch was successful', 'Switch Info')
   }
 
   async switchDealer(data: any) {
@@ -93,7 +94,6 @@ export class SwitchDealerComponent implements OnInit {
       this.defaultBtn = true
       this.tokenStore.switchDealerToDealer(data)
       this.toastr.success('Dealer Switch was successful', 'Switch Info')
-      /// this.router.navigate(['/dealers/dashboard'])
     } else {
     }
   }
