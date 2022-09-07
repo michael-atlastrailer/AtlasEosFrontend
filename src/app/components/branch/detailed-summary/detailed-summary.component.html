@@ -27,7 +27,21 @@
                       {{ data.full_name }}
                     </option>
                   </select>
-                </div>
+                </div>  <a
+                      *ngIf="tableView && !noData"
+                      class="btn btn-primary"
+                      target="_blank"
+                      [href]="
+                        'https://atlas-eos-app-hvw34.ondigitalocean.app/generate-pdf/' +
+                        selectedId +
+                        '/en/' 
+                         +
+                        currenDateTime
+                      "
+                    >
+                      <i class="fa fa-print mr-2"></i>
+                      Print/Review
+                    </a>
               </div>
             </div>
           </div>

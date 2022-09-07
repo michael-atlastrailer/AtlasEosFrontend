@@ -31,7 +31,9 @@ export class DealerSummaryComponent implements OnInit {
   allVendor: any;
   loaderData = [9, 8, 6];
   incomingData: any;
-
+  sortDirAccntId = false;
+  sortDirTotal = false;
+  sortDirName = false;
   displayedColumns: string[] = [
     'account_id',
     'full_name',
@@ -115,7 +117,26 @@ export class DealerSummaryComponent implements OnInit {
     } else {
     }
   }
+  sortDataAlt(item: any) {
+    const data = this.dataSource.data.slice();
 
+    let toglerName = (this.dataSource.data = data.sort((a: any, b: any) => {
+      switch (item) {
+        case 'account_id':
+          this.sortDirAccntId = !this.sortDirAccntId;
+          return compare(a.account_id, b.account_id, this.sortDirAccntId);
+        case 'full_name':
+          this.sortDirName = !this.sortDirName;
+          return compare(a.full_name, b.full_name, this.sortDirName);
+        case 'total_price':
+          this.sortDirTotal = !this.sortDirTotal;
+          return compare(a.total_price, b.total_price, this.sortDirTotal);
+
+        default:
+          return 0;
+      }
+    }));
+  }
   async confirmBox() {
     return await Swal.fire({
       title: 'You Are About To Remove This Vendor User',

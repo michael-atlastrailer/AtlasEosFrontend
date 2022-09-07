@@ -38,10 +38,7 @@ const routes: Routes = [
         path: 'vendor-form',
         component: VendorOrderFormComponent,
       },
-      {
-        path: 'my-messages',
-        component: MyMessagesComponent,
-      },
+     
     ],
   },
 ];
