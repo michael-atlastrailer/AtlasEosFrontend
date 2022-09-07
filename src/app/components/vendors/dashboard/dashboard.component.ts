@@ -190,11 +190,13 @@ export class DashboardComponent implements OnInit {
             chartData[1] = 0
           }
           if (chartData.length > 0) {
+            let last2 = chartData.slice(-2)
+
             this.chartOptions = {
               series: [
                 {
                   name: 'Sales summary',
-                  data: chartData,
+                  data: last2,
                 },
               ],
               //Math.round(value * 1.5)
