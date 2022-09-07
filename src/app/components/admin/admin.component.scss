@@ -28,3 +28,9 @@
 .audio-tag {
   visibility: hidden;
 }
+
+::ng-deep {
+  .mat-paginator-page-size {
+    display: none !important;
+  }
+}

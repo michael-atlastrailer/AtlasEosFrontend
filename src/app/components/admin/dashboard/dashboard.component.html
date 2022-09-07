@@ -94,7 +94,7 @@
           <div class="card">
             <div class="card-header">
               <a class="card-link" data-toggle="collapse" href="#collapseSix">
-                Most Salers By Vendors
+                TOP SALES BY VENDORS
               </a>
             </div>
             <div
@@ -190,7 +190,6 @@
                         <th class="thead-custom">Vendors Code</th>
                         <th class="thead-custom">Vendor Name</th>
                         <th class="thead-custom">Total Sales</th>
-                        <th class="thead-custom">Trend</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -218,9 +217,6 @@
                             {{ data.vendor_sales | currency }}
                           </span>
                         </td>
-                        <td>
-                          <span class="td-trend">{{ data.trend }}</span>
-                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -234,7 +230,7 @@
           <div class="card">
             <div class="card-header">
               <a class="card-link" data-toggle="collapse" href="#collapseSeven">
-                MOST PURCHASES BY DEALER
+                TOP PURCHASES BY DEALER
               </a>
             </div>
             <div
@@ -330,7 +326,6 @@
                         <th class="thead-custom">Account #</th>
                         <th class="thead-custom">Dealer Name</th>
                         <th class="thead-custom">Show Total($)</th>
-                        <th class="thead-custom">Trend</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -359,9 +354,6 @@
                           <span class="td-sales">
                             {{ data.total_sales | currency }}
                           </span>
-                        </td>
-                        <td>
-                          <span class="td-trend">{{ data.trend }}</span>
                         </td>
                       </tr>
                     </tbody>

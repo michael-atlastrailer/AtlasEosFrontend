@@ -209,10 +209,16 @@
                         Last Login Date
                       </th>
                       <td mat-cell *matCellDef="let element">
-                        <span *ngIf="element.last_login == null">
+                        <span
+                          class="order-status-text"
+                          *ngIf="element.last_login == null"
+                        >
                           not Logged In
                         </span>
-                        <span *ngIf="element.last_login != null">
+                        <span
+                          class="order-status-text"
+                          *ngIf="element.last_login != null"
+                        >
                           {{ element.last_login | date: 'medium' }}
                         </span>
                         <!-- {{ element.created_at | date: 'medium' }} -->
@@ -228,10 +234,16 @@
                         Order Status
                       </th>
                       <td mat-cell *matCellDef="let element">
-                        <span *ngIf="element.order_status == 0">
+                        <span
+                          class="order-status-text"
+                          *ngIf="element.order_status == 0"
+                        >
                           no order yet
                         </span>
-                        <span *ngIf="element.order_status == 1">
+                        <span
+                          class="order-status-text"
+                          *ngIf="element.order_status == 1"
+                        >
                           order place
                         </span>
                       </td>
