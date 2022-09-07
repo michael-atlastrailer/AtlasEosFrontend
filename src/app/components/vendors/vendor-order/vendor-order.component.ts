@@ -32,6 +32,7 @@ export class VendorOrderComponent implements OnInit {
 
   sortDir = false
   productData: any
+  allVendorData: any
 
   displayedColumns: string[] = [
     'atlas_id',
@@ -55,18 +56,56 @@ export class VendorOrderComponent implements OnInit {
     private httpServer: HttpRequestsService,
   ) {
     this.userData = tokenData.getUser()
-    if (this.userData.privileged_vendors) {
-      this.getPrivilegedVendors()
-      this.showSelectOption = true
+
+    if (this.userData.privileged_vendors != null) {
+      let privilegeVenArray = this.userData.privileged_vendors.split(',')
+      if (privilegeVenArray[1] != '') {
+        this.getPrivilegedVendors()
+        this.showSelectOption = true
+      } else {
+        this.selectedVendorName = this.userData.company_name
+        this.showSelectOption = false
+        this.selectedVendorCode = privilegeVenArray[0]
+        this.getVendorOrders()
+        this.getAllVendors()
+      }
     } else {
-      this.getVendorOrders()
-      //console.log('no vendor')
       this.selectedVendorName = this.userData.company_name
       this.showSelectOption = false
+      this.selectedVendorCode = this.userData.vendor_code
+      this.getVendorOrders()
     }
+
+    // if (this.userData.privileged_vendors) {
+    //   this.getPrivilegedVendors()
+    //   this.showSelectOption = true
+    // } else {
+    //   this.getVendorOrders()
+    //   //console.log('no vendor')
+    //   this.selectedVendorName = this.userData.company_name
+    //   this.showSelectOption = false
+    // }
   }
 
   ngOnInit(): void {}
+
+  getAllVendors() {
+    this.httpServer
+      .httpGetRequest('/get-all-vendors')
+      .then((result: any) => {
+        if (result.status) {
+          this.allVendorData = result.data
+          for (let i = 0; i < this.allVendorData.length; i++) {
+            const ji = this.allVendorData[i]
+            if (ji.vendor_code == this.selectedVendorCode) {
+              this.selectedVendorName = ji.vendor_name
+            }
+          }
+        } else {
+        }
+      })
+      .catch((err) => {})
+  }
 
   sortDataAlt() {
     //// const data = this.dataSource.data.slice()
@@ -251,8 +290,6 @@ export class VendorOrderComponent implements OnInit {
         console.log(result)
         if (result.status) {
           this.privilegedVendors = result.data
-
-          ///this.privilageStatus = result.data.privilege_status
         } else {
         }
       })

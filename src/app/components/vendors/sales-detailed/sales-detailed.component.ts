@@ -25,6 +25,7 @@ export class SalesDetailedComponent implements OnInit {
   totalAmount: number = 0
   showSelectOption = true
   showDownload = false
+  allVendorData: any
 
   constructor(
     private tokenData: TokenStorageService,
@@ -32,19 +33,57 @@ export class SalesDetailedComponent implements OnInit {
   ) {
     this.userData = tokenData.getUser()
     /// this.getPrivilegedVendors()
-    if (this.userData.privileged_vendors) {
-      this.getPrivilegedVendors()
-      this.showSelectOption = true
+
+    if (this.userData.privileged_vendors != null) {
+      let privilegeVenArray = this.userData.privileged_vendors.split(',')
+      if (privilegeVenArray[1] != '') {
+        this.getPrivilegedVendors()
+        this.showSelectOption = true
+      } else {
+        this.selectedVendorName = this.userData.company_name
+        this.showSelectOption = false
+        this.selectedVendorCode = privilegeVenArray[0]
+        this.getSingleVendorSalesDetailed()
+        this.getAllVendors()
+      }
     } else {
-      this.selectedVendorCode = this.userData.vendor_code
-      this.getSingleVendorSalesDetailed()
-      //console.log('no vendor')
       this.selectedVendorName = this.userData.company_name
       this.showSelectOption = false
+      this.selectedVendorCode = this.userData.vendor_code
+      this.getSingleVendorSalesDetailed()
     }
+
+    // if (this.userData.privileged_vendors) {
+    //   this.getPrivilegedVendors()
+    //   this.showSelectOption = true
+    // } else {
+    //   this.selectedVendorCode = this.userData.vendor_code
+    //   this.getSingleVendorSalesDetailed()
+    //   //console.log('no vendor')
+    //   this.selectedVendorName = this.userData.company_name
+    //   this.showSelectOption = false
+    // }
   }
 
   ngOnInit(): void {}
+
+  getAllVendors() {
+    this.httpServer
+      .httpGetRequest('/get-all-vendors')
+      .then((result: any) => {
+        if (result.status) {
+          this.allVendorData = result.data
+          for (let i = 0; i < this.allVendorData.length; i++) {
+            const ji = this.allVendorData[i]
+            if (ji.vendor_code == this.selectedVendorCode) {
+              this.selectedVendorName = ji.vendor_name
+            }
+          }
+        } else {
+        }
+      })
+      .catch((err) => {})
+  }
 
   exportToExcel() {
     let javaDate = new Date()

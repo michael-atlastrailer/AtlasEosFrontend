@@ -59,24 +59,31 @@ export class SalesSummaryComponent implements OnInit {
   sortDir = false
 
   dataSource = new MatTableDataSource<vendorProducts>()
+  allVendorData: any
 
   constructor(
     private tokenData: TokenStorageService,
     private httpServer: HttpRequestsService,
   ) {
     this.userData = tokenData.getUser()
-    ////this.getPrivilegedVendors()
 
-    if (this.userData.privileged_vendors) {
-      this.getPrivilegedVendors()
-      this.showSelectOption = true
+    if (this.userData.privileged_vendors != null) {
+      let privilegeVenArray = this.userData.privileged_vendors.split(',')
+      if (privilegeVenArray[1] != '') {
+        this.getPrivilegedVendors()
+        this.showSelectOption = true
+      } else {
+        this.selectedVendorName = this.userData.company_name
+        this.showSelectOption = false
+        this.selectedVendorCode = privilegeVenArray[0]
+        this.getSingleVendorSummary()
+        this.getAllVendors()
+      }
     } else {
-      this.selectedVendorCode = this.userData.vendor_code
-      this.printVendorCode = this.selectedVendorCode
-      this.getSingleVendorSummary()
-      //console.log('no vendor')
       this.selectedVendorName = this.userData.company_name
       this.showSelectOption = false
+      this.selectedVendorCode = this.userData.vendor_code
+      this.getSingleVendorSummary()
     }
   }
 
@@ -95,6 +102,24 @@ export class SalesSummaryComponent implements OnInit {
     let ampm = hrs >= 12 ? 'pm' : 'am'
     let comTime = hours + ':' + minutes + ':' + sec + ' ' + ampm
     this.currenDateTime = comDate + ' ' + comTime
+  }
+
+  getAllVendors() {
+    this.httpServer
+      .httpGetRequest('/get-all-vendors')
+      .then((result: any) => {
+        if (result.status) {
+          this.allVendorData = result.data
+          for (let i = 0; i < this.allVendorData.length; i++) {
+            const ji = this.allVendorData[i]
+            if (ji.vendor_code == this.selectedVendorCode) {
+              this.selectedVendorName = ji.vendor_name
+            }
+          }
+        } else {
+        }
+      })
+      .catch((err) => {})
   }
 
   sortDataAlt() {
