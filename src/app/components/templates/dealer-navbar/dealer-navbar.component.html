@@ -52,7 +52,8 @@
       <a
         class="side-menu__item"
         routerLink="/dealers/show-orders"
-        routerLinkActive="active-item" (click)="refresher()"
+        routerLinkActive="active-item"
+        (click)="refresher()"
       >
         <span class="fa fa-wpforms navbar-icons"></span>
         <span class="side-menu__label">Show Order Forms</span>
@@ -252,6 +253,17 @@
       >
         <span class="fa fa-exchange navbar-icons"></span>
         <span class="side-menu__label">Switch to Vendor</span>
+      </a>
+    </li>
+
+    <li class="slide" *ngIf="superDealer">
+      <a
+        class="side-menu__item"
+        routerLink="/dealers/switch-dealer"
+        routerLinkActive="active-item"
+      >
+        <span class="fa fa-exchange navbar-icons"></span>
+        <span class="side-menu__label">Switch Dealer</span>
       </a>
     </li>
 
@@ -752,7 +764,7 @@
             <td class="notranslate">
               <span class="tbody-text-timer">
                 <span id="hours">00</span>
-            <span class="ml-2">hours</span>
+                <span class="ml-2">hours</span>
               </span>
             </td>
             <td class="notranslate">
@@ -764,7 +776,7 @@
             <td class="notranslate">
               <span class="tbody-text-timer">
                 <span id="seconds">00</span>
-                 <span class="ml-2">seconds</span>
+                <span class="ml-2">seconds</span>
               </span>
             </td>
           </tr>

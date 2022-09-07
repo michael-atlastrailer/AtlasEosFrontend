@@ -34,6 +34,7 @@ import { DeactivateGuard } from 'src/app/core/guard/deactivate.guard'
 import { PurchaseSummaryComponent } from './purchase-summary/purchase-summary.component'
 import { DealerPurchaserSummaryComponent } from './dealer-purchaser-summary/dealer-purchaser-summary.component'
 import { ExitSearchGuard } from 'src/app/core/guard/exit-search.guard'
+import { SwitchDealerComponent } from './switch-dealer/switch-dealer.component'
 
 const routes: Routes = [
   {
@@ -169,10 +170,14 @@ const routes: Routes = [
         path: 'test-quick-order',
         component: TestQuickOrderComponent,
       },
+      {
+        path: 'switch-dealer',
+        component: SwitchDealerComponent,
+      },
     ],
     canActivate: [AuthGuardGuard],
   },
-];
+]
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
