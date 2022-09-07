@@ -22,8 +22,14 @@ export class TokenStorageService {
     let userData = this.getUser()
     userData.account_id = dealerCode
     userData.company_name = dealerName
+    userData.dealer_name = dealerName
+
+    window.localStorage.removeItem('switchType')
+    window.localStorage.removeItem('dealershipCode')
+    window.localStorage.removeItem('dealershipName')
 
     window.localStorage.setItem('user', JSON.stringify(userData))
+    window.location.reload()
   }
 
   switchDealerToDealer(data: any) {
@@ -38,6 +44,7 @@ export class TokenStorageService {
       window.localStorage.setItem('user', JSON.stringify(userData))
       window.location.reload()
     } else {
+      console.log('no switch type has happened')
       // window.localStorage.setItem('default', JSON.stringify(data))
       window.localStorage.setItem('switchType', 'default-to-dealer')
       let dealerShipCode = this.getUser().account_id

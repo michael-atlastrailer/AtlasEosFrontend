@@ -19,7 +19,11 @@
               <div class="card-body">
                 <div class="d-flex justify-content-end">
                   <div class="input-wrapper">
-                    <button class="default-switch" *ngIf="defaultBtn">
+                    <button
+                      class="default-switch"
+                      (click)="switchToDefault()"
+                      *ngIf="defaultBtn"
+                    >
                       Switch to Default
                     </button>
                     <!-- <input
