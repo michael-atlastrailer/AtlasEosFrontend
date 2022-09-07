@@ -37,7 +37,7 @@ export class DealerSummaryComponent implements OnInit {
   displayedColumns: string[] = [
     'account_id',
     'full_name',
-    'total_price',
+    'amount',
     'last_login',
   ];
 
@@ -65,8 +65,8 @@ export class DealerSummaryComponent implements OnInit {
       switch (sort.active) {
         case 'account_id':
           return compare(a.account_id, b.account_id, isAsc);
-        case 'total_price':
-          return compare(a.total_price, b.total_price, isAsc);
+        case 'amount':
+          return compare(a.amount, b.amount, isAsc);
         case 'full_name':
           return compare(a.full_name, b.full_name, isAsc);
 
@@ -128,9 +128,9 @@ export class DealerSummaryComponent implements OnInit {
         case 'full_name':
           this.sortDirName = !this.sortDirName;
           return compare(a.full_name, b.full_name, this.sortDirName);
-        case 'total_price':
+        case 'amount':
           this.sortDirTotal = !this.sortDirTotal;
-          return compare(a.total_price, b.total_price, this.sortDirTotal);
+          return compare(a.amount, b.amount, this.sortDirTotal);
 
         default:
           return 0;
@@ -161,7 +161,7 @@ export class DealerSummaryComponent implements OnInit {
   getDealerUsers() {
     let id = this.token.getUser().id;
     this.postData
-      .httpGetRequest('/branch/get-dealer-order-summary/' + id)
+      .httpGetRequest('/sales-rep/dealers-purchases/' + id)
       .then((result: any) => {
         console.log(result);
 

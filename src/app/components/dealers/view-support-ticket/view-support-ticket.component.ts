@@ -80,6 +80,7 @@ export class ViewSupportTicketComponent implements OnInit {
   }
 
   getCreatedReport() {
+    let id = this.token.getUser().account_id;
     this.getData
       .httpGetRequest('/dealer/get-ticket-first/' + this.ticket)
       .then((result: any) => {

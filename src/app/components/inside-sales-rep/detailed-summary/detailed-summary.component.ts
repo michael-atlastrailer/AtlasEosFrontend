@@ -89,7 +89,7 @@ export class DetailedSummaryComponent implements OnInit {
   getVendors() {
     let id = this.token.getUser().id;
     this.postData
-      .httpGetRequest('/sales-rep/get-purchasers-dealer/' + id)
+      .httpGetRequest('/sales-rep/dealers/' + id)
       .then((result: any) => {
         console.log(result);
 

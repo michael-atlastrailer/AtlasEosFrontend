@@ -50,7 +50,7 @@ export class DetailedSummaryComponent implements OnInit {
   }
 
   ngOnInit(): void {}
-  currenDateTime='';
+  currenDateTime = '';
   selectedId: any;
   constructor(
     private postData: HttpRequestsService,
@@ -91,7 +91,7 @@ export class DetailedSummaryComponent implements OnInit {
   getVendors() {
     let id = this.token.getUser().id;
     this.postData
-      .httpGetRequest('/sales-rep/get-purchasers-dealer/' + id)
+      .httpGetRequest('/sales-rep/dealers/' + id)
       .then((result: any) => {
         console.log(result);
 
@@ -151,6 +151,7 @@ export class DetailedSummaryComponent implements OnInit {
         });
     }
   }
+  
   getDashData(data: Array<any>) {
     this.completedOrders = data.length;
     this.ordersRemaining = 88 - data.length;
