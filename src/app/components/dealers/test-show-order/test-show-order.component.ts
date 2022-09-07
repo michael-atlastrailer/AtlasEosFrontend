@@ -60,17 +60,17 @@ declare var $: any
   styleUrls: ['./test-show-order.component.scss'],
 })
 export class TestShowOrderComponent implements ComponentCanDeactivate {
-  allCategoryData: any
-  noData = false
-  tableLoader = false
-  tableStatus = false
-  cartLoader = false
-  productData: any
-  selectVendor = 0
-  @ViewChild('vendorId') vendor!: ElementRef
-  vendorId: any
-  searchatlasId: any
-  tableData: PeriodicElement[] = []
+  allCategoryData: any;
+  noData = false;
+  tableLoader = false;
+  tableStatus = false;
+  cartLoader = false;
+  productData: any;
+  selectVendor = 0;
+  @ViewChild('vendorId') vendor!: ElementRef;
+  vendorId: any;
+  searchatlasId: any;
+  tableData: PeriodicElement[] = [];
   displayedColumns: string[] = [
     'qty',
     'atlas_id',
@@ -79,74 +79,75 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
     'booking',
     'special',
     'extended',
-  ]
+  ];
 
-  loader = false
-  tableView = true
+  loader = false;
+  tableView = true;
+  sortDirAtlasId = false;
 
-  orderLen = 0
-  orderSuccess = false
-  sortTable: any
-  dataSrc = new MatTableDataSource<PeriodicElement>()
-  @ViewChild(MatPaginator) paginator!: MatPaginator
-  canOrder = false
-  isMod = false
-  orderTable: object[] = []
-  cartHistory: object[] = []
-  orderTotal = 0
+  orderLen = 0;
+  orderSuccess = false;
+  sortTable: any;
+  dataSrc = new MatTableDataSource<PeriodicElement>();
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  canOrder = false;
+  isMod = false;
+  orderTable: object[] = [];
+  cartHistory: object[] = [];
+  orderTotal = 0;
 
   /////////// Old Code ////
 
-  assortedItems: [] | any = []
-  currentState: [] | any = []
-  assortFilter: [] | any = []
-  assortSecondFilter: [] | any = []
-  newArrayFilter: [] | any = []
-  vendorBuckData: any
-  vendorBuckImage: any
+  assortedItems: [] | any = [];
+  currentState: [] | any = [];
+  assortFilter: [] | any = [];
+  assortSecondFilter: [] | any = [];
+  newArrayFilter: [] | any = [];
+  vendorBuckData: any;
+  vendorBuckImage: any;
 
-  benchMarkQty = 4
+  benchMarkQty = 4;
 
-  normalPrice = 0
-  currentProductAmt = 0
-  overTotal: any = 0
+  normalPrice = 0;
+  currentProductAmt = 0;
+  overTotal: any = 0;
 
-  anotherLinePhase: any | [] = []
-  anotherLinePhaseFilter: any | [] = []
-  groupsArray: any | [] = []
+  anotherLinePhase: any | [] = [];
+  anotherLinePhaseFilter: any | [] = [];
+  groupsArray: any | [] = [];
 
-  allAddedItemAtlasID: any | [] = []
+  allAddedItemAtlasID: any | [] = [];
 
   @ViewChildren('extend')
-  extendField!: QueryList<ElementRef>
+  extendField!: QueryList<ElementRef>;
 
-  dummyAmt = 0
-  userData: any
-  incomingVendorData: any
-  allVendors: any
-  showDropdown = false
-  @ViewChild('dummyInput') dummyInput!: ElementRef
-  vendorCode = ''
-  addedItem: any = []
+  dummyAmt = 0;
+  userData: any;
+  incomingVendorData: any;
+  allVendors: any;
+  showDropdown = false;
+  @ViewChild('dummyInput') dummyInput!: ElementRef;
+  vendorCode = '';
+  addedItem: any = [];
 
-  itemAlreadySubmitted: any = ''
-  itemNewlySubmitted = 0
-  showSubmittedDetails = false
-  incomingData: any
+  itemAlreadySubmitted: any = '';
+  itemNewlySubmitted = 0;
+  showSubmittedDetails = false;
+  incomingData: any;
 
   //// End of old  code ///////
-  alreadyOrder = false
-  routChange = false
-  viewFlyer = false
-  viewPromoFlyer = false
-  viewBuckFlyer = false
+  alreadyOrder = false;
+  routChange = false;
+  viewFlyer = false;
+  viewPromoFlyer = false;
+  viewBuckFlyer = false;
   // @ViewChild(MatSort)
   // sort!: MatSort
-  sortDir = false
-  sortedData!: PeriodicElement[]
-  highlightIndex = null
-  setVendor = false
-  currentData: any
+  sortDirProdCode = false;
+  sortedData!: PeriodicElement[];
+  highlightIndex = null;
+  setVendor = false;
+  currentData: any;
   constructor(
     private getData: HttpRequestsService,
     private toastr: ToastrService,
@@ -155,33 +156,37 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
     private _liveAnnouncer: LiveAnnouncer,
     private token: TokenStorageService,
     private currencyPipe: CurrencyPipe,
-    private chatServer: ChatService,
+    private chatServer: ChatService
   ) {
+
     this.getAllVendors()
 
+
     this.route.params.subscribe((params) => {
-      this.vendorId = params['vendorId']
-      this.searchatlasId = params['atlasId']
+      this.vendorId = params['vendorId'];
+      this.searchatlasId = params['atlasId'];
       if (this.searchatlasId == 'vendor') {
-        this.searchatlasId = undefined
+        this.searchatlasId = undefined;
       }
-      console.log('testing waters', this.vendorId, this.searchatlasId)
+      console.log('testing waters', this.vendorId, this.searchatlasId);
       if (this.vendorId) {
+
         console.log('got in', this.vendorId, this.searchatlasId)
         this.searchVendorId(this.vendorId!)
         this.setVendor = true
         this.selectVendor = this.vendorId
         this.vendorCode = this.vendorId
-      }
-    })
 
-    this.getCart()
-    this.userData = this.token.getUser()
+      }
+    });
+
+    this.getCart();
+    this.userData = this.token.getUser();
     // this.userId = userData.id
     if (this.userData) {
       this.chatServer.openChatConnection(
-        this.userData.id + this.userData.first_name,
-      )
+        this.userData.id + this.userData.first_name
+      );
     }
   }
 
@@ -189,279 +194,279 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
   ngAfterViewInit() {}
 
   omitSpecialChar(e: any) {
-    var k
-    document.all ? (k = e.keyCode) : (k = e.which)
+    var k;
+    document.all ? (k = e.keyCode) : (k = e.which);
     return (
       (k > 64 && k < 91) ||
       (k > 96 && k < 123) ||
       k == 8 ||
       k == 32 ||
       (k >= 48 && k <= 57)
-    )
+    );
   }
 
   announceSortChange(sortState: Sort) {
-    console.log(sortState, 'testing')
+    console.log(sortState, 'testing');
     if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`)
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
     } else {
-      this._liveAnnouncer.announce('Sorting cleared')
+      this._liveAnnouncer.announce('Sorting cleared');
     }
   }
 
   sortData(sort: Sort) {
-    const data = this.productData.slice()
+    const data = this.productData.slice();
     if (!sort.active || sort.direction === '') {
-      this.dataSrc = data
-      return
+      this.dataSrc = data;
+      return;
     }
 
     this.dataSrc = data.sort((a: any, b: any) => {
-      const isAsc = sort.direction === 'asc'
+      const isAsc = sort.direction === 'asc';
 
       switch (sort.active) {
         case 'atlas_id':
-          return compare(a.atlas_id, b.atlas_id, isAsc)
+          return compare(a.atlas_id, b.atlas_id, isAsc);
         case 'vendor':
-          return compare(a.vendor_product_code, b.vendor_product_code, isAsc)
+          return compare(a.vendor_product_code, b.vendor_product_code, isAsc);
 
         case 'vendor':
-          return compare(a.vendor_product_code, b.vendor_product_code, isAsc)
+          return compare(a.vendor_product_code, b.vendor_product_code, isAsc);
 
         default:
-          return 0
+          return 0;
       }
-    })
+    });
   }
 
-  sortDataAlt() {
-    const data = this.dataSrc.data.slice()
+  sortDataAlt(item: any) {
+    const data = this.dataSrc.data.slice();
 
-    this.sortDir = !this.sortDir
 
-    this.dataSrc.data = data.sort((a: any, b: any) => {
-      let item = 'vendor_product_code'
+    let toglerName = (this.dataSrc.data = data.sort((a: any, b: any) => {
       switch (item) {
-        case 'index':
-          return compare(a.index, b.index, this.sortDir)
+        case 'atlas_id':
+          this.sortDirAtlasId = !this.sortDirAtlasId;
+          return compare(a.atlas_id, b.atlas_id, this.sortDirAtlasId);
         case 'vendor_product_code':
+          this.sortDirProdCode = !this.sortDirProdCode;
           return compare(
             a.vendor_product_code,
             b.vendor_product_code,
-            this.sortDir,
-          )
+            this.sortDirProdCode
+          );
 
         default:
-          return 0
+          return 0;
       }
-    })
+    }));
   }
 
   ///////// Old code ///////////
 
   emptyTableQty() {
-    let allProCount = this.productData.length
+    let allProCount = this.productData.length;
     for (let h = 0; h < allProCount; h++) {
-      $('#cur-' + h).val('')
+      $('#cur-' + h).val('');
     }
-    this.overTotal = 0
+    this.overTotal = 0;
   }
   viewProduct(data: any) {
-    console.log(data)
-    this.currentData = data
+    console.log(data);
+    this.currentData = data;
 
     // this.viewSet = true;
   }
 
   atlasIdFilter(event: any) {
-    const filterValue = (event.target as HTMLInputElement).value
+    const filterValue = (event.target as HTMLInputElement).value;
     if (this.incomingData) {
-      this.incomingData.atlas_id = filterValue.trim().toLowerCase()
-      this.dataSrc = this.atlasFilterValue('*' + filterValue)
+      this.incomingData.atlas_id = filterValue.trim().toLowerCase();
+      this.dataSrc = this.atlasFilterValue('*' + filterValue);
     }
   }
 
   atlasFilterValue(expression: string) {
-    var regex = this.convertWildcardStringToRegExp(expression)
+    var regex = this.convertWildcardStringToRegExp(expression);
     return this.incomingData.filter(function (item: any) {
-      return regex.test(item.atlas_id)
-    })
+      return regex.test(item.atlas_id);
+    });
   }
 
   applyFilter(event: any) {
-    const filterValue = (event.target as HTMLInputElement).value
-    this.incomingVendorData.vendor_name = filterValue.trim().toLowerCase()
-    this.allVendors = this.filterArray('*' + filterValue)
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.incomingVendorData.vendor_name = filterValue.trim().toLowerCase();
+    this.allVendors = this.filterArray('*' + filterValue);
   }
 
   filterArray(expression: string) {
-    var regex = this.convertWildcardStringToRegExp(expression)
+    var regex = this.convertWildcardStringToRegExp(expression);
     return this.incomingVendorData.filter(function (item: any) {
-      return regex.test(item.vendor_name)
-    })
+      return regex.test(item.vendor_name);
+    });
   }
 
   escapeRegExp(str: string) {
-    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   }
 
   convertWildcardStringToRegExp(expression: string) {
-    var terms = expression.split('*')
+    var terms = expression.split('*');
 
-    var trailingWildcard = false
+    var trailingWildcard = false;
 
-    var expr = ''
+    var expr = '';
     for (var i = 0; i < terms.length; i++) {
       if (terms[i]) {
         if (i > 0 && terms[i - 1]) {
-          expr += '.*'
+          expr += '.*';
         }
-        trailingWildcard = false
-        expr += this.escapeRegExp(terms[i])
+        trailingWildcard = false;
+        expr += this.escapeRegExp(terms[i]);
       } else {
-        trailingWildcard = true
-        expr += '.*'
+        trailingWildcard = true;
+        expr += '.*';
       }
     }
 
     if (!trailingWildcard) {
-      expr += '.*'
+      expr += '.*';
     }
 
-    return new RegExp('^' + expr + '$', 'i')
+    return new RegExp('^' + expr + '$', 'i');
   }
 
   toggleVendors() {
     if (this.showDropdown) {
-      this.showDropdown = false
+      this.showDropdown = false;
     } else {
-      this.showDropdown = true
+      this.showDropdown = true;
     }
   }
 
   getAllSelectedDealerUsers(data: any) {
     if (this.showDropdown) {
-      this.showDropdown = false
+      this.showDropdown = false;
     } else {
-      this.showDropdown = true
+      this.showDropdown = true;
     }
 
-    this.dummyInput.nativeElement.value = data.vendor_name
-    this.vendorCode = data.vendor_code
+    this.dummyInput.nativeElement.value = data.vendor_name;
+    this.vendorCode = data.vendor_code;
   }
 
   getProductByVendorId() {
     if (this.vendorCode == '') {
-      this.toastr.warning(`Select a vendor to search`, 'Info')
+      this.toastr.warning(`Select a vendor to search`, 'Info');
     } else {
-      this.alreadyOrder = false
-      this.loader = true
-      this.tableView = false
-      this.canOrder = false
-      this.isMod = false
-      this.getVendorBuck(this.vendorCode)
+      this.alreadyOrder = false;
+      this.loader = true;
+      this.tableView = false;
+      this.canOrder = false;
+      this.isMod = false;
+      this.getVendorBuck(this.vendorCode);
       /// let id = this.vendor.nativeElement.value
-      this.showSubmittedDetails = false
+      this.showSubmittedDetails = false;
 
       this.getData
         .httpGetRequest('/dealer/get-vendor-products/' + this.vendorCode)
         .then((result: any) => {
-          console.log(result, 'promotion')
-          this.loader = false
-          this.tableView = true
+          console.log(result, 'promotion');
+          this.loader = false;
+          this.tableView = true;
 
           if (result.status) {
-            let productRes = result.data
-            this.incomingData = result.data
+            let productRes = result.data;
+            this.incomingData = result.data;
 
             for (let h = 0; h < result.data.length; h++) {
-              const each = result.data[h]
-              each.price = '$0.00'
-              each.position = h
-              each.forCal = 0
-              each.unitPrice = 0
-              each.qty = ''
+              const each = result.data[h];
+              each.price = '$0.00';
+              each.position = h;
+              each.forCal = 0;
+              each.unitPrice = 0;
+              each.qty = '';
             }
 
-            this.productData = productRes
+            this.productData = productRes;
 
-            this.tableData = productRes
+            this.tableData = productRes;
             if (result.data.length !== 0) {
-              this.canOrder = true
+              this.canOrder = true;
             }
 
-            this.orderTable = []
-            this.getTotal()
-            this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data)
-            this.dataSrc.paginator = this.paginator
+            this.orderTable = [];
+            this.getTotal();
+            this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data);
+            this.dataSrc.paginator = this.paginator;
             // this.dataSrc.sort = this.sort;
           } else {
-            this.toastr.info(`Something went wrong`, 'Error')
+            this.toastr.info(`Something went wrong`, 'Error');
           }
         })
         .catch((err) => {
-          this.toastr.info(`Something went wrong`, 'Error')
-        })
+          this.toastr.info(`Something went wrong`, 'Error');
+        });
     }
   }
   getVendorBuck(id: any) {
-    this.viewFlyer = false
-    this.viewBuckFlyer = false
-    this.viewPromoFlyer = false
+    this.viewFlyer = false;
+    this.viewBuckFlyer = false;
+    this.viewPromoFlyer = false;
     this.getData
       .httpGetRequest('/fetch_show_buck_promotional_flier/' + id)
       .then((result: any) => {
-        console.log(result, 'promotion')
+        console.log(result, 'promotion');
 
         if (result.status) {
-          this.vendorBuckData = result.data
-          this.viewFlyer = true
+          this.vendorBuckData = result.data;
+          this.viewFlyer = true;
 
           if (this.setVendor) {
-            this.dummyInput.nativeElement.value = result.data.vendor_name
+            this.dummyInput.nativeElement.value = result.data.vendor_name;
           }
           if (result.data.promotional_fliers[0]?.pdf_url!) {
-            this.viewPromoFlyer = true
+            this.viewPromoFlyer = true;
           }
           if (result.data.bucks[0]?.pdf_url!) {
-            this.viewBuckFlyer = true
+            this.viewBuckFlyer = true;
           }
-          this.setVendor = false
+          this.setVendor = false;
           console.log(
             'vendor buck',
             result.data.promotional_fliers[0]?.pdf_url!,
             result.data.bucks[0]?.pdf_url!,
             this.viewPromoFlyer,
             this.viewBuckFlyer,
-            this.viewFlyer,
-          )
+            this.viewFlyer
+          );
         } else {
-          this.viewFlyer = false
-          this.viewBuckFlyer = false
-          this.viewPromoFlyer = false
+          this.viewFlyer = false;
+          this.viewBuckFlyer = false;
+          this.viewPromoFlyer = false;
           // this.toastr.info(`Something went wrong fetching buck data`, 'Error');
         }
       })
       .catch((err) => {
-        this.viewFlyer = false
-        console.log('entered catch buck', err)
-        this.toastr.info(`Something went wrong fetching buck data`, 'Error')
-      })
+        this.viewFlyer = false;
+        console.log('entered catch buck', err);
+        this.toastr.info(`Something went wrong fetching buck data`, 'Error');
+      });
   }
 
   oneAddBtn() {
-    let allProCount = this.productData.length
-    let addedState = false
-    let inCart = false
-    let postItem = []
-    this.cartLoader = true
+    let allProCount = this.productData.length;
+    let addedState = false;
+    let inCart = false;
+    let postItem = [];
+    this.cartLoader = true;
 
     for (let h = 0; h < this.productData.length; h++) {
-      let curQty = this.productData[h].qty
+      let curQty = this.productData[h].qty;
       //// console.log(this.productData)
 
       if (curQty != '0' && curQty != undefined && curQty != '') {
-        let data = this.productData[h]
+        let data = this.productData[h];
 
         let cartData = {
           uid: this.userData.id,
@@ -474,9 +479,9 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
           unit_price: data.unitPrice,
           groupings: data.grouping,
           type: 'null',
-        }
+        };
 
-        postItem.push(cartData)
+        postItem.push(cartData);
       }
     }
 
@@ -485,22 +490,22 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
       dealer: this.userData.account_id,
       product_array: JSON.stringify(postItem),
       vendor: this.vendorCode,
-    }
+    };
 
     this.getData
       .httpPostRequest('/dealer/save-item-to-cart', postData)
       .then((res: any) => {
-        console.log(res)
+        console.log(res);
         if (res.status) {
-          this.showSubmittedDetails = true
-          this.alreadyOrder = true
-          console.log('already order eri', this.alreadyOrder)
-          this.cartLoader = false
-          this.itemAlreadySubmitted = res.data.item_details
-          this.itemNewlySubmitted = res.data.item_added
-          this.emptyTableQty()
+          this.showSubmittedDetails = true;
+          this.alreadyOrder = true;
+          console.log('already order eri', this.alreadyOrder);
+          this.cartLoader = false;
+          this.itemAlreadySubmitted = res.data.item_details;
+          this.itemNewlySubmitted = res.data.item_added;
+          this.emptyTableQty();
           if (res.data.item_added > 0) {
-            this.toastr.success(`item(s) has been submitted`, 'Success')
+            this.toastr.success(`item(s) has been submitted`, 'Success');
           }
 
           /// this.orderTable = []
@@ -514,41 +519,41 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
 
           if (res.data.submitted_status) {
             if (res.data.chat_data.length > 0) {
-              this.chatServer.sendOrderNotification(res.data.chat_data)
+              this.chatServer.sendOrderNotification(res.data.chat_data);
             }
           }
         } else {
-          this.cartLoader = false
-          this.toastr.info(`Something went wrong`, 'Error')
+          this.cartLoader = false;
+          this.toastr.info(`Something went wrong`, 'Error');
         }
       })
       .catch((err) => {
-        this.cartLoader = false
+        this.cartLoader = false;
         if (err.message.response.dealer || err.message.response.dealer) {
-          this.toastr.info(`Please logout and login again`, 'Session Expired')
+          this.toastr.info(`Please logout and login again`, 'Session Expired');
         } else {
-          this.toastr.info(`Something went wrong`, 'Error')
+          this.toastr.info(`Something went wrong`, 'Error');
         }
-      })
+      });
 
-    console.log(postItem)
+    console.log(postItem);
   }
 
   checkAvaDiscount(index: number, qty: any) {
     if (qty !== '') {
-      let arr = this.extendField.toArray()[index]
-      let specialAmt = 0
-      let specialCond = 0
-      let specData = this.productData[index].spec_data
-      this.normalPrice = this.productData[index].booking
+      let arr = this.extendField.toArray()[index];
+      let specialAmt = 0;
+      let specialCond = 0;
+      let specData = this.productData[index].spec_data;
+      this.normalPrice = this.productData[index].booking;
       for (let i = 0; i < specData.length; i++) {
-        let curAmt = specData[i].special
-        let cond = specData[i].cond
-        let type = specData[i].type
+        let curAmt = specData[i].special;
+        let cond = specData[i].cond;
+        let type = specData[i].type;
 
-        let benchCheck = parseInt(cond) - qty
+        let benchCheck = parseInt(cond) - qty;
         if (this.benchMarkQty <= benchCheck && benchCheck > 0) {
-          let formattedAmt = this.currencyPipe.transform(curAmt, '$')
+          let formattedAmt = this.currencyPipe.transform(curAmt, '$');
 
           if (type == 'assorted') {
             // this.toastr.info(
@@ -558,8 +563,8 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
           } else {
             this.toastr.info(
               `Add ${benchCheck} of this product to get the special price at ${formattedAmt}`,
-              'Quantity Break Alert',
-            )
+              'Quantity Break Alert'
+            );
           }
         }
       }
@@ -567,11 +572,11 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
   }
 
   valCheck(val: any) {
-    let orderstat = JSON.parse(window.localStorage.getItem('dealer')!)
-    console.log(orderstat.order_status, 'order')
+    let orderstat = JSON.parse(window.localStorage.getItem('dealer')!);
+    console.log(orderstat.order_status, 'order');
     if (val != 0) {
       if (orderstat.order_status == 1) {
-        console.log(orderstat.order_status, 'order')
+        console.log(orderstat.order_status, 'order');
 
         //return (this.isDirty = false);
       } else {
@@ -583,19 +588,19 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
   }
 
   runnnerTotal() {
-    this.overTotal = 0
+    this.overTotal = 0;
     for (let index = 0; index < this.productData.length; index++) {
-      const element = this.productData[index]
-      this.overTotal += parseFloat(element.forCal)
+      const element = this.productData[index];
+      this.overTotal += parseFloat(element.forCal);
     }
   }
 
   runTotalCalculation(index: number) {
-    let currentProduct = this.productData[index]
+    let currentProduct = this.productData[index];
 
     for (let index = 0; index < this.productData.length; index++) {
-      const element = this.productData[index]
-      this.overTotal += parseFloat(element.forCal)
+      const element = this.productData[index];
+      this.overTotal += parseFloat(element.forCal);
     }
 
     let data = {
@@ -603,45 +608,45 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
       forCal: currentProduct.forCal,
       grouping: currentProduct.grouping,
       index: index,
-    }
+    };
 
     if (this.addedItem.length == 0) {
-      this.addedItem.push(data)
+      this.addedItem.push(data);
     } else {
-      let presentItem = false
+      let presentItem = false;
       for (let i = 0; i < this.addedItem.length; i++) {
-        const item = this.addedItem[i]
+        const item = this.addedItem[i];
         if (item.atlasId == currentProduct.atlas_id) {
-          item.forCal = currentProduct.forCal
-          presentItem = true
+          item.forCal = currentProduct.forCal;
+          presentItem = true;
         } else {
         }
       }
 
       if (!presentItem) {
         for (let g = 0; g < this.addedItem.length; g++) {
-          const t = this.addedItem[g]
+          const t = this.addedItem[g];
 
           if (t.grouping == currentProduct.grouping) {
             if (t.grouping != null && currentProduct.grouping != null) {
-              t.forCal = currentProduct.forCal
+              t.forCal = currentProduct.forCal;
             }
           } else {
             for (let i = 0; i < this.addedItem.length; i++) {
-              const item = this.addedItem[i]
+              const item = this.addedItem[i];
               if (item.atlasId == currentProduct.atlas_id) {
                 // item.price = newPrice
-                item.forCal = currentProduct.forCal
+                item.forCal = currentProduct.forCal;
 
-                console.log('found de atlas id', currentProduct.atlasId)
+                console.log('found de atlas id', currentProduct.atlasId);
               } else {
               }
             }
           }
           //groupings
         }
-        console.log(data, 'entery level')
-        this.addedItem.push(data)
+        console.log(data, 'entery level');
+        this.addedItem.push(data);
       } else {
         // for (let i = 0; i < this.addedItem.length; i++) {
         //   const item = this.addedItem[i]
@@ -654,13 +659,13 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
       }
     }
 
-    this.overTotal = 0
+    this.overTotal = 0;
     for (let j = 0; j < this.addedItem.length; j++) {
-      const h = this.addedItem[j]
-      this.overTotal += parseFloat(h.forCal)
+      const h = this.addedItem[j];
+      this.overTotal += parseFloat(h.forCal);
     }
 
-    console.log(this.addedItem)
+    console.log(this.addedItem);
   }
 
   /**
@@ -677,21 +682,23 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
     quantity: number | string,
     amount: number,
     price: number,
-    spec: string | null,
+    spec: string | null
   ) => {
     // update each unique element
-    this.productData[index].qty = quantity != 0 ? quantity : ''
-    this.productData[index].selected_spec = spec
-    this.productData[index].forCal = amount
-    this.productData[index].calPrice = amount
-    this.productData[index].unitPrice = price
-    this.productData[index].price = this.currencyPipe.transform(amount, '$')
+    this.productData[index].qty = quantity != 0 ? quantity : '';
+    this.productData[index].selected_spec = spec;
+    this.productData[index].forCal = amount;
+    this.productData[index].calPrice = amount;
+    this.productData[index].unitPrice = price;
+    this.productData[index].price = this.currencyPipe.transform(amount, '$');
 
-    this.currentProductAmt = amount
+    this.currentProductAmt = amount;
+
 
     console.log(this.productData)
     return this.productData[index]
   }
+
 
   /**
    * Updates the Product with the specified index.
@@ -700,25 +707,25 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
    * @return {void}.
    */
   updateOtherAssorted = (current: any) => {
-    let totalQuantity = this.getTotalAssortedQuantity(current)
+    let totalQuantity = this.getTotalAssortedQuantity(current);
     this.assortFilter = this.assortFilter.map((ass: any) => {
-      console.log(ass, 'checking asses')
+      console.log(ass, 'checking asses');
       // if (ass.qty != '' || ass.qty > 0) {
-      let update_ass = ass
-      let price = parseFloat(ass.booking)
-      let calAmt = parseInt(ass.qty) * price
-      let selected_spec = `${ass.position}`
+      let update_ass = ass;
+      let price = parseFloat(ass.booking);
+      let calAmt = parseInt(ass.qty) * price;
+      let selected_spec = `${ass.position}`;
 
       ass.spec_data.map((sp: any, af_index: number) => {
-        let curAmt = parseFloat(sp.special)
+        let curAmt = parseFloat(sp.special);
         if (totalQuantity >= parseInt(sp.cond)) {
-          price = curAmt
-          calAmt = parseInt(ass.qty) * price
-          selected_spec = `${ass.position}-${af_index}`
+          price = curAmt;
+          calAmt = parseInt(ass.qty) * price;
+          selected_spec = `${ass.position}-${af_index}`;
         }
-      })
+      });
 
-      let curQty = ass.qty == 0 ? '' : ass.qty
+      let curQty = ass.qty == 0 ? '' : ass.qty;
 
       if (curQty != '') {
         update_ass = this.assignSalesValue(
@@ -726,15 +733,15 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
           curQty,
           calAmt,
           price,
-          selected_spec,
-        )
+          selected_spec
+        );
       }
 
       // update record in assortFilter
       // }
-      return update_ass
-    })
-  }
+      return update_ass;
+    });
+  };
 
   /**
    * Updates the Product with the specified index.
@@ -746,15 +753,15 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
     let totalQuantity = this.assortFilter.reduce(
       (accumulate: number, af: any) => {
         // const newQuantity = (current.grouping === af.grouping) ? parseInt(af.qty) : 0;
-        const newQuantity = current.grouping ? parseInt(af.qty) : 0
+        const newQuantity = current.grouping ? parseInt(af.qty) : 0;
 
-        return accumulate + newQuantity
+        return accumulate + newQuantity;
       },
-      0,
-    )
+      0
+    );
 
-    return totalQuantity
-  }
+    return totalQuantity;
+  };
 
   /**
    * Updates the Product with the specified index.
@@ -764,68 +771,68 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
    */
   checkSpecials(prc: any, curIndex?: number) {
     // console.log(prc);
-    let check = false
+    let check = false;
     if (prc?.selected_spec) {
       // console.log(prc?.selected_spec);
       if (Number.isInteger(curIndex)) {
-        check = `${prc.position}-${curIndex}` === prc?.selected_spec
+        check = `${prc.position}-${curIndex}` === prc?.selected_spec;
       } else {
-        check = `${prc.position}` === prc?.selected_spec
+        check = `${prc.position}` === prc?.selected_spec;
       }
     }
 
-    return check
+    return check;
   }
 
   runCalculation(index: number, quantity: string, event: any, atlas: any) {
     if (event.key != 'Tab') {
-      const qty = quantity.length ? parseInt(quantity) : 0
-      let curr = this.productData[index]
-      let atlasId = curr.atlas_id
-      let spec = curr.spec_data
-      curr.qty = qty ?? ''
+      const qty = quantity.length ? parseInt(quantity) : 0;
+      let curr = this.productData[index];
+      let atlasId = curr.atlas_id;
+      let spec = curr.spec_data;
+      curr.qty = qty ?? '';
 
       if (qty) {
         // calculate default prices
-        let price = parseFloat(curr.booking)
-        let calAmt = qty * price
-        let selected_spec = `${index}`
+        let price = parseFloat(curr.booking);
+        let calAmt = qty * price;
+        let selected_spec = `${index}`;
 
         if (!this.allAddedItemAtlasID.includes(atlasId))
-          this.allAddedItemAtlasID.push(atlasId)
+          this.allAddedItemAtlasID.push(atlasId);
 
         // console.log(curr);
         if (spec && spec.length) {
           // search through offers
           spec.map((sp: any, af_index: number) => {
-            let curAmt = parseFloat(sp.special)
-            let cond = parseInt(sp.cond)
+            let curAmt = parseFloat(sp.special);
+            let cond = parseInt(sp.cond);
 
             if (sp.type === 'assorted') {
               // add curr product as assorted if has assorted specials
               const assortIds = this.assortFilter.map(
-                (ass: any) => ass.atlas_id,
-              )
+                (ass: any) => ass.atlas_id
+              );
               if (!assortIds.includes(curr.atlas_id))
-                this.assortFilter.push(curr)
+                this.assortFilter.push(curr);
               // get total quantity of assorted
 
-              let totalQuantity = this.getTotalAssortedQuantity(curr)
+              let totalQuantity = this.getTotalAssortedQuantity(curr);
               // console.log(totalQuantity, this.assortFilter);
               if (totalQuantity >= cond) {
-                price = curAmt
-                calAmt = qty * price
-                selected_spec = `${index}-${af_index}`
+                price = curAmt;
+                calAmt = qty * price;
+                selected_spec = `${index}-${af_index}`;
 
                 // run update on all assorted product sale value
-                this.updateOtherAssorted(curr)
+                this.updateOtherAssorted(curr);
               }
             } else if (sp.type === 'special') {
               ///////// Special Price ////////
               if (qty >= cond) {
-                price = curAmt
-                calAmt = qty * price
-                selected_spec = `${index}-${af_index}`
+                price = curAmt;
+                calAmt = qty * price;
+                selected_spec = `${index}-${af_index}`;
               }
             }
             // update product sale value
@@ -834,24 +841,30 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
               qty,
               calAmt,
               price,
-              selected_spec,
-            )
-          })
+              selected_spec
+            );
+          });
         } else {
           // update product sale value
-          curr = this.assignSalesValue(index, qty, calAmt, price, selected_spec)
+          curr = this.assignSalesValue(
+            index,
+            qty,
+            calAmt,
+            price,
+            selected_spec
+          );
         }
       } else {
         // update product sale value
-        curr = this.assignSalesValue(index, 0, 0, 0, null)
+        curr = this.assignSalesValue(index, 0, 0, 0, null);
         // remove current data from assorted products
-        const assortIds = this.assortFilter.map((ass: any) => ass.atlas_id)
+        const assortIds = this.assortFilter.map((ass: any) => ass.atlas_id);
         // run update on all assorted product sale value
-        if (assortIds.includes(curr.atlas_id)) this.updateOtherAssorted(curr)
+        if (assortIds.includes(curr.atlas_id)) this.updateOtherAssorted(curr);
       }
     }
 
-    this.runnnerTotal()
+    this.runnnerTotal();
 
     //// this.runTotalCalculation(index);
 
@@ -861,44 +874,46 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
   ///////////////// End of old code /////////////
 
   getTotal() {
-    let total = 0
+    let total = 0;
     if (this.orderTable.length > 0) {
       for (var i = 0; i < this.orderTable.length; i++) {
-        let Obj: any = this.orderTable[i]!
-        total = total + parseFloat(Obj.price!)
+        let Obj: any = this.orderTable[i]!;
+        total = total + parseFloat(Obj.price!);
       }
-      return (this.orderTotal = total)
+      return (this.orderTotal = total);
     } else {
-      return (this.orderTotal = 0)
+      return (this.orderTotal = 0);
     }
   }
 
   getAllVendors() {
-    this.orderSuccess = false
+    this.orderSuccess = false;
 
     this.getData
       .httpGetRequest('/dealer/get-vendors-with-orders')
       .then((result: any) => {
         if (result.status) {
-          this.allVendors = result.data
-          this.incomingVendorData = result.data
-          this.selectVendor = this.vendorId
+          this.allVendors = result.data;
+          this.incomingVendorData = result.data;
+          this.selectVendor = this.vendorId;
         } else {
-          this.toastr.info(`Something went wrong`, 'Error')
+          this.toastr.info(`Something went wrong`, 'Error');
         }
       })
       .catch((err) => {
-        this.toastr.info(`Something went wrong`, 'Error')
-      })
+        this.toastr.info(`Something went wrong`, 'Error');
+      });
   }
 
   filterTop(array: any) {
-    let newArray = []
+    let newArray = [];
 
     if (this.searchatlasId == '###') {
-      newArray = array
+      newArray = array;
     } else {
+
       this.isMod = true
+
       setTimeout(
         () => {
           document
@@ -908,6 +923,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
               behavior: 'smooth',
               block: 'center',
               inline: 'start',
+
             })
           $('#bastard').css('padding-top', '220px ')
           // $('#bastard').css('height', '120%')
@@ -916,146 +932,152 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
         1000,
       )
 
+
       this.highlightIndex = array.findIndex((item: any) => {
-        return item.atlas_id == this.searchatlasId!
-      })
+        return item.atlas_id == this.searchatlasId!;
+      });
     }
-    return array
+    return array;
   }
 
   getCart() {
-    let id = this.token.getUser().account_id
+    let id = this.token.getUser().account_id;
     this.getData
       .httpGetRequest('/cart/dealer/' + id)
       .then((result: any) => {
         if (result.status) {
-          this.cartHistory = result?.data
+          this.cartHistory = result?.data;
         } else {
-          this.toastr.info(`Something went wrong`, 'Error')
+          this.toastr.info(`Something went wrong`, 'Error');
         }
       })
       .catch((err) => {
-        this.toastr.info(`Something went wrong`, 'Error')
-      })
+        this.toastr.info(`Something went wrong`, 'Error');
+      });
   }
 
   searchVendorId(id: any) {
-    this.canOrder = false
+    this.canOrder = false;
     this.getData
       .httpGetRequest('/dealer/get-vendor-products/' + id)
       .then((result: any) => {
         if (result.status) {
-          this.getVendorBuck(id)
+          this.getVendorBuck(id);
 
           if (this.searchatlasId) {
-            let productRes = this.filterTop(result.data)
-            this.incomingData = result.data
+            let productRes = this.filterTop(result.data);
+            this.incomingData = result.data;
 
             for (let h = 0; h < productRes.length; h++) {
-              const each = productRes[h]
-              each.price = '$0.00'
-              each.position = h
-              each.forCal = 0
-              each.unitPrice = 0
-              each.qty = ''
+              const each = productRes[h];
+              each.price = '$0.00';
+              each.position = h;
+              each.forCal = 0;
+              each.unitPrice = 0;
+              each.qty = '';
             }
 
-            this.dataSrc = new MatTableDataSource<PeriodicElement>(productRes)
-            this.tableData = this.filterTop(productRes)
-            this.productData = this.filterTop(productRes)
+            this.dataSrc = new MatTableDataSource<PeriodicElement>(productRes);
+            this.tableData = this.filterTop(productRes);
+            this.productData = this.filterTop(productRes);
             /// this.dataSrc.sort = this.sort
-            this.dataSrc.paginator = this.paginator
-            this.sortedData = this.productData.slice()
+            this.dataSrc.paginator = this.paginator;
+            this.sortedData = this.productData.slice();
           } else {
-            let productRes = result.data
+            let productRes = result.data;
 
             for (let h = 0; h < productRes.length; h++) {
-              const each = productRes[h]
-              each.price = '$0.00'
-              each.position = h
-              each.forCal = 0
-              each.unitPrice = 0
+              const each = productRes[h];
+              each.price = '$0.00';
+              each.position = h;
+              each.forCal = 0;
+              each.unitPrice = 0;
             }
-            this.dataSrc = new MatTableDataSource<PeriodicElement>(productRes)
+            this.dataSrc = new MatTableDataSource<PeriodicElement>(productRes);
             // this.dataSrc.sort = this.sort
-            this.dataSrc.paginator = this.paginator
+            this.dataSrc.paginator = this.paginator;
 
-            this.tableData = productRes
-            this.productData = productRes
+            this.tableData = productRes;
+            this.productData = productRes;
           }
 
-          this.canOrder = true
+          this.canOrder = true;
 
-          $('table-ctn').addClass('highlight')
-          this.canOrder = true
+          $('table-ctn').addClass('highlight');
+          this.canOrder = true;
         } else {
           // this.toastr.info(`Something went wrong`, 'Error');
         }
       })
       .catch((err) => {
         // this.toastr.info(`Something went wrong`, 'Error');
-      })
+      });
   }
 
   submitOrder() {
-    this.cartLoader = true
-    this.orderSuccess = false
+    this.cartLoader = true;
+    this.orderSuccess = false;
 
-    let uid = this.token.getUser().id.toString()
-    let accntId = this.token.getUser().account_id
-    this.orderLen = this.orderTable.length
+    let uid = this.token.getUser().id.toString();
+    let accntId = this.token.getUser().account_id;
+    this.orderLen = this.orderTable.length;
     if (this.orderTable.length > 0) {
       for (let i = 0; i < this.orderTable.length; i++) {
-        let pbj: any = this.orderTable[i]
-        delete pbj?.loc
+        let pbj: any = this.orderTable[i];
+        delete pbj?.loc;
       }
       let formdata = {
         uid: uid,
         dealer: accntId,
         product_array: JSON.stringify(this.orderTable),
-      }
+      };
       this.getData
         .httpPostRequest('/add-item-to-cart', formdata)
         .then((result: any) => {
           if (result.status) {
-            this.cartLoader = false
-            this.orderSuccess = true
+            this.cartLoader = false;
+            this.orderSuccess = true;
 
             this.toastr.success(
               `${this.orderLen}  item(s) have been added to cart`,
-              'Success',
-            )
+              'Success'
+            );
 
-            this.orderTable = []
-            this.getTotal()
-            this.getCart()
+            this.orderTable = [];
+            this.getTotal();
+            this.getCart();
             if (this.searchatlasId) {
-              this.searchVendorId(this.vendorId!)
+              this.searchVendorId(this.vendorId!);
             } else {
-              this.getProductByVendorId()
+              this.getProductByVendorId();
             }
           } else {
-            this.cartLoader = false
-            this.toastr.info(`Something went wrong`, 'Error')
+            this.cartLoader = false;
+            this.toastr.info(`Something went wrong`, 'Error');
           }
         })
         .catch((err) => {
-          this.cartLoader = false
+          this.cartLoader = false;
           if (err.message.response.dealer || err.message.response.dealer) {
-            this.toastr.info(`Please logout and login again`, 'Session Expired')
+            this.toastr.info(
+              `Please logout and login again`,
+              'Session Expired'
+            );
           } else {
-            this.toastr.info(`Something went wrong`, 'Error')
+            this.toastr.info(`Something went wrong`, 'Error');
           }
-        })
+        });
     } else {
-      this.cartLoader = false
-      this.toastr.info(`No item quantity has been set`, 'Error')
+      this.cartLoader = false;
+      this.toastr.info(`No item quantity has been set`, 'Error');
     }
   }
 
   async confirmBox() {
     if (this.overTotal > 0) {
+
       $('#bastard').css('padding-top', '0px ')
+
       return await Swal.fire({
         title: 'You are about to leave this page',
         text: 'Any items not added to your cart will be lost',
@@ -1065,15 +1087,15 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
         cancelButtonText: 'Cancel',
       }).then((result) => {
         if (result.value) {
-          return true
+          return true;
         } else if (result.dismiss === Swal.DismissReason.cancel) {
-          return false
+          return false;
         } else {
-          return false
+          return false;
         }
-      })
+      });
     } else {
-      return true
+      return true;
     }
   }
 }

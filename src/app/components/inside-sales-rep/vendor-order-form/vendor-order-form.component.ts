@@ -36,7 +36,8 @@ export class VendorOrderFormComponent implements OnInit {
     'regular',
     'booking',
   ];
-
+  sortDirAtlasId=false
+  sortDirVendorCode = false;
   dataSource = new MatTableDataSource<Products>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -71,7 +72,23 @@ export class VendorOrderFormComponent implements OnInit {
   escapeRegExp(str: string) {
     return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   }
+  sortDataAlt(item: any) {
+    const data = this.dataSource.data.slice();
 
+    let toglerName = (this.dataSource.data = data.sort((a: any, b: any) => {
+      switch (item) {
+        case 'atlas_id':
+          this.sortDirAtlasId = !this.sortDirAtlasId;
+          return compare(a.atlas_id, b.atlas_id, this.sortDirAtlasId);
+        case 'vendor_code':
+          this.sortDirVendorCode = !this.sortDirVendorCode;
+          return compare(a.vendor_code, b.vendor_code, this.sortDirVendorCode);
+
+        default:
+          return 0;
+      }
+    }));
+  }
   convertWildcardStringToRegExp(expression: string) {
     var terms = expression.split('*');
 
@@ -173,4 +190,7 @@ export class VendorOrderFormComponent implements OnInit {
         // this.toastr.error('Try again', 'Something went wrong')
       });
   }
+}
+function compare(a: number | string, b: number | string, isAsc: boolean) {
+  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }

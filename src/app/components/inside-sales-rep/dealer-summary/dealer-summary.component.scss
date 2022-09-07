@@ -207,7 +207,7 @@
 .table-data-section { th {
     text-transform: capitalize;
     font-weight: 500 !important;
-  }
+  }  td{text-transform: capitalize;}
   ::ng-deep {
     table thead {
       background-color: #4BA327

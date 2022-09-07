@@ -149,14 +149,14 @@
                       <!-- Position Column -->
 
                       <ng-container matColumnDef="atlas_id">
-                        <th mat-header-cell *matHeaderCellDef>Atlas #</th>
+                        <th mat-header-cell *matHeaderCellDef style="cursor: pointer" (click)="sortDataAlt('atlas_id')">Atlas #  <i class="fa fa-sort ml-2"></i></th>
                         <td mat-cell *matCellDef="let element">
                           {{ element.atlas_id }}
                         </td>
                       </ng-container>
 
                       <ng-container matColumnDef="vendor_code">
-                        <th mat-header-cell *matHeaderCellDef>Vendor #</th>
+                        <th mat-header-cell *matHeaderCellDef style="cursor: pointer" (click)="sortDataAlt('vendor_code')">Vendor # <i class="fa fa-sort ml-2"></i></th>
                         <td mat-cell *matCellDef="let element">
                           {{ element.vendor_code }}
                         </td>
