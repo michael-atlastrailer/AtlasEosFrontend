@@ -17,118 +17,135 @@ export interface Products {
 @Component({
   selector: 'app-vendor-order-form',
   templateUrl: './vendor-order-form.component.html',
-  styleUrls: ['./vendor-order-form.component.scss']
+  styleUrls: ['./vendor-order-form.component.scss'],
 })
 export class VendorOrderFormComponent implements OnInit {
-  tableView = true
-  loader = false
-  allVendors: any
-  selectedVendorName = ''
-  selectedVendorCode = ''
-  vendorProductData: any
-  noItemFound = false
-  incomingData: any
+  tableView = true;
+  loader = false;
+  allVendors: any;
+  selectedVendorName = '';
+  selectedVendorCode = '';
+  vendorProductData: any;
+  noItemFound = false;
+  incomingData: any;
   displayedColumns: string[] = [
     'atlas_id',
     'vendor_code',
     'description',
     'regular',
     'booking',
-  ]
-
-  dataSource = new MatTableDataSource<Products>()
-  @ViewChild(MatPaginator) paginator!: MatPaginator
+  ];
+  sortDirAtlasId = false;
+  sortDirVendorCode = false;
+  dataSource = new MatTableDataSource<Products>();
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator
+    this.dataSource.paginator = this.paginator;
   }
 
   constructor(
     private httpService: HttpRequestsService,
     private toastr: ToastrService,
-    private tokenStore: TokenStorageService,
+    private tokenStore: TokenStorageService
   ) {}
 
   ngOnInit(): void {
-    this.getAllVendors()
+    this.getAllVendors();
   }
 
   applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value
-    this.incomingData.atlas_id = filterValue.trim().toLowerCase()
-    this.dataSource = this.filterArray('*' + filterValue)
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.incomingData.atlas_id = filterValue.trim().toLowerCase();
+    this.dataSource = this.filterArray('*' + filterValue);
   }
 
   filterArray(expression: string) {
-    var regex = this.convertWildcardStringToRegExp(expression)
+    var regex = this.convertWildcardStringToRegExp(expression);
     //console.log('RegExp: ' + regex);
     return this.incomingData.filter(function (item: any) {
-      return regex.test(item.atlas_id)
-    })
+      return regex.test(item.atlas_id);
+    });
   }
 
   escapeRegExp(str: string) {
-    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   }
+  sortDataAlt(item: any) {
+    const data = this.dataSource.data.slice();
 
+    let toglerName = (this.dataSource.data = data.sort((a: any, b: any) => {
+      switch (item) {
+        case 'atlas_id':
+          this.sortDirAtlasId = !this.sortDirAtlasId;
+          return compare(a.atlas_id, b.atlas_id, this.sortDirAtlasId);
+        case 'vendor_code':
+          this.sortDirVendorCode = !this.sortDirVendorCode;
+          return compare(a.vendor_code, b.vendor_code, this.sortDirVendorCode);
+
+        default:
+          return 0;
+      }
+    }));
+  }
   convertWildcardStringToRegExp(expression: string) {
-    var terms = expression.split('*')
+    var terms = expression.split('*');
 
-    var trailingWildcard = false
+    var trailingWildcard = false;
 
-    var expr = ''
+    var expr = '';
     for (var i = 0; i < terms.length; i++) {
       if (terms[i]) {
         if (i > 0 && terms[i - 1]) {
-          expr += '.*'
+          expr += '.*';
         }
-        trailingWildcard = false
-        expr += this.escapeRegExp(terms[i])
+        trailingWildcard = false;
+        expr += this.escapeRegExp(terms[i]);
       } else {
-        trailingWildcard = true
-        expr += '.*'
+        trailingWildcard = true;
+        expr += '.*';
       }
     }
 
     if (!trailingWildcard) {
-      expr += '.*'
+      expr += '.*';
     }
 
-    return new RegExp('^' + expr + '$', 'i')
+    return new RegExp('^' + expr + '$', 'i');
   }
 
   getProductByVendorId() {
-    this.loader = true
-    this.tableView = false
+    this.loader = true;
+    this.tableView = false;
 
     this.httpService
       .httpGetRequest('/admin/get-vendor-products/' + this.selectedVendorCode)
       .then((result: any) => {
-        this.loader = false
-        this.tableView = true
+        this.loader = false;
+        this.tableView = true;
         if (result.status) {
-          this.vendorProductData = result.data
-          this.noItemFound = result.data.length < 0 ? true : false
-          this.incomingData = result.data
-          this.dataSource = new MatTableDataSource<Products>(result.data)
+          this.vendorProductData = result.data;
+          this.noItemFound = result.data.length < 0 ? true : false;
+          this.incomingData = result.data;
+          this.dataSource = new MatTableDataSource<Products>(result.data);
 
-          this.dataSource.paginator = this.paginator
+          this.dataSource.paginator = this.paginator;
         } else {
-          this.toastr.info(`Something went wrong`, 'Error')
+          this.toastr.info(`Something went wrong`, 'Error');
         }
       })
       .catch((err) => {
-        this.toastr.info(`Something went wrong`, 'Error')
-      })
+        this.toastr.info(`Something went wrong`, 'Error');
+      });
   }
 
   vendorSelected(data: any) {
     // this.selectedVendorName = data
-    this.selectedVendorCode = data
+    this.selectedVendorCode = data;
     for (let i = 0; i < this.allVendors.length; i++) {
-      const element = this.allVendors[i]
+      const element = this.allVendors[i];
       if (element.vendor_code == data) {
-        this.selectedVendorName = element.vendor_name
+        this.selectedVendorName = element.vendor_name;
       }
     }
   }
@@ -142,26 +159,26 @@ export class VendorOrderFormComponent implements OnInit {
     this.httpService
       .httpGetRequest('/admin/get-all-vendors')
       .then((result: any) => {
-        this.loader = false
-        this.tableView = true
+        this.loader = false;
+        this.tableView = true;
 
         if (result.status) {
-          this.allVendors = result.data
+          this.allVendors = result.data;
         } else {
           // this.toastr.error(result.message, 'Try again')
         }
       })
       .catch((err) => {
         // this.toastr.error('Try again', 'Something went wrong')
-      })
+      });
   }
 
   getDealerCart() {
     this.httpService
       .httpGetRequest('/admin/get-price-override/')
       .then((result: any) => {
-        this.loader = false
-        this.tableView = true
+        this.loader = false;
+        this.tableView = true;
 
         if (result.status) {
         } else {
@@ -170,6 +187,9 @@ export class VendorOrderFormComponent implements OnInit {
       })
       .catch((err) => {
         // this.toastr.error('Try again', 'Something went wrong')
-      })
+      });
   }
+}
+function compare(a: number | string, b: number | string, isAsc: boolean) {
+  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }

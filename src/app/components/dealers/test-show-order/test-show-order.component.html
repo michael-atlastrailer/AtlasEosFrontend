@@ -417,7 +417,8 @@
                   mat-header-cell
                   *matHeaderCellDef
                   class="mx-auto"
-                  mat-sort-header="atlas_id"
+                   style="cursor: pointer;"
+                  (click)="sortDataAlt('atlas_id')"
                 >
                   Atlas #
                   <i class="fa fa-sort ml-2"></i>
@@ -447,7 +448,7 @@
                   *matHeaderCellDef
                   class="mx-auto"
                   style="cursor: pointer;"
-                  (click)="sortDataAlt()"
+                  (click)="sortDataAlt('vendor_product_code')"
                 >
                   Vendor #
                   <i class="fa fa-sort ml-2"></i>
