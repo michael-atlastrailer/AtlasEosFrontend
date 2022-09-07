@@ -55,7 +55,8 @@ import { ViewDealerSummaryComponent } from './view-dealer-summary/view-dealer-su
 import { VendorSummaryComponent } from './vendor-summary/vendor-summary.component'
 import { MatMenuModule } from '@angular/material/menu'
 import { SetStartDateComponent } from './set-start-date/set-start-date.component'
-import { MatSortModule } from '@angular/material/sort'
+import { MatSortModule } from '@angular/material/sort';
+import { AllDealershipComponent } from './all-dealership/all-dealership.component'
 
 @NgModule({
   declarations: [
@@ -104,6 +105,7 @@ import { MatSortModule } from '@angular/material/sort'
     ViewDealerSummaryComponent,
     VendorSummaryComponent,
     SetStartDateComponent,
+    AllDealershipComponent,
   ],
   imports: [
     CommonModule,
