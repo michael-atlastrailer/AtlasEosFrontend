@@ -111,15 +111,29 @@
                   </table>
 
                   <table
-                    *ngIf="tableView"
+                    id="order-table-export"
                     class="table table-striped table-bordered text-nowrap table-wrapper2 summary-table mb-0"
                   >
                     <thead>
                       <tr class="top-table">
                         <td colspan="6">
-                          <span>Vendor: {{ vendorData.vendor_name }}</span>
-                          <br />
-                          <span>DealerShip: {{ dealerData.company_name }}</span>
+                          <span>
+                            Vendor:
+                            <span class="notranslate">
+                              {{ vendorData.vendor_name }}
+                            </span>
+                          </span>
+                        </td>
+                      </tr>
+
+                      <tr class="top-table">
+                        <td colspan="6">
+                          <span>
+                            Dealer:
+                            <span class="notranslate">
+                              {{ dealerData.company_name }}
+                            </span>
+                          </span>
                           -
                           {{ dealerData.account_id }}
                         </td>
@@ -127,13 +141,65 @@
                       <tr>
                         <th class="thead-custom">Qty</th>
                         <th class="thead-custom">Atlas #</th>
-
                         <th class="thead-custom">Vendor #</th>
-
                         <th class="thead-custom">Description</th>
-
                         <th class="thead-custom">Special Price ($)</th>
+                        <th class="thead-custom">Total ($)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let data of summaryData">
+                        <td class="text-center">{{ data.qty }}</td>
+                        <td class="text-center">{{ data.atlas_id }}</td>
+                        <td class="text-center">
+                          {{ data.vendor_product_code }}
+                        </td>
+                        <td class="text-center">{{ data.desc }}</td>
 
+                        <td class="text-right">
+                          {{ data.special | number: '1.2-2' }}
+                        </td>
+                        <td class="text-right">
+                          {{ data.total | number: '1.2-2' }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <table
+                    *ngIf="tableView"
+                    class="table table-striped table-bordered text-nowrap table-wrapper2 summary-table mb-0"
+                  >
+                    <thead>
+                      <tr class="top-table">
+                        <td colspan="6">
+                          <span>
+                            Vendor:
+                            <span class="notranslate">
+                              {{ vendorData.vendor_name }}
+                            </span>
+                          </span>
+                        </td>
+                      </tr>
+
+                      <tr class="top-table">
+                        <td colspan="6">
+                          <span>
+                            Dealer:
+                            <span class="notranslate">
+                              {{ dealerData.company_name }}
+                            </span>
+                          </span>
+                          -
+                          {{ dealerData.account_id }}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th class="thead-custom">Qty</th>
+                        <th class="thead-custom">Atlas #</th>
+                        <th class="thead-custom">Vendor #</th>
+                        <th class="thead-custom">Description</th>
+                        <th class="thead-custom">Special Price ($)</th>
                         <th class="thead-custom">Total ($)</th>
                       </tr>
                     </thead>
@@ -155,8 +221,13 @@
                       </tr>
                       <tr class="last-col">
                         <td colspan="5" class="text-right">
-                          TOTAL FOR {{ vendorData.vendor_name }}
-                          {{ dealerData.company_name }}
+                          TOTAL FOR
+                          <span class="notranslate">
+                            {{ vendorData.vendor_name }}
+                          </span>
+                          <span class="notranslate">
+                            {{ dealerData.company_name }}
+                          </span>
                         </td>
                         <td class="text-right">{{ totalPrice | currency }}</td>
                       </tr>
@@ -274,7 +345,7 @@
                     <tbody>
                       <tr *ngFor="let data of vendorNoteData">
                         <td>{{ data.note }}</td>
-                        <td>{{ data.rep_name }}</td>
+                        <td class="notranslate">{{ data.rep_name }}</td>
                       </tr>
                       <tr *ngIf="noVendorNote">
                         <td colspan="2" class="text-center">No vendor note</td>
@@ -381,7 +452,7 @@
                     <tbody>
                       <tr *ngFor="let data of atlasNoteData">
                         <td>{{ data.note }}</td>
-                        <td>{{ data.rep_name }}</td>
+                        <td class="notranslate">{{ data.rep_name }}</td>
                       </tr>
                       <tr *ngIf="noAtlasNote">
                         <td colspan="2" class="text-center">No atlas note</td>
@@ -391,11 +462,31 @@
                 </div>
 
                 <hr />
-                <div class="d-flex btn-section">
+                <div class="d-flex justify-content-end btn-section">
                   <div>
-                    <button class="download-btn">
+                    <a
+                      style="display: block;"
+                      target="_blank"
+                      [href]="
+                        'https://atlas-eos-app-hvw34.ondigitalocean.app/generate-vendor-view-summary/' +
+                        dealer +
+                        '/' +
+                        vendor +
+                        '/' +
+                        getLocal('lang') +
+                        '/' +
+                        currenDateTime
+                      "
+                      class="download-btn"
+                    >
                       <span class="fa fa-print"></span>
                       Print Preview/Print
+                    </a>
+                  </div>
+                  <div>
+                    <button class="download-btn" (click)="exportOrderExcel()">
+                      <span class="fa fa-download"></span>
+                      Download as Excel (Order)
                     </button>
                   </div>
                   <div>

@@ -128,13 +128,23 @@
                     mat-table
                     [dataSource]="dataSource"
                     class="mat-elevation w-100 table table-striped table-bordered"
+                    matSort
+                    (matSortChange)="sortData($event)"
                   >
                     <!--- Note that these columns can be defined in any order.
                         The actual rendered columns are set as a property on the row definition" -->
 
                     <!-- Position Column -->
                     <ng-container matColumnDef="vendor_id">
-                      <th mat-header-cell *matHeaderCellDef>Vendor Number</th>
+                      <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        (click)="sortByNumber()"
+                        style="cursor: pointer;"
+                      >
+                        Vendor Number
+                        <i class="fa fa-sort ml-2"></i>
+                      </th>
                       <td mat-cell *matCellDef="let element">
                         <h6 class="text-center">{{ element.vendor_code }}</h6>
                       </td>
@@ -142,7 +152,15 @@
 
                     <!-- Name Column -->
                     <ng-container matColumnDef="vendor_name">
-                      <th mat-header-cell *matHeaderCellDef>Vendor Name</th>
+                      <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        (click)="sortByName()"
+                        style="cursor: pointer;"
+                      >
+                        Vendor Name
+                        <i class="fa fa-sort ml-2"></i>
+                      </th>
                       <td mat-cell *matCellDef="let element">
                         <h6 class="text-center">{{ element.vendor_name }}</h6>
                       </td>

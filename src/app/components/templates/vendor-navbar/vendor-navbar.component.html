@@ -44,6 +44,7 @@
         class="side-menu__item"
         routerLink="/vendors/purchases-by-dealer"
         routerLinkActive="active-link"
+        [ngClass]="activeColor ? 'active-linker' : ''"
       >
         <span class="fa fa-history navbar-icons"></span>
         <span class="side-menu__label">Purchases By Dealer</span>
@@ -160,8 +161,53 @@
         <span class="fa fa-align-left header-top-sidebar-icons"></span>
       </a>
 
-      <div class="d-flex w-100 justify-content-end">
-        <div class="navbar-inner-section-bell">
+      <div class="d-flex w-100 justify-content-end" style="position: fixed;">
+        <div
+          class="navbar-inner-section-bell"
+          (mouseenter)="showMenu()"
+          (mouseleave)="hideMenu()"
+          (click)="goToPurchasers()"
+        >
+          <span class="badge badge-primary notify-con">
+            {{ bellCounter }}
+          </span>
+
+          <div class="bell-wrapper">
+            <span class="fa fas fa-bell"></span>
+          </div>
+
+          <div class="list-item-notify" *ngIf="menuStatus">
+            <li *ngFor="let item of notifyData">
+              <a
+                class="notify-list"
+                href="/vendors/view-dealer-summary/{{ item.dealer }}/{{
+                  item.vendor
+                }}"
+              >
+                {{ item.vendor_name }}
+              </a>
+            </li>
+
+            <!--                  
+            routerLink="/vendors/view-dealer-summary/{{ item.dealer }}/{{
+              item.vendor
+            }}" -->
+
+            <span
+              *ngIf="noNewOrderNotify"
+              style="display: block; text-align: center; font-size: 12px;"
+            >
+              No New Order
+            </span>
+          </div>
+        </div>
+
+        <!-- 
+        <div
+          class="navbar-inner-section-bell"
+          (mouseenter)="showMenu()"
+          (mouseleave)="hideMenu()"
+        >
           <span class="badge badge-secondary notify-count">
             {{ bellCounter }}
           </span>
@@ -169,9 +215,11 @@
           <div class="bell-wrapper" mat-button [matMenuTriggerFor]="menu">
             <span class="fa fas fa-bell"></span>
           </div>
+
           <mat-menu #menu="matMenu">
             <div class="list-item-notify">
               <a
+                class="dealership-list"
                 routerLink="/vendors/purchases-by-dealer/{{ item.vendor }}"
                 *ngFor="let item of notifyData"
               >
@@ -179,7 +227,9 @@
               </a>
             </div>
           </mat-menu>
-        </div>
+        </div> 
+      -->
+
         <div class="navbar-inner-section">
           <div
             class="nav-wrapper"

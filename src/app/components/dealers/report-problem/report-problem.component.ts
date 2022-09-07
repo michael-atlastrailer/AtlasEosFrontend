@@ -73,10 +73,11 @@ export class ReportProblemComponent implements OnInit {
     this.responseSuccess = false
     let sub = this.subject.nativeElement.value!
     let desc = this.description.nativeElement.value!
-    let img = this.uploadedFile!
+    let img = this.uploadedFile
     if (sub && desc) {
       this.formLoader = true
       this.formError = false
+
       let formData = {
         subject: sub,
         description: desc,
@@ -85,10 +86,20 @@ export class ReportProblemComponent implements OnInit {
         role: '4',
         dealer_id: this.token.getUser().account_id,
       }
+
+      let fd = new FormData()
+      fd.append('photo', img)
+      fd.append('subject', sub)
+      fd.append('description', desc)
+      fd.append('user_id', this.token.getUser().id)
+      fd.append('role', '4')
+      fd.append('dealer_id', this.token.getUser().account_id)
+
       this.postData
-        .httpPostRequest('/create-report', formData)
-        .then((result: any) => {
+        .uploadFile('/create-report', fd)
+        .then((result) => {
           this.formLoader = false
+
           if (result.status) {
             console.log('result', result, this.responseSuccess)
             this.responseSuccess = true
@@ -101,39 +112,76 @@ export class ReportProblemComponent implements OnInit {
               '500',
             )
           } else {
-            let error = result.message.response
-            {
-              error.photo &&
-                this.toastr.error(`${error.photo}`, `Something went wrong`)
-            }
-            {
-              error.subject &&
-                this.toastr.error(`${error.subject}`, `Something went wrong`)
-            }
-            {
-              error.description &&
-                this.toastr.error(
-                  `${error.description}`,
-                  `Something went wrong`,
-                )
-            }
-            console.log('result else', result)
+            this.toastr.error(
+              'Somethin went wrong, Try again',
+              `Uploading Error`,
+            )
           }
         })
         .catch((err) => {
-          let error = err.message.response
-          console.log('erroror', err)
-          {
-            error.photo &&
-              this.toastr.error(`${error.photo}`, `Something went wrong`)
-          }
-          {
-            error.subject &&
-              this.toastr.error(`${error.subject}`, `Something went wrong`)
-          }
-          this.toastr.error('', `Something went wrong`)
-          this.formLoader = false
+          this.toastr.error('Somethin went wrong, Try again', `Uploading Error`)
         })
+
+      // let formData = {
+      //   subject: sub,
+      //   description: desc,
+      //   photo: img,
+      //   user_id: this.token.getUser().id,
+      //   role: '4',
+      //   dealer_id: this.token.getUser().account_id,
+      // }
+      // this.postData
+      //   .httpPostRequest('/create-report', formData)
+      //   .then((result: any) => {
+
+      //     this.formLoader = false
+      //     if (result.status) {
+      //       console.log('result', result, this.responseSuccess)
+      //       this.responseSuccess = true
+      //       this.subject.nativeElement.value = ''
+      //       this.description.nativeElement.value = ''
+      //       this.photo.nativeElement.value = ''
+
+      //       $('html, body').animate(
+      //         { scrollTop: $('.app-content').offset().top },
+      //         '500',
+      //       )
+      //     } else {
+      //       let error = result.message.response
+
+      //       {
+      //         error.photo &&
+      //           this.toastr.error(`${error.photo}`, `Something went wrong`)
+      //       }
+      //       {
+      //         error.subject &&
+      //           this.toastr.error(`${error.subject}`, `Something went wrong`)
+      //       }
+      //       {
+      //         error.description &&
+      //           this.toastr.error(
+      //             `${error.description}`,
+      //             `Something went wrong`,
+      //           )
+      //       }
+
+      //       console.log('result else', result)
+      //     }
+      //   })
+      //   .catch((err) => {
+      //     let error = err.message.response
+      //     console.log('erroror', err)
+      //     {
+      //       error.photo &&
+      //         this.toastr.error(`${error.photo}`, `Something went wrong`)
+      //     }
+      //     {
+      //       error.subject &&
+      //         this.toastr.error(`${error.subject}`, `Something went wrong`)
+      //     }
+      //     this.toastr.error('', `Something went wrong`)
+      //     this.formLoader = false
+      //   })
     } else {
       this.formLoader = false
       this.formError = true

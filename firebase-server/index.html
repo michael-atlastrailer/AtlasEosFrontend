@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="en"><head>
     <meta charset="utf-8">
-    <title>Atlas Booking Program Test Server</title>
+    <title>Atlas Booking Program</title>
     <base href="/">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -216,7 +216,7 @@
             }
     </style>
 
-    <div id="google_translate_element" style="margin-top: 35px; z-index: 9999; margin-right: 160px;"></div>
+    <div id="google_translate_element" style=""></div>
 
     <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
@@ -270,7 +270,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
     <app-root></app-root>
-  <script src="runtime.e36fc8d10d40abae.js" type="module"></script><script src="polyfills.0523bb909db44227.js" type="module"></script><script src="scripts.eabcf25e747e91bd.js" defer></script><script src="main.e1bb70e5ac16b07b.js" type="module"></script>
+  <script src="runtime.8a2cdba0acc01150.js" type="module"></script><script src="polyfills.0523bb909db44227.js" type="module"></script><script src="scripts.eabcf25e747e91bd.js" defer></script><script src="main.1c85ab06c311b966.js" type="module"></script>
 
   
 
@@ -320,12 +320,81 @@
   <script>
     let module = window.localStorage.getItem('module')
 
+    /* let module = window.localStorage.getItem('module') */
+
     setInterval(() => {
+      if (module) {
+        switch (module) {
+          case '1':
+            /* $('.skiptranslate').hide() */
+            $('.skiptranslate').css({
+              'margin-top': '-10px',
+              'margin-right': '150px',
+            })
+
+            $('#google_translate_element').css({
+              'margin-top': '25px',
+              'z-index': '9999',
+              'margin-right': '250px',
+            })
+            /* margin-top: 25px; z-index: 9999; margin-right: 250px; */
+
+            break
+
+          case '2':
+            /* $('.skiptranslate').hide() */
+            $('#google_translate_element').css({
+              'margin-top': '25px',
+              'z-index': '9999',
+              'margin-right': '250px',
+            })
+            break
+
+          case '3':
+            /* $('.skiptranslate').hide() */
+            /* $('.skiptranslate').css({
+              'margin-top': '20px',
+              'margin-right': '85px',
+            }) */
+            $('#google_translate_element').css({
+              'margin-top': '5px',
+              'z-index': '9999',
+              'margin-right': '290px',
+            })
+
+            break
+
+          case '4':
+            /* $('.skiptranslate').show() */
+            $('#google_translate_element').css({
+              'margin-top': '25px',
+              'z-index': '9999',
+              'margin-right': '170px',
+            })
+            break
+
+          default:
+            $('#google_translate_element').css({
+              'margin-top': '25px',
+              'z-index': '9999',
+              'margin-right': '250px',
+            })
+            /* $('.skiptranslate').hide() */
+
+            break
+        }
+      }
+    }, 1000)
+
+    /* setInterval(() => {
+      if (module && module == 1) {
+        $('.skiptranslate').hide()
+      }
       if (module && module != '4') {
         $('.skiptranslate').hide()
         // document.getElementsByClassName('skiptranslate').style.display = 'none'
       }
-    }, 10000)
+    }, 1000) */
   </script>
 
 </body><!-- JQUERY JS --></html>

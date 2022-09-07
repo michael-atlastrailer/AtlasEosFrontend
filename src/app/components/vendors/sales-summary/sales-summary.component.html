@@ -32,6 +32,7 @@
                       <option value="">Select Vendor</option>
 
                       <option
+                        class="notranslate"
                         value="{{ data.vendor_code }}"
                         *ngFor="let data of privilegedVendors"
                       >
@@ -48,7 +49,9 @@
                 </div>
 
                 <h6 class="selected-title-name">
-                  <span class="selected-name">{{ selectedVendorName }}</span>
+                  <span class="selected-name notranslate">
+                    {{ selectedVendorName }}
+                  </span>
                   <span class="total-text">
                     Total: $ {{ totalAmount | number: '1.2-2' }}
                   </span>
@@ -143,7 +146,112 @@
                     </tbody>
                   </table>
 
-                  <table
+                  <div class="table-data-section" *ngIf="!loader">
+                    <table
+                      id="export-table"
+                      mat-table
+                      [dataSource]="dataSource"
+                      class="mat-elevation w-100 table table-striped table-bordered"
+                      matSort
+                      (matSortChange)="sortData($event)"
+                    >
+                      <!--- Note that these columns can be defined in any order.
+                        The actual rendered columns are set as a property on the row definition" -->
+
+                      <!-- Position Column -->
+
+                      <ng-container matColumnDef="qty">
+                        <th mat-header-cell *matHeaderCellDef>
+                          Qty
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                          <span class="normal-d-text">
+                            {{ element.qty }}
+                          </span>
+                        </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="atlas_id">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                          Atlas #
+                          <i class="fa fa-sort ml-2"></i>
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                          <span class="normal-d-text">
+                            {{ element.atlas_id }}
+                          </span>
+                        </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="vendor">
+                        <th
+                          mat-header-cell
+                          *matHeaderCellDef
+                          (click)="sortDataAlt()"
+                          style="cursor: pointer;"
+                        >
+                          Vendor #
+                          <i class="fa fa-sort ml-2"></i>
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                          <span class="normal-d-text">
+                            {{ element.vendor }}
+                          </span>
+                        </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="description">
+                        <th mat-header-cell *matHeaderCellDef>Description</th>
+                        <td mat-cell *matCellDef="let element">
+                          <span class="desc-text">
+                            {{ element.description }}
+                          </span>
+                        </td>
+                      </ng-container>
+
+                      <!-- Name Column -->
+                      <ng-container matColumnDef="regular">
+                        <th mat-header-cell *matHeaderCellDef>Regular ($)</th>
+                        <td mat-cell *matCellDef="let element">
+                          <span class="booking-text">
+                            {{ element.regular }}
+                          </span>
+                        </td>
+                      </ng-container>
+
+                      <!-- Weight Column -->
+                      <ng-container matColumnDef="show">
+                        <th mat-header-cell *matHeaderCellDef>Special ($)</th>
+                        <td mat-cell *matCellDef="let element">
+                          <!-- {{ element.booking }} -->
+
+                          <span class="booking-text">
+                            {{ element.booking }}
+                          </span>
+                        </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="total">
+                        <th mat-header-cell *matHeaderCellDef>Total ($)</th>
+                        <td mat-cell *matCellDef="let element">
+                          <span class="booking-text">
+                            {{ element.total | number }}
+                          </span>
+                        </td>
+                      </ng-container>
+
+                      <tr
+                        mat-header-row
+                        *matHeaderRowDef="displayedColumns"
+                      ></tr>
+                      <tr
+                        mat-row
+                        *matRowDef="let row; columns: displayedColumns"
+                      ></tr>
+                    </table>
+                  </div>
+
+                  <!-- <table
                     id="export-sales-summary"
                     *ngIf="tableView"
                     class="table table-striped table-bordered text-nowrap table-wrapper2 align-items-center mb-0"
@@ -196,7 +304,7 @@
                         <td colspan="7" class="text-center">No order found</td>
                       </tr>
                     </tbody>
-                  </table>
+                  </table> -->
                 </div>
 
                 <hr />
@@ -211,7 +319,9 @@
                         'https://atlas-eos-app-hvw34.ondigitalocean.app/generate-vendor-sales-summary-pdf/' +
                         printVendorCode +
                         '/' +
-                        getLocal('lang')
+                        getLocal('lang') +
+                        '/' +
+                        currenDateTime
                       "
                     >
                       <span class="fa fa-print"></span>

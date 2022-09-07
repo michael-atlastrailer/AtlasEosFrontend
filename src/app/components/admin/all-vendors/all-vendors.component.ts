@@ -5,6 +5,7 @@ import { MatPaginator } from '@angular/material/paginator'
 import { MatTableDataSource } from '@angular/material/table'
 import Swal from 'sweetalert2'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { MatSort, Sort } from '@angular/material/sort'
 
 declare var $: any
 
@@ -24,6 +25,9 @@ export class AllVendorsComponent implements OnInit {
   tableView = false
   loader = true
   allVendor: any
+
+  sortDir = false
+  productData: any
 
   displayedColumns: string[] = [
     'vendor_id',
@@ -70,6 +74,68 @@ export class AllVendorsComponent implements OnInit {
   ngOnInit(): void {
     this.getVendors()
     this.buildDealerForm()
+  }
+
+  sortByNumber() {
+    //// const data = this.dataSource.data.slice()
+    const data = this.productData.slice()
+    this.sortDir = !this.sortDir
+
+    this.dataSource = data.sort((a: any, b: any) => {
+      let item = 'number'
+      switch (item) {
+        case 'index':
+          return compare(a.index, b.index, this.sortDir)
+        case 'number':
+          return compare(a.vendor_code, b.vendor_code, this.sortDir)
+
+        default:
+          return 0
+      }
+    })
+  }
+
+  sortByName() {
+    //// const data = this.dataSource.data.slice()
+    const data = this.productData.slice()
+    this.sortDir = !this.sortDir
+
+    this.dataSource = data.sort((a: any, b: any) => {
+      let item = 'name'
+      switch (item) {
+        case 'index':
+          return compare(a.index, b.index, this.sortDir)
+        case 'name':
+          return compare(a.vendor_name, b.vendor_name, this.sortDir)
+
+        default:
+          return 0
+      }
+    })
+  }
+
+  sortData(sort: Sort) {
+    const data = this.productData.slice()
+    if (!sort.active || sort.direction === '') {
+      this.dataSource = data
+      return
+    }
+
+    this.dataSource = data.sort((a: any, b: any) => {
+      // const isAsc = sort.direction === 'asc'
+
+      const isAsc = !true
+
+      switch (sort.active) {
+        case 'atlas_id':
+          return compare(a.id, b.id, isAsc)
+        case 'vendor':
+          return compare(a.vendor_product_code, b.vendor_product_code, isAsc)
+
+        default:
+          return 0
+      }
+    })
   }
 
   ngAfterViewInit() {
@@ -245,6 +311,7 @@ export class AllVendorsComponent implements OnInit {
 
         if (result.status) {
           this.incomingData = result.data
+          this.productData = result.data
           // this.dataSource = result.data
           this.dataSource = new MatTableDataSource(result.data)
           this.dataSourceWithObjectColumn = new MatTableDataSource(result.data)
@@ -259,4 +326,8 @@ export class AllVendorsComponent implements OnInit {
         this.toastr.error('Try again', 'Something went wrong')
       })
   }
+}
+
+function compare(a: number | string, b: number | string, isAsc: boolean) {
+  return (a < b ? -1 : 1) * (isAsc ? 1 : -1)
 }

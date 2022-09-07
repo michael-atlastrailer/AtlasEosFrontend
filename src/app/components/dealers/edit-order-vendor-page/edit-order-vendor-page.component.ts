@@ -1095,21 +1095,21 @@ export class EditOrderVendorPageComponent implements ComponentCanDeactivate {
       .then((result: any) => {
         this.saveBtnLoader = false
         if (result.status) {
-          this.tableData = result.data
-          this.cartData = result.data
-          this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data)
-          for (let d = 0; d < result.data.length; d++) {
-            const element = result.data[d]
+          //  this.tableData = result.data
+          // this.cartData = result.data
+          // this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data)
+          // for (let d = 0; d < result.data.length; d++) {
+          //   const element = result.data[d]
 
-            let data = {
-              atlasId: element.atlas_id,
-              price: element.price,
-              grouping: element.grouping,
-              index: result.data.indexOf(element),
-            }
+          //   let data = {
+          //     atlasId: element.atlas_id,
+          //     price: element.price,
+          //     grouping: element.grouping,
+          //     index: result.data.indexOf(element),
+          //   }
 
-            this.addedItem.push(data)
-          }
+          //   this.addedItem.push(data)
+          // }
           this.toastr.success('Item saved successfully', 'Success')
         } else {
           this.toastr.error('Something went wrong', 'Try again')

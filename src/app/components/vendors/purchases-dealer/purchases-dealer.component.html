@@ -27,6 +27,7 @@
                         >
                           <option value="">Select Vendor</option>
                           <option
+                            class="notranslate"
                             value="{{ data.vendor_code }}"
                             *ngFor="let data of privilegedVendors"
                           >
@@ -165,7 +166,7 @@
                         </td>
                         <td class="shift-center">
                           <a
-                            class="dealer-linker"
+                            class="dealer-linker notranslate"
                             routerLink="/vendors/view-dealer-purchasers-summary/{{
                               data.user
                             }}/{{ data.account_id }}/{{ data.vendor_code }}"
@@ -173,7 +174,7 @@
                             {{ data.dealer_name }}
                           </a>
                         </td>
-                        <td class="shift-center">
+                        <td class="shift-center purchaser-name notranslate">
                           {{ data.purchaser_name }}
                         </td>
                         <td class="total-col">
@@ -182,7 +183,10 @@
                       </tr>
                       <tr *ngIf="selectedState">
                         <td colspan="4" class="total-name total-col">
-                          TOTAL FOR {{ selectedVendorName }}
+                          TOTAL FOR
+                          <span class="notranslate">
+                            {{ selectedVendorName }}
+                          </span>
                         </td>
                         <td class="total-name total-col">
                           {{ TotalForVendorAmount | currency }}

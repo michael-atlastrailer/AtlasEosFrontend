@@ -207,28 +207,39 @@ export class LoginComponent implements OnInit {
 
     switch (role) {
       case '1':
-        this.router.navigate(['/admin/dashboard'])
+        // this.router.navigate(['/admin/dashboard'])
+        window.location.href = '/admin/dashboard'
         break
 
       case '2':
-        this.router.navigate(['/branch/dashboard'])
+        // this.router.navigate(['/branch/dashboard'])
+        window.location.href = '/branch/dashboard'
+
         break
 
       case '3':
-        this.router.navigate(['/vendors/dashboard'])
+        // this.router.navigate(['/vendors/dashboard'])
+        window.location.href = '/vendors/dashboard'
+
         break
 
       case '4':
         // this.toastr.info('Thank you for your Order', `Booking is now closed`)
-        this.router.navigate(['/dealers/dashboard'])
+        window.location.href = '/dealers/dashboard'
+
+        // this.router.navigate(['/dealers/dashboard'])
         break
       case '5':
         // this.toastr.info('Thank you for your Order', `Booking is now closed`)
-        this.router.navigate(['/inside-sales/dashboard'])
+        window.location.href = '/inside-sales/dashboard'
+
+        // this.router.navigate(['/inside-sales/dashboard'])
         break
       case '6':
         // this.toastr.info('Thank you for your Order', `Booking is now closed`)
-        this.router.navigate(['/outside-sales/dashboard'])
+        window.location.href = '/outside-sales/dashboard'
+
+        // this.router.navigate(['/outside-sales/dashboard'])
         break
 
       default:

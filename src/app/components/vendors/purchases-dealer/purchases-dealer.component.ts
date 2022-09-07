@@ -29,6 +29,8 @@ export class PurchasesDealerComponent implements OnInit {
   TotalForVendorAmount: number = 0
   showSelectOption = true
   vendor = ''
+  hiddenSelectedVendor = ''
+  allVendorData: any
 
   constructor(
     private tokenData: TokenStorageService,
@@ -36,29 +38,55 @@ export class PurchasesDealerComponent implements OnInit {
     private route: ActivatedRoute,
   ) {
     this.userData = tokenData.getUser()
-    ///this.getPrivilegedVendors()
-    if (this.userData.privileged_vendors) {
-      this.getPrivilegedVendors()
-      this.showSelectOption = true
+
+    if (this.userData.privileged_vendors != null) {
+      let privilegeVenArray = this.userData.privileged_vendors.split(',')
+      if (privilegeVenArray[1] != '') {
+        this.getPrivilegedVendors()
+        this.showSelectOption = true
+      } else {
+        this.selectedVendorName = this.userData.company_name
+        this.showSelectOption = false
+        this.selectedVendorCode = privilegeVenArray[0]
+        this.getSingleVendorPurchasers()
+        this.getAllVendors()
+      }
     } else {
-      this.selectedVendorCode = this.userData.vendor_code
-      this.getSingleVendorPurchasers()
-      //console.log('no vendor')
       this.selectedVendorName = this.userData.company_name
       this.showSelectOption = false
+      this.selectedVendorCode = this.userData.vendor_code
+      this.getSingleVendorPurchasers()
     }
   }
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.vendor = params['vendor']
-
-      ///this.selectedVendor(this.vendor)
       this.selectedVendorCode = this.vendor
       this.changeBellNotificationStatus()
 
-      this.getVendorPurchasers()
+      if (this.vendor != undefined) {
+        this.getVendorPurchasers()
+      }
     })
+  }
+
+  getAllVendors() {
+    this.httpServer
+      .httpGetRequest('/get-all-vendors')
+      .then((result: any) => {
+        if (result.status) {
+          this.allVendorData = result.data
+          for (let i = 0; i < this.allVendorData.length; i++) {
+            const ji = this.allVendorData[i]
+            if (ji.vendor_code == this.selectedVendorCode) {
+              this.selectedVendorName = ji.vendor_name
+            }
+          }
+        } else {
+        }
+      })
+      .catch((err) => {})
   }
 
   changeBellNotificationStatus() {
@@ -114,6 +142,10 @@ export class PurchasesDealerComponent implements OnInit {
 
   getVendorPurchasers() {
     if (this.selectedVendorCode != '') {
+      this.selectedVendorName = this.hiddenSelectedVendor
+
+      this.TotalForVendorAmount = 0
+
       this.selectedState = true
 
       this.tableView = false
@@ -151,7 +183,7 @@ export class PurchasesDealerComponent implements OnInit {
     for (let i = 0; i < this.privilegedVendors.length; i++) {
       const element = this.privilegedVendors[i]
       if (element.vendor_code == data) {
-        this.selectedVendorName = element.vendor_name
+        this.hiddenSelectedVendor = element.vendor_name
       }
     }
   }

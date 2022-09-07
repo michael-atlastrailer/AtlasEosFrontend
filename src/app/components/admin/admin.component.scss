@@ -1,28 +1,14 @@
 .nav-layer-title {
-  background-color: #1d7471;
-  color: #ffffff;
-  position: fixed;
-  top: 64px;
-  width: 85%;
-  z-index: 996;
-}
-
-.table-wrapper {
-  padding-right: 77px;
-}
-
-.nav-layer-title2 {
-  background-color: #1d7471;
+  background-color: #a20029;
   color: #ffffff;
   padding: 10px;
-  z-index: 1;
-  margin-top: -104px;
-}
+  //     z-index: 1;
+  // position: fixed;
+  // top: 64px;
 
-.tbody-text-timer,
-.timer-title {
-  color: #ffffff;
-  font-weight: 600;
+  position: fixed;
+  top: 64px;
+  z-index: 996;
 }
 
 .text-alert {
@@ -41,4 +27,10 @@
 
 .audio-tag {
   visibility: hidden;
+}
+
+::ng-deep {
+  .mat-paginator-page-size {
+    display: none !important;
+  }
 }

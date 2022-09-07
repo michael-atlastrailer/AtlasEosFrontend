@@ -1,2 +1,40 @@
-<router-outlet></router-outlet><p id="langcheck" (resize)="setLang()"  #langcheck class="opac-0" style="width:fit-content;">catch me if you can do you</p>
+<router-outlet></router-outlet>
+<p
+  id="langcheck"
+  (resize)="setLang()"
+  #langcheck
+  class="opac-0"
+  style="width: fit-content;"
+>
+  catch me if you can do you
+</p>
 
+<script>
+  let module = window.localStorage.getItem('module')
+
+  setInterval(() => {
+    if (module) {
+      switch (module) {
+        case '1':
+          $('.skiptranslate').hide()
+          console.log('hello')
+          break
+
+        case '2':
+          $('.skiptranslate').hide()
+          break
+
+        case '3':
+          $('.skiptranslate').hide()
+          break
+
+        case '4':
+          $('.skiptranslate').show()
+          break
+
+        default:
+          break
+      }
+    }
+  }, 1000)
+</script>

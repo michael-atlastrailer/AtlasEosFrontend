@@ -158,7 +158,9 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
     private currencyPipe: CurrencyPipe,
     private chatServer: ChatService
   ) {
-    this.getAllVendors();
+
+    this.getAllVendors()
+
 
     this.route.params.subscribe((params) => {
       this.vendorId = params['vendorId'];
@@ -168,10 +170,13 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
       }
       console.log('testing waters', this.vendorId, this.searchatlasId);
       if (this.vendorId) {
-        console.log('got in', this.vendorId, this.searchatlasId);
-        this.searchVendorId(this.vendorId!);
-        this.setVendor = true;
-        this.selectVendor = this.vendorId;
+
+        console.log('got in', this.vendorId, this.searchatlasId)
+        this.searchVendorId(this.vendorId!)
+        this.setVendor = true
+        this.selectVendor = this.vendorId
+        this.vendorCode = this.vendorId
+
       }
     });
 
@@ -233,8 +238,10 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
       }
     });
   }
+
   sortDataAlt(item: any) {
     const data = this.dataSrc.data.slice();
+
 
     let toglerName = (this.dataSrc.data = data.sort((a: any, b: any) => {
       switch (item) {
@@ -254,6 +261,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
       }
     }));
   }
+
   ///////// Old code ///////////
 
   emptyTableQty() {
@@ -686,9 +694,11 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
 
     this.currentProductAmt = amount;
 
-    console.log(this.productData[index]);
-    return this.productData[index];
-  };
+
+    console.log(this.productData)
+    return this.productData[index]
+  }
+
 
   /**
    * Updates the Product with the specified index.
@@ -901,7 +911,9 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
     if (this.searchatlasId == '###') {
       newArray = array;
     } else {
-      this.isMod = true;
+
+      this.isMod = true
+
       setTimeout(
         () => {
           document
@@ -911,13 +923,15 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
               behavior: 'smooth',
               block: 'center',
               inline: 'start',
-            });
-          $('#bastard').css('padding-top', '220px ');
+
+            })
+          $('#bastard').css('padding-top', '220px ')
           // $('#bastard').css('height', '120%')
         },
 
-        1000
-      );
+        1000,
+      )
+
 
       this.highlightIndex = array.findIndex((item: any) => {
         return item.atlas_id == this.searchatlasId!;
@@ -1061,7 +1075,9 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
 
   async confirmBox() {
     if (this.overTotal > 0) {
-      $('#bastard').css('padding-top', '0px ');
+
+      $('#bastard').css('padding-top', '0px ')
+
       return await Swal.fire({
         title: 'You are about to leave this page',
         text: 'Any items not added to your cart will be lost',

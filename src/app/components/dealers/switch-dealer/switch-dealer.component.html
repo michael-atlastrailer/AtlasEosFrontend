@@ -2,58 +2,13 @@
   <div class="container-fluid p-0">
     <div class="row">
       <div class="col-md-12 col-sm-12">
-        <div id="accordion6" class="mb-3">
-          <div class="card">
-            <div class="card-header">
-              <a class="card-link" data-toggle="collapse" href="#collapseSix">
-                Special Orders
-              </a>
-            </div>
-            <div
-              id="collapseSix"
-              class="collapse show"
-              data-parent="#accordion6"
-            >
-              <div class="card-body" *ngIf="showSelectOption">
-                <div class="d-flex w-100 filter-wrapper">
-                  <div class="input-wrapper">
-                    <div class="form-group">
-                      <div class="select-wrapper">
-                        <select
-                          #vendor
-                          name=""
-                          id=""
-                          (change)="selectedVendor(vendor.value)"
-                        >
-                          <option
-                            class="notranslate"
-                            value="{{ data.vendor_code }}"
-                            *ngFor="let data of privilegedVendors"
-                          >
-                            {{ data.vendor_name }}
-                          </option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="btn-wrapper">
-                    <button class="" (click)="getVendorSpecialOrders()">
-                      Search
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <div id="accordion7" class="mb-3">
           <div class="card">
             <div class="card-header">
               <a class="card-link" data-toggle="collapse" href="#collapseSeven">
                 <span class="fa fas fa-list-ul pr-2"></span>
 
-                Special Orders
+                Switch to Dealer
               </a>
             </div>
             <div
@@ -62,6 +17,26 @@
               data-parent="#accordion7"
             >
               <div class="card-body">
+                <div class="d-flex justify-content-end">
+                  <div class="input-wrapper">
+                    <button
+                      class="default-switch"
+                      (click)="switchToDefault()"
+                      *ngIf="defaultBtn"
+                    >
+                      Switch to Default
+                    </button>
+                    <!-- <input
+                      (keyup)="applyFilter($event)"
+                      placeholder="Search columns"
+                      #input
+                      type="text"
+                      placeholder="Search...."
+                      class="table-search"
+                    /> -->
+                  </div>
+                </div>
+
                 <div class="table-responsive">
                   <table class="table" *ngIf="loader">
                     <thead>
@@ -83,7 +58,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
+                      <tr *ngFor="let data of loaderData">
                         <td class="loader-td">
                           <div
                             class="ph-item"
@@ -139,54 +114,68 @@
                       </tr>
                     </tbody>
                   </table>
-
+                </div>
+                <div
+                  class="table-responsive table-data-section"
+                  *ngIf="tableView"
+                >
                   <table
-                    id="export-table"
-                    *ngIf="tableView"
-                    class="table table-striped table-bordered text-nowrap table-wrapper2 align-items-center mb-0"
+                    id="myTable"
+                    mat-table
+                    [dataSource]="dataSource"
+                    class="mat-elevation w-100 table table-striped table-bordered"
                   >
-                    <thead>
-                      <tr>
-                        <th class="thead-custom">S/N</th>
-                        <th class="thead-custom">Qty</th>
-                        <th class="thead-custom">Description</th>
-                        <th class="thead-custom">Vendor Parts #</th>
-                        <th class="thead-custom">Vendor Name</th>
-                        <th class="thead-custom">Dealer Name</th>
-                        <th class="thead-custom">Dealer Account Number</th>
-                        <th class="thead-custom">Purchaser</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let item of specialOrder; let i = index">
-                        <td>{{ i }}</td>
-                        <td>{{ item.quantity }}</td>
-                        <td>{{ item.description }}</td>
-                        <td>{{ item.vendor_no }}</td>
-                        <td>{{ item.vendor_name }}</td>
-                        <td>{{ item.dealer_name }}</td>
+                    <!--- Note that these columns can be defined in any order.
+                            The actual rendered columns are set as a property on the row definition" -->
 
-                        <td>{{ item.dealer_id }}</td>
-                        <td>{{ item.user }}</td>
-                      </tr>
-                      <tr *ngIf="noOrderFound">
-                        <td colspan="8" class="text-center">
-                          No special items ordered for this vendor
-                        </td>
-                      </tr>
-                    </tbody>
+                    <!-- Position Column -->
+                    <ng-container matColumnDef="dealerCode">
+                      <th mat-header-cell *matHeaderCellDef>Dealer Code</th>
+                      <td mat-cell *matCellDef="let element">
+                        {{ element.dealer_code }}
+                      </td>
+                    </ng-container>
+
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="dealerName">
+                      <th mat-header-cell *matHeaderCellDef>Dealership Name</th>
+                      <td mat-cell *matCellDef="let element">
+                        {{ element.dealer_name }}
+                      </td>
+                    </ng-container>
+
+                    <!-- Weight Column -->
+
+                    <ng-container matColumnDef="action">
+                      <th mat-header-cell *matHeaderCellDef>Action</th>
+                      <td mat-cell *matCellDef="let element">
+                        <button
+                          class="delete-btn"
+                          (click)="switchDealer(element)"
+                          title="switch button"
+                        >
+                          <span class="fa fa-exchange"></span>
+                        </button>
+                      </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr
+                      mat-row
+                      *matRowDef="let row; columns: displayedColumns"
+                    ></tr>
+                    <tr *ngIf="noPrivilegedDealer">
+                      <td style="font-size: 13px;">
+                        No Privileged Dealer found
+                      </td>
+                    </tr>
                   </table>
                 </div>
-
-                <hr />
-                <div class="d-flex justify-content-end btn-section">
-                  <div>
-                    <button class="download-btn" (click)="exportVendorNote()">
-                      <span class="fa fa-download"></span>
-                      Download as Excel
-                    </button>
-                  </div>
-                </div>
+                <!-- <mat-paginator
+                  [pageSizeOptions]="pageSizes"
+                  pageSize="20"
+                  showFirstLastButtons
+                ></mat-paginator> -->
               </div>
             </div>
           </div>
@@ -195,3 +184,5 @@
     </div>
   </div>
 </section>
+
+<!-- Edit Vendor Modal -->

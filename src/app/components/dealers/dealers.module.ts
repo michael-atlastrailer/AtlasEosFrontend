@@ -46,7 +46,8 @@ import { DeactivateGuard } from 'src/app/core/guard/deactivate.guard'
 import { MatMenuModule } from '@angular/material/menu';
 import { DealerPurchaserSummaryComponent } from './dealer-purchaser-summary/dealer-purchaser-summary.component'
 import { MatFormFieldModule } from '@angular/material/form-field'
-import { MatInputModule } from '@angular/material/input'
+import { MatInputModule } from '@angular/material/input';
+import { SwitchDealerComponent } from './switch-dealer/switch-dealer.component'
 
 @NgModule({
   declarations: [
@@ -82,6 +83,7 @@ import { MatInputModule } from '@angular/material/input'
 
     TestQuickOrderComponent,
     DealerPurchaserSummaryComponent,
+    SwitchDealerComponent,
   ],
   imports: [
     CommonModule,
