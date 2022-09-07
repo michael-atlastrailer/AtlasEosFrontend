@@ -10,11 +10,13 @@ import { HttpRequestsService } from 'src/app/core/services/http-requests.service
 export class SetStartDateComponent implements OnInit {
   noValueErr = false;
   loader = false;
-  startDate=''
+  startDate = '';
   constructor(
     private postData: HttpRequestsService,
     private toastr: ToastrService
-  ) {this.getStartDate()}
+  ) {
+    this.getStartDate();
+  }
 
   ngOnInit(): void {}
   setDate(date: any) {
@@ -30,7 +32,8 @@ export class SetStartDateComponent implements OnInit {
           this.loader = false;
           if (result.status) {
             this.toastr.success('Date has been set', 'Success');
-            this.getStartDate()
+          
+            this.getStartDate();
           } else {
             this.toastr.error(result.message, 'Try again');
           }
@@ -42,16 +45,14 @@ export class SetStartDateComponent implements OnInit {
     }
   }
   getStartDate() {
-   
     this.postData
       .httpGetRequest('/fetch-start-date')
       .then((result: any) => {
         console.log(result);
         if (result.status) {
           this.startDate = result.data.start_date;
-
         } else {
-          this.toastr.info(`Something went wrong`,);
+          this.toastr.info(`Something went wrong`);
         }
       })
       .catch((err) => {
