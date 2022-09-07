@@ -1,18 +1,18 @@
-import { Component, OnInit, ViewChild } from '@angular/core'
-import { HttpRequestsService } from 'src/app/core/services/http-requests.service'
-import { ToastrService } from 'ngx-toastr'
-import { MatPaginator } from '@angular/material/paginator'
-import { MatTableDataSource } from '@angular/material/table'
-import Swal from 'sweetalert2'
-import { MatSort, Sort } from '@angular/material/sort'
-import { TokenStorageService } from 'src/app/core/services/token-storage.service'
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { HttpRequestsService } from 'src/app/core/services/http-requests.service';
+import { ToastrService } from 'ngx-toastr';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import Swal from 'sweetalert2';
+import { MatSort, Sort } from '@angular/material/sort';
+import { TokenStorageService } from 'src/app/core/services/token-storage.service';
 
-declare var $: any
+declare var $: any;
 
 export interface PeriodicElement {
-  account: string
-  dealer_name: string
-  show_total: string
+  account: string;
+  dealer_name: string;
+  show_total: string;
 }
 
 @Component({
@@ -26,7 +26,9 @@ export class DealerSummaryComponent implements OnInit {
   allVendor: any;
   loaderData = [9, 8, 6];
   incomingData: any;
-
+  sortDirAccntId = false;
+  sortDirTotal = false;
+  sortDirName = false;
   displayedColumns: string[] = [
     'account_id',
     'full_name',
@@ -74,6 +76,26 @@ export class DealerSummaryComponent implements OnInit {
           return 0;
       }
     });
+  }
+  sortDataAlt(item: any) {
+    const data = this.dataSource.data.slice();
+
+    let toglerName = (this.dataSource.data = data.sort((a: any, b: any) => {
+      switch (item) {
+        case 'account_id':
+          this.sortDirAccntId = !this.sortDirAccntId;
+          return compare(a.account_id, b.account_id, this.sortDirAccntId);
+        case 'full_name':
+          this.sortDirName = !this.sortDirName;
+          return compare(a.full_name, b.full_name, this.sortDirName);
+        case 'total_price':
+          this.sortDirTotal = !this.sortDirTotal;
+          return compare(a.total_price, b.total_price, this.sortDirTotal);
+
+        default:
+          return 0;
+      }
+    }));
   }
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();

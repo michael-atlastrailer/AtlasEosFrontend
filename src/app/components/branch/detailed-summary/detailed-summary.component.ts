@@ -30,7 +30,7 @@ export class DetailedSummaryComponent implements OnInit {
   loaderData = [9, 8, 6];
   incomingData: any;
   completedOrders = 0;
-  ordersRemaining = 50;
+  ordersRemaining = 88;
   showTotal = 0;
   noData = true;
 
@@ -44,7 +44,8 @@ export class DetailedSummaryComponent implements OnInit {
     'special',
     'total',
   ];
-selectedId:any
+  currenDateTime = '';
+  selectedId: any;
   constructor(
     private postData: HttpRequestsService,
     private toastr: ToastrService,
@@ -53,17 +54,34 @@ selectedId:any
   ) {
     this.getVendors();
     this.route.params.subscribe((params) => {
-    
-      let accnt = params['account_id']
+      let accnt = params['account_id'];
       if (accnt) {
-        this.selectedId=accnt
-        this.getDealerOrders(accnt)
+        this.selectedId = accnt;
+        this.getDealerOrders(accnt);
       }
-    })
+    });
+    let d = new Date();
+    let month = d.getMonth() + 1;
+    let mnth = month < 10 ? `0${month}` : month;
+
+    let dateT = d.getDate();
+    let dd = dateT < 10 ? `0${dateT}` : dateT;
+
+    let comDate = dd + '-' + mnth + '-' + d.getFullYear();
+
+    let hrs = d.getHours();
+    let hours = hrs < 10 ? `0${hrs}` : hrs;
+
+    let mins = d.getMinutes();
+    let minutes = mins < 10 ? `0${mins}` : mins;
+    let sec = d.getSeconds();
+    let ampm = hrs >= 12 ? 'pm' : 'am';
+
+    let comTime = hours + ':' + minutes + ':' + sec + ' ' + ampm;
+
+    this.currenDateTime = comDate + ' ' + comTime;
   }
-  ngOnInit(): void {
-    
-  }
+  ngOnInit(): void {}
 
   getVendors() {
     let id = this.token.getUser().id;
@@ -79,7 +97,7 @@ selectedId:any
         }
       })
       .catch((err) => {
-   this.toastr.error('Try again', 'Something went wrong')
+        this.toastr.error('Try again', 'Something went wrong');
       });
   }
 
@@ -90,7 +108,7 @@ selectedId:any
     // let id = '1021-11';
     if (id == 'none') {
       this.showTotal = 0;
-      this.ordersRemaining = 50;
+      this.ordersRemaining = 88;
       this.completedOrders = 0;
       this.loader = false;
       this.tableView = false;
@@ -130,7 +148,7 @@ selectedId:any
   }
   getDashData(data: Array<any>) {
     this.completedOrders = data.length;
-    this.ordersRemaining = 50 - data.length;
+    this.ordersRemaining = 88 - data.length;
     this.showTotal = data.reduce((tot, num) => tot + num.total, 0);
     console.log(
       'calced',
