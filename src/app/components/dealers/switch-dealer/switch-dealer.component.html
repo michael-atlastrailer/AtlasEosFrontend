@@ -19,7 +19,9 @@
               <div class="card-body">
                 <div class="d-flex justify-content-end">
                   <div class="input-wrapper">
-                    <button class="default-switch">Switch to Default</button>
+                    <button class="default-switch" *ngIf="defaultBtn">
+                      Switch to Default
+                    </button>
                     <!-- <input
                       (keyup)="applyFilter($event)"
                       placeholder="Search columns"

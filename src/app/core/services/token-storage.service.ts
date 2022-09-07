@@ -13,6 +13,51 @@ export class TokenStorageService {
     window.localStorage.setItem('socketid', socketId)
   }
 
+  switchBackToDefault() {
+    // let dealerShipCode = this.getUser().account_id
+    // let dealerShipName = this.getUser().company_name
+    let dealerCode = window.localStorage.getItem('dealershipCode')
+    let dealerName = window.localStorage.getItem('dealershipName')
+
+    let userData = this.getUser()
+    userData.account_id = dealerCode
+    userData.company_name = dealerName
+
+    window.localStorage.setItem('user', JSON.stringify(userData))
+  }
+
+  switchDealerToDealer(data: any) {
+    if (window.localStorage.getItem('switchType')) {
+      let incomingCode = data.account_id
+      let incomingName = data.dealer_name
+
+      let userData = this.getUser()
+      userData.account_id = incomingCode
+      userData.company_name = incomingName
+      userData.dealer_name = incomingName
+      window.localStorage.setItem('user', JSON.stringify(userData))
+      window.location.reload()
+    } else {
+      // window.localStorage.setItem('default', JSON.stringify(data))
+      window.localStorage.setItem('switchType', 'default-to-dealer')
+      let dealerShipCode = this.getUser().account_id
+      let dealerShipName = this.getUser().company_name
+      window.localStorage.setItem('dealershipCode', dealerShipCode)
+      window.localStorage.setItem('dealershipName', dealerShipName)
+
+      let incomingCode = data.dealer_code
+      let incomingName = data.dealer_name
+
+      let userData = this.getUser()
+      userData.account_id = incomingCode
+      userData.company_name = incomingName
+      userData.dealer_name = incomingName
+
+      window.localStorage.setItem('user', JSON.stringify(userData))
+      window.location.reload()
+    }
+  }
+
   switchFromVendorToDealer(data: any) {
     window.localStorage.setItem('dealerData', JSON.stringify(data))
     window.localStorage.setItem('switchType', 'vendor-to-dealer')
@@ -94,6 +139,10 @@ export class TokenStorageService {
 
   signOut(): void {
     window.localStorage.clear()
+    window.localStorage.removeItem('switchType')
+    window.localStorage.removeItem('dealershipCode')
+    window.localStorage.removeItem('dealershipName')
+    // window.localStorage.removeItem('')
   }
 
   getUser() {

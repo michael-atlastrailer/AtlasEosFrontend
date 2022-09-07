@@ -50,6 +50,8 @@ export class SwitchDealerComponent implements OnInit {
 
   @ViewChild('closeButton') closeButton!: ElementRef
 
+  defaultBtn = false
+
   constructor(
     private postData: HttpRequestsService,
     private toastr: ToastrService,
@@ -61,6 +63,17 @@ export class SwitchDealerComponent implements OnInit {
   ngOnInit(): void {
     this.userData = this.tokenStore.getUser()
 
+    if (
+      window.localStorage.getItem('switchType') &&
+      window.localStorage.getItem('switchType') == 'default-to-dealer'
+    ) {
+      // console.log(' hete agaginnd')
+      this.defaultBtn = true
+    } else {
+      // console.log('not hete agaginnd')
+      this.defaultBtn = false
+    }
+
     this.getAllDealership()
   }
 
@@ -68,10 +81,17 @@ export class SwitchDealerComponent implements OnInit {
     this.dataSource.paginator = this.paginator
   }
 
+  switchToDefault() {
+    this.tokenStore.switchBackToDefault()
+    this.defaultBtn = false
+  }
+
   async switchDealer(data: any) {
     let confirmStatus = await this.confirmBox(data)
     if (confirmStatus) {
-      this.tokenStore.switchFromVendorToDealer(data)
+      this.defaultBtn = true
+      this.tokenStore.switchDealerToDealer(data)
+      this.toastr.success('Dealer Switch was successful', 'Switch Info')
       /// this.router.navigate(['/dealers/dashboard'])
     } else {
     }
