@@ -51,6 +51,7 @@ export class SwitchDealerComponent implements OnInit {
   @ViewChild('closeButton') closeButton!: ElementRef
 
   defaultBtn = false
+  noPrivilegedDealer = false
 
   constructor(
     private postData: HttpRequestsService,
@@ -174,6 +175,7 @@ export class SwitchDealerComponent implements OnInit {
             this.incomingData = result.data
             this.dataSource = new MatTableDataSource(result.data)
             this.dataSource.paginator = this.paginator
+            this.noPrivilegedDealer = result.data.length > 0 ? false : true
           }
         } else {
           this.toastr.error(result.message, 'Try again')

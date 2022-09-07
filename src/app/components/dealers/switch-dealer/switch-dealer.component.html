@@ -164,6 +164,11 @@
                       mat-row
                       *matRowDef="let row; columns: displayedColumns"
                     ></tr>
+                    <tr *ngIf="noPrivilegedDealer">
+                      <td style="font-size: 13px;">
+                        No Privileged Dealer found
+                      </td>
+                    </tr>
                   </table>
                 </div>
                 <!-- <mat-paginator
