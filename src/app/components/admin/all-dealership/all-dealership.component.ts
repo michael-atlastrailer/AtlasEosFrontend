@@ -194,6 +194,7 @@ export class AllDealershipComponent implements OnInit {
     this.vendorForm = this.fb.group({
       dealerName: ['', [Validators.required]],
       dealerCode: ['', [Validators.required]],
+      location: [''],
     })
   }
 
@@ -205,6 +206,7 @@ export class AllDealershipComponent implements OnInit {
     this.vendorForm = this.fb.group({
       dealerName: [data.dealer_name, [Validators.required]],
       dealerCode: [data.dealer_code, [Validators.required]],
+      location: [''],
     })
   }
 
