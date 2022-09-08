@@ -101,7 +101,7 @@ export class DetailedSummaryComponent implements OnInit {
       });
   }
 
-  getDealerOrders(id: string) {
+  getDealerOrders(id: string) { this.selectedId = id;
     this.loader = true;
     this.tableView = false;
     this.noData = false;
