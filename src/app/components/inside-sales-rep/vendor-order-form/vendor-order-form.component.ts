@@ -31,12 +31,12 @@ export class VendorOrderFormComponent implements OnInit {
   incomingData: any;
   displayedColumns: string[] = [
     'atlas_id',
-    'vendor_code',
+    'vendor_product_code',
     'description',
     'regular',
     'booking',
   ];
-  sortDirAtlasId=false
+  sortDirAtlasId = false;
   sortDirVendorCode = false;
   dataSource = new MatTableDataSource<Products>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -75,19 +75,34 @@ export class VendorOrderFormComponent implements OnInit {
   sortDataAlt(item: any) {
     const data = this.dataSource.data.slice();
 
-    let toglerName = (this.dataSource.data = data.sort((a: any, b: any) => {
+    
+    if (item == 'atlas_id') {
+      this.sortDirAtlasId = !this.sortDirAtlasId;
+    }
+    if (item == 'vendor_product_code') {
+      this.sortDirVendorCode = !this.sortDirVendorCode;
+    }
+
+    console.log(
+      'item user',
+      item,
+      this.dataSource.data,
+      this.sortDirAtlasId,
+      this.sortDirVendorCode
+    );
+    this.dataSource.data = data.sort((a: any, b: any) => {
       switch (item) {
         case 'atlas_id':
-          this.sortDirAtlasId = !this.sortDirAtlasId;
+      
           return compare(a.atlas_id, b.atlas_id, this.sortDirAtlasId);
-        case 'vendor_code':
-          this.sortDirVendorCode = !this.sortDirVendorCode;
-          return compare(a.vendor_code, b.vendor_code, this.sortDirVendorCode);
+        case 'vendor_product_code':
+        
+          return compare(a.vendor_product_code, b.vendor_product_code, this.sortDirVendorCode);
 
         default:
           return 0;
       }
-    }));
+    });
   }
   convertWildcardStringToRegExp(expression: string) {
     var terms = expression.split('*');

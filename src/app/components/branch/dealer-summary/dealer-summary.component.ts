@@ -119,24 +119,22 @@ export class DealerSummaryComponent implements OnInit {
     }
   }
   sortDataAlt(item: any) {
-    const data = this.dataSource.data.slice();
+    const data = this.dataSource.data;
 
-    let toglerName = (this.dataSource.data = data.sort((a: any, b: any) => {
+  
+    this.dataSource.data = data.sort((a: any, b: any) => {
       switch (item) {
-        case 'account_id':
-          this.sortDirAccntId = !this.sortDirAccntId;
-          return compare(a.account_id, b.account_id, this.sortDirAccntId);
-        case 'full_name':
-          this.sortDirName = !this.sortDirName;
-          return compare(a.full_name, b.full_name, this.sortDirName);
-        case 'total_price':
-          this.sortDirTotal = !this.sortDirTotal;
-          return compare(a.total_price, b.total_price, this.sortDirTotal);
+        case 'dealer_code':
+          return compare(a.dealer_code, b.dealer_code, this.sortDirAccntId);
+        case 'dealer_name':
+          return compare(a.dealer_name, b.dealer_name, this.sortDirName);
+        case 'amount':
+          return compare(a.amount, b.amount, this.sortDirTotal);
 
         default:
           return 0;
       }
-    }));
+    });
   }
   async confirmBox() {
     return await Swal.fire({

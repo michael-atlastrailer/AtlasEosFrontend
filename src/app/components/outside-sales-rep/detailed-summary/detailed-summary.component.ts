@@ -63,6 +63,7 @@ export class DetailedSummaryComponent implements OnInit {
       let accnt = params['account_id'];
       if (accnt) {
         this.selectedId = accnt;
+        console.log("account id",accnt)
         this.getDealerOrders(accnt);
       }
     });

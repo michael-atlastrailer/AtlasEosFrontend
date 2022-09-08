@@ -20,8 +20,8 @@
                     (change)="getDealerOrders(selectToggle.value)"
                   >
                     <option value="none">select a dealer</option>
-                    <option [selected]="data.acccount_id !==selectedId"
-                      value="{{ data.account_id }}"
+                    <option [selected]="data.dealer_code ==selectedId"
+                      value="{{ data.dealer_code }}"
                       *ngFor="let data of allVendor"
                     >
                       {{ data.dealer_name }}

@@ -30,8 +30,8 @@ export class DealerSummaryComponent implements OnInit {
   sortDirTotal = false;
   sortDirName = false;
   displayedColumns: string[] = [
-    'account_id',
-    'full_name',
+    'dealer_code',
+    'dealer_name',
     'amount',
     'last_login',
   ];
@@ -69,8 +69,8 @@ export class DealerSummaryComponent implements OnInit {
           return compare(a.account_id, b.account_id, isAsc);
         case 'amount':
           return compare(a.amount, b.amount, isAsc);
-        case 'full_name':
-          return compare(a.full_name, b.full_name, isAsc);
+        case 'dealer_name':
+          return compare(a.dealer_name, b.dealer_name, isAsc);
 
         default:
           return 0;
@@ -78,24 +78,38 @@ export class DealerSummaryComponent implements OnInit {
     });
   }
   sortDataAlt(item: any) {
-    const data = this.dataSource.data.slice();
+    const data = this.dataSource.data;
 
-    let toglerName = (this.dataSource.data = data.sort((a: any, b: any) => {
+    if (item == 'dealer_code') {
+      this.sortDirAccntId = !this.sortDirAccntId;
+    }
+    if (item == 'dealer_name') {
+      this.sortDirName = !this.sortDirName;
+    }
+    if (item == 'amount') {
+      this.sortDirTotal = !this.sortDirTotal;
+    }
+    console.log(
+      'item user',
+      item,
+      this.dataSource.data,
+      this.sortDirAccntId,
+      this.sortDirName,
+      this.sortDirTotal
+    );
+    this.dataSource.data = data.sort((a: any, b: any) => {
       switch (item) {
-        case 'account_id':
-          this.sortDirAccntId = !this.sortDirAccntId;
-          return compare(a.account_id, b.account_id, this.sortDirAccntId);
-        case 'full_name':
-          this.sortDirName = !this.sortDirName;
-          return compare(a.full_name, b.full_name, this.sortDirName);
+        case 'dealer_code':
+          return compare(a.dealer_code, b.dealer_code, this.sortDirAccntId);
+        case 'dealer_name':
+          return compare(a.dealer_name, b.dealer_name, this.sortDirName);
         case 'amount':
-          this.sortDirTotal = !this.sortDirTotal;
           return compare(a.amount, b.amount, this.sortDirTotal);
 
         default:
           return 0;
       }
-    }));
+    });
   }
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -131,3 +145,5 @@ export class DealerSummaryComponent implements OnInit {
 function compare(a: number | string, b: number | string, isAsc: boolean) {
   return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }
+
+
