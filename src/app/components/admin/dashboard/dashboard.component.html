@@ -472,17 +472,19 @@
                     <tbody>
                       <tr>
                         <td>
-                          <span class="tbody-text">
+                          <span class="tbody-text loggedin-text">
                             {{ totalLoggedVendor }}
                           </span>
                         </td>
                         <td>
-                          <span class="tbody-text">
+                          <span class="tbody-text loggedin-text">
                             {{ totalLoggedDealer }}
                           </span>
                         </td>
                         <td>
-                          <span class="tbody-text">{{ totalLoggedAdmin }}</span>
+                          <span class="tbody-text loggedin-text">
+                            {{ totalLoggedAdmin }}
+                          </span>
                         </td>
                       </tr>
                     </tbody>
@@ -556,6 +558,24 @@
                   <div *ngIf="!deactivateDealerBtnStatus">
                     <span class="spinner-border spinner-border-sm"></span>
                   </div>
+                </button>
+
+                <!-- Vendor Switch -->
+
+                <button
+                  *ngIf="showActivateVendorSwitchBtn"
+                  class="btn activate-switch-btn control-btn"
+                  (click)="activateVendorSwitch()"
+                >
+                  Activate Vendor Switch
+                </button>
+
+                <button
+                  *ngIf="showDeactivateVendorSwitchBtn"
+                  class="btn activate-switch-btn control-btn"
+                  (click)="deactivateVendorSwitch()"
+                >
+                  Deactivate Vendor Switch
                 </button>
               </div>
             </div>

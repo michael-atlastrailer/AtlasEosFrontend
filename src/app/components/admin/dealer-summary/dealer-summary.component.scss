@@ -211,9 +211,13 @@
         padding-top: 5px !important;
 
         .regular-text {
-          text-align: right !important;
+          text-align: center !important;
           font-weight: bold !important;
           display: block;
+        }
+
+        .table-td-text {
+          text-align: center !important;
         }
 
         a {

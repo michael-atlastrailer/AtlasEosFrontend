@@ -1,7 +1,7 @@
 .control-btn {
   margin-right: 10px;
   font-size: 13px;
-  width: 180px;
+  width: 200px;
 }
 
 .num-display {
@@ -63,6 +63,11 @@
   td {
     border-top: 1px solid #dee2e6;
     color: #ffffff;
+
+    .loggedin-text {
+      display: block;
+      text-align: center;
+    }
   }
 }
 
@@ -158,4 +163,19 @@
   background-color: #ffffff;
   border: 1px solid #1d7471;
   color: #1d7471;
+}
+
+.activate-switch-btn {
+  border: 0px;
+  border-radius: 4px;
+  color: #ffffff;
+  background-color: #4a0013;
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+.activate-switch-btn:hover {
+  background-color: #ffffff;
+  color: #4a0013;
+  border: 1px solid #4a0013;
 }

@@ -28,6 +28,10 @@ export class VendorNavbarComponent implements OnInit {
   activeColor = false
   menuStatus = false
   noNewOrderNotify = false
+
+  switchStateLink = false
+  userData: any
+
   constructor(
     private tokenStorage: TokenStorageService,
     private router: Router,
@@ -35,7 +39,6 @@ export class VendorNavbarComponent implements OnInit {
     private chatService: ChatService,
   ) {
     let currentUrl = this.router.url
-    console.log(currentUrl)
     if (
       currentUrl.includes('vendors/view-dealer-purchasers-summary') ||
       currentUrl.includes('vendors/view-dealer-summary/')
@@ -61,9 +64,7 @@ export class VendorNavbarComponent implements OnInit {
   }
   ngOnInit(): void {
     const query = window.matchMedia('(max-width: 700px)')
-    console.log(query)
     this.vendorData = this.tokenStorage.getUser()
-    // this.vendorName = this.vendorData.full_name
     this.vendorCode = this.vendorData.full_name
     this.userId = this.vendorData.id
 
@@ -82,6 +83,15 @@ export class VendorNavbarComponent implements OnInit {
       // this.getUnreadMsg()
       this.getVendorOrderBellNotify()
     }, 10000)
+
+    this.userData = this.tokenStorage.getUser()
+    let switchState = this.userData.switch_state
+
+    if (switchState == 1) {
+      this.switchStateLink = true
+    } else {
+      this.switchStateLink = false
+    }
   }
 
   goToPurchasers() {
