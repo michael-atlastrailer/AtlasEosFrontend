@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { HttpRequestsService } from 'src/app/core/services/http-requests.service'
 import { ToastrService } from 'ngx-toastr'
 import Swal from 'sweetalert2'
+import { TokenStorageService } from 'src/app/core/services/token-storage.service'
 
 declare var $: any
 
@@ -76,9 +77,15 @@ export class DashboardComponent implements OnInit {
   showActivateVendorBtn = false
   showActivateDealerBtn = false
 
+  showActivateVendorSwitchBtn = false
+  showDeactivateVendorSwitchBtn = false
+
+  userData: any
+
   constructor(
     private getData: HttpRequestsService,
     private toatsr: ToastrService,
+    private tokenService: TokenStorageService,
   ) {}
 
   ngOnInit(): void {
@@ -87,6 +94,65 @@ export class DashboardComponent implements OnInit {
     this.getMostSalesVendor()
     this.getallAnalysis()
     this.getUsersStatus()
+
+    this.userData = this.tokenService.getUser()
+    let switchState = this.userData.switch_state
+
+    if (switchState == 1) {
+      this.showDeactivateVendorSwitchBtn = true
+      this.showActivateVendorSwitchBtn = false
+    } else {
+      this.showDeactivateVendorSwitchBtn = false
+      this.showActivateVendorSwitchBtn = true
+    }
+  }
+
+  async deactivateVendorSwitch() {
+    let confirmState = await this.confirmBox(
+      'Are You Sure Want To Deactivate Vendor To Dealer Switch',
+    )
+
+    if (confirmState) {
+      this.getData
+        .httpGetRequest('/admin/deactivate-vendor-switch')
+        .then((result: any) => {
+          // this.activateDealerBtnStatus = true
+          if (result.status) {
+            this.showDeactivateVendorSwitchBtn = false
+            this.showActivateVendorSwitchBtn = true
+            this.tokenService.setVendorSwitchState(0)
+          } else {
+          }
+          this.toatsr.success(result.message, 'success')
+        })
+        .catch((err) => {
+          // this.activateDealerBtnStatus = true
+        })
+    }
+  }
+
+  async activateVendorSwitch() {
+    let confirmState = await this.confirmBox(
+      'Are You Sure Want To Activate Vendor To Dealer Switch',
+    )
+
+    if (confirmState) {
+      this.getData
+        .httpGetRequest('/admin/activate-vendor-switch')
+        .then((result: any) => {
+          // this.activateDealerBtnStatus = true
+          if (result.status) {
+            this.showDeactivateVendorSwitchBtn = true
+            this.showActivateVendorSwitchBtn = false
+            this.tokenService.setVendorSwitchState(1)
+          } else {
+          }
+          this.toatsr.success(result.message, 'success')
+        })
+        .catch((err) => {
+          // this.activateDealerBtnStatus = true
+        })
+    }
   }
 
   async confirmBox(msg: string) {

@@ -107,16 +107,16 @@
       </a>
     </li> -->
 
-    <!-- <li class="slide" (click)="closeOverLay()">
+    <li class="slide" (click)="closeOverLay()" *ngIf="switchStateLink">
       <a
         class="side-menu__item"
         routerLink="/vendors/dealer-switch"
         routerLinkActive="active-link"
       >
-        <span class="fa fas fa-bell navbar-icons"></span>
+        <span class="fa fa-exchange navbar-icons"></span>
         <span class="side-menu__label">Dealer Switch</span>
       </a>
-    </li> -->
+    </li>
 
     <li class="slide" (click)="closeOverLay()">
       <a

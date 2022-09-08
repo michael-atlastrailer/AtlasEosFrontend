@@ -13,6 +13,18 @@ export class TokenStorageService {
     window.localStorage.setItem('socketid', socketId)
   }
 
+  setVendorSwitchState(state: number) {
+    if (state == 1) {
+      let userData = this.getUser()
+      userData.switch_state = 1
+      window.localStorage.setItem('user', JSON.stringify(userData))
+    } else {
+      let userData = this.getUser()
+      userData.switch_state = 0
+      window.localStorage.setItem('user', JSON.stringify(userData))
+    }
+  }
+
   switchBackToDefault() {
     // let dealerShipCode = this.getUser().account_id
     // let dealerShipName = this.getUser().company_name
