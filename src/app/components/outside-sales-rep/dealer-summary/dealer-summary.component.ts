@@ -141,9 +141,25 @@ export class DealerSummaryComponent implements OnInit {
         // this.toastr.error('Try again', 'Something went wrong')
       });
   }
+  getLastLogin(arr: any) {
+    let date: null | any = null;
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i] !== null) {
+        if (date !== null) {
+          if (arr[i] > date) {
+            date = arr[i];
+          } else {
+          }
+        } else {
+          date = arr[i];
+        }
+      } else {
+        date = null;
+      }
+    }
+    return date;
+  }
 }
 function compare(a: number | string, b: number | string, isAsc: boolean) {
   return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }
-
-
