@@ -143,6 +143,10 @@
   color: #ffffff;
 }
 
+.vendor-btn {
+  margin-bottom: 10px;
+}
+
 .vendor-btn:hover {
   background-color: #ffffff;
   border: 1px solid darkred;
@@ -178,4 +182,13 @@
   background-color: #ffffff;
   color: #4a0013;
   border: 1px solid #4a0013;
+}
+
+.btn-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  button {
+    margin-bottom: 10px;
+  }
 }
