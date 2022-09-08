@@ -129,6 +129,24 @@ export class DealerSummaryComponent implements OnInit {
       }
     });
   }
+  getLastLogin(arr: any) {
+    let date: null | any = null;
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i] !== null) {
+        if (date !== null) {
+          if (arr[i] > date) {
+            date = arr[i];
+          } else {
+          }
+        } else {
+          date = arr[i];
+        }
+      } else {
+        date = null;
+      }
+    }
+    return date;
+  }
   async confirmBox() {
     return await Swal.fire({
       title: 'You Are About To Remove This Vendor User',
