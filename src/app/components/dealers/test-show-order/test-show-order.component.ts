@@ -6,39 +6,39 @@ import {
   OnInit,
   ViewChildren,
   QueryList,
-} from '@angular/core'
-import Swal from 'sweetalert2'
+} from '@angular/core';
+import Swal from 'sweetalert2';
 import {
   NavigationStart,
   NavigationEnd,
   NavigationError,
   RouterEvent,
   Event,
-} from '@angular/router'
-import { MatPaginator } from '@angular/material/paginator'
-import { MatTableDataSource } from '@angular/material/table'
-import { ActivatedRoute, Router } from '@angular/router'
-import { ToastrService } from 'ngx-toastr'
-import { filter } from 'rxjs'
-import { HttpRequestsService } from 'src/app/core/services/http-requests.service'
-import { MatSortModule } from '@angular/material/sort'
-import { MatSort, Sort } from '@angular/material/sort'
-import { LiveAnnouncer } from '@angular/cdk/a11y'
-import { TokenStorageService } from 'src/app/core/services/token-storage.service'
-import { DataSource } from '@angular/cdk/collections'
-import { CommonModule, CurrencyPipe } from '@angular/common'
-import { OrderCheckService } from 'src/app/core/services/order-check.service'
-import { ComponentCanDeactivate } from 'src/app/core/model/can-deactivate'
-import { ChatService } from 'src/app/core/services/chat.service'
+} from '@angular/router';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { filter } from 'rxjs';
+import { HttpRequestsService } from 'src/app/core/services/http-requests.service';
+import { MatSortModule } from '@angular/material/sort';
+import { MatSort, Sort } from '@angular/material/sort';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { TokenStorageService } from 'src/app/core/services/token-storage.service';
+import { DataSource } from '@angular/cdk/collections';
+import { CommonModule, CurrencyPipe } from '@angular/common';
+import { OrderCheckService } from 'src/app/core/services/order-check.service';
+import { ComponentCanDeactivate } from 'src/app/core/model/can-deactivate';
+import { ChatService } from 'src/app/core/services/chat.service';
 
 export interface PeriodicElement {
-  position: number
-  atlas_id: any
-  vendor: string
-  description: string
-  booking: number
-  special: number
-  extended: number
+  position: number;
+  atlas_id: any;
+  vendor: string;
+  description: string;
+  booking: number;
+  special: number;
+  extended: number;
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
@@ -51,8 +51,8 @@ const ELEMENT_DATA: PeriodicElement[] = [
     special: 0,
     extended: 0,
   },
-]
-declare var $: any
+];
+declare var $: any;
 
 @Component({
   selector: 'app-test-show-order',
@@ -158,9 +158,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
     private currencyPipe: CurrencyPipe,
     private chatServer: ChatService
   ) {
-
-    this.getAllVendors()
-
+    this.getAllVendors();
 
     this.route.params.subscribe((params) => {
       this.vendorId = params['vendorId'];
@@ -170,13 +168,11 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
       }
       console.log('testing waters', this.vendorId, this.searchatlasId);
       if (this.vendorId) {
-
-        console.log('got in', this.vendorId, this.searchatlasId)
-        this.searchVendorId(this.vendorId!)
-        this.setVendor = true
-        this.selectVendor = this.vendorId
-        this.vendorCode = this.vendorId
-
+        console.log('got in', this.vendorId, this.searchatlasId);
+        this.searchVendorId(this.vendorId!);
+        this.setVendor = true;
+        this.selectVendor = this.vendorId;
+        this.vendorCode = this.vendorId;
       }
     });
 
@@ -240,16 +236,20 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
   }
 
   sortDataAlt(item: any) {
-    const data = this.dataSrc.data.slice();
+    const data = this.dataSrc.data
 
+    if (item == 'atlas_id') {
+      this.sortDirAtlasId = !this.sortDirAtlasId;
+    }
+    if (item == 'vendor_product_code') {
+      this.sortDirProdCode = !this.sortDirProdCode;
+    }
 
-    let toglerName = (this.dataSrc.data = data.sort((a: any, b: any) => {
+    this.dataSrc.data = data.sort((a: any, b: any) => {
       switch (item) {
         case 'atlas_id':
-          this.sortDirAtlasId = !this.sortDirAtlasId;
           return compare(a.atlas_id, b.atlas_id, this.sortDirAtlasId);
         case 'vendor_product_code':
-          this.sortDirProdCode = !this.sortDirProdCode;
           return compare(
             a.vendor_product_code,
             b.vendor_product_code,
@@ -259,7 +259,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
         default:
           return 0;
       }
-    }));
+    });
   }
 
   ///////// Old code ///////////
@@ -694,11 +694,9 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
 
     this.currentProductAmt = amount;
 
-
-    console.log(this.productData)
-    return this.productData[index]
-  }
-
+    console.log(this.productData);
+    return this.productData[index];
+  };
 
   /**
    * Updates the Product with the specified index.
@@ -911,8 +909,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
     if (this.searchatlasId == '###') {
       newArray = array;
     } else {
-
-      this.isMod = true
+      this.isMod = true;
 
       setTimeout(
         () => {
@@ -923,15 +920,13 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
               behavior: 'smooth',
               block: 'center',
               inline: 'start',
-
-            })
-          $('#bastard').css('padding-top', '220px ')
+            });
+          $('#bastard').css('padding-top', '220px ');
           // $('#bastard').css('height', '120%')
         },
 
-        1000,
-      )
-
+        1000
+      );
 
       this.highlightIndex = array.findIndex((item: any) => {
         return item.atlas_id == this.searchatlasId!;
@@ -1075,8 +1070,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
 
   async confirmBox() {
     if (this.overTotal > 0) {
-
-      $('#bastard').css('padding-top', '0px ')
+      $('#bastard').css('padding-top', '0px ');
 
       return await Swal.fire({
         title: 'You are about to leave this page',
@@ -1101,5 +1095,5 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
 }
 
 function compare(a: number | string, b: number | string, isAsc: boolean) {
-  return (a < b ? -1 : 1) * (isAsc ? 1 : -1)
+  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }

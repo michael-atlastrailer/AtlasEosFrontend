@@ -167,17 +167,17 @@
                       </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="total_price">
+                    <ng-container matColumnDef="amount">
                       <th
                         mat-header-cell
                         *matHeaderCellDef
-                        (click)="sortDataAlt('total_price')"
+                        (click)="sortDataAlt('amount')"
                         style="cursor: pointer"
                       >
                         Show Total <i class="fa fa-sort ml-2"></i>
                       </th>
                       <td mat-cell *matCellDef="let element">
-                        {{ element.total_price | currency }}
+                        {{ element.amount | currency }}
                       </td>
                     </ng-container>
                     <ng-container matColumnDef="last_login">
