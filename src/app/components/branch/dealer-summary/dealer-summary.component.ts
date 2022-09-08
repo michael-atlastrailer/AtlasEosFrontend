@@ -1,6 +1,6 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { TokenizeResult } from '@angular/compiler/src/ml_parser/lexer';
-import { Component, OnInit, ViewChild } from '@angular/core'
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
@@ -10,15 +10,14 @@ import { ToastrService } from 'ngx-toastr';
 import { HttpRequestsService } from 'src/app/core/services/http-requests.service';
 import { TokenStorageService } from 'src/app/core/services/token-storage.service';
 
+import Swal from 'sweetalert2';
 
-import Swal from 'sweetalert2'
-
-declare var $: any
+declare var $: any;
 
 export interface PeriodicElement {
-  account: string
-  dealer_name: string
-  show_total: string
+  account: string;
+  dealer_name: string;
+  show_total: string;
 }
 
 @Component({
@@ -34,9 +33,9 @@ export class DealerSummaryComponent implements OnInit {
   incomingData: any;
 
   displayedColumns: string[] = [
-    'account_id',
-    'full_name',
-    'total_price',
+    'dealer_code',
+    'dealer_name',
+    'amount',
     'last_login',
   ];
   sortDirAccntId = false;
@@ -64,12 +63,12 @@ export class DealerSummaryComponent implements OnInit {
     this.dataSource.data = data.sort((a: any, b: any) => {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
-        case 'account_id':
-          return compare(a.account_id, b.account_id, isAsc);
-        case 'total_price':
-          return compare(a.total_price, b.total_price, isAsc);
-        case 'full_name':
-          return compare(a.full_name, b.full_name, isAsc);
+        case 'dealer_code':
+          return compare(a.dealer_code, b.dealer_code, isAsc);
+        case 'amount':
+          return compare(a.amount, b.amount, isAsc);
+        case 'dealer_name':
+          return compare(a.dealer_name, b.dealer_name, isAsc);
 
         default:
           return 0;
@@ -119,24 +118,38 @@ export class DealerSummaryComponent implements OnInit {
     }
   }
   sortDataAlt(item: any) {
-    const data = this.dataSource.data.slice();
+    const data = this.dataSource.data;
 
-    let toglerName = (this.dataSource.data = data.sort((a: any, b: any) => {
+    if (item == 'dealer_code') {
+      this.sortDirAccntId = !this.sortDirAccntId;
+    }
+    if (item == 'dealer_name') {
+      this.sortDirName = !this.sortDirName;
+    }
+    if (item == 'amount') {
+      this.sortDirTotal = !this.sortDirTotal;
+    }
+     console.log(
+       'item user',
+       item,
+       this.dataSource.data,
+       this.sortDirAccntId,
+       this.sortDirTotal,
+       this.sortDirName
+     );
+    this.dataSource.data = data.sort((a: any, b: any) => {
       switch (item) {
-        case 'account_id':
-          this.sortDirAccntId = !this.sortDirAccntId;
-          return compare(a.account_id, b.account_id, this.sortDirAccntId);
-        case 'full_name':
-          this.sortDirName = !this.sortDirName;
-          return compare(a.full_name, b.full_name, this.sortDirName);
-        case 'total_price':
-          this.sortDirTotal = !this.sortDirTotal;
-          return compare(a.total_price, b.total_price, this.sortDirTotal);
+        case 'dealer_code':
+          return compare(a.dealer_code, b.dealer_code, this.sortDirAccntId);
+        case 'dealer_name':
+          return compare(a.dealer_name, b.dealer_name, this.sortDirName);
+        case 'amount':
+          return compare(a.amount, b.amount, this.sortDirTotal);
 
         default:
           return 0;
       }
-    }));
+    });
   }
   async confirmBox() {
     return await Swal.fire({
