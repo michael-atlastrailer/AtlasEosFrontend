@@ -119,6 +119,8 @@ export class TokenStorageService {
     userData.account_id = dealerCode
 
     userData.company_name = dealerName
+    userData.dealer_name = dealerName
+
     userData.location = location
 
     /// window.localStorage.removeItem('user')
