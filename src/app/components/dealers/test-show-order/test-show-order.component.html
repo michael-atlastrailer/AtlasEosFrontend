@@ -471,7 +471,7 @@
               <ng-container matColumnDef="description">
                 <th mat-header-cell *matHeaderCellDef>Description</th>
                 <th></th>
-                <td mat-cell *matCellDef="let element" class="short-note-con">
+                <td mat-cell *matCellDef="let element" class="short-note-con text-center">
                   <span class="desc-text">{{ element.description! }}</span>
                   <span *ngFor="let spec of element.spec_data!; let l = index">
                     <span

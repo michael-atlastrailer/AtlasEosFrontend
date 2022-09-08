@@ -39,7 +39,22 @@
                       [attr.data-target]="'heading' + order.id"
                     >
                       <div class="card-body p-0">
-                        <table *ngIf="order.all_vendors.length>0"
+                        <table
+                          *ngIf="order.all_vendors.length <= 0"
+                          class="order-form-table w-100 mb-4 table-striped"
+                        >
+                          <tbody>
+                            <tr>
+                              <td></td>
+                              <td></td>
+                            </tr>
+                            <tr>
+                              <td colspan="2" class="text-center"><i>No Order placed yet </i></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <table
+                          *ngIf="order.all_vendors.length > 0"
                           class="order-form-table w-100 mb-4 table-striped"
                         >
                           <tbody>

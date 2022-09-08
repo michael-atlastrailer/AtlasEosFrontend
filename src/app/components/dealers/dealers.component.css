@@ -21,7 +21,10 @@ input[type="number"]::placeholder{
   border:5px solid brown !important;
 
 }
-
+.dealer-side::-webkit-scrollbar {
+    width: 13px;
+    
+}
 
 .app-content{
   padding-bottom: 150px;
