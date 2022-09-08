@@ -248,7 +248,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
     this.dataSrc.data = data.sort((a: any, b: any) => {
       switch (item) {
         case 'atlas_id':
-          return compare(a.atlas_id, b.atlas_id, this.sortDirAtlasId);
+          return compare(a.id, b.id, this.sortDirAtlasId);
         case 'vendor_product_code':
           return compare(
             a.vendor_product_code,
