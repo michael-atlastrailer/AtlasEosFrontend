@@ -18,15 +18,19 @@ export class TokenStorageService {
     // let dealerShipName = this.getUser().company_name
     let dealerCode = window.localStorage.getItem('dealershipCode')
     let dealerName = window.localStorage.getItem('dealershipName')
+    let location = window.localStorage.getItem('location')
 
     let userData = this.getUser()
     userData.account_id = dealerCode
     userData.company_name = dealerName
     userData.dealer_name = dealerName
 
+    userData.location = location
+
     window.localStorage.removeItem('switchType')
     window.localStorage.removeItem('dealershipCode')
     window.localStorage.removeItem('dealershipName')
+    window.localStorage.removeItem('location')
 
     window.localStorage.setItem('user', JSON.stringify(userData))
     // window.location.reload()
@@ -41,10 +45,12 @@ export class TokenStorageService {
     if (window.localStorage.getItem('switchType')) {
       let incomingCode = data.dealer_code
       let incomingName = data.dealer_name
+      let location = data.location
 
       let userData = this.getUser()
       userData.account_id = incomingCode
       userData.dealer_code = incomingCode
+      userData.location = location
 
       userData.company_name = incomingName
       userData.dealer_name = incomingName
@@ -59,15 +65,20 @@ export class TokenStorageService {
       window.localStorage.setItem('switchType', 'default-to-dealer')
       let dealerShipCode = this.getUser().account_id
       let dealerShipName = this.getUser().company_name
+      let location = this.getUser().location
+
       window.localStorage.setItem('dealershipCode', dealerShipCode)
       window.localStorage.setItem('dealershipName', dealerShipName)
+      window.localStorage.setItem('location', location)
 
       let incomingCode = data.dealer_code
       let incomingName = data.dealer_name
+      let locationIn = data.location
 
       let userData = this.getUser()
       userData.account_id = incomingCode
       userData.dealer_code = incomingCode
+      userData.location = locationIn
 
       userData.company_name = incomingName
       userData.dealer_name = incomingName
