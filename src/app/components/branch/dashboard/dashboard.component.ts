@@ -39,7 +39,7 @@ export class DashboardComponent implements OnInit {
   getDashboardData() {
     let accntId = this.token.getUser().id;
     this.getData
-      .httpGetRequest('/branch/dashboard/' + accntId)
+      .httpGetRequest('/sales-rep/dashboard/' + accntId)
       .then((result: any) => {
         console.log(result);
         if (result.status) {
@@ -48,7 +48,7 @@ export class DashboardComponent implements OnInit {
            this.totalNotLogged =
              result.data.total_dealers -
              this.getTotalLogin(result.data.login_array);
-          this.purchaseTotal = result.data.total_purchase!;
+          this.purchaseTotal = result.data.total_sales!;
           console.log(
             'res dashboard',
             result.data,
