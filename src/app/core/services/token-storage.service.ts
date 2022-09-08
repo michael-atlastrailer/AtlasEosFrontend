@@ -111,9 +111,15 @@ export class TokenStorageService {
     window.localStorage.setItem('vendor', vendorCode)
 
     let dealerCode = data.dealer_code
+    let location = data.location
+    let dealerName = data.dealer_name
+
     let userData = this.getUser()
     userData.dealer_code = dealerCode
     userData.account_id = dealerCode
+
+    userData.company_name = dealerName
+    userData.location = location
 
     /// window.localStorage.removeItem('user')
     window.localStorage.setItem('user', JSON.stringify(userData))

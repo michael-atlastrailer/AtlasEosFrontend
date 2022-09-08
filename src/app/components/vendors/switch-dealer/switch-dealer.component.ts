@@ -27,7 +27,12 @@ export class SwitchDealerComponent implements OnInit {
   loader = true
   dealershipData: any
 
-  displayedColumns: string[] = ['dealerCode', 'dealerName', 'action']
+  displayedColumns: string[] = [
+    'dealerCode',
+    'dealerName',
+    'location',
+    'action',
+  ]
 
   dataSource = new MatTableDataSource<VendorData>()
   @ViewChild(MatPaginator) paginator!: MatPaginator
