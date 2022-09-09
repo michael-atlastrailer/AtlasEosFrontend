@@ -130,20 +130,24 @@
                       <ng-container matColumnDef="dealer_code">
                         <th mat-header-cell *matHeaderCellDef>Account #</th>
                         <td mat-cell *matCellDef="let element">
-                          {{ element.dealer_code }}
+                          <h6 class="table-td-text">
+                            {{ element.dealer_code }}
+                          </h6>
                         </td>
                       </ng-container>
 
                       <ng-container matColumnDef="dealer_name">
                         <th mat-header-cell *matHeaderCellDef>Dealer Name</th>
                         <td mat-cell *matCellDef="let element">
-                          <a
-                            routerLink="/admin/view-dealer-summary/{{
-                              element.dealer_code
-                            }}"
-                          >
-                            {{ element.dealer_name }}
-                          </a>
+                          <h6 class="table-td-text">
+                            <a
+                              routerLink="/admin/view-dealer-summary/{{
+                                element.dealer_code
+                              }}"
+                            >
+                              {{ element.dealer_name }}
+                            </a>
+                          </h6>
                         </td>
                       </ng-container>
 

@@ -53,8 +53,10 @@ import { AddShowBuckComponent } from './add-show-buck/add-show-buck.component'
 import { EditShowBuckComponent } from './edit-show-buck/edit-show-buck.component'
 import { ViewDealerSummaryComponent } from './view-dealer-summary/view-dealer-summary.component'
 import { VendorSummaryComponent } from './vendor-summary/vendor-summary.component'
-import { MatMenuModule } from '@angular/material/menu';
+import { MatMenuModule } from '@angular/material/menu'
 import { SetStartDateComponent } from './set-start-date/set-start-date.component'
+import { MatSortModule } from '@angular/material/sort';
+import { AllDealershipComponent } from './all-dealership/all-dealership.component'
 
 @NgModule({
   declarations: [
@@ -103,6 +105,7 @@ import { SetStartDateComponent } from './set-start-date/set-start-date.component
     ViewDealerSummaryComponent,
     VendorSummaryComponent,
     SetStartDateComponent,
+    AllDealershipComponent,
   ],
   imports: [
     CommonModule,
@@ -116,6 +119,7 @@ import { SetStartDateComponent } from './set-start-date/set-start-date.component
     MatNativeDateModule,
     MatTimepickerModule,
     MatMenuModule,
+    MatSortModule,
   ],
   exports: [],
 })

@@ -1,18 +1,18 @@
-import { Component, OnInit, ViewChild } from '@angular/core'
-import { HttpRequestsService } from 'src/app/core/services/http-requests.service'
-import { ToastrService } from 'ngx-toastr'
-import { MatPaginator } from '@angular/material/paginator'
-import { MatTableDataSource } from '@angular/material/table'
-import Swal from 'sweetalert2'
-import { MatSort, Sort } from '@angular/material/sort'
-import { TokenStorageService } from 'src/app/core/services/token-storage.service'
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { HttpRequestsService } from 'src/app/core/services/http-requests.service';
+import { ToastrService } from 'ngx-toastr';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import Swal from 'sweetalert2';
+import { MatSort, Sort } from '@angular/material/sort';
+import { TokenStorageService } from 'src/app/core/services/token-storage.service';
 
-declare var $: any
+declare var $: any;
 
 export interface PeriodicElement {
-  account: string
-  dealer_name: string
-  show_total: string
+  account: string;
+  dealer_name: string;
+  show_total: string;
 }
 
 @Component({
@@ -26,11 +26,13 @@ export class DealerSummaryComponent implements OnInit {
   allVendor: any;
   loaderData = [9, 8, 6];
   incomingData: any;
-
+  sortDirAccntId = false;
+  sortDirTotal = false;
+  sortDirName = false;
   displayedColumns: string[] = [
-    'account_id',
-    'full_name',
-    'total_price',
+    'dealer_code',
+    'dealer_name',
+    'amount',
     'last_login',
   ];
 
@@ -65,10 +67,44 @@ export class DealerSummaryComponent implements OnInit {
       switch (sort.active) {
         case 'account_id':
           return compare(a.account_id, b.account_id, isAsc);
-        case 'total_price':
-          return compare(a.total_price, b.total_price, isAsc);
-        case 'full_name':
-          return compare(a.full_name, b.full_name, isAsc);
+        case 'amount':
+          return compare(a.amount, b.amount, isAsc);
+        case 'dealer_name':
+          return compare(a.dealer_name, b.dealer_name, isAsc);
+
+        default:
+          return 0;
+      }
+    });
+  }
+  sortDataAlt(item: any) {
+    const data = this.dataSource.data;
+
+    if (item == 'dealer_code') {
+      this.sortDirAccntId = !this.sortDirAccntId;
+    }
+    if (item == 'dealer_name') {
+      this.sortDirName = !this.sortDirName;
+    }
+    if (item == 'amount') {
+      this.sortDirTotal = !this.sortDirTotal;
+    }
+    console.log(
+      'item user',
+      item,
+      this.dataSource.data,
+      this.sortDirAccntId,
+      this.sortDirName,
+      this.sortDirTotal
+    );
+    this.dataSource.data = data.sort((a: any, b: any) => {
+      switch (item) {
+        case 'dealer_code':
+          return compare(a.dealer_code, b.dealer_code, this.sortDirAccntId);
+        case 'dealer_name':
+          return compare(a.dealer_name, b.dealer_name, this.sortDirName);
+        case 'amount':
+          return compare(a.amount, b.amount, this.sortDirTotal);
 
         default:
           return 0;
@@ -81,7 +117,7 @@ export class DealerSummaryComponent implements OnInit {
   getDealerUsers() {
     let id = this.token.getUser().id;
     this.postData
-      .httpGetRequest('/sales-rep/get-purchasers-dealer/' + id)
+      .httpGetRequest('/sales-rep/dealers-purchases/' + id)
       .then((result: any) => {
         console.log(result);
 
@@ -104,6 +140,24 @@ export class DealerSummaryComponent implements OnInit {
       .catch((err) => {
         // this.toastr.error('Try again', 'Something went wrong')
       });
+  }
+  getLastLogin(arr: any) {
+    let date: null | any = null;
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i] !== null) {
+        if (date !== null) {
+          if (arr[i] > date) {
+            date = arr[i];
+          } else {
+          }
+        } else {
+          date = arr[i];
+        }
+      } else {
+        date = null;
+      }
+    }
+    return date;
   }
 }
 function compare(a: number | string, b: number | string, isAsc: boolean) {

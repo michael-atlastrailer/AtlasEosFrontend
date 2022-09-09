@@ -20,14 +20,28 @@
                     (change)="getDealerOrders(selectToggle.value)"
                   >
                     <option value="none">select a dealer</option>
-                    <option [selected]="data.acccount_id !==selectedId"
-                      value="{{ data.account_id }}"
+                    <option [selected]="data.dealer_code == selectedId"
+                      value="{{ data.dealer_code }}"
                       *ngFor="let data of allVendor"
                     >
-                      {{ data.full_name }}
+                      {{ data.dealer_name }}
                     </option>
                   </select>
-                </div>
+                </div>  <a
+                      *ngIf="tableView && !noData"
+                      class="btn btn-primary"
+                      target="_blank"
+                      [href]="
+                        'https://atlas-eos-app-hvw34.ondigitalocean.app/generate-pdf/' +
+                        selectedId +
+                        '/en/' 
+                         +
+                        currenDateTime
+                      "
+                    >
+                      <i class="fa fa-print mr-2"></i>
+                      Print/Review
+                    </a>
               </div>
             </div>
           </div>

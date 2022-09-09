@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr'
 import { TokenStorageService } from 'src/app/core/services/token-storage.service'
 import { MatTableDataSource } from '@angular/material/table'
 import { MatPaginator } from '@angular/material/paginator'
+import { MatSort, Sort } from '@angular/material/sort'
 
 export interface Products {
   atlas_id: string
@@ -29,6 +30,10 @@ export class VendorOrderFormComponent implements OnInit {
   vendorProductData: any
   noItemFound = false
   incomingData: any
+
+  sortDir = false
+  productData: any
+
   displayedColumns: string[] = [
     'atlas_id',
     'vendor_code',
@@ -52,6 +57,72 @@ export class VendorOrderFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllVendors()
+  }
+
+  sortDataAlt() {
+    //// const data = this.dataSource.data.slice()
+    const data = this.productData.slice()
+    this.sortDir = !this.sortDir
+
+    this.dataSource = data.sort((a: any, b: any) => {
+      let item = 'vendor_product_code'
+      switch (item) {
+        case 'index':
+          return compare(a.index, b.index, this.sortDir)
+        case 'vendor_product_code':
+          return compare(
+            a.vendor_product_code,
+            b.vendor_product_code,
+            this.sortDir,
+          )
+
+        default:
+          return 0
+      }
+    })
+  }
+
+  sortById() {
+    //// const data = this.dataSource.data.slice()
+    const data = this.productData.slice()
+    this.sortDir = !this.sortDir
+
+    this.dataSource = data.sort((a: any, b: any) => {
+      let item = 'id'
+      switch (item) {
+        case 'index':
+          return compare(a.index, b.index, this.sortDir)
+        case 'id':
+          return compare(a.id, b.id, this.sortDir)
+
+        default:
+          return 0
+      }
+    })
+  }
+
+  sortData(sort: Sort) {
+    const data = this.productData.slice()
+    if (!sort.active || sort.direction === '') {
+      this.dataSource = data
+      return
+    }
+
+    this.dataSource = data.sort((a: any, b: any) => {
+      // const isAsc = sort.direction === 'asc'
+
+      const isAsc = !true
+
+      switch (sort.active) {
+        case 'atlas_id':
+          return compare(a.id, b.id, isAsc)
+        case 'vendor':
+          return compare(a.vendor_product_code, b.vendor_product_code, isAsc)
+
+        default:
+          return 0
+      }
+    })
   }
 
   applyFilter(event: Event) {
@@ -113,6 +184,8 @@ export class VendorOrderFormComponent implements OnInit {
           this.incomingData = result.data
           this.dataSource = new MatTableDataSource<Products>(result.data)
 
+          this.productData = result.data
+
           this.dataSource.paginator = this.paginator
         } else {
           this.toastr.info(`Something went wrong`, 'Error')
@@ -173,4 +246,8 @@ export class VendorOrderFormComponent implements OnInit {
         // this.toastr.error('Try again', 'Something went wrong')
       })
   }
+}
+
+function compare(a: number | string, b: number | string, isAsc: boolean) {
+  return (a < b ? -1 : 1) * (isAsc ? 1 : -1)
 }

@@ -1,14 +1,14 @@
 .nav-layer-title {
   background-color: #1d7471;
   color: #ffffff;
-  z-index: 1;
   position: fixed;
   top: 64px;
   width: 85%;
+  z-index: 996;
 }
 
 .table-wrapper {
-  padding-right: 20px;
+  padding-right: 77px;
 }
 
 .nav-layer-title2 {
@@ -36,8 +36,15 @@
 
 .app-content {
   padding-top: 50px;
+  padding-bottom: 150px;
 }
 
 .audio-tag {
   visibility: hidden;
+}
+
+::ng-deep {
+  .mat-paginator-page-size {
+    display: none !important;
+  }
 }

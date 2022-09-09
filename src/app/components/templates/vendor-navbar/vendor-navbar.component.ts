@@ -1,9 +1,14 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
 
 import { TokenStorageService } from 'src/app/core/services/token-storage.service'
-import { Router } from '@angular/router'
 import { HttpRequestsService } from 'src/app/core/services/http-requests.service'
 import { ChatService } from 'src/app/core/services/chat.service'
+import {
+  Router,
+  NavigationStart,
+  Event as NavigationEvent,
+} from '@angular/router'
+import { filter } from 'rxjs/operators'
 
 @Component({
   selector: 'app-vendor-navbar',
@@ -20,17 +25,46 @@ export class VendorNavbarComponent implements OnInit {
   userId = ''
   notifyData: any
   bellCounter = 0
+  activeColor = false
+  menuStatus = false
+  noNewOrderNotify = false
+
+  switchStateLink = false
+  userData: any
+
   constructor(
     private tokenStorage: TokenStorageService,
     private router: Router,
     private getData: HttpRequestsService,
     private chatService: ChatService,
-  ) {}
+  ) {
+    let currentUrl = this.router.url
+    if (
+      currentUrl.includes('vendors/view-dealer-purchasers-summary') ||
+      currentUrl.includes('vendors/view-dealer-summary/')
+    ) {
+      this.activeColor = true
+    } else {
+      this.activeColor = false
+    }
+
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationStart))
+      .subscribe((event: any) => {
+        let url = event.url
+        if (
+          url.includes('vendors/view-dealer-purchasers-summary') ||
+          url.includes('vendors/view-dealer-summary/')
+        ) {
+          this.activeColor = true
+        } else {
+          this.activeColor = false
+        }
+      })
+  }
   ngOnInit(): void {
     const query = window.matchMedia('(max-width: 700px)')
-    console.log(query)
     this.vendorData = this.tokenStorage.getUser()
-    // this.vendorName = this.vendorData.full_name
     this.vendorCode = this.vendorData.full_name
     this.userId = this.vendorData.id
 
@@ -49,8 +83,31 @@ export class VendorNavbarComponent implements OnInit {
       // this.getUnreadMsg()
       this.getVendorOrderBellNotify()
     }, 10000)
+
+    this.userData = this.tokenStorage.getUser()
+    let switchState = this.userData.switch_state
+
+    if (switchState == 1) {
+      this.switchStateLink = true
+    } else {
+      this.switchStateLink = false
+    }
   }
 
+  goToPurchasers() {
+    this.router.navigate(['/vendors/purchases-by-dealer'])
+  }
+
+  showMenu() {
+    /// this.bellNotify.nativeElement.click()
+    this.menuStatus = true
+  }
+
+  hideMenu() {
+    this.menuStatus = false
+
+    /// this.bellNotify.nativeElement.click()
+  }
   getVendorOrderBellNotify() {
     this.getData
       .httpGetRequest('/vendor/get-vendor-order-bell-count/' + this.userId)
@@ -58,6 +115,7 @@ export class VendorNavbarComponent implements OnInit {
         if (result.status) {
           this.notifyData = result.data.notify
           this.bellCounter = result.data.count
+          this.noNewOrderNotify = this.bellCounter == 0 ? true : false
         }
       })
       .catch((err) => {})

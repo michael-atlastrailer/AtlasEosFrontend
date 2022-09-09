@@ -56,25 +56,34 @@ export class SalesSummaryComponent implements OnInit {
     'total',
   ]
 
+  sortDir = false
+
   dataSource = new MatTableDataSource<vendorProducts>()
+  allVendorData: any
 
   constructor(
     private tokenData: TokenStorageService,
     private httpServer: HttpRequestsService,
   ) {
     this.userData = tokenData.getUser()
-    ////this.getPrivilegedVendors()
 
-    if (this.userData.privileged_vendors) {
-      this.getPrivilegedVendors()
-      this.showSelectOption = true
+    if (this.userData.privileged_vendors != null) {
+      let privilegeVenArray = this.userData.privileged_vendors.split(',')
+      if (privilegeVenArray[1] != '') {
+        this.getPrivilegedVendors()
+        this.showSelectOption = true
+      } else {
+        this.selectedVendorName = this.userData.company_name
+        this.showSelectOption = false
+        this.selectedVendorCode = privilegeVenArray[0]
+        this.getSingleVendorSummary()
+        this.getAllVendors()
+      }
     } else {
-      this.selectedVendorCode = this.userData.vendor_code
-      this.printVendorCode = this.selectedVendorCode
-      this.getSingleVendorSummary()
-      //console.log('no vendor')
       this.selectedVendorName = this.userData.company_name
       this.showSelectOption = false
+      this.selectedVendorCode = this.userData.vendor_code
+      this.getSingleVendorSummary()
     }
   }
 
@@ -93,6 +102,56 @@ export class SalesSummaryComponent implements OnInit {
     let ampm = hrs >= 12 ? 'pm' : 'am'
     let comTime = hours + ':' + minutes + ':' + sec + ' ' + ampm
     this.currenDateTime = comDate + ' ' + comTime
+  }
+
+  getAllVendors() {
+    this.httpServer
+      .httpGetRequest('/get-all-vendors')
+      .then((result: any) => {
+        if (result.status) {
+          this.allVendorData = result.data
+          for (let i = 0; i < this.allVendorData.length; i++) {
+            const ji = this.allVendorData[i]
+            if (ji.vendor_code == this.selectedVendorCode) {
+              this.selectedVendorName = ji.vendor_name
+            }
+          }
+        } else {
+        }
+      })
+      .catch((err) => {})
+  }
+
+  sortDataAlt() {
+    //// const data = this.dataSource.data.slice()
+
+    const data = this.productData.slice()
+
+    console.log(data)
+
+    this.sortDir = !this.sortDir
+
+    this.dataSource = data.sort((a: any, b: any) => {
+      let item = 'vendor_product_code'
+      switch (item) {
+        case 'index':
+          return compare(a.index, b.index, this.sortDir)
+        case 'vendor_product_code':
+          return compare(a.vendor, b.vendor, this.sortDir)
+
+        default:
+          return 0
+      }
+    })
+  }
+
+  exportToExcel() {
+    $('#export-table').table2excel({
+      exclude: '.noExl',
+      name: 'sales-summary',
+      filename: 'sales-summary',
+      fileext: '.xlsx',
+    })
   }
 
   sortData(sort: Sort) {
@@ -220,8 +279,7 @@ export class SalesSummaryComponent implements OnInit {
 
             this.tableView = true
             this.incomingData = result.data
-            this.dataSource = result.data
-
+            // this.dataSource = result.data
             this.productData = result.data
             this.noDataFound = result.data.length > 0 ? false : true
 
@@ -272,16 +330,16 @@ export class SalesSummaryComponent implements OnInit {
       .catch((err) => {})
   }
 
-  exportToExcel() {
-    let javaDate = new Date()
-    let currDate = javaDate.getDate()
-    $('#export-sales-summary').table2excel({
-      exclude: '.noExl',
-      name: `${currDate}-sales-summary`,
-      filename: `${currDate}-sales-summary`,
-      fileext: '.xlsx',
-    })
-  }
+  // exportToExcel() {
+  //   let javaDate = new Date()
+  //   let currDate = javaDate.getDate()
+  //   $('#export-sales-summary').table2excel({
+  //     exclude: '.noExl',
+  //     name: `${currDate}-sales-summary`,
+  //     filename: `${currDate}-sales-summary`,
+  //     fileext: '.xlsx',
+  //   })
+  // }
 
   getLocal(e: any) {
     return localStorage.getItem(e)

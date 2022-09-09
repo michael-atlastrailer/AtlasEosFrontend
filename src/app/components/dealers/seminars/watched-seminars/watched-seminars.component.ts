@@ -54,7 +54,6 @@ export class WatchedSeminarsComponent implements OnInit {
     }, 40000)
   }
   ngOnInit(): void {
-    throw new Error('Method not implemented.')
   }
   @ViewChild(MatSort)
   sort!: MatSort

@@ -55,6 +55,9 @@ export class SwitchDealerComponent implements OnInit {
 
   @ViewChild('closeButton') closeButton!: ElementRef
 
+  defaultBtn = false
+  noPrivilegedDealer = false
+
   constructor(
     private postData: HttpRequestsService,
     private toastr: ToastrService,
@@ -66,6 +69,17 @@ export class SwitchDealerComponent implements OnInit {
   ngOnInit(): void {
     this.userData = this.tokenStore.getUser()
 
+    if (
+      window.localStorage.getItem('switchType') &&
+      window.localStorage.getItem('switchType') == 'default-to-dealer'
+    ) {
+      // console.log(' hete agaginnd')
+      this.defaultBtn = true
+    } else {
+      // console.log('not hete agaginnd')
+      this.defaultBtn = false
+    }
+
     this.getAllDealership()
   }
 
@@ -73,11 +87,18 @@ export class SwitchDealerComponent implements OnInit {
     this.dataSource.paginator = this.paginator
   }
 
+  switchToDefault() {
+    this.tokenStore.switchBackToDefault()
+    this.defaultBtn = false
+    this.toastr.success('Dealer Switch was successful', 'Switch Info')
+  }
+
   async switchDealer(data: any) {
     let confirmStatus = await this.confirmBox(data)
     if (confirmStatus) {
-      this.tokenStore.switchFromVendorToDealer(data)
-      this.router.navigate(['/dealers/dashboard'])
+      this.defaultBtn = true
+      this.tokenStore.switchDealerToDealer(data)
+      this.toastr.success('Dealer Switch was successful', 'Switch Info')
     } else {
     }
   }
@@ -148,9 +169,7 @@ export class SwitchDealerComponent implements OnInit {
 
   getAllDealership() {
     this.postData
-      .httpGetRequest(
-        '/vendor/get-privileged-dealers/' + this.userData.vendor_code,
-      )
+      .httpGetRequest('/dealer/dealer-privileged-dealers/' + this.userData.id)
       .then((result: any) => {
         console.log(result)
         this.loader = false
@@ -161,6 +180,7 @@ export class SwitchDealerComponent implements OnInit {
             this.incomingData = result.data
             this.dataSource = new MatTableDataSource(result.data)
             this.dataSource.paginator = this.paginator
+            this.noPrivilegedDealer = result.data.length > 0 ? false : true
           }
         } else {
           this.toastr.error(result.message, 'Try again')

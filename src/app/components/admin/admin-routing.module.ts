@@ -12,6 +12,7 @@ import { AddVendorsComponent } from './add-vendors/add-vendors.component'
 import { AdminComponent } from './admin.component'
 import { AllAdminComponent } from './all-admin/all-admin.component'
 import { AllDealerUsersComponent } from './all-dealer-users/all-dealer-users.component'
+import { AllDealershipComponent } from './all-dealership/all-dealership.component'
 import { AllFaqComponent } from './all-faq/all-faq.component'
 import { AllProductsComponent } from './all-products/all-products.component'
 import { AllPromotionalFlyerComponent } from './all-promotional-flyer/all-promotional-flyer.component'
@@ -227,10 +228,14 @@ const routes: Routes = [
         path: 'dealer-summary/:code',
         component: DealerSummaryComponent,
       },
+      {
+        path: 'all-dealership',
+        component: AllDealershipComponent,
+      },
     ],
     canActivate: [AuthGuardGuard],
   },
-];
+]
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

@@ -303,3 +303,10 @@
   text-align: center;
   display: block;
 }
+
+::ng-deep {
+  .mat-sort-header-arrow {
+    display: none !important;
+    opacity: 0;
+  }
+}

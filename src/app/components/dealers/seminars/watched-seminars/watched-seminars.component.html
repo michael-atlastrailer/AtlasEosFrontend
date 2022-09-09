@@ -351,24 +351,25 @@
                         </td>
                       </ng-container>
 
-                      <tr
-                        mat-header-row
-                        *matHeaderRowDef="displayedColumns"
-                      ></tr>
-                      <tr
-                        mat-row
-                        *matRowDef="let row; columns: displayedColumns"
-                      ></tr>
-                    </table>
-                    <p class="text-center mt-3" *ngIf="noData">
-                      <i>No Data Found</i>
-                    </p>
-                    <mat-paginator
-                      [pageSizeOptions]="[100, 50, 200]"
-                      showFirstLastButtons
-                      aria-label="Select page seminar pages"
-                    ></mat-paginator>
-                  </div>
+                    <tr
+                      mat-header-row
+                      *matHeaderRowDef="displayedColumns"
+                    ></tr>
+                    <tr
+                      mat-row
+                      *matRowDef="let row; columns: displayedColumns"
+                    ></tr>
+                  </table>
+                  <p class="text-center mt-3" *ngIf="noData">
+                     <i>No Available Seminars</i>
+                  </p>
+                  <mat-paginator
+                    [pageSizeOptions]="[100, 50, 200]"
+                    showFirstLastButtons
+                    aria-label="Select page seminar pages"
+                  >
+                  </mat-paginator>
+                </div>
                 </div>
               </div>
             </div>

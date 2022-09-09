@@ -94,7 +94,7 @@
           <div class="card">
             <div class="card-header">
               <a class="card-link" data-toggle="collapse" href="#collapseSix">
-                Most Salers By Vendors
+                TOP SALES BY VENDORS
               </a>
             </div>
             <div
@@ -190,7 +190,6 @@
                         <th class="thead-custom">Vendors Code</th>
                         <th class="thead-custom">Vendor Name</th>
                         <th class="thead-custom">Total Sales</th>
-                        <th class="thead-custom">Trend</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -218,9 +217,6 @@
                             {{ data.vendor_sales | currency }}
                           </span>
                         </td>
-                        <td>
-                          <span class="td-trend">{{ data.trend }}</span>
-                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -234,7 +230,7 @@
           <div class="card">
             <div class="card-header">
               <a class="card-link" data-toggle="collapse" href="#collapseSeven">
-                MOST PURCHASES BY DEALER
+                TOP PURCHASES BY DEALER
               </a>
             </div>
             <div
@@ -330,7 +326,6 @@
                         <th class="thead-custom">Account #</th>
                         <th class="thead-custom">Dealer Name</th>
                         <th class="thead-custom">Show Total($)</th>
-                        <th class="thead-custom">Trend</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -359,9 +354,6 @@
                           <span class="td-sales">
                             {{ data.total_sales | currency }}
                           </span>
-                        </td>
-                        <td>
-                          <span class="td-trend">{{ data.trend }}</span>
                         </td>
                       </tr>
                     </tbody>
@@ -480,17 +472,19 @@
                     <tbody>
                       <tr>
                         <td>
-                          <span class="tbody-text">
+                          <span class="tbody-text loggedin-text">
                             {{ totalLoggedVendor }}
                           </span>
                         </td>
                         <td>
-                          <span class="tbody-text">
+                          <span class="tbody-text loggedin-text">
                             {{ totalLoggedDealer }}
                           </span>
                         </td>
                         <td>
-                          <span class="tbody-text">{{ totalLoggedAdmin }}</span>
+                          <span class="tbody-text loggedin-text">
+                            {{ totalLoggedAdmin }}
+                          </span>
                         </td>
                       </tr>
                     </tbody>
@@ -514,7 +508,7 @@
               class="collapse show"
               data-parent="#accordion2"
             >
-              <div class="card-body mx-2">
+              <div class="card-body mx-2 btn-wrapper">
                 <button
                   class="btn activate-vendor-btn vendor-btn control-btn"
                   *ngIf="showActivateVendorBtn"
@@ -564,6 +558,24 @@
                   <div *ngIf="!deactivateDealerBtnStatus">
                     <span class="spinner-border spinner-border-sm"></span>
                   </div>
+                </button>
+
+                <!-- Vendor Switch -->
+
+                <button
+                  *ngIf="showActivateVendorSwitchBtn"
+                  class="btn activate-switch-btn control-btn"
+                  (click)="activateVendorSwitch()"
+                >
+                  Activate Vendor Switch
+                </button>
+
+                <button
+                  *ngIf="showDeactivateVendorSwitchBtn"
+                  class="btn activate-switch-btn control-btn"
+                  (click)="deactivateVendorSwitch()"
+                >
+                  Deactivate Vendor Switch
                 </button>
               </div>
             </div>

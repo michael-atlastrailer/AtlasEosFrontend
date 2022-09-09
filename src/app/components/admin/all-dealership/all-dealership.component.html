@@ -8,7 +8,7 @@
               <a class="card-link" data-toggle="collapse" href="#collapseSeven">
                 <span class="fa fas fa-list-ul pr-2"></span>
 
-                All Vendors
+                All Dealers
               </a>
             </div>
             <div
@@ -132,7 +132,7 @@
                     (matSortChange)="sortData($event)"
                   >
                     <!--- Note that these columns can be defined in any order.
-                        The actual rendered columns are set as a property on the row definition" -->
+                          The actual rendered columns are set as a property on the row definition" -->
 
                     <!-- Position Column -->
                     <ng-container matColumnDef="vendor_id">
@@ -142,11 +142,11 @@
                         (click)="sortByNumber()"
                         style="cursor: pointer;"
                       >
-                        Vendor Number
+                        Dealer Number
                         <i class="fa fa-sort ml-2"></i>
                       </th>
                       <td mat-cell *matCellDef="let element">
-                        <h6 class="text-center">{{ element.vendor_code }}</h6>
+                        <h6 class="text-center">{{ element.dealer_code }}</h6>
                       </td>
                     </ng-container>
 
@@ -158,36 +158,32 @@
                         (click)="sortByName()"
                         style="cursor: pointer;"
                       >
-                        Vendor Name
+                        Dealer Name
                         <i class="fa fa-sort ml-2"></i>
                       </th>
                       <td mat-cell *matCellDef="let element">
-                        <h6 class="text-center">{{ element.vendor_name }}</h6>
+                        <h6 class="text-center">{{ element.dealer_name }}</h6>
                       </td>
                     </ng-container>
 
                     <!-- Weight Column -->
                     <ng-container matColumnDef="status">
-                      <th mat-header-cell *matHeaderCellDef>Status</th>
+                      <th mat-header-cell *matHeaderCellDef>Location</th>
                       <td mat-cell *matCellDef="let element">
-                        <h6 class="text-center" *ngIf="element.status == 1">
-                          Active
-                        </h6>
-                        <h6 class="text-center" *ngIf="element.status == 0">
-                          Inactive
-                        </h6>
+                        <h6 class="text-center">{{ element.location }}</h6>
+
                         <!-- <span *ngIf="element.status == 1">Active</span>
-                        <span *ngIf="element.status == 0">Inactive</span> -->
+                          <span *ngIf="element.status == 0">Inactive</span> -->
                       </td>
                     </ng-container>
 
                     <!-- Symbol Column -->
                     <!-- <ng-container matColumnDef="created_at">
-                      <th mat-header-cell *matHeaderCellDef>Created Date</th>
-                      <td mat-cell *matCellDef="let element">
-                        {{ element.created_at | date: 'medium' }}
-                      </td>
-                    </ng-container> -->
+                        <th mat-header-cell *matHeaderCellDef>Created Date</th>
+                        <td mat-cell *matCellDef="let element">
+                          {{ element.created_at | date: 'medium' }}
+                        </td>
+                      </ng-container> -->
 
                     <ng-container matColumnDef="action">
                       <th mat-header-cell *matHeaderCellDef>Action</th>
@@ -206,6 +202,8 @@
                               <span class="fa fa-edit"></span>
                             </button>
                           </div>
+
+                          <!--                           
 
                           <div>
                             <button
@@ -227,6 +225,7 @@
                               </div>
                             </button>
                           </div>
+ -->
                         </div>
                       </td>
                     </ng-container>
@@ -268,10 +267,10 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">
-          Edit Vendor:
+          Edit Dealer:
         </h5>
         <h5 class="vendor-name">
-          <b>{{ editVendorData?.vendor_name }}</b>
+          <b>{{ editVendorData?.dealer_name }}</b>
         </h5>
         <button
           #closeButton
@@ -286,23 +285,23 @@
       <div class="modal-body">
         <form id="msform" [formGroup]="vendorForm" class="pt-2">
           <div class="form-group mb-3">
-            <label for="">Vendor Name</label>
+            <label for="">Dealer Name</label>
             <input
               type="text"
-              name="vendorName"
+              name="dealerName"
               class="input-value shadow-sm"
               placeholder="Vendor Name"
               required
-              formControlName="vendorName"
-              value="{{ editVendorData?.vendor_name }}"
+              formControlName="dealerName"
+              value="{{ editVendorData?.dealer_name }}"
             />
             <div
               class="input-alert-box"
-              *ngIf="vendorFormControls.vendorName.invalid && manualChecker"
+              *ngIf="vendorFormControls.dealerName.invalid && manualChecker"
             >
               <div>
                 <span class="alert-input-msg">
-                  {{ getErrorMessage('vendorName') }}
+                  {{ getErrorMessage('dealerName') }}
                 </span>
                 <span
                   class="fa fa-exclamation-triangle alert-input-icon"
@@ -313,25 +312,25 @@
           </div>
 
           <div class="form-group mb-3">
-            <label for="">Vendor Code</label>
+            <label for="">Dealer Code</label>
 
             <input
               type="text"
               class="input-value shadow-sm"
-              name="vendorCode"
+              name="dealerCode"
               placeholder="Enter Vendor Code"
               required
-              formControlName="vendorCode"
-              value="{{ editVendorData?.vendor_code }}"
+              formControlName="dealerCode"
+              value="{{ editVendorData?.dealer_code }}"
             />
 
             <div
               class="input-alert-box"
-              *ngIf="vendorFormControls.vendorCode.invalid && manualChecker"
+              *ngIf="vendorFormControls.dealerCode.invalid && manualChecker"
             >
               <div>
                 <span class="alert-input-msg">
-                  {{ getErrorMessage('vendorCode') }}
+                  {{ getErrorMessage('dealerCode') }}
                 </span>
                 <span
                   class="fa fa-exclamation-triangle alert-input-icon"
@@ -339,6 +338,19 @@
                 ></span>
               </div>
             </div>
+          </div>
+
+          <div class="form-group mb-3">
+            <label for="">Location</label>
+
+            <input
+              type="text"
+              class="input-value shadow-sm"
+              name="location"
+              placeholder="Enter Location"
+              formControlName="location"
+              value="{{ editVendorData?.location }}"
+            />
           </div>
 
           <button class="submit-btn btn btn-primary" (click)="submit()">

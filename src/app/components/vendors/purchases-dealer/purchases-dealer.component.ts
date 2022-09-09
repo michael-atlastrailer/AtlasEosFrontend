@@ -30,6 +30,7 @@ export class PurchasesDealerComponent implements OnInit {
   showSelectOption = true
   vendor = ''
   hiddenSelectedVendor = ''
+  allVendorData: any
 
   constructor(
     private tokenData: TokenStorageService,
@@ -37,30 +38,25 @@ export class PurchasesDealerComponent implements OnInit {
     private route: ActivatedRoute,
   ) {
     this.userData = tokenData.getUser()
-    ///this.getPrivilegedVendors()
 
-    let privilegeVenArray = this.userData.privileged_vendors.split(',')
-
-    console.log(privilegeVenArray.length, 'Checking it out')
-
-    if (privilegeVenArray.length > 0) {
-      this.getPrivilegedVendors()
-      this.showSelectOption = true
+    if (this.userData.privileged_vendors != null) {
+      let privilegeVenArray = this.userData.privileged_vendors.split(',')
+      if (privilegeVenArray[1] != '') {
+        this.getPrivilegedVendors()
+        this.showSelectOption = true
+      } else {
+        this.selectedVendorName = this.userData.company_name
+        this.showSelectOption = false
+        this.selectedVendorCode = privilegeVenArray[0]
+        this.getSingleVendorPurchasers()
+        this.getAllVendors()
+      }
     } else {
       this.selectedVendorName = this.userData.company_name
       this.showSelectOption = false
       this.selectedVendorCode = this.userData.vendor_code
       this.getSingleVendorPurchasers()
     }
-
-    // if (this.userData.privileged_vendors) {
-
-    // } else {
-    //   this.selectedVendorCode = this.userData.vendor_code
-    //   this.getSingleVendorPurchasers()
-    //   //console.log('no vendor')
-
-    // }
   }
 
   ngOnInit(): void {
@@ -73,6 +69,24 @@ export class PurchasesDealerComponent implements OnInit {
         this.getVendorPurchasers()
       }
     })
+  }
+
+  getAllVendors() {
+    this.httpServer
+      .httpGetRequest('/get-all-vendors')
+      .then((result: any) => {
+        if (result.status) {
+          this.allVendorData = result.data
+          for (let i = 0; i < this.allVendorData.length; i++) {
+            const ji = this.allVendorData[i]
+            if (ji.vendor_code == this.selectedVendorCode) {
+              this.selectedVendorName = ji.vendor_name
+            }
+          }
+        } else {
+        }
+      })
+      .catch((err) => {})
   }
 
   changeBellNotificationStatus() {

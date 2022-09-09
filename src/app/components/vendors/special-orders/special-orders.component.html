@@ -14,22 +14,30 @@
               class="collapse show"
               data-parent="#accordion6"
             >
-              <div class="card-body">
+              <div class="card-body" *ngIf="showSelectOption">
                 <div class="d-flex w-100 filter-wrapper">
                   <div class="input-wrapper">
                     <div class="form-group">
                       <div class="select-wrapper">
-                        <select name="" id="">
-                          <option value="">ACUVA TECHNOLOGIES</option>
-                          <option value="">AP - BRAKE COMPONENTS</option>
-                          <option value="">AP - SURFACE SHEILDS</option>
-                          <option value="">B'LASTER HOLDINGS LLC</option>
+                        <select
+                          #vendor
+                          name=""
+                          id=""
+                          (change)="selectedVendor(vendor.value)"
+                        >
+                          <option
+                            class="notranslate"
+                            value="{{ data.vendor_code }}"
+                            *ngFor="let data of privilegedVendors"
+                          >
+                            {{ data.vendor_name }}
+                          </option>
                         </select>
                       </div>
                     </div>
                   </div>
                   <div class="btn-wrapper">
-                    <button class="">
+                    <button class="" (click)="getVendorSpecialOrders()">
                       Search
                     </button>
                   </div>
@@ -133,29 +141,38 @@
                   </table>
 
                   <table
+                    id="export-table"
                     *ngIf="tableView"
-                    class="table table-striped text-nowrap table-wrapper2 align-items-center mb-0"
+                    class="table table-striped table-bordered text-nowrap table-wrapper2 align-items-center mb-0"
                   >
                     <thead>
                       <tr>
                         <th class="thead-custom">S/N</th>
-
                         <th class="thead-custom">Qty</th>
                         <th class="thead-custom">Description</th>
-
                         <th class="thead-custom">Vendor Parts #</th>
-
                         <th class="thead-custom">Vendor Name</th>
-
                         <th class="thead-custom">Dealer Name</th>
-
                         <th class="thead-custom">Dealer Account Number</th>
                         <th class="thead-custom">Purchaser</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td colspan="8" class="text-center">No order listed</td>
+                      <tr *ngFor="let item of specialOrder; let i = index">
+                        <td>{{ i }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.description }}</td>
+                        <td>{{ item.vendor_no }}</td>
+                        <td>{{ item.vendor_name }}</td>
+                        <td>{{ item.dealer_name }}</td>
+
+                        <td>{{ item.dealer_id }}</td>
+                        <td>{{ item.user }}</td>
+                      </tr>
+                      <tr *ngIf="noOrderFound">
+                        <td colspan="8" class="text-center">
+                          No special items ordered for this vendor
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -164,7 +181,7 @@
                 <hr />
                 <div class="d-flex justify-content-end btn-section">
                   <div>
-                    <button class="download-btn">
+                    <button class="download-btn" (click)="exportVendorNote()">
                       <span class="fa fa-download"></span>
                       Download as Excel
                     </button>

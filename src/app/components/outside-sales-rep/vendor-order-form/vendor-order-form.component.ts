@@ -24,6 +24,8 @@ export class VendorOrderFormComponent implements OnInit {
   tableView = true;
   loader = false;
   allVendors: any;
+  sortDirAtlasId = false;
+  sortDirVendorCode = false;
   selectedVendorName = '';
   selectedVendorCode = '';
   vendorProductData: any;
@@ -31,7 +33,7 @@ export class VendorOrderFormComponent implements OnInit {
   incomingData: any;
   displayedColumns: string[] = [
     'atlas_id',
-    'vendor_code',
+    'vendor_product_code',
     'description',
     'regular',
     'booking',
@@ -134,10 +136,7 @@ export class VendorOrderFormComponent implements OnInit {
     }
   }
 
-  // vendorSelected(data: any) {
-  //   this.selectedVendorCode = data.vendor_code
-  //   this.selectedVendorName = data.vendor_name
-  // }
+
 
   getAllVendors() {
     this.httpService
@@ -157,6 +156,39 @@ export class VendorOrderFormComponent implements OnInit {
       });
   }
 
+  sortDataAlt(item: any) {
+    const data = this.dataSource.data;
+
+    if (item == 'atlas_id') {
+      this.sortDirAtlasId = !this.sortDirAtlasId;
+    }
+    if (item == 'vendor_product_code') {
+      this.sortDirVendorCode = !this.sortDirVendorCode;
+    }
+
+    console.log(
+      'item user',
+      item,
+      this.dataSource.data,
+      this.sortDirAtlasId,
+      this.sortDirVendorCode
+    );
+    this.dataSource.data = data.sort((a: any, b: any) => {
+      switch (item) {
+        case 'atlas_id':
+          return compare(a.atlas_id, b.atlas_id, this.sortDirAtlasId);
+        case 'vendor_product_code':
+          return compare(
+            a.vendor_product_code,
+            b.vendor_product_code,
+            this.sortDirVendorCode
+          );
+
+        default:
+          return 0;
+      }
+    });
+  }
   getDealerCart() {
     this.httpService
       .httpGetRequest('/admin/get-price-override/')
@@ -173,4 +205,7 @@ export class VendorOrderFormComponent implements OnInit {
         // this.toastr.error('Try again', 'Something went wrong')
       });
   }
+}
+function compare(a: number | string, b: number | string, isAsc: boolean) {
+  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }

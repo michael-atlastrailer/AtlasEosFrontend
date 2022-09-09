@@ -17,11 +17,11 @@ export interface VendorData {
 }
 
 @Component({
-  selector: 'app-all-vendors',
-  templateUrl: './all-vendors.component.html',
-  styleUrls: ['./all-vendors.component.scss'],
+  selector: 'app-all-dealership',
+  templateUrl: './all-dealership.component.html',
+  styleUrls: ['./all-dealership.component.scss'],
 })
-export class AllVendorsComponent implements OnInit {
+export class AllDealershipComponent implements OnInit {
   tableView = false
   loader = true
   allVendor: any
@@ -106,7 +106,7 @@ export class AllVendorsComponent implements OnInit {
         case 'index':
           return compare(a.index, b.index, this.sortDir)
         case 'name':
-          return compare(a.vendor_name, b.vendor_name, this.sortDir)
+          return compare(a.dealer_name, b.dealer_name, this.sortDir)
 
         default:
           return 0
@@ -149,15 +149,15 @@ export class AllVendorsComponent implements OnInit {
 
   getErrorMessage(instance: string) {
     if (
-      instance === 'vendorName' &&
-      this.vendorFormControls.vendorName.hasError('required')
+      instance === 'dealerName' &&
+      this.vendorFormControls.dealerName.hasError('required')
     ) {
-      return 'enter vendor name'
+      return 'enter dealer name'
     } else if (
-      instance === 'vendorCode' &&
-      this.vendorFormControls.vendorCode.hasError('required')
+      instance === 'dealerCode' &&
+      this.vendorFormControls.dealerCode.hasError('required')
     ) {
-      return 'enter vendor code'
+      return 'enter dealer code'
     } else {
       return
     }
@@ -166,10 +166,10 @@ export class AllVendorsComponent implements OnInit {
   submit() {
     this.btnText = false
     this.btnLoader = true
-    this.vendorForm.value.vendorId = this.vendorId
+    this.vendorForm.value.dealerId = this.vendorId
 
     this.postData
-      .httpPostRequest('/edit-vendor-data', this.vendorForm.value)
+      .httpPostRequest('/admin/edit-dealer-data', this.vendorForm.value)
       .then((result: any) => {
         console.log(result)
         this.btnText = true
@@ -192,8 +192,9 @@ export class AllVendorsComponent implements OnInit {
 
   buildDealerForm(): void {
     this.vendorForm = this.fb.group({
-      vendorName: ['', [Validators.required]],
-      vendorCode: ['', [Validators.required]],
+      dealerName: ['', [Validators.required]],
+      dealerCode: ['', [Validators.required]],
+      location: [''],
     })
   }
 
@@ -203,11 +204,10 @@ export class AllVendorsComponent implements OnInit {
     this.vendorId = data.id
 
     this.vendorForm = this.fb.group({
-      vendorName: [data.vendor_name, [Validators.required]],
-      vendorCode: [data.vendor_code, [Validators.required]],
+      dealerName: [data.dealer_name, [Validators.required]],
+      dealerCode: [data.dealer_code, [Validators.required]],
+      location: [''],
     })
-    // this.vendorForm.value.vendorName = data.vendor_name
-    // this.vendorForm.value.vendorCode = data.vendor_code
   }
 
   async removeVendor(data: any) {
@@ -259,7 +259,7 @@ export class AllVendorsComponent implements OnInit {
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value
-    this.incomingData.vendor_code = filterValue.trim().toLowerCase()
+    this.incomingData.dealer_name = filterValue.trim().toLowerCase()
     this.dataSource = this.filterArray('*' + filterValue)
   }
 
@@ -267,7 +267,7 @@ export class AllVendorsComponent implements OnInit {
     var regex = this.convertWildcardStringToRegExp(expression)
     //console.log('RegExp: ' + regex);
     return this.incomingData.filter(function (item: any) {
-      return regex.test(item.vendor_code)
+      return regex.test(item.dealer_name)
     })
   }
 
@@ -303,7 +303,7 @@ export class AllVendorsComponent implements OnInit {
 
   getVendors() {
     this.postData
-      .httpGetRequest('/get-all-vendors')
+      .httpGetRequest('/admin/all-dealership')
       .then((result: any) => {
         console.log(result)
         this.loader = false

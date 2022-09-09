@@ -24,6 +24,8 @@ export class EditDealerUsersComponent implements OnInit {
   profileLoader = true
   profileDataStatus = false
 
+  allDealers: any
+
   constructor(
     private fb: FormBuilder,
     private postData: HttpRequestsService,
@@ -34,6 +36,7 @@ export class EditDealerUsersComponent implements OnInit {
   ngOnInit(): void {
     this.buildVendorUserForm()
     this.getVendors()
+    this.getAllDealers()
 
     this.route.params.subscribe((params) => {
       this.userId = params['user']
@@ -41,6 +44,32 @@ export class EditDealerUsersComponent implements OnInit {
       console.log(this.userId)
       this.getVendorUserData(this.userId)
     })
+  }
+
+  getAllDealers() {
+    this.postData
+      .httpGetRequest('/admin/all-dealership')
+      .then((result: any) => {
+        if (result.status) {
+          this.allDealers = result.data
+        } else {
+          this.toastr.error(result.message, 'Try again')
+        }
+      })
+      .catch((err) => {
+        this.toastr.error('Try again', 'Something went wrong')
+      })
+  }
+
+  assignDealer(data: any) {
+    console.log(data.value)
+    for (let index = 0; index < this.allDealers.length; index++) {
+      const vendor = this.allDealers[index]
+      if (vendor.dealer_name == data.value) {
+        this.vendorUserForm.value.dealerCode = vendor.dealer_code
+        this.vendorUserForm.value.dealerName = vendor.dealer_name
+      }
+    }
   }
 
   assignVendor(data: any) {
@@ -80,6 +109,7 @@ export class EditDealerUsersComponent implements OnInit {
             privilegeDealer: [this.vendorUserData.privileged_dealers],
             privilegeVendor: [this.vendorUserData.privileged_vendors],
             location: [this.vendorUserData.location],
+            companyName: [this.vendorUserData.company_name],
 
             superVendor: ['0'],
           })
@@ -107,6 +137,8 @@ export class EditDealerUsersComponent implements OnInit {
       privilegeDealer: [''],
       privilegeVendor: [''],
       location: [''],
+      dealership: [''],
+      companyName: [''],
 
       superVendor: ['0'],
     })
@@ -142,7 +174,7 @@ export class EditDealerUsersComponent implements OnInit {
         this.btnLoader = false
 
         if (result.status == true) {
-          this.toastr.success('Successful', 'user edit was successfull')
+          this.toastr.success('Successful', 'user edit was successful')
           this.getVendorUserData(this.userId)
         } else {
           this.toastr.error('Server Error', 'Try again')

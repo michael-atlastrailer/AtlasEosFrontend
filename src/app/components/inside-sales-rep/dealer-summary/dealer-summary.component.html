@@ -120,8 +120,7 @@
                   <table
                     mat-table
                     [dataSource]="dataSource"
-                    matSort
-                    (matSortChange)="sortData(sort)"
+                  
                     class="mat-elevation w-100 table table-striped table-bordered"
                   >
                     <!--- Note that these columns can be defined in any order.
@@ -129,67 +128,70 @@
 
                     <!-- Position Column -->
 
-                    <ng-container matColumnDef="account_id">
+                    <ng-container matColumnDef="dealer_code">
                       <th
                         mat-header-cell
                         *matHeaderCellDef
-                        mat-sort-header="account_id"
+                       (click)="sortDataAlt('dealer_code')"
+                        style="cursor: pointer"
                       >
                         Account # <i class="fa fa-sort ml-2"></i>
                       </th>
                       <td mat-cell *matCellDef="let element">
                         <a
                           routerLink="/inside-sales/detailed-dealer-summary/{{
-                            element.account_id
+                            element.dealer_code
                           }}"
                           class="clickable"
-                          >{{ element.account_id }}</a
+                          >{{ element.dealer_code }}</a
                         >
                       </td>
                     </ng-container>
 
                     <ng-container
-                      matColumnDef="full_name"
-                      mat-sort-header="full_name"
+                      matColumnDef="dealer_name"
+                  
                     >
-                      <th mat-header-cell *matHeaderCellDef>
+                      <th mat-header-cell *matHeaderCellDef (click)="sortDataAlt('dealer_name')"
+                        style="cursor: pointer">
                         Dealer Name <i class="fa fa-sort ml-2"></i>
                       </th>
                       <td mat-cell *matCellDef="let element">
                         <a
                           routerLink="/inside-sales/detailed-dealer-summary/{{
-                            element.account_id
+                            element.dealer_code
                           }}"
                           class="clickable"
-                          >{{ element.full_name }}</a
+                          >{{ element.dealer_name }}</a
                         >
                       </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="total_price">
+                    <ng-container matColumnDef="amount">
                       <th
                         mat-header-cell
                         *matHeaderCellDef
-                        mat-sort-header="total_price"
+                       (click)="sortDataAlt('amount')"
+                        style="cursor: pointer"
                       >
                         Show Total <i class="fa fa-sort ml-2"></i>
                       </th>
                       <td mat-cell *matCellDef="let element">
-                        {{ element.total_price | currency }}
+                        {{ element.amount | currency }}
                       </td>
                     </ng-container>
                     <ng-container matColumnDef="last_login">
                       <th
                         mat-header-cell
                         *matHeaderCellDef
-                        mat-sort-header="last_login"
+                     
                       >
                         Last Login
                       </th>
-                      <td mat-cell *matCellDef="let element">
-                       <span *ngIf="element.last_login">
-                          {{ element.last_login | date: "medium" }}</span
-                        ><span *ngIf="!element.last_login"> Null</span>
+                    <td mat-cell *matCellDef="let element">
+                      <span *ngIf=" getLastLogin(element.login_array) ">
+                          {{ getLastLogin(element.login_array) | date: "medium" }}</span
+                        ><span *ngIf="!getLastLogin(element.login_array) "> Not Logged In</span>
                       </td>
                     </ng-container>
 

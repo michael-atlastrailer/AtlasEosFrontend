@@ -29,7 +29,7 @@ export class DetailedSummaryComponent implements OnInit {
   loaderData = [9, 8, 6];
   incomingData: any;
   completedOrders = 0;
-  ordersRemaining = 50;
+  ordersRemaining = 88;
   showTotal = 0;
   noData = true;
   displayedColumns: string[] = [
@@ -47,7 +47,7 @@ export class DetailedSummaryComponent implements OnInit {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
-
+  currenDateTime='';
   ngOnInit(): void {}
   selectedId: any;
   constructor(
@@ -64,12 +64,32 @@ export class DetailedSummaryComponent implements OnInit {
         this.getDealerOrders(accnt);
       }
     });
+    let d = new Date();
+    let month = d.getMonth() + 1;
+    let mnth = month < 10 ? `0${month}` : month;
+
+    let dateT = d.getDate();
+    let dd = dateT < 10 ? `0${dateT}` : dateT;
+
+    let comDate = dd + '-' + mnth + '-' + d.getFullYear();
+
+    let hrs = d.getHours();
+    let hours = hrs < 10 ? `0${hrs}` : hrs;
+
+    let mins = d.getMinutes();
+    let minutes = mins < 10 ? `0${mins}` : mins;
+    let sec = d.getSeconds();
+    let ampm = hrs >= 12 ? 'pm' : 'am';
+
+    let comTime = hours + ':' + minutes + ':' + sec + ' ' + ampm;
+
+    this.currenDateTime = comDate + ' ' + comTime;
   }
 
   getVendors() {
     let id = this.token.getUser().id;
     this.postData
-      .httpGetRequest('/sales-rep/get-purchasers-dealer/' + id)
+      .httpGetRequest('/sales-rep/dealers/' + id)
       .then((result: any) => {
         console.log(result);
 
@@ -84,14 +104,14 @@ export class DetailedSummaryComponent implements OnInit {
       });
   }
 
-  getDealerOrders(id: string) {
+  getDealerOrders(id: string) { this.selectedId = id;
     this.loader = true;
     this.tableView = false;
     this.noData = false;
     // let id = '1021-11';
     if (id == 'none') {
       this.showTotal = 0;
-      this.ordersRemaining = 50;
+      this.ordersRemaining = 88;
       this.completedOrders = 0;
       this.loader = false;
       this.tableView = false;
@@ -131,7 +151,7 @@ export class DetailedSummaryComponent implements OnInit {
   }
   getDashData(data: Array<any>) {
     this.completedOrders = data.length;
-    this.ordersRemaining = 50 - data.length;
+    this.ordersRemaining = 88 - data.length;
     this.showTotal = data.reduce((tot, num) => tot + num.total, 0);
     console.log(
       'calced',
