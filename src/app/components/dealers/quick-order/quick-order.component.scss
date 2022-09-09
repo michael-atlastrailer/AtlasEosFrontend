@@ -8,12 +8,14 @@
 
 .btn-primary {
   background-color: #00547a !important;
-  transition: .4s ease;
-  
+  transition: 0.4s ease;
 }
-.btn-primary:hover{
-   background-color: #0470a2 !important;
- }
+input {
+  text-align: center;
+}
+.btn-primary:hover {
+  background-color: #0470a2 !important;
+}
 
 .btn-primary:disabled {
   background-color: #00537ac6 !important;
@@ -66,7 +68,7 @@
     text-transform: capitalize;
     font-weight: 500;
   }
-  
+
   th.mat-sort-header-sorted {
     color: black;
   }
@@ -100,16 +102,16 @@
   border-radius: 5px;
 }
 
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none !important;
   margin: 0 !important;
 }
 
-input[type="number"] {
+input[type='number'] {
   -moz-appearance: textfield !important;
 }
-input[type="number"]::placeholder {
+input[type='number']::placeholder {
   text-align: center;
 }
 
@@ -199,7 +201,7 @@ input[type="number"]::placeholder {
     text-transform: uppercase;
     font-weight: 500;
   }
-  
+
   th.mat-sort-header-sorted {
     color: black;
   }
@@ -271,7 +273,7 @@ table {
   display: inline-block;
   padding-left: 10px;
 }
-input[type="number"] {
+input[type='number'] {
   -moz-appearance: textfield;
 }
 .view-special-text {

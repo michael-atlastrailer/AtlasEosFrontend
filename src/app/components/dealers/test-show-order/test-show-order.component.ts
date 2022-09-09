@@ -777,6 +777,7 @@ export class TestShowOrderComponent implements ComponentCanDeactivate {
       } else {
         check = `${prc.position}` === prc?.selected_spec;
       }
+      ////this.runTotalCalculation()
     }
 
     return check;

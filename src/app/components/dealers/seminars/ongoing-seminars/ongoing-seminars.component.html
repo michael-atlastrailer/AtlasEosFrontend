@@ -5,35 +5,42 @@
         <div class="d-flex align-items-center header-banner mb-3">
           <i
             class="fa Example of clock-o fa-clock-o mr-2"
-            style="font-size: 40px"
+            style="font-size: 40px;"
           ></i>
-          <h6 class="m-0" style="font-size: 16px; font-weight: 600">
+          <h6 class="m-0" style="font-size: 16px; font-weight: 600;">
             THE DURATION OF ALL SEMINAR SESSIONS IS 30 MINUTES
           </h6>
         </div>
-        <div class="w-100 mb-4 mt-3" style="text-align: end">
+        <div class="w-100 mb-4 mt-3" style="text-align: end;">
           <a
             class="btn btn-info mr-2 tab-btn"
             routerLink="/dealers/all-seminars"
-            >ALL SEMINARS</a
-          ><a
+          ></a>
+            ALL SEMINARS
+          </a>
+          <a
             class="btn btn-success mr-2 tab-btn border-thicker"
             routerLink="/dealers/ongoing-seminars"
-            >IN SESSION SEMINARS</a
-          ><a
+          >
+            IN SESSION SEMINARS
+          </a>
+          <a
             class="btn btn-warning mr-2 tab-btn"
             routerLink="/dealers/sheduled-seminars"
-            >SCHEDULED SEMINARS</a
-          ><a
+          >
+            SCHEDULED SEMINARS
+          </a>
+          <a
             class="btn btn-danger mr-2 tab-btn"
             routerLink="/dealers/watched-seminars"
-            >COMPLETED SEMINARS</a
           >
+            COMPLETED SEMINARS
+          </a>
         </div>
         <div class="card recent-order-card">
           <p
             class="text mb-2"
-            style="text-align: center; font-weight: 600; font-size: 14px"
+            style="text-align: center; font-weight: 600; font-size: 14px;"
           >
             IN SESSION SEMINARS
           </p>
@@ -189,7 +196,8 @@
                           mat-sort-header
                           sortActionDescription="Sort by number"
                         >
-                          DATE <i class="fa fa-sort ml-2"></i>
+                          DATE
+                          <i class="fa fa-sort ml-2"></i>
                         </th>
                         <td mat-cell *matCellDef="let element">
                           {{ element.seminar_date | date }}
@@ -199,17 +207,20 @@
                         <th mat-header-cell *matHeaderCellDef>Start Time</th>
                         <td
                           mat-cell
-                          style="position: relative"
+                          style="position: relative;"
                           *matCellDef="let element"
-                         
                         >
-                            
-                            {{ to12Hr(element.start_time) }}
-                            <span class="subs ml-1 mb-0">(MST)</span>
-                        </td> </ng-container
-                      ><ng-container matColumnDef="vendor_name">
+                          {{ to12Hr(element.start_time) }}
+                          <span class="subs ml-1 mb-0">(MST)</span>
+                        </td>
+                      </ng-container>
+                      <ng-container matColumnDef="vendor_name">
                         <th mat-header-cell *matHeaderCellDef>Vendor Name</th>
-                        <td mat-cell *matCellDef="let element" class="notranslate">
+                        <td
+                          mat-cell
+                          *matCellDef="let element"
+                          class="notranslate"
+                        >
                           {{ element.vendor_name }}
                         </td>
                       </ng-container>
@@ -261,11 +272,14 @@
                               aria-hidden="true"
                             ></i>
                             WATCH
-                          </a>  <a
+                          </a>
+                          <a
                             class="btn btn-warning"
-                           disabled
-                            
-                            *ngIf="element.status == 3 && element.completed_seminar_link ==null"
+                            disabled
+                            *ngIf="
+                              element.status == 3 &&
+                              element.completed_seminar_link == null
+                            "
                           >
                             LOADING
                           </a>
@@ -312,8 +326,7 @@
                       [pageSizeOptions]="[5, 10, 20]"
                       showFirstLastButtons
                       aria-label="Select page seminar pages"
-                    >
-                    </mat-paginator>
+                    ></mat-paginator>
                   </div>
                 </div>
               </div>

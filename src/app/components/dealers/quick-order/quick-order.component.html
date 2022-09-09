@@ -38,8 +38,9 @@
                   class="search-input form-control"
                   [disabled]="disabled"
                   min="0"
-                  (input)="qtyInputCheck(qtyInput.value, false)"
+                  id="top"
                   style="max-width: 70px !important"
+                  (input)="qtyInputCheck(qtyInput.value, false)"
                   #qtyInput
                 />
                 <button
@@ -59,8 +60,7 @@
               </div>
             </div>
           </div>
-          <div class="w-100 search-data-ctn mb-3 " *ngIf="searchStatus">
-           
+          <div class="w-100 search-data-ctn mb-3" *ngIf="searchStatus">
             <table>
               <tr>
                 <td>
@@ -101,7 +101,7 @@
                     <span
                       [class.assorted-color]="spec.type == 'assorted'"
                       [class.quantity-color]="spec.type == 'special'"
-                      >{{ spec.special }}
+                      >{{ spec.special | currency }}
                     </span>
                   </span>
                 </td>
@@ -120,7 +120,7 @@
             </table>
           </div>
           <div class="table-ctn mt-3 p-3" style="background-color: white">
-             <div class="card-header d-flex justify-content-between">
+            <div class="card-header d-flex justify-content-between">
               <h5 class="">
                 <span><i class="fa mr-2 fa-list"></i> Order List</span>
               </h5>
@@ -151,10 +151,11 @@
                   <input
                     type="number"
                     class="mx-auto"
+                    id="cur-{{ i }}"
                     min="0"
-                    value="{{ element.quick_order_qty }}"
-                    #tableQtyInput
-                    (input)="runCalc(element, tableQtyInput.value, true)"
+                    disabled
+                    value="{{ element.qty }}"
+                    #inputAmt
                     placeholder="Qty"
                   />
                 </td>
@@ -166,7 +167,7 @@
                   mat-sort-header
                   sortActionDescription="Sort by number"
                 >
-                  Atlas #  <i class="fa fa-sort ml-2"></i>
+                  Atlas # <i class="fa fa-sort ml-2"></i>
                 </th>
                 <td mat-cell *matCellDef="let element">
                   {{ element.atlas_id! }}
@@ -222,9 +223,20 @@
               <ng-container matColumnDef="special">
                 <th mat-header-cell *matHeaderCellDef>Special ($)</th>
 
-                <td mat-cell *matCellDef="let element" class="text-center">
-                  <span>{{ element.booking }}</span
-                  ><br />
+                <td
+                  mat-cell
+                  *matCellDef="let element; let i = index"
+                  class="text-center"
+                >
+                  <span class="booking-text">
+                    {{ element.booking | currency }}
+                    <span
+                      class="ticker fa fa-check normal-booking-{{ i }}"
+                      id=""
+                    ></span>
+
+                    <span id="u-price-{{ i }}" class="u-price-text"></span>
+                  </span>
                   <span
                     *ngFor="
                       let spec of parser(element.spec_data);
@@ -234,7 +246,14 @@
                     <span
                       [class.assorted-color]="spec.type == 'assorted'"
                       [class.quantity-color]="spec.type == 'special'"
-                      >{{ spec.special }}
+                    >
+                      {{ spec.special | currency }}
+                      <span
+                        class="ticker fa fa-check special-booking-{{ i }}-{{
+                          j
+                        }}"
+                        id=""
+                      ></span>
                     </span>
                   </span>
                 </td>
@@ -242,15 +261,26 @@
               <ng-container matColumnDef="extended">
                 <th mat-header-cell *matHeaderCellDef>Extended ($)</th>
 
-                <td mat-cell *matCellDef="let element" class="text-center">
-                  <span class="desc-text">{{ element.quick_order_price | currency }}</span>
+                <td
+                  mat-cell
+                  *matCellDef="let element; let i = index"
+                  class="text-center"
+                >
+                  <span #extend class="total-text" id="amt-{{ i }}">
+                    {{ element.extended }}
+                  </span>
+                  <span id="amt-hidd-{{ i }}" style="display: none"></span>
                 </td>
               </ng-container>
               <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef></th>
 
-                <td mat-cell *matCellDef="let element" class="text-center">
-                  <button class="btn" (click)="deleteQuickOrderItem(element.atlas_id)">
+                <td
+                  mat-cell
+                  *matCellDef="let element; let i = index"
+                  class="text-center"
+                >
+                  <button class="btn" (click)="deleteQuickOrderItem(i,0,element)">
                     <i class="fa fa-trash" style="color: red"></i>
                   </button>
                 </td>
