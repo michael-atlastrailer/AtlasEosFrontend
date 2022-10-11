@@ -75,12 +75,14 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "atlas-eos:build:production"
-             
+              "browserTarget": "atlas-eos:build:production",
+              "host":"0.0.0.0", 
+              "port": 1738
             },
             "development": {
-              "browserTarget": "atlas-eos:build:development"
-              
+              "browserTarget": "atlas-eos:build:development",
+              "host":"0.0.0.0", 
+              "port": 1738
             }
           },
           "defaultConfiguration": "development"
